@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  version:
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get latest version
+        id: version
+        run: |
+          chmod u+x ./version.sh 
+          ./version.sh >> $GITHUB_OUTPUT
+
+  release:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+      packages: write
+    needs:
+      - version
+    outputs:
+      upload_url: ${{ steps.release.outputs.upload_url }}
+    steps:
+      - name: Create release
+        id: release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.version.outputs.version }}
+          release_name: Release v${{ needs.version.outputs.version }}
+          draft: false
+          prerelease: false
+
+  docker:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
+    needs:
+      - version
+      - release
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository }}:latest,ghcr.io/${{ github.repository }}:${{ needs.version.outputs.version }}
