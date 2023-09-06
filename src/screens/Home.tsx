@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+
 export function Home() {
-  return <p className="fixed text-red-500">Implement me</p>;
+  return <Button variant={"outline"}>Home</Button>;
 }
