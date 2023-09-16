@@ -9,8 +9,8 @@
     "preview": "vite preview",
     "test:open": "playwright test --ui",
     "test:run": "playwright test",
-    "lint:check": "eslint . --ext ts,tsx,js,jsx --max-warnings 0",
-    "lint:fix": "eslint . --ext ts,tsx,js,jsx --max-warnings 0 --fix",
+    "lint:check": "eslint . --ext ts,tsx,js,jsx",
+    "lint:fix": "eslint . --ext ts,tsx,js,jsx --fix",
     "format:check": "prettier src/ --check",
     "format:fix": "prettier src/ --write"
   },
