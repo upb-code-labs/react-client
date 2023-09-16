@@ -73,6 +73,8 @@ jobs:
 
   test:
     runs-on: ubuntu-22.04
+    container:
+      image: mcr.microsoft.com/playwright:v1.38.0-jammy
 
     steps:
       - uses: actions/checkout@v3
@@ -98,9 +100,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
-      - name: Install playwright browsers
-        run: pnpx playwright install --with-deps
 
       - name: Run tests
         run: pnpm test:run
