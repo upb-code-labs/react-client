@@ -75,8 +75,6 @@ jobs:
     runs-on: ubuntu-22.04
     container:
       image: mcr.microsoft.com/playwright:v1.38.0-jammy
-      env: 
-        HOME: /root
 
     steps:
       - uses: actions/checkout@v3
@@ -104,5 +102,7 @@ jobs:
         run: pnpm install
 
       - name: Run tests
+        env:
+          HOME: /root
         run: 
           pnpm test:run
