@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test:open": "cypress open", 
-    "test:run": "cypress run",
+    "test:open": "playwright test --ui",
+    "test:run": "playwright test",
     "lint:check": "eslint . --ext ts,tsx,js,jsx --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx,js,jsx --max-warnings 0 --fix",
     "format:check": "prettier src/ --check",
@@ -25,6 +25,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@playwright/test": "^1.38.0",
     "@types/node": "20.5.9",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
@@ -32,7 +33,6 @@
     "@typescript-eslint/parser": "^6.6.0",
     "@vitejs/plugin-react-swc": "^3.3.2",
     "autoprefixer": "10.4.15",
-    "cypress": "13.1.0",
     "eslint": "^8.48.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-react-hooks": "^4.6.0",
