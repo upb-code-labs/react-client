@@ -39,7 +39,11 @@ export const Navbar = () => {
         </Link>
         {/* Navigation options */}
         <div className="md:h-full">
-          <button className="aspect-square md:hidden" onClick={toggleMenu}>
+          <button
+            className="aspect-square md:hidden"
+            onClick={toggleMenu}
+            aria-label="Open menu"
+          >
             <Menu size={32} />
           </button>
           {/* Backdrop filter */}
