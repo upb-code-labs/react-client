@@ -8,8 +8,8 @@ test("App icon should redirect to home page", async ({ page, baseURL }) => {
 
 test("Default navigation options are shown in desktop", async ({ page }) => {
   await page.goto("/");
-  expect(page.getByText("Login")).toBeVisible();
-  expect(page.getByText("Register")).toBeVisible();
+  await expect(page.getByText("Login")).toBeVisible();
+  await expect(page.getByText("Register")).toBeVisible();
 });
 
 test("Responsive layout is shown in mobile", async ({ page }) => {
@@ -17,10 +17,10 @@ test("Responsive layout is shown in mobile", async ({ page }) => {
   await page.goto("/");
 
   await page.getByLabel("Open menu").click();
-  expect(page.getByText("Login")).toBeVisible();
-  expect(page.getByText("Register")).toBeVisible();
+  await expect(page.getByText("Login")).toBeVisible();
+  await expect(page.getByText("Register")).toBeVisible();
 
   await page.getByLabel("Close menu").click();
-  expect(page.getByText("Login")).not.toBeVisible();
-  expect(page.getByText("Register")).not.toBeVisible();
+  await expect(page.getByText("Login")).not.toBeVisible();
+  await expect(page.getByText("Register")).not.toBeVisible();
 });
