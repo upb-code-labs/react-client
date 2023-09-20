@@ -31,7 +31,7 @@ export const Navbar = () => {
           aria-label="Go to home page"
         >
           <img
-            src="/images/codelabs-logo.jpg"
+            src="/images/codelabs-logo_100x100.webp"
             alt="UPB Code Labs logo"
             className="aspect-square h-full rounded-lg"
           />
