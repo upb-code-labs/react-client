@@ -17,6 +17,9 @@ export default  {
     },
     extend: {
       colors: {
+        red: {
+          upb: "#d0021b",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
