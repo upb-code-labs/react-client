@@ -17,7 +17,10 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
 const RegisterStudentSchema = z.object({
-  full_name: z.string().min(4).max(255),
+  full_name: z
+    .string()
+    .min(4, "Full name must be at least 4 characters long")
+    .max(255, "Full name must be at most 255 characters long"),
   email: z.string().email().endsWith("@upb.edu.co", "Must be an UPB email"),
   institutional_id: z.string().min(6).max(9).regex(/\d/, "Must be numeric"),
   password: z
