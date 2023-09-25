@@ -8,9 +8,10 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { AuthContext } from "@/context/AuthContext";
 import { loginService } from "@/services/session/session.services";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -22,6 +23,7 @@ const LoginSchema = z.object({
 });
 
 export const LoginForm = () => {
+  const { setContextUser } = useContext(AuthContext);
   const [state, setState] = useState<"idle" | "loading">("idle");
   const navigate = useNavigate();
 
@@ -37,9 +39,10 @@ export const LoginForm = () => {
     setState("loading");
 
     const response = await loginService(data);
-
     if (response.success && response.user) {
       toast.success(response.message);
+      setContextUser(response.user);
+      navigate("/courses");
     } else {
       toast.error(response.message);
     }
