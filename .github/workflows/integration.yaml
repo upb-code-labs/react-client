@@ -73,16 +73,9 @@ jobs:
 
   test:
     runs-on: ubuntu-22.04
-    container:
-      image: mcr.microsoft.com/playwright:v1.38.0-jammy
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: Install docker-compose 
-        uses: KengoTODA/actions-setup-docker-compose@v1
-        with: 
-          version: "2.20.3"
 
       - name: Setup docker environment
         run: docker-compose up -d
@@ -105,12 +98,13 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-
+      
       - name: Install dependencies
         run: pnpm install
+      
+      - name: Install Playwright browsers
+        run: pnpx playwright install --with-deps chromium
 
       - name: Run tests
-        env:
-          HOME: /root
         run: 
           pnpm test:run
