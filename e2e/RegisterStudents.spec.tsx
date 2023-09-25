@@ -72,6 +72,13 @@ test.describe.serial("Student registration", () => {
   test("An student can login after registration", async ({ page, baseURL }) => {
     await page.goto("/login");
     await page.getByLabel("Email").fill("john.doe.2020@upb.edu.co");
+    await page.getByLabel("Password").fill("wrong");
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Assert the wrong credentials alert is shown
+    await expect(page.getByText("Invalid credentials")).toBeVisible();
+
+    // Fill the form with the correct credentials
     await page.getByLabel("Password").fill("upbbga2020*/");
     await page.getByRole("button", { name: "Submit" }).click();
 
