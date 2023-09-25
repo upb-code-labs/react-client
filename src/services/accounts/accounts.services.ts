@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+
 import { GenericResponse, HttpRequester } from "../axios";
 
 type registerStudentDTO = {
@@ -8,7 +9,7 @@ type registerStudentDTO = {
   password: string;
 };
 
-export const registerStudent = async (
+export const registerStudentService = async (
   data: registerStudentDTO
 ): Promise<GenericResponse> => {
   const { axios } = HttpRequester.getInstance();
