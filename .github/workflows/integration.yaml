@@ -103,7 +103,7 @@ jobs:
         run: pnpm install
       
       - name: Install Playwright browsers
-        run: pnpx playwright install --with-deps
+        run: pnpx playwright install --with-deps chromium
 
       - name: Run tests
         run: 
