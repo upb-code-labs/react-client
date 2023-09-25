@@ -1,3 +1,12 @@
+# [0.3.0](https://github.com/upb-code-labs/react-client/compare/v0.2.0...v0.3.0) (2023-09-25)
+
+
+### Features
+
+* Login ([#20](https://github.com/upb-code-labs/react-client/issues/20)) ([5b609a7](https://github.com/upb-code-labs/react-client/commit/5b609a7c051670104485d0b1102f2b3b79e3e079))
+
+
+
 # [0.2.0](https://github.com/upb-code-labs/react-client/compare/v0.1.0...v0.2.0) (2023-09-25)
 
 
