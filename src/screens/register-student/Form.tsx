@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { registerStudent } from "@/services/accounts/accounts.services";
+import { registerStudentService } from "@/services/accounts/accounts.services";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
@@ -50,7 +50,7 @@ export const RegisterStudentForm = () => {
   const onSubmit = async (values: z.infer<typeof RegisterStudentSchema>) => {
     setState("loading");
 
-    const response = await registerStudent(values);
+    const response = await registerStudentService(values);
     if (response.success) {
       toast.success(response.message);
       form.reset();

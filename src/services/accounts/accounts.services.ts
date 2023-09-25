@@ -8,7 +8,7 @@ type registerStudentDTO = {
   password: string;
 };
 
-export const registerStudent = async (
+export const registerStudentService = async (
   data: registerStudentDTO
 ): Promise<GenericResponse> => {
   const { axios } = HttpRequester.getInstance();
