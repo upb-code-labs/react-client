@@ -1,24 +1,20 @@
+import { AuthContext } from "@/context/AuthContext";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { NavbarOption } from "./NavbarOption";
-
-const navigationOptions = {
-  default: [
-    {
-      name: "Login",
-      path: "/login"
-    },
-    {
-      name: "Register",
-      path: "/register/students"
-    }
-  ]
-};
+import { NavigationOptions } from "./NavigationOptions";
 
 export const Navbar = () => {
+  const { user, isLoggedIn } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navigationOptions =
+    isLoggedIn && user
+      ? NavigationOptions[user.role]
+      : NavigationOptions["default"];
+
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   return (
@@ -65,7 +61,7 @@ export const Navbar = () => {
               </button>
               {/* Navigation options */}
               <ul className="mt-8 flex w-full flex-col gap-8 md:mt-0 md:h-full md:flex-row">
-                {navigationOptions.default.map((option) => (
+                {navigationOptions.map((option) => (
                   <NavbarOption key={option.path} {...option} />
                 ))}
               </ul>
