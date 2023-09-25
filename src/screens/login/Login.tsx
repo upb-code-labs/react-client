@@ -1,3 +1,9 @@
+import { LoginForm } from "./Form";
+
 export const Login = () => {
-  return <div>Login</div>;
+  return (
+    <main className="px-4">
+      <LoginForm />
+    </main>
+  );
 };
