@@ -11,6 +11,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { registerStudent } from "@/services/accounts/accounts.services";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const RegisterStudentSchema = z.object({
   full_name: z.string().min(4).max(255),
@@ -27,6 +31,9 @@ const RegisterStudentSchema = z.object({
 });
 
 export const RegisterStudentForm = () => {
+  const [state, setState] = useState<"idle" | "loading">("idle");
+  const navigate = useNavigate();
+
   const form = useForm<z.infer<typeof RegisterStudentSchema>>({
     resolver: zodResolver(RegisterStudentSchema),
     defaultValues: {
@@ -37,8 +44,19 @@ export const RegisterStudentForm = () => {
     }
   });
 
-  const onSubmit = (values: z.infer<typeof RegisterStudentSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof RegisterStudentSchema>) => {
+    setState("loading");
+
+    const response = await registerStudent(values);
+    if (response.success) {
+      toast.success(response.message);
+      form.reset();
+      navigate("/login");
+    } else {
+      toast.error(response.message);
+    }
+
+    setState("idle");
   };
 
   return (
@@ -123,7 +141,11 @@ export const RegisterStudentForm = () => {
             </FormItem>
           )}
         ></FormField>
-        <Button type="submit" className="w-full">
+        <Button
+          type="submit"
+          className="w-full"
+          isLoading={state === "loading"}
+        >
           Submit
         </Button>
       </form>
