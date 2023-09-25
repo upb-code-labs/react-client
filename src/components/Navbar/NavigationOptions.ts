@@ -19,8 +19,12 @@ export const NavigationOptions = {
       path: "/admins"
     },
     {
-      name: "Register Teacher",
+      name: "Teachers",
       path: "/register/teachers"
+    },
+    {
+      name: "Profile",
+      path: "/profile"
     },
     {
       name: "Logout",
@@ -33,6 +37,10 @@ export const NavigationOptions = {
       path: "/courses"
     },
     {
+      name: "Profile",
+      path: "/profile"
+    },
+    {
       name: "Logout",
       path: "/logout"
     }
@@ -41,6 +49,10 @@ export const NavigationOptions = {
     {
       name: "Courses",
       path: "/courses"
+    },
+    {
+      name: "Profile",
+      path: "/profile"
     },
     {
       name: "Logout",

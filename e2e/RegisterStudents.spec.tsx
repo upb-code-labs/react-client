@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test("The fields are validated", async ({ page }) => {
   await page.goto("/register/students");
@@ -67,5 +67,23 @@ test.describe.serial("Student registration", () => {
     await expect(
       page.getByText(`Institutional ID ${institutionalId} is already in use`)
     ).toBeVisible();
+  });
+
+  test("An student can login after registration", async ({ page, baseURL }) => {
+    await page.goto("/login");
+    await page.getByLabel("Email").fill("john.doe.2020@upb.edu.co");
+    await page.getByLabel("Password").fill("upbbga2020*/");
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Assert the alert is shown
+    await expect(page.getByText("You have been logged in!")).toBeVisible();
+
+    // Assert the student is redirected
+    await expect(page.url()).toBe(`${baseURL}/courses`);
+
+    // Assert the navbar options were updated
+    await expect(page.getByRole("link", { name: "Courses" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Profile" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Logout" })).toBeVisible();
   });
 });
