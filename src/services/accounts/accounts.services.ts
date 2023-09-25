@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+
 import { GenericResponse, HttpRequester } from "../axios";
 
 type registerStudentDTO = {

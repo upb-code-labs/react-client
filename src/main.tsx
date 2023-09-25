@@ -1,13 +1,14 @@
-import ReactDOM from "react-dom/client";
-import React from "react";
-import { Toaster } from "sonner";
-import { RegisterStudent } from "./screens/register-student/RegisterStudent";
 import { Navbar } from "@/components/Navbar/Navbar.tsx";
-import { Home } from "./screens/Home";
+import { Home } from "@/screens/Home";
+import { CoursesHome } from "@/screens/courses-home/CoursesHome";
+import { Login } from "@/screens/login/Login";
+import { RegisterStudent } from "@/screens/register-student/RegisterStudent";
+import React from "react";
+import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Toaster } from "sonner";
+
 import "./global.css";
-import { Login } from "./screens/login/Login";
-import { CoursesHome } from "./screens/courses-home/CoursesHome";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
