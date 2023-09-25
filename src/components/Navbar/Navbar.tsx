@@ -11,7 +11,7 @@ const navigationOptions = {
     },
     {
       name: "Register",
-      path: "/register"
+      path: "/register/students"
     }
   ]
 };
