@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -15,14 +15,13 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 dayjs.extend(relativeTime);
 
 export const AdminsView = () => {
   const [admins, setAdmins] = useState<registeredAdminDTO[]>();
-  const navigate = useNavigate();
 
   const getRegisteredAdmins = async () => {
     const { success, admins, ...response } = await getRegisteredAdminsService();
@@ -41,10 +40,13 @@ export const AdminsView = () => {
     <main className="max-w-7xl mx-auto px-4">
       <div className="flex flex-row items-center justify-between flex-wrap mb-2 gap-x-4">
         <h1 className="font-bold text-3xl my-4">Current registered admins</h1>
-        <Button onClick={() => navigate("/register/admins")}>
+        <Link
+          className={buttonVariants({ variant: "default" })}
+          to="/register/admins"
+        >
           <PlusCircle className="mr-3" />
           Register admin
-        </Button>
+        </Link>
       </div>
       <Table>
         <TableHeader>
