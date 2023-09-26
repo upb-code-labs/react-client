@@ -4,9 +4,11 @@ import { AuthContextProvider } from "@/context/AuthContext";
 import { Home } from "@/screens/Home";
 import { AdminsView } from "@/screens/admins-view/AdminsView";
 import { CoursesHome } from "@/screens/courses-home/CoursesHome";
-import { Login } from "@/screens/login/Login";
-import { RegisterAdmin } from "@/screens/register-admin/RegisterAdmin";
-import { RegisterStudent } from "@/screens/register-student/RegisterStudent";
+import { FormContainer } from "@/screens/session/FormContainer";
+import { Login } from "@/screens/session/login/Login";
+import { RegisterAdminForm } from "@/screens/session/register-admin/Form";
+import { RegisterStudentForm } from "@/screens/session/register-student/Form";
+import { RegisterTeacherForm } from "@/screens/session/register-teacher/Form";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -34,7 +36,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             path="/register/students"
             element={
               <AuthMiddleware>
-                <RegisterStudent />
+                <FormContainer form={<RegisterStudentForm />} />
               </AuthMiddleware>
             }
           />
@@ -42,11 +44,18 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             path="/register/admins"
             element={
               <AuthMiddleware mustBeLoggedIn roles={["admin"]}>
-                <RegisterAdmin />
+                <FormContainer form={<RegisterAdminForm />} />
               </AuthMiddleware>
             }
           />
-          <Route path="/courses" element={<CoursesHome />} />
+          <Route
+            path="/register/teachers"
+            element={
+              <AuthMiddleware mustBeLoggedIn roles={["admin"]}>
+                <FormContainer form={<RegisterTeacherForm />} />
+              </AuthMiddleware>
+            }
+          />
           <Route
             path="/admins"
             element={
@@ -55,6 +64,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               </AuthMiddleware>
             }
           />
+          <Route path="/courses" element={<CoursesHome />} />
         </Routes>
       </BrowserRouter>
     </AuthContextProvider>

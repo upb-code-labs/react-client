@@ -8,45 +8,50 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AuthContext } from "@/context/AuthContext";
-import { loginService } from "@/services/session/session.services";
+import { registerTeacherService } from "@/services/accounts/register-teacher.service";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import * as z from "zod";
 
-const LoginSchema = z.object({
-  email: z.string().email(),
-  password: z.string()
+const RegisterTeacherSchema = z.object({
+  full_name: z
+    .string()
+    .min(4, "Full name must be at least 4 characters long")
+    .max(255, "Full name must be at most 255 characters long"),
+  email: z.string().email().endsWith("@upb.edu.co", "Must be an UPB email"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .max(255, "Password must be at most 255 characters long")
+    .regex(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[A-Za-z\d[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/,
+      "Must contain at least one letter, one number and one special character"
+    )
 });
 
-export const LoginForm = () => {
-  const { setContextUser } = useContext(AuthContext);
+export const RegisterTeacherForm = () => {
   const [state, setState] = useState<"idle" | "loading">("idle");
-  const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof RegisterTeacherSchema>>({
+    resolver: zodResolver(RegisterTeacherSchema),
     defaultValues: {
+      full_name: "",
       email: "",
       password: ""
     }
   });
 
-  const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof RegisterTeacherSchema>) => {
     setState("loading");
 
-    const response = await loginService(data);
-    if (response.success && response.user) {
-      toast.success(response.message);
-      setContextUser(response.user);
-
-      if (response.user.role === "admin") navigate("/admins");
-      else navigate("/courses");
+    const { success, message } = await registerTeacherService(values);
+    if (success) {
+      toast.success(message);
+      form.reset();
     } else {
-      toast.error(response.message);
+      toast.error(message);
     }
 
     setState("idle");
@@ -59,8 +64,28 @@ export const LoginForm = () => {
         className="mx-auto my-4 max-w-md space-y-4 border p-4 shadow-sm"
       >
         <h1 className="text-center text-3xl font-semibold tracking-tight">
-          Login
+          Register a new teacher
         </h1>
+        <FormField
+          control={form.control}
+          name="full_name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Full name</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Enter teacher's full name here..."
+                  {...field}
+                />
+              </FormControl>
+              {form.formState.errors.full_name && (
+                <FormMessage>
+                  {form.formState.errors.full_name.message}
+                </FormMessage>
+              )}
+            </FormItem>
+          )}
+        ></FormField>
         <FormField
           control={form.control}
           name="email"
@@ -69,7 +94,7 @@ export const LoginForm = () => {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Enter your email here..."
+                  placeholder="Enter teacher's email here..."
                   required
                   {...field}
                 />
@@ -89,8 +114,7 @@ export const LoginForm = () => {
               <FormControl>
                 <Input
                   type="password"
-                  placeholder="Enter your password here..."
-                  required
+                  placeholder="Enter initial teacher's password here..."
                   {...field}
                 />
               </FormControl>

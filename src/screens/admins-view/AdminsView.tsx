@@ -10,7 +10,7 @@ import {
 import {
   getRegisteredAdminsService,
   registeredAdminDTO
-} from "@/services/accounts/accounts.services";
+} from "@/services/accounts/get-registered-admins.service";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { PlusCircle } from "lucide-react";

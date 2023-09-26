@@ -1,4 +1,4 @@
-import { whoamiService } from "@/services/session/session.services";
+import { whoamiService } from "@/services/session/whoami.service";
 import { useEffect, useState } from "react";
 
 export type SessionRole = "admin" | "student" | "teacher";

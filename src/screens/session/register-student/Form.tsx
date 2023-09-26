@@ -8,7 +8,7 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { registerStudentService } from "@/services/accounts/accounts.services";
+import { registerStudentService } from "@/services/accounts/register-student.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
