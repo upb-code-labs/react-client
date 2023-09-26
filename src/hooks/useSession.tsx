@@ -1,9 +1,11 @@
 import { whoamiService } from "@/services/session/session.services";
 import { useEffect, useState } from "react";
 
+export type SessionRole = "admin" | "student" | "teacher";
+
 export type SessionUser = {
   uuid: string;
-  role: "admin" | "student" | "teacher";
+  role: SessionRole;
   full_name: string;
 };
 
@@ -20,9 +22,7 @@ export const useSession = () => {
     setIsLoading(true);
 
     const { success, user } = await whoamiService();
-    if (success && user) {
-      setUser(user);
-    }
+    if (success && user) setUser(user);
 
     setIsLoading(false);
   };
