@@ -25,8 +25,8 @@ const RegisterStudentSchema = z.object({
   institutional_id: z.string().min(6).max(9).regex(/\d/, "Must be numeric"),
   password: z
     .string()
-    .min(8)
-    .max(255)
+    .min(8, "Password must be at least 8 characters long")
+    .max(255, "Password must be at most 255 characters long")
     .regex(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[A-Za-z\d[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/,
       "Must contain at least one letter, one number and one special character"
