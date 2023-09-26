@@ -1,3 +1,12 @@
+# [0.4.0](https://github.com/upb-code-labs/react-client/compare/v0.3.0...v0.4.0) (2023-09-26)
+
+
+### Features
+
+* Register and list admins ([#23](https://github.com/upb-code-labs/react-client/issues/23)) ([77da879](https://github.com/upb-code-labs/react-client/commit/77da879198d3d08b34bc34f2fb42c62b47d37297))
+
+
+
 # [0.3.0](https://github.com/upb-code-labs/react-client/compare/v0.2.0...v0.3.0) (2023-09-25)
 
 
