@@ -44,7 +44,7 @@ export const registerAdminService = async (
 
   try {
     await axios.post("/accounts/admins", data);
-    return { success: true, message: "The new admin account was created!" };
+    return { success: true, message: "The admin has been registered!" };
   } catch (error) {
     let errorMessage = "There was an error";
 
