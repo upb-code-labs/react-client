@@ -8,7 +8,7 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { registerStudentService } from "@/services/accounts/accounts.services";
+import { registerAdminService } from "@/services/accounts/accounts.services";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -16,13 +16,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import * as z from "zod";
 
-const RegisterStudentSchema = z.object({
+const RegisterAdminSchema = z.object({
   full_name: z
     .string()
     .min(4, "Full name must be at least 4 characters long")
     .max(255, "Full name must be at most 255 characters long"),
-  email: z.string().email().endsWith("@upb.edu.co", "Must be an UPB email"),
-  institutional_id: z.string().min(6).max(9).regex(/\d/, "Must be numeric"),
+  email: z.string().email(),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
@@ -33,30 +32,29 @@ const RegisterStudentSchema = z.object({
     )
 });
 
-export const RegisterStudentForm = () => {
+export const RegisterAdminForm = () => {
   const [state, setState] = useState<"idle" | "loading">("idle");
   const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof RegisterStudentSchema>>({
-    resolver: zodResolver(RegisterStudentSchema),
+  const form = useForm<z.infer<typeof RegisterAdminSchema>>({
+    resolver: zodResolver(RegisterAdminSchema),
     defaultValues: {
       full_name: "",
       email: "",
-      institutional_id: "",
       password: ""
     }
   });
 
-  const onSubmit = async (values: z.infer<typeof RegisterStudentSchema>) => {
+  const onSubmit = async (values: z.infer<typeof RegisterAdminSchema>) => {
     setState("loading");
 
-    const response = await registerStudentService(values);
-    if (response.success) {
-      toast.success(response.message);
+    const { success, message } = await registerAdminService(values);
+    if (success) {
+      toast.success(message);
       form.reset();
-      navigate("/login");
+      navigate("/admins");
     } else {
-      toast.error(response.message);
+      toast.error(message);
     }
 
     setState("idle");
@@ -69,7 +67,7 @@ export const RegisterStudentForm = () => {
         className="mx-auto my-4 max-w-md space-y-4 border p-4 shadow-sm"
       >
         <h1 className="text-center text-3xl font-semibold tracking-tight">
-          Register as an student
+          Register a new admin
         </h1>
         <FormField
           control={form.control}
@@ -78,7 +76,10 @@ export const RegisterStudentForm = () => {
             <FormItem>
               <FormLabel>Full name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your full name here..." {...field} />
+                <Input
+                  placeholder="Enter admin's full name here..."
+                  {...field}
+                />
               </FormControl>
               {form.formState.errors.full_name && (
                 <FormMessage>
@@ -95,30 +96,14 @@ export const RegisterStudentForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your email here..." {...field} />
-              </FormControl>
-              {form.formState.errors.email && (
-                <FormMessage>{form.formState.errors.email.message}</FormMessage>
-              )}
-            </FormItem>
-          )}
-        ></FormField>
-        <FormField
-          control={form.control}
-          name="institutional_id"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Institutional ID</FormLabel>
-              <FormControl>
                 <Input
-                  placeholder="Enter your institutional ID here..."
+                  placeholder="Enter admin's email here..."
+                  required
                   {...field}
                 />
               </FormControl>
-              {form.formState.errors.institutional_id && (
-                <FormMessage>
-                  {form.formState.errors.institutional_id.message}
-                </FormMessage>
+              {form.formState.errors.email && (
+                <FormMessage>{form.formState.errors.email.message}</FormMessage>
               )}
             </FormItem>
           )}
@@ -132,7 +117,7 @@ export const RegisterStudentForm = () => {
               <FormControl>
                 <Input
                   type="password"
-                  placeholder="Enter your password here..."
+                  placeholder="Enter initial admin's password here..."
                   {...field}
                 />
               </FormControl>

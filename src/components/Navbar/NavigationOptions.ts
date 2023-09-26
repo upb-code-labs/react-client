@@ -11,10 +11,6 @@ export const NavigationOptions = {
   ],
   admin: [
     {
-      name: "Courses",
-      path: "/courses"
-    },
-    {
       name: "Admins",
       path: "/admins"
     },

@@ -42,7 +42,9 @@ export const LoginForm = () => {
     if (response.success && response.user) {
       toast.success(response.message);
       setContextUser(response.user);
-      navigate("/courses");
+
+      if (response.user.role === "admin") navigate("/admins");
+      else navigate("/courses");
     } else {
       toast.error(response.message);
     }
