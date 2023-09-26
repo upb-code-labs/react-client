@@ -10,6 +10,8 @@ import { Toaster } from "sonner";
 
 import { AuthContextProvider } from "./context/AuthContext";
 import "./global.css";
+import { AdminsView } from "./screens/admins-view/AdminsView";
+import { RegisterAdmin } from "./screens/register-admin/RegisterAdmin";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -21,7 +23,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register/students" element={<RegisterStudent />} />
+          <Route path="/register/admins" element={<RegisterAdmin />} />
           <Route path="/courses" element={<CoursesHome />} />
+          <Route path="/admins" element={<AdminsView />} />
         </Routes>
       </BrowserRouter>
     </AuthContextProvider>
