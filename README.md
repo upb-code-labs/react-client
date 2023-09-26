@@ -10,6 +10,7 @@
 <a href="https://github.com/upb-code-labs/react-client/actions/workflows/integration.yaml">
    <img alt="Github Actions Integration Status" src="https://img.shields.io/github/actions/workflow/status/upb-code-labs/react-client/integration.yaml?label=integration">
 </a>
+<br />
 <a href="https://github.com/prettier/prettier">
    <img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square">
 </a>
