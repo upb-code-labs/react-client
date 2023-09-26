@@ -75,4 +75,14 @@ test.describe.serial("Admin registration", () => {
       page.getByText(`Email ${email} is already in use`)
     ).toBeVisible();
   });
+
+  test("Admins can login and logout", async ({ page }) => {
+    // Assert the logout option is shown
+    const logout = await page.getByRole("link", { name: "Logout" });
+    await expect(logout).toBeVisible();
+
+    // Logout
+    await logout.click();
+    expect(page.waitForURL(/\/login$/)).toBeTruthy();
+  });
 });

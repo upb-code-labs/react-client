@@ -69,7 +69,7 @@ test.describe.serial("Student registration", () => {
     ).toBeVisible();
   });
 
-  test("An student can login after registration", async ({ page, baseURL }) => {
+  test("Student can logout and logout", async ({ page, baseURL }) => {
     await page.goto("/login");
     await page.getByLabel("Email").fill("john.doe.2020@upb.edu.co");
     await page.getByLabel("Password").fill("wrong");
@@ -92,5 +92,9 @@ test.describe.serial("Student registration", () => {
     await expect(page.getByRole("link", { name: "Courses" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Profile" })).toBeVisible();
     await expect(page.getByRole("link", { name: "Logout" })).toBeVisible();
+
+    // Assert the logout option works
+    await page.getByRole("link", { name: "Logout" }).click();
+    expect(page.waitForURL(/\/login$/)).toBeTruthy();
   });
 });

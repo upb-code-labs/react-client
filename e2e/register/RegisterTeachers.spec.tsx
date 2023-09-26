@@ -71,4 +71,22 @@ test.describe.serial("Teacher registration", () => {
       page.getByText(`Email ${email} is already in use`)
     ).toBeVisible();
   });
+
+  test("Teacher can login and logout", async ({ page }) => {
+    // Logout from the admin account
+    await page.getByRole("link", { name: "Logout" }).click();
+    expect(page.waitForURL(/\/login$/)).toBeTruthy();
+
+    // Login as a teacher
+    await page.goto("/login");
+    await page.getByLabel("Email").fill("angel.martin.2020@upb.edu.co");
+    await page.getByLabel("Password").fill("upbbga2020*/");
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Assert the logout option works
+    const logout = await page.getByRole("link", { name: "Logout" });
+    await expect(logout).toBeVisible();
+    await logout.click();
+    expect(page.waitForURL(/\/login$/)).toBeTruthy();
+  });
 });
