@@ -6,6 +6,7 @@ import { AdminsView } from "@/screens/admins-view/AdminsView";
 import { CoursesHome } from "@/screens/courses-home/CoursesHome";
 import { FormContainer } from "@/screens/session/FormContainer";
 import { Login } from "@/screens/session/login/Login";
+import { Logout } from "@/screens/session/logout/Logout";
 import { RegisterAdminForm } from "@/screens/session/register-admin/Form";
 import { RegisterStudentForm } from "@/screens/session/register-student/Form";
 import { RegisterTeacherForm } from "@/screens/session/register-teacher/Form";
@@ -29,6 +30,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             element={
               <AuthMiddleware>
                 <Login />
+              </AuthMiddleware>
+            }
+          />
+          <Route
+            path="/logout"
+            element={
+              <AuthMiddleware mustBeLoggedIn>
+                <Logout />
               </AuthMiddleware>
             }
           />
