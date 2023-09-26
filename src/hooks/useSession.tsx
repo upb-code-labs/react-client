@@ -11,26 +11,32 @@ export type SessionUser = {
 
 export const useSession = () => {
   const [user, setUser] = useState<SessionUser | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const isLoggedIn = !isLoading && !!user;
 
   useEffect(() => {
     recoverSession();
   }, []);
 
+  useEffect(() => {
+    if (user) setIsLoading(false);
+  }, [user]);
+
   const recoverSession = async () => {
     setIsLoading(true);
 
     const { success, user } = await whoamiService();
-    if (success && user) setUser(user);
 
-    setIsLoading(false);
+    if (success && user) {
+      setUser(user);
+    } else {
+      setIsLoading(false);
+    }
   };
 
   const login = (user: SessionUser) => {
     setIsLoading(true);
     setUser(user);
-    setIsLoading(false);
   };
 
   const logout = () => {
