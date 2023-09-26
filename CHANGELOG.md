@@ -1,3 +1,12 @@
+# [0.5.0](https://github.com/upb-code-labs/react-client/compare/v0.4.0...v0.5.0) (2023-09-26)
+
+
+### Features
+
+* Form to register teachers ([#25](https://github.com/upb-code-labs/react-client/issues/25)) ([f2d55ad](https://github.com/upb-code-labs/react-client/commit/f2d55ad2306c2a1146952627af3168fe49c74c8e))
+
+
+
 # [0.4.0](https://github.com/upb-code-labs/react-client/compare/v0.3.0...v0.4.0) (2023-09-26)
 
 
