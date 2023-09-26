@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AuthContext } from "@/context/AuthContext";
-import { loginService } from "@/services/session/session.services";
+import { loginService } from "@/services/session/login.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
