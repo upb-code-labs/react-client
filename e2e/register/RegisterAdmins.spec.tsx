@@ -78,7 +78,7 @@ test.describe.serial("Admin registration", () => {
 
   test("Admins can login and logout", async ({ page }) => {
     // Assert the logout option is shown
-    const logout = await page.getByRole("link", { name: "Logout" });
+    const logout = page.getByRole("link", { name: "Logout" });
     await expect(logout).toBeVisible();
 
     // Logout
