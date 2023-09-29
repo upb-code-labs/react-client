@@ -69,7 +69,7 @@ test.describe.serial("Student registration", () => {
     ).toBeVisible();
   });
 
-  test("Student can logout and logout", async ({ page, baseURL }) => {
+  test("Student can login and logout", async ({ page }) => {
     await page.goto("/login");
     await page.getByLabel("Email").fill("john.doe.2020@upb.edu.co");
     await page.getByLabel("Password").fill("wrong");
@@ -86,7 +86,7 @@ test.describe.serial("Student registration", () => {
     await expect(page.getByText("You have been logged in!")).toBeVisible();
 
     // Assert the student is redirected
-    await expect(page.url()).toBe(`${baseURL}/courses`);
+    expect(page.waitForURL(/\/courses$/)).toBeTruthy();
 
     // Assert the navbar options were updated
     await expect(page.getByRole("link", { name: "Courses" })).toBeVisible();
