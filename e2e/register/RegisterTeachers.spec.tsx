@@ -83,8 +83,16 @@ test.describe.serial("Teacher registration", () => {
     await page.getByLabel("Password").fill("upbbga2020*/");
     await page.getByRole("button", { name: "Submit" }).click();
 
+    // Assert the teacher is redirected
+    expect(page.waitForURL(/\/courses$/)).toBeTruthy();
+
+    // Assert the navbar options were updated
+    await expect(page.getByRole("link", { name: "Courses" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Rubrics" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Profile" })).toBeVisible();
+
     // Assert the logout option works
-    const logout = await page.getByRole("link", { name: "Logout" });
+    const logout = page.getByRole("link", { name: "Logout" });
     await expect(logout).toBeVisible();
     await logout.click();
     expect(page.waitForURL(/\/login$/)).toBeTruthy();

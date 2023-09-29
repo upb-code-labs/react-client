@@ -47,6 +47,10 @@ export const NavigationOptions = {
       path: "/courses"
     },
     {
+      name: "Rubrics",
+      path: "/rubrics"
+    },
+    {
       name: "Profile",
       path: "/profile"
     },

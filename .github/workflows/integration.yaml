@@ -71,7 +71,7 @@ jobs:
       - name: Format
         run: pnpm format:check
 
-  test:
+  chromium-tests:
     runs-on: ubuntu-22.04
 
     steps:
@@ -107,4 +107,42 @@ jobs:
 
       - name: Run tests
         run: 
-          pnpm test:run
+          pnpm test:run-chromium
+  
+  firefox-tests:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup docker environment
+        run: docker-compose up -d
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.7.4
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      
+      - name: Install dependencies
+        run: pnpm install
+      
+      - name: Install Playwright browsers
+        run: pnpx playwright install --with-deps firefox
+
+      - name: Run tests
+        run: 
+          pnpm test:run-firefox
