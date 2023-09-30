@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test("App icon should redirect to home page", async ({ page, baseURL }) => {
   await page.goto("/login");
-  await page.getByLabel("Go to home page").click();
+  await page.getByRole("link", { name: "Code Labs" }).click();
   expect(page.url()).toBe(`${baseURL}/`);
 });
 
