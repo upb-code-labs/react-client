@@ -42,6 +42,7 @@ export const Footer = () => {
             rel="noreferrer"
             target="_blank"
             href="https://www.upb.edu.co/"
+            aria-label="Universidad Pontificia Bolivariana website"
           >
             <img
               className="max-w-[15rem]"
