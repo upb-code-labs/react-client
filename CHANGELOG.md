@@ -1,3 +1,12 @@
+# [0.7.0](https://github.com/upb-code-labs/react-client/compare/v0.6.0...v0.7.0) (2023-09-30)
+
+
+### Features
+
+* Footer ([#36](https://github.com/upb-code-labs/react-client/issues/36)) ([92a2e71](https://github.com/upb-code-labs/react-client/commit/92a2e717bb0fc2e0b858e1ed847bb85f361f3d23))
+
+
+
 # [0.6.0](https://github.com/upb-code-labs/react-client/compare/v0.5.0...v0.6.0) (2023-09-26)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Login ([#20](https://github.com/upb-code-labs/react-client/issues/20)) ([5b609a7](https://github.com/upb-code-labs/react-client/commit/5b609a7c051670104485d0b1102f2b3b79e3e079))
-
-
-
-# [0.2.0](https://github.com/upb-code-labs/react-client/compare/v0.1.0...v0.2.0) (2023-09-25)
-
-
-### Features
-
-* Register students ([#18](https://github.com/upb-code-labs/react-client/issues/18)) ([4e9087b](https://github.com/upb-code-labs/react-client/commit/4e9087b4231a707f68fe860c801369d6ff3ecd93))
 
 
 
