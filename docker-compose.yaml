@@ -1,0 +1,40 @@
+version: "3.8"
+
+services:
+  # Microservices
+  codelabs_main_api:
+    image: ghcr.io/upb-code-labs/main-api:latest
+    container_name: codelabs_main_api
+    restart: on-failure
+    environment:
+      - DB_CONNECTION_STRING=postgres://postgres:postgres@codelabs_postgres_db:5432/codelabs?sslmode=disable
+      - ENVIRONMENT=production
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      - codelabs_postgres_db
+
+  # Databases
+  codelabs_postgres_db:
+    image: postgres:alpine3.18
+    container_name: codelabs_postgres_db
+    restart: on-failure
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: codelabs
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  # Utils
+  postgres_db_admin:
+    image: dpage/pgadmin4:7.6
+    container_name: postgres_db_admin
+    restart: on-failure
+    environment:
+      PGADMIN_DEFAULT_EMAIL: postgres@postgres.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    ports:
+      - "127.0.0.1:5050:80"
+    depends_on:
+      - codelabs_postgres_db
