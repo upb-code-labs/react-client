@@ -89,12 +89,18 @@ test.describe.serial("Student registration", () => {
     expect(page.waitForURL(/\/courses$/)).toBeTruthy();
 
     // Assert the navbar options were updated
-    await expect(page.getByRole("link", { name: "Courses" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Profile" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Logout" })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Courses", exact: true })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Profile", exact: true })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Logout", exact: true })
+    ).toBeVisible();
 
     // Assert the logout option works
-    await page.getByRole("link", { name: "Logout" }).click();
+    await page.getByRole("link", { name: "Logout", exact: true }).click();
     expect(page.waitForURL(/\/login$/)).toBeTruthy();
   });
 });

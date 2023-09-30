@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
 
 test("The fields are validated", async ({ page }) => {
   // Go to the register page
-  await page.getByRole("link", { name: "Register admin" }).click();
+  await page.getByRole("link", { name: "Register admin", exact: true }).click();
   expect(page.waitForURL(/\/register\/admins$/)).toBeTruthy();
 
   // Fill the form
@@ -37,7 +37,9 @@ test("The fields are validated", async ({ page }) => {
 test.describe.serial("Admin registration", () => {
   test("Admins can register new admins", async ({ page }) => {
     // Go to the register page
-    await page.getByRole("link", { name: "Register admin" }).click();
+    await page
+      .getByRole("link", { name: "Register admin", exact: true })
+      .click();
     expect(page.waitForURL(/\/register\/admins$/)).toBeTruthy();
 
     // Fill the form
@@ -60,7 +62,9 @@ test.describe.serial("Admin registration", () => {
     page
   }) => {
     // Go to the register page
-    await page.getByRole("link", { name: "Register admin" }).click();
+    await page
+      .getByRole("link", { name: "Register admin", exact: true })
+      .click();
     expect(page.waitForURL(/\/register\/admins$/)).toBeTruthy();
 
     // Fill the form
@@ -78,7 +82,7 @@ test.describe.serial("Admin registration", () => {
 
   test("Admins can login and logout", async ({ page }) => {
     // Assert the logout option is shown
-    const logout = page.getByRole("link", { name: "Logout" });
+    const logout = page.getByRole("link", { name: "Logout", exact: true });
     await expect(logout).toBeVisible();
 
     // Logout

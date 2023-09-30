@@ -18,21 +18,17 @@ export const Navbar = () => {
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   return (
-    <nav className="h-20 border-b shadow-sm">
+    <nav className="h-20 border-b border-b-border shadow-sm">
       {/* Container */}
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-4">
         {/*  Home link */}
-        <Link
-          to="/"
-          className="flex h-full flex-row items-center gap-4 py-2"
-          aria-label="Go to home page"
-        >
+        <Link to="/" className="flex h-full flex-row items-center gap-4 py-2">
           <img
             src="/images/codelabs-logo_100x100.webp"
             alt="UPB Code Labs logo"
             className="aspect-square h-full rounded-lg"
           />
-          <span className="text-xl font-bold">UPB Code Labs</span>
+          <span className="text-xl font-bold">Code Labs</span>
         </Link>
         {/* Navigation options */}
         <div className="md:h-full">

@@ -1,3 +1,4 @@
+import { Footer } from "@/components/Footer/Footer";
 import { Navbar } from "@/components/Navbar/Navbar.tsx";
 import { AuthMiddleware } from "@/components/session/AuthMiddleware";
 import { AuthContextProvider } from "@/context/AuthContext";
@@ -75,6 +76,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           />
           <Route path="/courses" element={<CoursesHome />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </AuthContextProvider>
   </React.StrictMode>

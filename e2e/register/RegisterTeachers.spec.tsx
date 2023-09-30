@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
   expect(page.waitForURL(/\/admins$/)).toBeTruthy();
 
   // Go to the teachers register page
-  await page.getByRole("link", { name: "R. Teachers" }).click();
+  await page.getByRole("link", { name: "R. Teachers", exact: true }).click();
 });
 
 test("The fields are validated", async ({ page }) => {
@@ -74,7 +74,7 @@ test.describe.serial("Teacher registration", () => {
 
   test("Teacher can login and logout", async ({ page }) => {
     // Logout from the admin account
-    await page.getByRole("link", { name: "Logout" }).click();
+    await page.getByRole("link", { name: "Logout", exact: true }).click();
     expect(page.waitForURL(/\/login$/)).toBeTruthy();
 
     // Login as a teacher
@@ -87,12 +87,18 @@ test.describe.serial("Teacher registration", () => {
     expect(page.waitForURL(/\/courses$/)).toBeTruthy();
 
     // Assert the navbar options were updated
-    await expect(page.getByRole("link", { name: "Courses" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Rubrics" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Profile" })).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Courses", exact: true })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Rubrics", exact: true })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Profile", exact: true })
+    ).toBeVisible();
 
     // Assert the logout option works
-    const logout = page.getByRole("link", { name: "Logout" });
+    const logout = page.getByRole("link", { name: "Logout", exact: true });
     await expect(logout).toBeVisible();
     await logout.click();
     expect(page.waitForURL(/\/login$/)).toBeTruthy();
