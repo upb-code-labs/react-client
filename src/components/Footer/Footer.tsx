@@ -34,7 +34,7 @@ export const Footer = () => {
   return (
     <footer className="sticky top-full border-t border-t-border p-4">
       {/* Container */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
         {/* First col */}
         <div className="sm:col-span-2 md:col-span-1">
           <a
