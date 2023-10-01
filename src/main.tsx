@@ -74,7 +74,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               </AuthMiddleware>
             }
           />
-          <Route path="/courses" element={<CoursesHome />} />
+          <Route
+            path="/courses"
+            element={
+              <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
+                <CoursesHome />
+              </AuthMiddleware>
+            }
+          />
         </Routes>
         <Footer />
       </BrowserRouter>
