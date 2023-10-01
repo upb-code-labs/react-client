@@ -1,3 +1,12 @@
+# [0.10.0](https://github.com/upb-code-labs/react-client/compare/v0.9.0...v0.10.0) (2023-10-01)
+
+
+### Features
+
+* Modal to create a course ([#40](https://github.com/upb-code-labs/react-client/issues/40)) ([3bf74e0](https://github.com/upb-code-labs/react-client/commit/3bf74e025f2faa753975f75c4d3cad0b9a7f506f))
+
+
+
 # [0.9.0](https://github.com/upb-code-labs/react-client/compare/v0.8.0...v0.9.0) (2023-10-01)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Logout ([#26](https://github.com/upb-code-labs/react-client/issues/26)) ([ba7b566](https://github.com/upb-code-labs/react-client/commit/ba7b566c8ed14ed9ca35b03662d921d89050b334))
-
-
-
-# [0.5.0](https://github.com/upb-code-labs/react-client/compare/v0.4.0...v0.5.0) (2023-09-26)
-
-
-### Features
-
-* Form to register teachers ([#25](https://github.com/upb-code-labs/react-client/issues/25)) ([f2d55ad](https://github.com/upb-code-labs/react-client/commit/f2d55ad2306c2a1146952627af3168fe49c74c8e))
 
 
 
