@@ -1,5 +1,6 @@
 import { ButtonIconContainer } from "@/components/CourseCard/ButtonIconContainer";
 import { CourseCard } from "@/components/CourseCard/CourseCard";
+import { CourseCardSkeleton } from "@/components/CourseCard/CourseCardSkeleton";
 import { GridContainer } from "@/components/GridContainer";
 import { AuthContext } from "@/context/AuthContext";
 import { SessionRole } from "@/hooks/useSession";
@@ -36,9 +37,10 @@ export const CoursesHome = () => {
     hiddenCourses: Course[];
   }>({ courses: [], hiddenCourses: [] });
 
-  // const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getCourses = async () => {
+    setLoading(true);
     const { success, ...res } = await getCoursesService();
 
     if (!success) {
@@ -50,6 +52,7 @@ export const CoursesHome = () => {
       courses: res.courses,
       hiddenCourses: res.hiddenCourses
     });
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -65,9 +68,13 @@ export const CoursesHome = () => {
           <button className="mx-auto flex aspect-square w-full max-w-xs flex-col items-center justify-center gap-4 rounded-xl border p-4 shadow-md transition-shadow hover:shadow-lg">
             {getButtonContentByRole(role)}
           </button>
-          {courses.courses.map((course) => (
-            <CourseCard key={course.uuid} course={course} />
-          ))}
+          {loading
+            ? Array.from({ length: 3 }).map((_, i) => (
+                <CourseCardSkeleton key={`course-skeleton-${i}`} />
+              ))
+            : courses.courses.map((course) => (
+                <CourseCard key={course.uuid} course={course} />
+              ))}
         </GridContainer>
       </details>
       {/* "Accordion element" to show the hidden courses*/}
