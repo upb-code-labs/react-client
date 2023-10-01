@@ -1,3 +1,12 @@
+# [0.8.0](https://github.com/upb-code-labs/react-client/compare/v0.7.0...v0.8.0) (2023-10-01)
+
+
+### Features
+
+* Courses view ([#38](https://github.com/upb-code-labs/react-client/issues/38)) ([e0c85e5](https://github.com/upb-code-labs/react-client/commit/e0c85e53c4bb15251469c959a72ed245b2ba5143))
+
+
+
 # [0.7.0](https://github.com/upb-code-labs/react-client/compare/v0.6.0...v0.7.0) (2023-09-30)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Register and list admins ([#23](https://github.com/upb-code-labs/react-client/issues/23)) ([77da879](https://github.com/upb-code-labs/react-client/commit/77da879198d3d08b34bc34f2fb42c62b47d37297))
-
-
-
-# [0.3.0](https://github.com/upb-code-labs/react-client/compare/v0.2.0...v0.3.0) (2023-09-25)
-
-
-### Features
-
-* Login ([#20](https://github.com/upb-code-labs/react-client/issues/20)) ([5b609a7](https://github.com/upb-code-labs/react-client/commit/5b609a7c051670104485d0b1102f2b3b79e3e079))
 
 
 
