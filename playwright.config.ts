@@ -24,15 +24,17 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: "http://localhost:5173",
-    trace: "on-first-retry",
-    permissions: ["clipboard-read", "clipboard-write"]
+    trace: "on-first-retry"
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] }
+      use: {
+        ...devices["Desktop Chrome"],
+        permissions: ["clipboard-read", "clipboard-write"]
+      }
     },
 
     {
