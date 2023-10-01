@@ -21,7 +21,7 @@ export const AuthMiddleware = ({
   if (isLoading) {
     return (
       <div className="p-4">
-        <Loader2 className="animate-spin mx-auto" />
+        <Loader2 className="mx-auto animate-spin" />
       </div>
     );
   }
