@@ -1,3 +1,12 @@
+# [0.9.0](https://github.com/upb-code-labs/react-client/compare/v0.8.0...v0.9.0) (2023-10-01)
+
+
+### Features
+
+* Get course invitation code ([#39](https://github.com/upb-code-labs/react-client/issues/39)) ([acaa1cc](https://github.com/upb-code-labs/react-client/commit/acaa1cc1a8de3eb971990c3479bd35f78ae901ce))
+
+
+
 # [0.8.0](https://github.com/upb-code-labs/react-client/compare/v0.7.0...v0.8.0) (2023-10-01)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Form to register teachers ([#25](https://github.com/upb-code-labs/react-client/issues/25)) ([f2d55ad](https://github.com/upb-code-labs/react-client/commit/f2d55ad2306c2a1146952627af3168fe49c74c8e))
-
-
-
-# [0.4.0](https://github.com/upb-code-labs/react-client/compare/v0.3.0...v0.4.0) (2023-09-26)
-
-
-### Features
-
-* Register and list admins ([#23](https://github.com/upb-code-labs/react-client/issues/23)) ([77da879](https://github.com/upb-code-labs/react-client/commit/77da879198d3d08b34bc34f2fb42c62b47d37297))
 
 
 
