@@ -6,32 +6,17 @@ import { AuthContext } from "@/context/AuthContext";
 import { SessionRole } from "@/hooks/useSession";
 import { getCoursesService } from "@/services/courses/get-user-courses.service";
 import { Course } from "@/types/entities/course";
-import { LogIn, Plus } from "lucide-react";
+import { LogIn } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const getButtonContentByRole = (role: SessionRole) => {
-  if (role === "teacher") {
-    return (
-      <>
-        <ButtonIconContainer Icon={<Plus color="#fff" size={42} />} />
-        <span className="text-lg">Create a new course</span>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <ButtonIconContainer Icon={<LogIn color="#fff" size={42} />} />
-        <span className="text-lg">Join with an invitation code</span>
-      </>
-    );
-  }
-};
+import { CreateCourseDialog } from "./dialogs/create-course/CreateCourseDialog";
 
 export const CoursesHome = () => {
   const { user } = useContext(AuthContext);
   const role = user?.role || "student";
 
+  // State
   const [courses, setCourses] = useState<{
     courses: Course[];
     hiddenCourses: Course[];
@@ -39,6 +24,19 @@ export const CoursesHome = () => {
 
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    getCourses();
+  }, []);
+
+  // State setters
+  const addCourse = (course: Course) => {
+    setCourses((prev) => ({
+      ...prev,
+      courses: [...prev.courses, course]
+    }));
+  };
+
+  // Services callers
   const getCourses = async () => {
     setLoading(true);
     const { success, ...res } = await getCoursesService();
@@ -55,9 +53,18 @@ export const CoursesHome = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    getCourses();
-  }, []);
+  const getActionButtonByRole = (role: SessionRole) => {
+    if (role === "teacher") {
+      return <CreateCourseDialog addNewCourseCallback={addCourse} />;
+    } else {
+      return (
+        <button className="mx-auto flex aspect-square w-full max-w-xs flex-col items-center justify-center gap-4 rounded-xl border p-4 shadow-md transition-shadow hover:shadow-lg">
+          <ButtonIconContainer Icon={<LogIn color="#fff" size={42} />} />
+          <span className="text-lg">Join with an invitation code</span>
+        </button>
+      );
+    }
+  };
 
   return (
     <main className="mx-auto max-w-7xl p-4">
@@ -65,9 +72,7 @@ export const CoursesHome = () => {
       <details open>
         <summary className="py-4">Your courses</summary>
         <GridContainer>
-          <button className="mx-auto flex aspect-square w-full max-w-xs flex-col items-center justify-center gap-4 rounded-xl border p-4 shadow-md transition-shadow hover:shadow-lg">
-            {getButtonContentByRole(role)}
-          </button>
+          {getActionButtonByRole(role)}
           {loading
             ? Array.from({ length: 3 }).map((_, i) => (
                 <CourseCardSkeleton key={`course-skeleton-${i}`} />
