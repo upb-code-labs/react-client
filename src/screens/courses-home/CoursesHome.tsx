@@ -3,59 +3,21 @@ import { CourseCard } from "@/components/CourseCard/CourseCard";
 import { CourseCardSkeleton } from "@/components/CourseCard/CourseCardSkeleton";
 import { GridContainer } from "@/components/GridContainer";
 import { AuthContext } from "@/context/AuthContext";
+import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
 import { SessionRole } from "@/hooks/useSession";
-import { getCoursesService } from "@/services/courses/get-user-courses.service";
-import { Course } from "@/types/entities/course";
 import { LogIn } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
-import { toast } from "sonner";
+import { useContext } from "react";
 
 import { CreateCourseDialog } from "./dialogs/create-course/CreateCourseDialog";
 
 export const CoursesHome = () => {
+  const { isLoading, userCourses } = useContext(UserCoursesContext);
   const { user } = useContext(AuthContext);
   const role = user?.role || "student";
 
-  // State
-  const [courses, setCourses] = useState<{
-    courses: Course[];
-    hiddenCourses: Course[];
-  }>({ courses: [], hiddenCourses: [] });
-
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    getCourses();
-  }, []);
-
-  // State setters
-  const addCourse = (course: Course) => {
-    setCourses((prev) => ({
-      ...prev,
-      courses: [...prev.courses, course]
-    }));
-  };
-
-  // Services callers
-  const getCourses = async () => {
-    setLoading(true);
-    const { success, ...res } = await getCoursesService();
-
-    if (!success) {
-      toast.error(res.message);
-      return;
-    }
-
-    setCourses({
-      courses: res.courses,
-      hiddenCourses: res.hiddenCourses
-    });
-    setLoading(false);
-  };
-
   const getActionButtonByRole = (role: SessionRole) => {
     if (role === "teacher") {
-      return <CreateCourseDialog addNewCourseCallback={addCourse} />;
+      return <CreateCourseDialog />;
     } else {
       return (
         <button className="mx-auto flex aspect-square w-full max-w-xs flex-col items-center justify-center gap-4 rounded-xl border p-4 shadow-md transition-shadow hover:shadow-lg">
@@ -73,22 +35,28 @@ export const CoursesHome = () => {
         <summary className="py-4">Your courses</summary>
         <GridContainer>
           {getActionButtonByRole(role)}
-          {loading
+          {isLoading
             ? Array.from({ length: 3 }).map((_, i) => (
                 <CourseCardSkeleton key={`course-skeleton-${i}`} />
               ))
-            : courses.courses.map((course) => (
-                <CourseCard key={course.uuid} course={course} />
-              ))}
+            : userCourses.courses.map((course) => {
+                return (
+                  <CourseCard
+                    key={course.uuid}
+                    course={course}
+                    isHidden={false}
+                  />
+                );
+              })}
         </GridContainer>
       </details>
       {/* "Accordion element" to show the hidden courses*/}
       <details className="mt-4">
         <summary className="py-4">Hidden courses</summary>
-        {courses.hiddenCourses.length > 0 ? (
+        {userCourses.hiddenCourses.length > 0 ? (
           <GridContainer>
-            {courses.hiddenCourses.map((course) => (
-              <CourseCard key={course.uuid} course={course} />
+            {userCourses.hiddenCourses.map((course) => (
+              <CourseCard key={course.uuid} course={course} isHidden />
             ))}
           </GridContainer>
         ) : (
