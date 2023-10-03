@@ -11,6 +11,7 @@ import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
 import { CoursesActionType } from "@/hooks/courses/coursesReducer";
 import { SessionRole } from "@/hooks/useSession";
 import { getInvitationCodeService } from "@/services/courses/get-invitation-code.service";
+import { toggleCourseVisibilityService } from "@/services/courses/toggle-course-visibility.service";
 import { copyToClipboard } from "@/utils/copy-to-clipboard";
 import {
   ClipboardCopy,
@@ -74,7 +75,15 @@ export const CourseDropDown = ({
     }
   };
 
-  const hideCourse = () => {
+  const hideCourse = async () => {
+    const { success, message, visible } =
+      await toggleCourseVisibilityService(courseUUID);
+    if (!success || visible) {
+      toast.error(message);
+      return;
+    }
+
+    toast.success(message);
     userCoursesDispatcher({
       type: CoursesActionType.HIDE_COURSE,
       payload: {
@@ -83,7 +92,15 @@ export const CourseDropDown = ({
     });
   };
 
-  const showCourse = () => {
+  const showCourse = async () => {
+    const { success, message, visible } =
+      await toggleCourseVisibilityService(courseUUID);
+    if (!success || !visible) {
+      toast.error(message);
+      return;
+    }
+
+    toast.success(message);
     userCoursesDispatcher({
       type: CoursesActionType.SHOW_COURSE,
       payload: {
