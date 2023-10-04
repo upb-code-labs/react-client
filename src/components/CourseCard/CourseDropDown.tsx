@@ -7,18 +7,32 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { AuthContext } from "@/context/AuthContext";
+import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
+import { CoursesActionType } from "@/hooks/courses/coursesReducer";
 import { SessionRole } from "@/hooks/useSession";
 import { getInvitationCodeService } from "@/services/courses/get-invitation-code.service";
+import { toggleCourseVisibilityService } from "@/services/courses/toggle-course-visibility.service";
 import { copyToClipboard } from "@/utils/copy-to-clipboard";
-import { ClipboardCopy, EyeOff, MoreVertical, PenSquare } from "lucide-react";
+import {
+  ClipboardCopy,
+  Eye,
+  EyeOff,
+  MoreVertical,
+  PenSquare
+} from "lucide-react";
 import { useContext } from "react";
 import { toast } from "sonner";
 
 interface CourseDropDownProps {
   courseUUID: string;
+  isHidden: boolean;
 }
 
-export const CourseDropDown = ({ courseUUID }: CourseDropDownProps) => {
+export const CourseDropDown = ({
+  courseUUID,
+  isHidden
+}: CourseDropDownProps) => {
+  const { userCoursesDispatcher } = useContext(UserCoursesContext);
   const { user } = useContext(AuthContext);
   const role = user?.role || "student";
 
@@ -61,6 +75,40 @@ export const CourseDropDown = ({ courseUUID }: CourseDropDownProps) => {
     }
   };
 
+  const hideCourse = async () => {
+    const { success, message, visible } =
+      await toggleCourseVisibilityService(courseUUID);
+    if (!success || visible) {
+      toast.error(message);
+      return;
+    }
+
+    toast.success(message);
+    userCoursesDispatcher({
+      type: CoursesActionType.HIDE_COURSE,
+      payload: {
+        uuid: courseUUID
+      }
+    });
+  };
+
+  const showCourse = async () => {
+    const { success, message, visible } =
+      await toggleCourseVisibilityService(courseUUID);
+    if (!success || !visible) {
+      toast.error(message);
+      return;
+    }
+
+    toast.success(message);
+    userCoursesDispatcher({
+      type: CoursesActionType.SHOW_COURSE,
+      payload: {
+        uuid: courseUUID
+      }
+    });
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -74,9 +122,18 @@ export const CourseDropDown = ({ courseUUID }: CourseDropDownProps) => {
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Course options</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <EyeOff className="mr-2 h-4 w-4" />
-          <span>Hide course</span>
+        <DropdownMenuItem onClick={isHidden ? showCourse : hideCourse}>
+          {isHidden ? (
+            <>
+              <Eye className="mr-2 h-4 w-4" />
+              <span>Show course</span>
+            </>
+          ) : (
+            <>
+              <EyeOff className="mr-2 h-4 w-4" />
+              <span>Hide course</span>
+            </>
+          )}
         </DropdownMenuItem>
         {getDropdownOptionsByRole(role).map((option) => (
           <DropdownMenuItem key={option.text} onClick={option.callback}>

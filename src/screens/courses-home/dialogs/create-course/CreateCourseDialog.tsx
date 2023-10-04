@@ -7,19 +7,12 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { Course } from "@/types/entities/course";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
 import { CreateCourseForm } from "./CreateCourseForm";
 
-interface CreateCourseDialogProps {
-  addNewCourseCallback: (course: Course) => void;
-}
-
-export const CreateCourseDialog = ({
-  addNewCourseCallback
-}: CreateCourseDialogProps) => {
+export const CreateCourseDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
   const closeDialog = () => setIsOpen(false);
 
@@ -40,10 +33,7 @@ export const CreateCourseDialog = ({
             Enter a name for the new course. Click create when you're done.
           </DialogDescription>
         </DialogHeader>
-        <CreateCourseForm
-          closeDialogCallback={closeDialog}
-          addNewCourseCallback={addNewCourseCallback}
-        />
+        <CreateCourseForm closeDialogCallback={closeDialog} />
       </DialogContent>
     </Dialog>
   );

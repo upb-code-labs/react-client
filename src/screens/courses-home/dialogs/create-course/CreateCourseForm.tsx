@@ -9,10 +9,11 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
+import { CoursesActionType } from "@/hooks/courses/coursesReducer";
 import { createCourseService } from "@/services/courses/create-course.service";
-import { Course } from "@/types/entities/course";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -27,13 +28,12 @@ const CreateCourseSchema = z.object({
 
 interface CreateCourseFormProps {
   closeDialogCallback: () => void;
-  addNewCourseCallback: (course: Course) => void;
 }
 
 export const CreateCourseForm = ({
-  closeDialogCallback,
-  addNewCourseCallback
+  closeDialogCallback
 }: CreateCourseFormProps) => {
+  const { userCoursesDispatcher } = useContext(UserCoursesContext);
   const [state, setState] = useState<"idle" | "loading">("idle");
   const form = useForm<z.infer<typeof CreateCourseSchema>>({
     resolver: zodResolver(CreateCourseSchema),
@@ -62,7 +62,12 @@ export const CreateCourseForm = ({
     toast.success(message);
     setState("idle");
 
-    addNewCourseCallback(course);
+    userCoursesDispatcher({
+      type: CoursesActionType.ADD_COURSE,
+      payload: {
+        course
+      }
+    });
     closeDialogCallback();
   };
 

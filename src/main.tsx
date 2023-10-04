@@ -16,6 +16,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 
+import { UserCoursesProvider } from "./context/courses/UserCoursesContext";
 import "./global.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -77,9 +78,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Route
             path="/courses"
             element={
-              <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
-                <CoursesHome />
-              </AuthMiddleware>
+              <UserCoursesProvider>
+                <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
+                  <CoursesHome />
+                </AuthMiddleware>
+              </UserCoursesProvider>
             }
           />
         </Routes>
