@@ -142,6 +142,18 @@ test.describe.serial("Join courses workflow", () => {
     await page
       .getByRole("button", { name: "Join with an invitation code" })
       .click();
+
+    // Use an unexistent code
+    const nonExistentCode = "_________";
+    await page.getByLabel("Code").fill(nonExistentCode);
+    await page.getByRole("button", { name: "Join" }).click();
+
+    // Assert an alert is shown
+    await expect(
+      page.getByText(`Course with invitation code ${nonExistentCode} not found`)
+    ).toBeVisible();
+
+    // Use an existent code
     await page.getByLabel("Code").fill(invitationCode);
     await page.getByRole("button", { name: "Join" }).click();
 
