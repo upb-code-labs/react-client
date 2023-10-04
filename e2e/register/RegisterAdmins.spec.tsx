@@ -8,13 +8,13 @@ test.beforeEach(async ({ page }) => {
   await page.getByRole("button", { name: "Submit" }).click();
 
   // Assert the admins page is loaded
-  expect(page.waitForURL(/\/admins$/)).toBeTruthy();
+  await page.waitForURL(/\/admins$/);
 });
 
 test("The fields are validated", async ({ page }) => {
   // Go to the register page
   await page.getByRole("link", { name: "Register admin", exact: true }).click();
-  expect(page.waitForURL(/\/register\/admins$/)).toBeTruthy();
+  await page.waitForURL(/\/register\/admins$/);
 
   // Fill the form
   await page.getByLabel("Full name").fill("a");
@@ -40,7 +40,7 @@ test.describe.serial("Admin registration", () => {
     await page
       .getByRole("link", { name: "Register admin", exact: true })
       .click();
-    expect(page.waitForURL(/\/register\/admins$/)).toBeTruthy();
+    await page.waitForURL(/\/register\/admins$/);
 
     // Fill the form
     await page.getByLabel("Full name").fill("Inés Alvarez");
@@ -54,7 +54,7 @@ test.describe.serial("Admin registration", () => {
     ).toBeVisible();
 
     // Assert the admin is shown in the table
-    expect(page.waitForURL(/\/admins$/)).toBeTruthy();
+    await page.waitForURL(/\/admins$/);
     await expect(page.getByText("Inés Alvarez")).toBeVisible();
   });
 
@@ -65,7 +65,7 @@ test.describe.serial("Admin registration", () => {
     await page
       .getByRole("link", { name: "Register admin", exact: true })
       .click();
-    expect(page.waitForURL(/\/register\/admins$/)).toBeTruthy();
+    await page.waitForURL(/\/register\/admins$/);
 
     // Fill the form
     const email = "ines.alvarez.fake@gmail.com";
@@ -87,6 +87,6 @@ test.describe.serial("Admin registration", () => {
 
     // Logout
     await logout.click();
-    expect(page.waitForURL(/\/login$/)).toBeTruthy();
+    await page.waitForURL(/\/login$/);
   });
 });

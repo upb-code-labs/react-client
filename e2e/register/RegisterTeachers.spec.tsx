@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
   await page.getByRole("button", { name: "Submit" }).click();
 
   // Assert the admins page is loaded
-  expect(page.waitForURL(/\/admins$/)).toBeTruthy();
+  await page.waitForURL(/\/admins$/);
 
   // Go to the teachers register page
   await page.getByRole("link", { name: "R. Teachers", exact: true }).click();
@@ -75,7 +75,7 @@ test.describe.serial("Teacher registration", () => {
   test("Teacher can login and logout", async ({ page }) => {
     // Logout from the admin account
     await page.getByRole("link", { name: "Logout", exact: true }).click();
-    expect(page.waitForURL(/\/login$/)).toBeTruthy();
+    await page.waitForURL(/\/login$/);
 
     // Login as a teacher
     await page.goto("/login");
@@ -84,7 +84,7 @@ test.describe.serial("Teacher registration", () => {
     await page.getByRole("button", { name: "Submit" }).click();
 
     // Assert the teacher is redirected
-    expect(page.waitForURL(/\/courses$/)).toBeTruthy();
+    await page.waitForURL(/\/courses$/);
 
     // Assert the navbar options were updated
     await expect(
@@ -101,6 +101,6 @@ test.describe.serial("Teacher registration", () => {
     const logout = page.getByRole("link", { name: "Logout", exact: true });
     await expect(logout).toBeVisible();
     await logout.click();
-    expect(page.waitForURL(/\/login$/)).toBeTruthy();
+    await page.waitForURL(/\/login$/);
   });
 });
