@@ -1,3 +1,12 @@
+# [0.12.0](https://github.com/upb-code-labs/react-client/compare/v0.11.0...v0.12.0) (2023-10-04)
+
+
+### Features
+
+* Join a course using an invitation code ([#43](https://github.com/upb-code-labs/react-client/issues/43)) ([180c42c](https://github.com/upb-code-labs/react-client/commit/180c42cf71a1fef926a17e524ff9ea8865346ff7))
+
+
+
 # [0.11.0](https://github.com/upb-code-labs/react-client/compare/v0.10.0...v0.11.0) (2023-10-04)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Courses view ([#38](https://github.com/upb-code-labs/react-client/issues/38)) ([e0c85e5](https://github.com/upb-code-labs/react-client/commit/e0c85e53c4bb15251469c959a72ed245b2ba5143))
-
-
-
-# [0.7.0](https://github.com/upb-code-labs/react-client/compare/v0.6.0...v0.7.0) (2023-09-30)
-
-
-### Features
-
-* Footer ([#36](https://github.com/upb-code-labs/react-client/issues/36)) ([92a2e71](https://github.com/upb-code-labs/react-client/commit/92a2e717bb0fc2e0b858e1ed847bb85f361f3d23))
 
 
 
