@@ -6,6 +6,9 @@ test.describe.serial("Join courses workflow", () => {
   const courseName = "Data Structures NRC 12345";
   let invitationCode: string;
 
+  const studentEmail = "blythe.macario.2020@upb.edu.co";
+  const studentPassword = "upbbga2020*/";
+
   test("Register test teacher", async ({ page }) => {
     // Login as an admin
     await page.goto("/login");
@@ -115,5 +118,40 @@ test.describe.serial("Join courses workflow", () => {
     // Assert the invitation code is copied
     invitationCode = await page.evaluate(() => navigator.clipboard.readText());
     expect(invitationCode).toHaveLength(9);
+  });
+
+  test("Register test student", async ({ page }) => {
+    await page.goto("/register/students");
+    await page.getByLabel("Full name").fill("Blythe Macario");
+    await page.getByLabel("Institutional ID").fill("000984517");
+    await page.getByLabel("Email").fill(studentEmail);
+    await page.getByLabel("Password").fill(studentPassword);
+
+    await page.getByRole("button", { name: "Submit" }).click();
+    await page.waitForURL(/\/login$/);
+  });
+
+  test("Students can join a course", async ({ page }) => {
+    // Login as a student
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(studentEmail);
+    await page.getByLabel("Password").fill(studentPassword);
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Join a course
+    await page
+      .getByRole("button", { name: "Join with an invitation code" })
+      .click();
+    await page.getByLabel("Code").fill(invitationCode);
+    await page.getByRole("button", { name: "Join" }).click();
+
+    // Assert an alert is shown
+    await expect(page.getByText("You have joined the course")).toBeVisible();
+
+    // Assert the modal is closed
+    await expect(page.getByRole("dialog")).not.toBeVisible();
+
+    // Assert the course is listed
+    await expect(page.getByText(courseName)).toBeVisible();
   });
 });
