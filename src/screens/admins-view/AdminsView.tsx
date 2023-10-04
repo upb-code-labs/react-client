@@ -37,9 +37,9 @@ export const AdminsView = () => {
   }, []);
 
   return (
-    <main className="max-w-7xl mx-auto px-4">
-      <div className="flex flex-row items-center justify-between flex-wrap mb-2 gap-x-4">
-        <h1 className="font-bold text-3xl my-4">Current registered admins</h1>
+    <main className="mx-auto max-w-7xl px-4">
+      <div className="mb-2 flex flex-row flex-wrap items-center justify-between gap-x-4">
+        <h1 className="my-4 text-3xl font-bold">Current registered admins</h1>
         <Link
           className={buttonVariants({ variant: "default" })}
           to="/register/admins"

@@ -86,7 +86,7 @@ test.describe.serial("Student registration", () => {
     await expect(page.getByText("You have been logged in!")).toBeVisible();
 
     // Assert the student is redirected
-    expect(page.waitForURL(/\/courses$/)).toBeTruthy();
+    await page.waitForURL(/\/courses$/);
 
     // Assert the navbar options were updated
     await expect(
@@ -101,6 +101,6 @@ test.describe.serial("Student registration", () => {
 
     // Assert the logout option works
     await page.getByRole("link", { name: "Logout", exact: true }).click();
-    expect(page.waitForURL(/\/login$/)).toBeTruthy();
+    await page.waitForURL(/\/login$/);
   });
 });
