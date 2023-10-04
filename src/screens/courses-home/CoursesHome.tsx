@@ -1,14 +1,13 @@
-import { ButtonIconContainer } from "@/components/CourseCard/ButtonIconContainer";
 import { CourseCard } from "@/components/CourseCard/CourseCard";
 import { CourseCardSkeleton } from "@/components/CourseCard/CourseCardSkeleton";
 import { GridContainer } from "@/components/GridContainer";
 import { AuthContext } from "@/context/AuthContext";
 import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
 import { SessionRole } from "@/hooks/useSession";
-import { LogIn } from "lucide-react";
 import { useContext } from "react";
 
 import { CreateCourseDialog } from "./dialogs/create-course/CreateCourseDialog";
+import { JoinCourseDialog } from "./dialogs/join-course/JoinCourseDialog";
 
 export const CoursesHome = () => {
   const { isLoading, userCourses } = useContext(UserCoursesContext);
@@ -19,12 +18,7 @@ export const CoursesHome = () => {
     if (role === "teacher") {
       return <CreateCourseDialog />;
     } else {
-      return (
-        <button className="mx-auto flex aspect-square w-full max-w-xs flex-col items-center justify-center gap-4 rounded-xl border p-4 shadow-md transition-shadow hover:shadow-lg">
-          <ButtonIconContainer Icon={<LogIn color="#fff" size={42} />} />
-          <span className="text-lg">Join with an invitation code</span>
-        </button>
-      );
+      return <JoinCourseDialog />;
     }
   };
 
