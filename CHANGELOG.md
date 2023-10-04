@@ -1,3 +1,12 @@
+# [0.11.0](https://github.com/upb-code-labs/react-client/compare/v0.10.0...v0.11.0) (2023-10-04)
+
+
+### Features
+
+* Toggle courses visibility ([#42](https://github.com/upb-code-labs/react-client/issues/42)) ([d6f57c6](https://github.com/upb-code-labs/react-client/commit/d6f57c65caca55385492fc2d036c65f4a89da390))
+
+
+
 # [0.10.0](https://github.com/upb-code-labs/react-client/compare/v0.9.0...v0.10.0) (2023-10-01)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Footer ([#36](https://github.com/upb-code-labs/react-client/issues/36)) ([92a2e71](https://github.com/upb-code-labs/react-client/commit/92a2e717bb0fc2e0b858e1ed847bb85f361f3d23))
-
-
-
-# [0.6.0](https://github.com/upb-code-labs/react-client/compare/v0.5.0...v0.6.0) (2023-09-26)
-
-
-### Features
-
-* Logout ([#26](https://github.com/upb-code-labs/react-client/issues/26)) ([ba7b566](https://github.com/upb-code-labs/react-client/commit/ba7b566c8ed14ed9ca35b03662d921d89050b334))
 
 
 
