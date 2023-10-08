@@ -107,7 +107,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route
               path="participants"
               element={
-                <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
+                <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
                   <CourseParticipants />
                 </AuthMiddleware>
               }
