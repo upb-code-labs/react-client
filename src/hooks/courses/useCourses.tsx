@@ -21,7 +21,6 @@ export const useCourses = () => {
 
   // Get the courses on load
   const getCourses = async () => {
-    console.log("[INFO]: Getting courses");
     setLoading(true);
     const { success, ...res } = await getCoursesService();
 
