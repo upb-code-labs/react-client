@@ -18,6 +18,9 @@ import { Toaster } from "sonner";
 
 import { UserCoursesProvider } from "./context/courses/UserCoursesContext";
 import "./global.css";
+import { CoursePageLayout } from "./screens/course-page/CoursePageLayout";
+import { CourseLaboratories } from "./screens/course-page/laboratories/CourseLaboratories";
+import { CourseParticipants } from "./screens/course-page/participants/CourseParticipants";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -85,6 +88,31 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               </UserCoursesProvider>
             }
           />
+          <Route
+            path="/courses/:id"
+            element={
+              <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
+                <CoursePageLayout />
+              </AuthMiddleware>
+            }
+          >
+            <Route
+              path="laboratories"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
+                  <CourseLaboratories />
+                </AuthMiddleware>
+              }
+            />
+            <Route
+              path="participants"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
+                  <CourseParticipants />
+                </AuthMiddleware>
+              }
+            />
+          </Route>
         </Routes>
         <Footer />
       </BrowserRouter>

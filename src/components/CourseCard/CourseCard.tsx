@@ -11,7 +11,7 @@ interface CourseCardProps {
 
 export const CourseCard = ({ course, isHidden }: CourseCardProps) => {
   return (
-    <Link to="#">
+    <Link to={`/courses/${course.uuid}/laboratories`}>
       <div className="relative mx-auto flex aspect-square w-full max-w-xs flex-col items-center justify-center gap-4 rounded-xl border p-4 text-center shadow-md transition-shadow hover:shadow-lg">
         {/* Course dropdown */}
         <CourseDropDown course={course} isHidden={isHidden} />
