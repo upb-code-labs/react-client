@@ -12,6 +12,7 @@ import { CoursesActionType } from "@/hooks/courses/coursesReducer";
 import { SessionRole } from "@/hooks/useSession";
 import { getInvitationCodeService } from "@/services/courses/get-invitation-code.service";
 import { toggleCourseVisibilityService } from "@/services/courses/toggle-course-visibility.service";
+import { Course } from "@/types/entities/course";
 import { copyToClipboard } from "@/utils/copy-to-clipboard";
 import {
   ClipboardCopy,
@@ -24,15 +25,13 @@ import { useContext } from "react";
 import { toast } from "sonner";
 
 interface CourseDropDownProps {
-  courseUUID: string;
+  course: Course;
   isHidden: boolean;
 }
 
-export const CourseDropDown = ({
-  courseUUID,
-  isHidden
-}: CourseDropDownProps) => {
-  const { userCoursesDispatcher } = useContext(UserCoursesContext);
+export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
+  const { userCoursesDispatcher, openRenameCourseDialog } =
+    useContext(UserCoursesContext);
   const { user } = useContext(AuthContext);
   const role = user?.role || "student";
 
@@ -41,8 +40,8 @@ export const CourseDropDown = ({
       return [
         {
           icon: PenSquare,
-          text: "Update name",
-          callback: () => console.log("To be implemented")
+          text: "Rename course",
+          callback: () => openRenameCourseDialog(course)
         },
         {
           icon: ClipboardCopy,
@@ -56,7 +55,9 @@ export const CourseDropDown = ({
   };
 
   const getInvitationCode = async () => {
-    const { success, ...response } = await getInvitationCodeService(courseUUID);
+    const { success, ...response } = await getInvitationCodeService(
+      course.uuid
+    );
     if (!success) {
       toast.error(response.message);
       return;
@@ -76,8 +77,9 @@ export const CourseDropDown = ({
   };
 
   const hideCourse = async () => {
-    const { success, message, visible } =
-      await toggleCourseVisibilityService(courseUUID);
+    const { success, message, visible } = await toggleCourseVisibilityService(
+      course.uuid
+    );
     if (!success || visible) {
       toast.error(message);
       return;
@@ -87,14 +89,15 @@ export const CourseDropDown = ({
     userCoursesDispatcher({
       type: CoursesActionType.HIDE_COURSE,
       payload: {
-        uuid: courseUUID
+        uuid: course.uuid
       }
     });
   };
 
   const showCourse = async () => {
-    const { success, message, visible } =
-      await toggleCourseVisibilityService(courseUUID);
+    const { success, message, visible } = await toggleCourseVisibilityService(
+      course.uuid
+    );
     if (!success || !visible) {
       toast.error(message);
       return;
@@ -104,7 +107,7 @@ export const CourseDropDown = ({
     userCoursesDispatcher({
       type: CoursesActionType.SHOW_COURSE,
       payload: {
-        uuid: courseUUID
+        uuid: course.uuid
       }
     });
   };

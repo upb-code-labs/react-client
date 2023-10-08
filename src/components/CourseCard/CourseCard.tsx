@@ -14,7 +14,7 @@ export const CourseCard = ({ course, isHidden }: CourseCardProps) => {
     <Link to="#">
       <div className="relative mx-auto flex aspect-square w-full max-w-xs flex-col items-center justify-center gap-4 rounded-xl border p-4 text-center shadow-md transition-shadow hover:shadow-lg">
         {/* Course dropdown */}
-        <CourseDropDown courseUUID={course.uuid} isHidden={isHidden} />
+        <CourseDropDown course={course} isHidden={isHidden} />
 
         {/* Course initials and color */}
         <div

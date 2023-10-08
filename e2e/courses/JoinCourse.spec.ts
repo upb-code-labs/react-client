@@ -22,9 +22,6 @@ test.describe.serial("Join courses workflow", () => {
     await page.getByLabel("Email").fill(teacherEmail);
     await page.getByLabel("Password").fill(teacherPassword);
     await page.getByRole("button", { name: "Submit" }).click();
-
-    // Logout as an admin
-    await page.getByRole("link", { name: "Logout" }).click();
   });
 
   test("Field to create new course is validated", async ({ page }) => {
