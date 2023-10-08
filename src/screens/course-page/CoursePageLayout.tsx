@@ -61,7 +61,10 @@ export const CoursePageLayout = () => {
             {/* Course navigation */}
             <ul className="flex flex-col gap-4">
               {CourseAsideOptions[role].map((option) => (
-                <li className="text-foreground/75 transition-colors hover:text-foreground">
+                <li
+                  className="text-foreground/75 transition-colors hover:text-foreground"
+                  key={option.path}
+                >
                   <Link to={option.path.replace(":id", id)}>{option.name}</Link>
                 </li>
               ))}
