@@ -1,3 +1,12 @@
+# [0.13.0](https://github.com/upb-code-labs/react-client/compare/v0.12.0...v0.13.0) (2023-10-08)
+
+
+### Features
+
+* Dialog to rename a course ([#67](https://github.com/upb-code-labs/react-client/issues/67)) ([4deeb46](https://github.com/upb-code-labs/react-client/commit/4deeb46fa7de495cc08c40346b4dc6a4b8ef3b73))
+
+
+
 # [0.12.0](https://github.com/upb-code-labs/react-client/compare/v0.11.0...v0.12.0) (2023-10-04)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Get course invitation code ([#39](https://github.com/upb-code-labs/react-client/issues/39)) ([acaa1cc](https://github.com/upb-code-labs/react-client/commit/acaa1cc1a8de3eb971990c3479bd35f78ae901ce))
-
-
-
-# [0.8.0](https://github.com/upb-code-labs/react-client/compare/v0.7.0...v0.8.0) (2023-10-01)
-
-
-### Features
-
-* Courses view ([#38](https://github.com/upb-code-labs/react-client/issues/38)) ([e0c85e5](https://github.com/upb-code-labs/react-client/commit/e0c85e53c4bb15251469c959a72ed245b2ba5143))
 
 
 
