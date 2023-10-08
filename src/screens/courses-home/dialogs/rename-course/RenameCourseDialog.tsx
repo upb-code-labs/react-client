@@ -27,7 +27,7 @@ export const RenameCourseDialog = () => {
         <DialogHeader>
           <DialogTitle>Rename course</DialogTitle>
           <DialogDescription>
-            Enter a new name for the course. Click create when you're done.
+            Enter a new name for the course. Click rename when you're done.
           </DialogDescription>
         </DialogHeader>
         <RenameCourseForm />

@@ -40,7 +40,7 @@ export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
       return [
         {
           icon: PenSquare,
-          text: "Update name",
+          text: "Rename course",
           callback: () => openRenameCourseDialog(course)
         },
         {
