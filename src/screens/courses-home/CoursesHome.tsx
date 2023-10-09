@@ -8,6 +8,7 @@ import { useContext } from "react";
 
 import { CreateCourseDialog } from "./dialogs/create-course/CreateCourseDialog";
 import { JoinCourseDialog } from "./dialogs/join-course/JoinCourseDialog";
+import { RenameCourseDialog } from "./dialogs/rename-course/RenameCourseDialog";
 
 export const CoursesHome = () => {
   const { isLoading, userCourses } = useContext(UserCoursesContext);
@@ -24,6 +25,8 @@ export const CoursesHome = () => {
 
   return (
     <main className="mx-auto max-w-7xl p-4">
+      {/* Modals */}
+      <RenameCourseDialog />
       {/* "Accordion element" to show the visible courses*/}
       <details open>
         <summary className="py-4">Your courses</summary>

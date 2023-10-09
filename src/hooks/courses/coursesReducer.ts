@@ -6,7 +6,8 @@ export enum CoursesActionType {
   SET_COURSES = "SET_COURSES",
   ADD_COURSE = "ADD_COURSE",
   HIDE_COURSE = "HIDE_COURSE",
-  SHOW_COURSE = "SHOW_COURSE"
+  SHOW_COURSE = "SHOW_COURSE",
+  RENAME_COURSE = "RENAME_COURSE"
 }
 
 export type CoursesActions =
@@ -16,7 +17,11 @@ export type CoursesActions =
     }
   | { type: CoursesActionType.ADD_COURSE; payload: { course: Course } }
   | { type: CoursesActionType.HIDE_COURSE; payload: { uuid: string } }
-  | { type: CoursesActionType.SHOW_COURSE; payload: { uuid: string } };
+  | { type: CoursesActionType.SHOW_COURSE; payload: { uuid: string } }
+  | {
+      type: CoursesActionType.RENAME_COURSE;
+      payload: { uuid: string; name: string };
+    };
 
 export function coursesReducer(state: CoursesState, action: CoursesActions) {
   switch (action.type) {
@@ -73,6 +78,31 @@ export function coursesReducer(state: CoursesState, action: CoursesActions) {
         courses,
         hiddenCourses
       };
+    }
+    case CoursesActionType.RENAME_COURSE: {
+      const isCourseVisible = state.courses.some(
+        (course) => course.uuid === action.payload.uuid
+      );
+
+      if (isCourseVisible) {
+        return {
+          ...state,
+          courses: state.courses.map((course) =>
+            course.uuid === action.payload.uuid
+              ? { ...course, name: action.payload.name }
+              : course
+          )
+        };
+      } else {
+        return {
+          ...state,
+          hiddenCourses: state.hiddenCourses.map((course) =>
+            course.uuid === action.payload.uuid
+              ? { ...course, name: action.payload.name }
+              : course
+          )
+        };
+      }
     }
     default:
       return state;

@@ -18,9 +18,6 @@ test.describe.serial("User can toggle the course visibility", () => {
     await page.getByLabel("Email").fill(teacherEmail);
     await page.getByLabel("Password").fill(teacherPassword);
     await page.getByRole("button", { name: "Submit" }).click();
-
-    // Logout as an admin
-    await page.getByRole("link", { name: "Logout" }).click();
   });
 
   test("Create the course", async ({ page }) => {
