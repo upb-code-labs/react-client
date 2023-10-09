@@ -12,7 +12,6 @@ export const CourseParticipantsSkeleton = () => {
       </TableCell>
       <TableCell className="flex gap-4">
         <Skeleton className="h-6 w-1/2" />
-        <Skeleton className="h-6 w-1/2" />
       </TableCell>
     </TableRow>
   );

@@ -39,8 +39,8 @@ export const CourseParticipants = () => {
   };
 
   return (
-    <main className="col-span-3">
-      <div className="flex items-center justify-between">
+    <main className="md:col-span-3">
+      <div className="mb-4 flex flex-col items-start justify-between md:flex-row md:items-center">
         <h1 className="my-4 text-3xl font-bold">Enrolled students</h1>
         <Button>
           <PlusCircle className="mr-3" />

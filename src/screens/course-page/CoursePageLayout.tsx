@@ -40,8 +40,8 @@ export const CoursePageLayout = () => {
   };
 
   return (
-    <div className="mx-auto grid min-h-[calc(100vh-5rem)] max-w-7xl grid-cols-4 gap-4 p-4">
-      <aside className="space-y-8 border-r">
+    <div className="mx-auto grid min-h-[calc(100vh-5rem)] max-w-7xl auto-rows-min gap-4 p-4 md:auto-rows-auto md:grid-cols-4">
+      <aside className="space-y-8 border-b pb-8 pr-2 md:border-b-0 md:border-r md:pb-0">
         {isLoading ? (
           <CourseNavigationSkeleton />
         ) : (
@@ -59,10 +59,10 @@ export const CoursePageLayout = () => {
               </h1>
             </div>
             {/* Course navigation */}
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-wrap gap-4 md:flex-col">
               {CourseAsideOptions[role].map((option) => (
                 <li
-                  className="text-foreground/75 transition-colors hover:text-foreground"
+                  className="py-1 text-foreground/75 transition-colors hover:text-foreground"
                   key={option.path}
                 >
                   <Link to={option.path.replace(":id", id)}>{option.name}</Link>
