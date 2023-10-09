@@ -17,7 +17,7 @@ import { CourseParticipantsSkeleton } from "./CourseParticipantsSkeleton";
 import { EnrollStudentDialog } from "./dialogs/enroll-student/EnrollStudentDialog";
 
 export const CourseParticipants = () => {
-  const { id = "emtpy" } = useParams();
+  const { id = "empty" } = useParams();
   const navigate = useNavigate();
 
   const [state, setState] = useState<"loading" | "idle">("loading");
@@ -38,11 +38,15 @@ export const CourseParticipants = () => {
     setState("idle");
   };
 
+  const addStudent = (student: EnrolledStudent) => {
+    setStudents((prev) => [...prev, student]);
+  };
+
   return (
     <main className="md:col-span-3">
       <div className="mb-4 flex flex-col items-start justify-between md:flex-row md:items-center">
         <h1 className="my-4 text-3xl font-bold">Enrolled students</h1>
-        <EnrollStudentDialog />
+        <EnrollStudentDialog addStudentCallback={addStudent} />
       </div>
       <Table>
         <TableHeader>

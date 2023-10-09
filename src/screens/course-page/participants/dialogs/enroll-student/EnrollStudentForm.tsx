@@ -4,11 +4,18 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useDebounce from "@/hooks/useDebounce";
 import { searchStudentByFullNameService } from "@/services/accounts/search-student-by-fullname.service";
+import { EnrolledStudent } from "@/types/entities/enrolled-student";
 import { Student } from "@/types/entities/student";
 import { Fragment, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-export const EnrollStudentForm = () => {
+interface EnrollStudentFormProps {
+  addStudentCallback: (student: EnrolledStudent) => void;
+}
+
+export const EnrollStudentForm = ({
+  addStudentCallback
+}: EnrollStudentFormProps) => {
   // Search state
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
@@ -51,9 +58,14 @@ export const EnrollStudentForm = () => {
     } else {
       return (
         <ScrollArea className="max-h-56">
-          {students.map((student) => (
-            <FoundStudentCard student={student} />
-          ))}
+          <div className="p-1">
+            {students.map((student) => (
+              <FoundStudentCard
+                student={student}
+                addStudentCallback={addStudentCallback}
+              />
+            ))}
+          </div>
         </ScrollArea>
       );
     }
