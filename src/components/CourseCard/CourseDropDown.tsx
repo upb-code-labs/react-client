@@ -125,7 +125,12 @@ export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>Course options</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={isHidden ? showCourse : hideCourse}>
+        <DropdownMenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+            isHidden ? showCourse() : hideCourse();
+          }}
+        >
           {isHidden ? (
             <>
               <Eye className="mr-2 h-4 w-4" />
@@ -139,7 +144,13 @@ export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
           )}
         </DropdownMenuItem>
         {getDropdownOptionsByRole(role).map((option) => (
-          <DropdownMenuItem key={option.text} onClick={option.callback}>
+          <DropdownMenuItem
+            key={option.text}
+            onClick={(e) => {
+              e.stopPropagation();
+              option.callback();
+            }}
+          >
             <option.icon className="mr-2 h-4 w-4" />
             <span>{option.text}</span>
           </DropdownMenuItem>

@@ -6,6 +6,8 @@ test.describe.serial("Join courses workflow", () => {
   const courseName = "Data Structures NRC 12345";
   let invitationCode: string;
 
+  const studentFullName = "Blythe Macario";
+  const studentInstitutionalID = "000984517";
   const studentEmail = "blythe.macario.2020@upb.edu.co";
   const studentPassword = "upbbga2020*/";
 
@@ -119,8 +121,8 @@ test.describe.serial("Join courses workflow", () => {
 
   test("Register test student", async ({ page }) => {
     await page.goto("/register/students");
-    await page.getByLabel("Full name").fill("Blythe Macario");
-    await page.getByLabel("Institutional ID").fill("000984517");
+    await page.getByLabel("Full name").fill(studentFullName);
+    await page.getByLabel("Institutional ID").fill(studentInstitutionalID);
     await page.getByLabel("Email").fill(studentEmail);
     await page.getByLabel("Password").fill(studentPassword);
 
@@ -162,5 +164,36 @@ test.describe.serial("Join courses workflow", () => {
 
     // Assert the course is listed
     await expect(page.getByText(courseName)).toBeVisible();
+  });
+
+  test("Student is listed in the course", async ({ page }) => {
+    // Login as a teacher
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(teacherEmail);
+    await page.getByLabel("Password").fill(teacherPassword);
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Open the course page
+    await page.getByRole("link", { name: courseName }).click();
+
+    // Go to the participants view
+    await page
+      .getByRole("link", { name: "Manage participants", exact: true })
+      .click();
+
+    // Assert the student is listed
+    const studentRow = page.getByRole("row", {
+      name: new RegExp(studentFullName)
+    });
+    await expect(studentRow).toBeVisible();
+    await expect(
+      studentRow.getByRole("cell", { name: studentFullName })
+    ).toBeVisible();
+    await expect(
+      studentRow.getByRole("cell", { name: studentInstitutionalID })
+    ).toBeVisible();
+    await expect(
+      studentRow.getByRole("button", { name: "Deactivate", exact: true })
+    ).toBeVisible();
   });
 });
