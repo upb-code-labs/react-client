@@ -38,6 +38,7 @@ export const EnrollStudentForm = ({
       await searchStudentByFullNameService(criteria);
     if (!success) {
       toast.error(response.message);
+      setLoading(false);
       return;
     }
 
