@@ -75,7 +75,7 @@ export const EnrollStudentForm = ({
     <Fragment>
       <Input
         placeholder="Enter a full name to search for a student here..."
-        aria-label="Search for a student by their full name"
+        aria-label="Search students by full name"
         onChange={handleSearchChange}
         value={search}
         autoFocus
