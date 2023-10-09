@@ -1,3 +1,12 @@
+# [0.15.0](https://github.com/upb-code-labs/react-client/compare/v0.14.0...v0.15.0) (2023-10-09)
+
+
+### Features
+
+* Search and enroll students ([#69](https://github.com/upb-code-labs/react-client/issues/69)) ([f9c5584](https://github.com/upb-code-labs/react-client/commit/f9c55843915ef9936e55f0d1d6391a30eb429b05))
+
+
+
 # [0.14.0](https://github.com/upb-code-labs/react-client/compare/v0.13.0...v0.14.0) (2023-10-09)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Toggle courses visibility ([#42](https://github.com/upb-code-labs/react-client/issues/42)) ([d6f57c6](https://github.com/upb-code-labs/react-client/commit/d6f57c65caca55385492fc2d036c65f4a89da390))
-
-
-
-# [0.10.0](https://github.com/upb-code-labs/react-client/compare/v0.9.0...v0.10.0) (2023-10-01)
-
-
-### Features
-
-* Modal to create a course ([#40](https://github.com/upb-code-labs/react-client/issues/40)) ([3bf74e0](https://github.com/upb-code-labs/react-client/commit/3bf74e025f2faa753975f75c4d3cad0b9a7f506f))
 
 
 
