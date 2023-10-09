@@ -9,12 +9,12 @@ import {
 } from "@/components/ui/table";
 import { getEnrolledStudentsService } from "@/services/courses/get-enrolled-students.service";
 import { EnrolledStudent } from "@/types/entities/enrolled-student";
-import { PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 import { CourseParticipantsSkeleton } from "./CourseParticipantsSkeleton";
+import { EnrollStudentDialog } from "./dialogs/enroll-student/EnrollStudentDialog";
 
 export const CourseParticipants = () => {
   const { id = "emtpy" } = useParams();
@@ -42,10 +42,7 @@ export const CourseParticipants = () => {
     <main className="md:col-span-3">
       <div className="mb-4 flex flex-col items-start justify-between md:flex-row md:items-center">
         <h1 className="my-4 text-3xl font-bold">Enrolled students</h1>
-        <Button>
-          <PlusCircle className="mr-3" />
-          Enroll student
-        </Button>
+        <EnrollStudentDialog />
       </div>
       <Table>
         <TableHeader>
