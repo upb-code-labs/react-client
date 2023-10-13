@@ -21,6 +21,7 @@ import "./global.css";
 import { CoursePageLayout } from "./screens/course-page/CoursePageLayout";
 import { CourseLaboratories } from "./screens/course-page/laboratories/CourseLaboratories";
 import { CourseParticipants } from "./screens/course-page/participants/CourseParticipants";
+import { RubricsHome } from "./screens/rubrics-home/RubricsHome";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -113,6 +114,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               }
             />
           </Route>
+          <Route
+            path="/rubrics"
+            element={
+              <AuthMiddleware roles={["teacher"]} mustBeLoggedIn>
+                <RubricsHome />
+              </AuthMiddleware>
+            }
+          />
         </Routes>
         <Footer />
       </BrowserRouter>

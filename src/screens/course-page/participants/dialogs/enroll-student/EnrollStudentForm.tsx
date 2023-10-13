@@ -1,5 +1,6 @@
 import { FoundStudentCard } from "@/components/FoundStudentCard/FoundStudentCard";
 import { FoundStudentsSkeleton } from "@/components/FoundStudentCard/FoundStudentsSkeleton";
+import { EmptyContentText } from "@/components/Texts/EmptyContentText";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useDebounce from "@/hooks/useDebounce";
@@ -55,7 +56,7 @@ export const EnrollStudentForm = ({
     if (loading) return <FoundStudentsSkeleton />;
 
     if (students.length === 0) {
-      return <p className="text-muted-foreground">No students found 🤷</p>;
+      return <EmptyContentText text="No students found" />;
     } else {
       return (
         <ScrollArea className="max-h-56">

@@ -44,7 +44,7 @@ export const AdminsView = () => {
           className={buttonVariants({ variant: "default" })}
           to="/register/admins"
         >
-          <PlusCircle className="mr-3" />
+          <PlusCircle className="mr-2" />
           Register admin
         </Link>
       </div>

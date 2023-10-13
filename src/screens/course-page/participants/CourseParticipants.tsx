@@ -1,3 +1,5 @@
+import { GenericTableSkeleton } from "@/components/Skeletons/GenericTableSkeleton";
+import { EmptyContentText } from "@/components/Texts/EmptyContentText";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,7 +15,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
-import { CourseParticipantsSkeleton } from "./CourseParticipantsSkeleton";
 import { EnrollStudentDialog } from "./dialogs/enroll-student/EnrollStudentDialog";
 
 export const CourseParticipants = () => {
@@ -42,12 +43,22 @@ export const CourseParticipants = () => {
     setStudents((prev) => [...prev, student]);
   };
 
-  return (
-    <main className="md:col-span-3">
-      <div className="mb-4 flex flex-col items-start justify-between md:flex-row md:items-center">
-        <h1 className="my-4 text-3xl font-bold">Enrolled students</h1>
-        <EnrollStudentDialog addStudentCallback={addStudent} />
-      </div>
+  const renderParticipants = () => {
+    if (state === "loading") {
+      return (
+        <GenericTableSkeleton
+          columns={3}
+          rows={4}
+          headers={["Full name", "Institutional Id", "Actions"]}
+        />
+      );
+    }
+
+    if (students.length === 0) {
+      return <EmptyContentText text="There are no students enrolled yet" />;
+    }
+
+    return (
       <Table>
         <TableHeader>
           <TableRow>
@@ -57,23 +68,27 @@ export const CourseParticipants = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {state === "loading"
-            ? Array.from({ length: 4 }).map((_, i) => (
-                <CourseParticipantsSkeleton
-                  key={`enrolled-student-skeleton-${i}`}
-                />
-              ))
-            : students.map((student) => (
-                <TableRow key={student.uuid}>
-                  <TableCell>{student.full_name}</TableCell>
-                  <TableCell>{student.institutional_id}</TableCell>
-                  <TableCell>
-                    <Button variant={"destructive"}>Deactivate</Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+          {students.map((student) => (
+            <TableRow key={student.uuid}>
+              <TableCell>{student.full_name}</TableCell>
+              <TableCell>{student.institutional_id}</TableCell>
+              <TableCell>
+                <Button variant={"destructive"}>Deactivate</Button>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
+    );
+  };
+
+  return (
+    <main className="md:col-span-3">
+      <div className="mb-4 flex flex-col items-start justify-between md:flex-row md:items-center">
+        <h1 className="my-4 text-3xl font-bold">Enrolled students</h1>
+        <EnrollStudentDialog addStudentCallback={addStudent} />
+      </div>
+      {renderParticipants()}
     </main>
   );
 };
