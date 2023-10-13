@@ -1,6 +1,7 @@
 import { CourseCard } from "@/components/CourseCard/CourseCard";
 import { CourseCardSkeleton } from "@/components/CourseCard/CourseCardSkeleton";
 import { GridContainer } from "@/components/GridContainer";
+import { EmptyContentText } from "@/components/Texts/EmptyContentText";
 import { AuthContext } from "@/context/AuthContext";
 import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
 import { SessionRole } from "@/hooks/useSession";
@@ -57,9 +58,7 @@ export const CoursesHome = () => {
             ))}
           </GridContainer>
         ) : (
-          <p className="text-lg text-muted-foreground">
-            You don't have any hidden courses 🤷
-          </p>
+          <EmptyContentText text="You don't have any hidden courses" />
         )}
       </details>
     </main>
