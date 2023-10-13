@@ -63,7 +63,7 @@ export const CreateRubricForm = ({
       name: name
     });
     closeDialogCallback();
-    toast.success("Rubric created successfully");
+    toast.success("The rubric has been created!");
   };
 
   return (
