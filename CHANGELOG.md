@@ -1,3 +1,12 @@
+# [0.16.0](https://github.com/upb-code-labs/react-client/compare/v0.15.1...v0.16.0) (2023-10-13)
+
+
+### Features
+
+* Create and list rubrics ([#88](https://github.com/upb-code-labs/react-client/issues/88)) ([69b8daa](https://github.com/upb-code-labs/react-client/commit/69b8daa11bcec233b9acfb6c43d41c7c34e84445))
+
+
+
 ## [0.15.1](https://github.com/upb-code-labs/react-client/compare/v0.15.0...v0.15.1) (2023-10-13)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Dialog to rename a course ([#67](https://github.com/upb-code-labs/react-client/issues/67)) ([4deeb46](https://github.com/upb-code-labs/react-client/commit/4deeb46fa7de495cc08c40346b4dc6a4b8ef3b73))
-
-
-
-# [0.12.0](https://github.com/upb-code-labs/react-client/compare/v0.11.0...v0.12.0) (2023-10-04)
-
-
-### Features
-
-* Join a course using an invitation code ([#43](https://github.com/upb-code-labs/react-client/issues/43)) ([180c42c](https://github.com/upb-code-labs/react-client/commit/180c42cf71a1fef926a17e524ff9ea8865346ff7))
 
 
 
