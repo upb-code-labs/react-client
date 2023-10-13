@@ -53,13 +53,15 @@ export const AdminsView = () => {
           <TableRow>
             <TableHead>Full Name</TableHead>
             <TableHead>Creation Date</TableHead>
+            <TableHead>Created By</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {admins?.map((admin) => (
-            <TableRow key={`${admin.full_name}`.replace(" ", "").toLowerCase()}>
+            <TableRow key={admin.uuid}>
               <TableCell>{admin.full_name}</TableCell>
               <TableCell>{dayjs(admin.created_at).fromNow()}</TableCell>
+              <TableCell>{admin.created_by}</TableCell>
             </TableRow>
           ))}
         </TableBody>
