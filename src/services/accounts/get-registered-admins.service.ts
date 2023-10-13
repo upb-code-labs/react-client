@@ -3,7 +3,9 @@ import { AxiosError } from "axios";
 import { GenericResponse, HttpRequester } from "../axios";
 
 export type registeredAdminDTO = {
+  uuid: string;
   full_name: string;
+  created_by: string;
   created_at: string;
 };
 
