@@ -1,3 +1,12 @@
+## [0.15.1](https://github.com/upb-code-labs/react-client/compare/v0.15.0...v0.15.1) (2023-10-13)
+
+
+### Bug Fixes
+
+* Show admin accounts creator ([#83](https://github.com/upb-code-labs/react-client/issues/83)) ([6f25f2f](https://github.com/upb-code-labs/react-client/commit/6f25f2ff78bd12c7e1c24285d3ce9291a5a69c61))
+
+
+
 # [0.15.0](https://github.com/upb-code-labs/react-client/compare/v0.14.0...v0.15.0) (2023-10-09)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Join a course using an invitation code ([#43](https://github.com/upb-code-labs/react-client/issues/43)) ([180c42c](https://github.com/upb-code-labs/react-client/commit/180c42cf71a1fef926a17e524ff9ea8865346ff7))
-
-
-
-# [0.11.0](https://github.com/upb-code-labs/react-client/compare/v0.10.0...v0.11.0) (2023-10-04)
-
-
-### Features
-
-* Toggle courses visibility ([#42](https://github.com/upb-code-labs/react-client/issues/42)) ([d6f57c6](https://github.com/upb-code-labs/react-client/commit/d6f57c65caca55385492fc2d036c65f4a89da390))
 
 
 
