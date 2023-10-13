@@ -43,7 +43,8 @@ test.describe.serial("Admin registration", () => {
     await page.waitForURL(/\/register\/admins$/);
 
     // Fill the form
-    await page.getByLabel("Full name").fill("Inés Alvarez");
+    const newAdminName = "Inés Alvarez";
+    await page.getByLabel("Full name").fill(newAdminName);
     await page.getByLabel("Email").fill("ines.alvarez.fake@gmail.com");
     await page.getByLabel("Password").fill("upbbga2020*/");
     await page.getByRole("button", { name: "Submit" }).click();
@@ -55,7 +56,23 @@ test.describe.serial("Admin registration", () => {
 
     // Assert the admin is shown in the table
     await page.waitForURL(/\/admins$/);
-    await expect(page.getByText("Inés Alvarez")).toBeVisible();
+
+    const newAdminRow = await page.getByRole("row", {
+      name: new RegExp(newAdminName)
+    });
+    await expect(newAdminRow).toBeVisible();
+
+    // Assert row cells
+    await expect(
+      newAdminRow.getByRole("cell", { name: newAdminName })
+    ).toBeVisible();
+    await expect(
+      newAdminRow.getByRole("cell", { name: "a few seconds ago" })
+    ).toBeVisible();
+    const creatorFullName = "Development Admin";
+    await expect(
+      newAdminRow.getByRole("cell", { name: creatorFullName })
+    ).toBeVisible();
   });
 
   test("Admins can't register new admins with an existing email", async ({
