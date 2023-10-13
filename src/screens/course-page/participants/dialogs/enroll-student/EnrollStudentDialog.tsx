@@ -17,7 +17,7 @@ export const EnrollStudentDialog = ({
     <Dialog>
       <DialogTrigger asChild>
         <Button>
-          <PlusCircle className="mr-3" />
+          <PlusCircle className="mr-2" />
           Enroll student
         </Button>
       </DialogTrigger>
