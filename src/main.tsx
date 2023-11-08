@@ -9,6 +9,7 @@ import {
   CoursePageLayout,
   CourseParticipants,
   CoursesHome,
+  EditRubricView,
   FormContainer,
   Login,
   Logout,
@@ -121,6 +122,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             element={
               <AuthMiddleware roles={["teacher"]} mustBeLoggedIn>
                 <RubricsHome />
+              </AuthMiddleware>
+            }
+          />
+          <Route
+            path="/rubrics/:id"
+            element={
+              <AuthMiddleware roles={["teacher"]} mustBeLoggedIn>
+                <EditRubricView />
               </AuthMiddleware>
             }
           />

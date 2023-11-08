@@ -1,6 +1,6 @@
 import { GenericTableSkeleton } from "@/components/Skeletons/GenericTableSkeleton";
 import { EmptyContentText } from "@/components/Texts/EmptyContentText";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -13,6 +13,7 @@ import { getTeacherRubricsService } from "@/services/rubrics/get-teacher-rubrics
 import { CreatedRubric } from "@/types/entities/rubric";
 import { PenSquare } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 import { CreateRubricDialog } from "./dialogs/CreateRubricDialog";
@@ -71,10 +72,14 @@ export const RubricsHome = () => {
             <TableRow key={rubric.uuid}>
               <TableCell className="line-clamp-1">{rubric.name}</TableCell>
               <TableCell>
-                <Button aria-label={`Edit ${rubric.name}`}>
+                <Link
+                  to={`/rubrics/${rubric.uuid}`}
+                  aria-label={`Edit ${rubric.name}`}
+                  className={buttonVariants({ variant: "default" })}
+                >
                   <PenSquare className="mr-2" />
                   Edit
-                </Button>
+                </Link>
               </TableCell>
             </TableRow>
           ))}

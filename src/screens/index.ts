@@ -19,6 +19,7 @@ export { CourseParticipants } from "./course-page/participants/CourseParticipant
 
 // Rubrics views
 export { RubricsHome } from "./rubrics-home/RubricsHome";
+export { EditRubricView } from "./edit-rubric/EditRubricView";
 
 // Misc views
 export { Home } from "./Home";
