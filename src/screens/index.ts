@@ -11,6 +11,7 @@ export { AdminsView } from "./admins-view/AdminsView";
 
 // Course Home
 export { CoursePageLayout } from "./course-page/CoursePageLayout";
+export { CoursesHome } from "./courses-home/CoursesHome";
 
 // Course details views
 export { CourseLaboratories } from "./course-page/laboratories/CourseLaboratories";

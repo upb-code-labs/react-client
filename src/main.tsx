@@ -2,11 +2,13 @@ import { Footer } from "@/components/Footer/Footer";
 import { Navbar } from "@/components/Navbar/Navbar.tsx";
 import { AuthMiddleware } from "@/components/session/AuthMiddleware";
 import { AuthContextProvider } from "@/context/AuthContext";
+import { UserCoursesProvider } from "@/context/courses/UserCoursesContext";
 import {
   AdminsView,
   CourseLaboratories,
   CoursePageLayout,
   CourseParticipants,
+  CoursesHome,
   FormContainer,
   Login,
   Logout,
@@ -21,9 +23,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 
-import { UserCoursesProvider } from "./context/courses/UserCoursesContext";
 import "./global.css";
-import { CoursesHome } from "./screens/courses-home/CoursesHome";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
