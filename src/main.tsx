@@ -2,15 +2,20 @@ import { Footer } from "@/components/Footer/Footer";
 import { Navbar } from "@/components/Navbar/Navbar.tsx";
 import { AuthMiddleware } from "@/components/session/AuthMiddleware";
 import { AuthContextProvider } from "@/context/AuthContext";
-import { Home } from "@/screens/Home";
-import { AdminsView } from "@/screens/admins-view/AdminsView";
-import { CoursesHome } from "@/screens/courses-home/CoursesHome";
-import { FormContainer } from "@/screens/session/FormContainer";
-import { Login } from "@/screens/session/login/Login";
-import { Logout } from "@/screens/session/logout/Logout";
-import { RegisterAdminForm } from "@/screens/session/register-admin/Form";
-import { RegisterStudentForm } from "@/screens/session/register-student/Form";
-import { RegisterTeacherForm } from "@/screens/session/register-teacher/Form";
+import {
+  AdminsView,
+  CourseLaboratories,
+  CoursePageLayout,
+  CourseParticipants,
+  FormContainer,
+  Login,
+  Logout,
+  RegisterAdminForm,
+  RegisterStudentForm,
+  RegisterTeacherForm,
+  RubricsHome
+} from "@/screens";
+import { Home } from "lucide-react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -18,10 +23,7 @@ import { Toaster } from "sonner";
 
 import { UserCoursesProvider } from "./context/courses/UserCoursesContext";
 import "./global.css";
-import { CoursePageLayout } from "./screens/course-page/CoursePageLayout";
-import { CourseLaboratories } from "./screens/course-page/laboratories/CourseLaboratories";
-import { CourseParticipants } from "./screens/course-page/participants/CourseParticipants";
-import { RubricsHome } from "./screens/rubrics-home/RubricsHome";
+import { CoursesHome } from "./screens/courses-home/CoursesHome";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
