@@ -1,3 +1,12 @@
+# [0.17.0](https://github.com/upb-code-labs/react-client/compare/v0.16.0...v0.17.0) (2023-11-12)
+
+
+### Features
+
+* **ui:** Edit rubric view ([#122](https://github.com/upb-code-labs/react-client/issues/122)) ([b5830a7](https://github.com/upb-code-labs/react-client/commit/b5830a7c6b550985c8acc9e1a94385fb684fcb2c))
+
+
+
 # [0.16.0](https://github.com/upb-code-labs/react-client/compare/v0.15.1...v0.16.0) (2023-10-13)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Enrolled students view ([#68](https://github.com/upb-code-labs/react-client/issues/68)) ([6bbafc6](https://github.com/upb-code-labs/react-client/commit/6bbafc6a71cdeb59017c4a56a11df0f548def0cf))
-
-
-
-# [0.13.0](https://github.com/upb-code-labs/react-client/compare/v0.12.0...v0.13.0) (2023-10-08)
-
-
-### Features
-
-* Dialog to rename a course ([#67](https://github.com/upb-code-labs/react-client/issues/67)) ([4deeb46](https://github.com/upb-code-labs/react-client/commit/4deeb46fa7de495cc08c40346b4dc6a4b8ef3b73))
 
 
 
