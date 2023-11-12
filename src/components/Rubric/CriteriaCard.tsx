@@ -12,7 +12,7 @@ export const CriteriaCard = ({ criteria, index }: CriteriaCardProps) => {
   return (
     <article
       key={`criteria-col-${criteria.uuid}`}
-      className="flex w-1/4 flex-col gap-2 border p-4 shadow-md transition-colors hover:shadow-lg"
+      className="flex aspect-square w-1/4 flex-col gap-2 border p-4 shadow-md transition-colors hover:shadow-lg"
     >
       <h2 className="text-xl font-bold">Criteria {index + 1}</h2>
       <div className="flex flex-col gap-2">
