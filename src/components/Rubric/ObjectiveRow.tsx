@@ -16,9 +16,11 @@ export const ObjectiveRow = ({ objective, index }: ObjectiveRowProps) => {
       className="flex gap-4 overflow-x-auto"
     >
       <ObjectiveCard objective={objective} index={index} />
+
       {objective.criteria.map((criteria, ci) => (
         <CriteriaCard criteria={criteria} index={ci} />
       ))}
+
       <ActionButton
         text="Add criteria"
         onClick={() => console.log("Add criteria")}
