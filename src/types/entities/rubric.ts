@@ -3,13 +3,13 @@ export type CreatedRubric = {
   name: string;
 };
 
-type Criteria = {
+export type Criteria = {
   uuid: string;
   description: string;
   weight: number;
 };
 
-type Objective = {
+export type Objective = {
   uuid: string;
   description: string;
   criteria: Criteria[];
