@@ -1,3 +1,4 @@
+import { ActionButton } from "@/components/Rubric/ActionButton";
 import { ObjectiveRow } from "@/components/Rubric/ObjectiveRow";
 import { RubricName } from "@/components/Rubric/RubricName";
 import { getRubricByUuidService } from "@/services/rubrics/get-rubric-by-uuid.service";
@@ -43,11 +44,15 @@ export const EditRubricView = () => {
   if (!rubric) return null;
 
   return (
-    <main className="mx-auto max-w-7xl p-4">
+    <main className="mx-auto max-w-7xl space-y-4 p-4">
       <RubricName rubricName={rubric.name} rubricUUID={rubric.uuid} />
       {rubric.objectives.map((objective, oi) => (
         <ObjectiveRow objective={objective} index={oi} />
       ))}
+      <ActionButton
+        text="Add objective"
+        onClick={() => console.log("Add objective")}
+      />
     </main>
   );
 };

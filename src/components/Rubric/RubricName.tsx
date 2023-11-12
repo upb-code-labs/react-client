@@ -23,7 +23,7 @@ export const RubricName = ({ rubricUUID: _, rubricName }: RubricNameProps) => {
   };
 
   return (
-    <div className="mb-4 flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4">
       <Input
         required
         name="name"

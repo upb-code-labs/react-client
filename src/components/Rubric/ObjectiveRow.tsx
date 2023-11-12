@@ -1,5 +1,6 @@
 import { Objective } from "@/types/entities/rubric";
 
+import { ActionButton } from "./ActionButton";
 import { CriteriaCard } from "./CriteriaCard";
 import { ObjectiveCard } from "./ObjectiveCard";
 
@@ -18,6 +19,10 @@ export const ObjectiveRow = ({ objective, index }: ObjectiveRowProps) => {
       {objective.criteria.map((criteria, ci) => (
         <CriteriaCard criteria={criteria} index={ci} />
       ))}
+      <ActionButton
+        text="Add criteria"
+        onClick={() => console.log("Add criteria")}
+      />
     </article>
   );
 };
