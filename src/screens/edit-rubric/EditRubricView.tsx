@@ -1,14 +1,16 @@
-import { ActionButton } from "@/components/Rubric/ActionButton";
 import { ObjectiveRow } from "@/components/Rubric/ObjectiveRow";
 import { RubricName } from "@/components/Rubric/RubricName";
+import { RubricSkeleton } from "@/components/Skeletons/RubricSkeleton";
 import { getRubricByUuidService } from "@/services/rubrics/get-rubric-by-uuid.service";
 import { Rubric } from "@/types/entities/rubric";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { AddObjectiveDialog } from "./dialogs/add-objective/AddObjectiveDialog";
+
 export const EditRubricView = () => {
-  const [_loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [rubric, setRubric] = useState<Rubric | null>(null);
 
   const navigate = useNavigate();
@@ -43,6 +45,8 @@ export const EditRubricView = () => {
 
   if (!rubric) return null;
 
+  if (loading) return <RubricSkeleton />;
+
   return (
     <main className="mx-auto max-w-7xl space-y-4 p-4">
       <RubricName rubricName={rubric.name} rubricUUID={rubric.uuid} />
@@ -51,10 +55,7 @@ export const EditRubricView = () => {
         <ObjectiveRow objective={objective} index={oi} />
       ))}
 
-      <ActionButton
-        text="Add objective"
-        onClick={() => console.log("Add objective")}
-      />
+      <AddObjectiveDialog rubricUUID={rubric.uuid} />
     </main>
   );
 };
