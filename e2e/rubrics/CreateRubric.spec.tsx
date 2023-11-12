@@ -72,14 +72,14 @@ test.describe.serial("Rubrics creation workflow", () => {
 
     // Assert the rubric is shown in the table
     const rubricRow = page.getByRole("row", {
-      name: new RegExp(rubricName)
+      name: /Data structures rubric/i
     });
     await expect(rubricRow).toBeVisible();
     await expect(
       rubricRow.getByRole("cell", { name: rubricName, exact: true })
     ).toBeVisible();
     await expect(
-      rubricRow.getByRole("button", { name: `Edit ${rubricName}`, exact: true })
+      rubricRow.getByRole("link", { name: `Edit ${rubricName}`, exact: true })
     ).toBeVisible();
   });
 });
