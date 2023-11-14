@@ -2,50 +2,36 @@ import { ObjectiveRow } from "@/components/Rubric/ObjectiveRow";
 import { RubricName } from "@/components/Rubric/RubricName";
 import { RubricSkeleton } from "@/components/Skeletons/RubricSkeleton";
 import { getRubricByUuidService } from "@/services/rubrics/get-rubric-by-uuid.service";
-import { Rubric } from "@/types/entities/rubric";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { Navigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 import { AddObjectiveDialog } from "./dialogs/add-objective/AddObjectiveDialog";
 
 export const EditRubricView = () => {
-  const [loading, setLoading] = useState(true);
-  const [rubric, setRubric] = useState<Rubric | null>(null);
+  const id = useParams<{ id: string }>().id as string;
 
-  const navigate = useNavigate();
-  const id = useParams<{ id: string | undefined }>().id;
+  const {
+    isLoading,
+    isError,
+    error,
+    data: rubric
+  } = useQuery({
+    queryKey: ["rubric", id],
+    queryFn: () => getRubricByUuidService(id),
+    refetchOnWindowFocus: false
+  });
 
   const handleError = (message: string) => {
-    setLoading(false);
     toast.error(message);
-    navigate("/rubrics");
+    return <Navigate to="/rubrics" />;
   };
 
-  useEffect(() => {
-    const getRubricData = async () => {
-      if (!id) {
-        handleError("The rubric id is not defined");
-        return;
-      }
+  if (isLoading) return <RubricSkeleton />;
 
-      setLoading(true);
-      const { success, message, rubric } = await getRubricByUuidService(id);
-      if (!success) {
-        handleError(message);
-        return;
-      }
+  if (isError) return handleError(error.message);
 
-      setRubric(rubric);
-      setLoading(false);
-    };
-
-    getRubricData();
-  }, []);
-
-  if (!rubric) return null;
-
-  if (loading) return <RubricSkeleton />;
+  if (!rubric) return handleError("Not valid rubric was found");
 
   return (
     <main className="mx-auto max-w-7xl space-y-4 p-4">
