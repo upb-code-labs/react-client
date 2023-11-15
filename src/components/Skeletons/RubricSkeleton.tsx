@@ -10,7 +10,7 @@ export const RubricSkeleton = () => {
     <div className="mx-auto max-w-7xl space-y-4 p-4">
       {rows.map((cols, i) => {
         return (
-          <div className="flex gap-4 overflow-x-auto">
+          <div className="flex gap-4 overflow-x-auto" key={`skeleton-${i}`}>
             {cols.map((_, j) => {
               return (
                 <Skeleton
