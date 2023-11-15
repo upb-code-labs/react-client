@@ -1,13 +1,12 @@
 version: 2
 
 updates:
-
   - directory: "/"
     package-ecosystem: "npm"
     open-pull-requests-limit: 5
     target-branch: "dev"
     commit-message:
-      prefix: "chore(dependencies)"
+      prefix: "chore"
       include: "scope"
     reviewers:
       - "PedroChaparro"
