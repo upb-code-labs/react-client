@@ -1,6 +1,6 @@
+import { AddCriteriaDialog } from "@/screens/edit-rubric/dialogs/add-criteria/AddCriteriaDialog";
 import { Objective } from "@/types/entities/rubric";
 
-import { ActionButton } from "./ActionButton";
 import { CriteriaCard } from "./CriteriaCard";
 import { ObjectiveCard } from "./ObjectiveCard";
 
@@ -21,10 +21,7 @@ export const ObjectiveRow = ({ objective, index }: ObjectiveRowProps) => {
         <CriteriaCard criteria={criteria} index={ci} />
       ))}
 
-      <ActionButton
-        text="Add criteria"
-        onClick={() => console.log("Add criteria")}
-      />
+      <AddCriteriaDialog objectiveUUID={objective.uuid} />
     </article>
   );
 };
