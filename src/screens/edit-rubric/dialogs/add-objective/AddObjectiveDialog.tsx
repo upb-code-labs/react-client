@@ -7,24 +7,24 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
+import { useEditRubricStore } from "@/stores/edit-rubric-store";
 import { useState } from "react";
 
 import { AddObjectiveForm } from "./AddObjectiveForm";
 
-interface AddObjectiveDialogProps {
-  rubricUUID: string;
-}
-
-export const AddObjectiveDialog = ({ rubricUUID }: AddObjectiveDialogProps) => {
+export const AddObjectiveDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
   const closeDialog = () => setIsOpen(false);
+
+  const { rubric } = useEditRubricStore();
+  if (!rubric) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={(status) => setIsOpen(status)}>
       <DialogTrigger asChild>
         <ActionButton
           text="Add objective"
-          onClick={() => console.log("Add objective")}
+          onClickCallback={() => setIsOpen(true)}
         />
       </DialogTrigger>
       <DialogContent className="max-w-md">
@@ -36,7 +36,7 @@ export const AddObjectiveDialog = ({ rubricUUID }: AddObjectiveDialogProps) => {
           </DialogDescription>
         </DialogHeader>
         <AddObjectiveForm
-          rubricUUID={rubricUUID}
+          rubricUUID={rubric?.uuid}
           closeDialogCallback={closeDialog}
         />
       </DialogContent>
