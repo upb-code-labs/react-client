@@ -2,13 +2,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Criteria } from "@/types/entities/rubric";
+import { memo } from "react";
 
 interface CriteriaCardProps {
   criteria: Criteria;
   index: number;
 }
 
-export const CriteriaCard = ({ criteria, index }: CriteriaCardProps) => {
+export const CriteriaCard = memo(({ criteria, index }: CriteriaCardProps) => {
   return (
     <article
       key={`criteria-col-${criteria.uuid}`}
@@ -38,4 +39,4 @@ export const CriteriaCard = ({ criteria, index }: CriteriaCardProps) => {
       </div>
     </article>
   );
-};
+});

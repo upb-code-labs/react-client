@@ -3,24 +3,12 @@ import { AxiosError } from "axios";
 
 import { HttpRequester } from "../axios";
 
-export type GetRubricByUuidResponse = {
-  rubric: Rubric;
-  success: boolean;
-  message: string;
-};
-
-export const getRubricByUuidService = async (
-  uuid: string
-): Promise<GetRubricByUuidResponse> => {
+export const getRubricByUuidService = async (uuid: string): Promise<Rubric> => {
   const { axios } = HttpRequester.getInstance();
 
   try {
     const { data } = await axios.get(`/rubrics/${uuid}`);
-    return {
-      rubric: data.rubric,
-      success: true,
-      message: "Rubric was retrieved successfully"
-    };
+    return data.rubric;
   } catch (error) {
     let errorMessage = "There was an error";
 
@@ -29,10 +17,6 @@ export const getRubricByUuidService = async (
       if (message) errorMessage = message;
     }
 
-    return {
-      rubric: {} as Rubric,
-      success: false,
-      message: errorMessage
-    };
+    throw new Error(errorMessage);
   }
 };
