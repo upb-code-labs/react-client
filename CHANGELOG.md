@@ -1,3 +1,12 @@
+# [0.19.0](https://github.com/upb-code-labs/react-client/compare/v0.18.0...v0.19.0) (2023-11-15)
+
+
+### Features
+
+* Add criteria to rubric objective ([#127](https://github.com/upb-code-labs/react-client/issues/127)) ([680d139](https://github.com/upb-code-labs/react-client/commit/680d1392404f9aa391f7289f98fa1aa283dae738))
+
+
+
 # [0.18.0](https://github.com/upb-code-labs/react-client/compare/v0.17.0...v0.18.0) (2023-11-15)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * Show admin accounts creator ([#83](https://github.com/upb-code-labs/react-client/issues/83)) ([6f25f2f](https://github.com/upb-code-labs/react-client/commit/6f25f2ff78bd12c7e1c24285d3ce9291a5a69c61))
-
-
-
-# [0.15.0](https://github.com/upb-code-labs/react-client/compare/v0.14.0...v0.15.0) (2023-10-09)
-
-
-### Features
-
-* Search and enroll students ([#69](https://github.com/upb-code-labs/react-client/issues/69)) ([f9c5584](https://github.com/upb-code-labs/react-client/commit/f9c55843915ef9936e55f0d1d6391a30eb429b05))
 
 
 
