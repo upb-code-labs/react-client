@@ -18,7 +18,7 @@ export const EditRubricView = () => {
   const { rubric, setRubric } = useEditRubricStore();
 
   // Query rubric data
-  const { isLoading, isError, error, data } = useQuery({
+  const { isLoading, isFetching, isError, error, data } = useQuery({
     queryKey: ["rubric", id],
     queryFn: () => getRubricByUuidService(id),
     refetchOnWindowFocus: false
@@ -34,7 +34,7 @@ export const EditRubricView = () => {
     return <Navigate to="/rubrics" />;
   };
 
-  if (isLoading) return <RubricSkeleton />;
+  if (isLoading || isFetching) return <RubricSkeleton />;
 
   if (isError) return handleError(error.message);
 
@@ -46,7 +46,7 @@ export const EditRubricView = () => {
       {rubric.objectives?.map((objective, oi) => (
         <ObjectiveRow key={objective.uuid} objective={objective} index={oi} />
       ))}
-      <AddObjectiveDialog rubricUUID={rubric.uuid} />
+      <AddObjectiveDialog />
     </main>
   );
 };
