@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { addObjectiveService } from "@/services/rubrics/add-objective.service";
+import { useEditRubricStore } from "@/stores/edit-rubric-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -32,6 +33,10 @@ export const AddObjectiveForm = ({
   rubricUUID,
   closeDialogCallback
 }: AddObjectiveFormProps) => {
+  // Rubric global state
+  const { addObjective } = useEditRubricStore();
+
+  // Form state
   const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof ObjectiveSchema>>({
     resolver: zodResolver(ObjectiveSchema),
@@ -42,20 +47,22 @@ export const AddObjectiveForm = ({
 
   const onSubmit = async (data: z.infer<typeof ObjectiveSchema>) => {
     setLoading(true);
-    await addObjective(data.description);
+    await handleAddObjective(data.description);
     setLoading(false);
   };
 
-  const addObjective = async (description: string) => {
-    const { success, message } = await addObjectiveService(
+  const handleAddObjective = async (description: string) => {
+    const { success, message, uuid } = await addObjectiveService(
       rubricUUID,
       description
     );
+
     if (!success) {
       toast.error(message);
       return;
     }
 
+    addObjective({ uuid, description, criteria: [] });
     toast.success("The objective has been added!");
     closeDialogCallback();
   };
