@@ -30,6 +30,7 @@ export const RubricName = ({ rubricUUID: _, rubricName }: RubricNameProps) => {
         value={name}
         min={4}
         max={96}
+        aria-label="Name"
         className="md:w-1/4"
         onChange={handleNameChange}
         placeholder="Enter a name for the rubric here..."

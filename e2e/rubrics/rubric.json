@@ -1,0 +1,152 @@
+{
+  "name": "Rubrica ejemplo",
+  "objectives": [
+    {
+      "description": "Definición de la situación problema",
+      "criteria": [
+        {
+          "description": "Plantea en forma poco clara y no concisa la situación, necesidad, u oportunidad, que da origen al proyecto que intenta llevar a cabo; carece de la formulación de la pregunta de investigación.",
+          "weight": 0.05625
+        },
+        {
+          "description": "Plantea la situación, necesidad, u oportunidad, que da origen al proyecto que intenta llevar a cabo, aunque carece de claridad; se formula la pregunta de investigación sin ser clara y sin especificar las variables y temas que deben ser abordados y analizados en el proyecto.",
+          "weight": 0.225
+        },
+        {
+          "description": "Plantea en forma clara y concisa la situación, necesidad, u oportunidad, que da origen al proyecto que intenta llevar a cabo; así mismo formula la pregunta de investigación aunque sin ser clara y sin especificar las variables y temas que deben ser abordados y analizados en el proyecto.",
+          "weight": 0.45
+        },
+        {
+          "description": "Plantea en forma clara y concisa la situación, necesidad, u oportunidad, que da origen al proyecto que intenta llevar a cabo; así mismo formula la pregunta de investigación lo más concreta posible especificando las variables y temas que deben ser abordados y analizados en el proyecto.",
+          "weight": 0.6
+        }
+      ]
+    },
+    {
+      "description": "Marco tecnológico y conceptual",
+      "criteria": [
+        {
+          "description": "Se demuestra indagación de muy pocos fundamentos conceptuales de las temáticas o áreas asociadas a la situación problema planteada. Las aseveraciones y conceptos presentados carecen de validación por referentes referentes apropiados.",
+          "weight": 0.05625
+        },
+        {
+          "description": "Demuestra indagación sobre algunos de los fundamentos conceptuales de las temáticas o áreas asociadas en la situación problema planteada. Algunas aseveraciones se basan en referentes apropiados, los cuales son citados algunos de manera correcta.",
+          "weight": 0.225
+        },
+        {
+          "description": "Se evidencia la indagación sobre los fundamentos conceptuales de las temáticas o áreas asociadas en la situación problema planteada. Las aseveraciones y conceptos presentados se basan en algunos referentes apropiados, así como se citan de manera correcta.",
+          "weight": 0.45
+        },
+        {
+          "description": "Se evidencia la indagación sobre los fundamentos conceptuales de las temáticas o áreas asociadas en la situación problema planteada. Las aseveraciones y conceptos presentados se basan en referentes apropiados, así como se citan de manera correcta.",
+          "weight": 0.6
+        }
+      ]
+    },
+    {
+      "description": "Objetivos",
+      "criteria": [
+        {
+          "description": "Plantea los objetivos general y específicos; aunque los objetivos específicos no permiten evidenciar la consecución del objetivo general.",
+          "weight": 0.1125
+        },
+        {
+          "description": "Plantea los objetivos general y específicos sin tener en cuenta aspectos que permitan evidenciar el qué, el cómo y el para qué de los mismos.",
+          "weight": 0.45
+        },
+        {
+          "description": "Plantea el objetivo general y algunos objetivos específicos teniendo en cuenta definir el qué, el cómo y el para qué, pero los objetivos específicos no evidencian su completa formulación y cumplimiento del objetivo general.",
+          "weight": 0.9
+        },
+        {
+          "description": "Plantea los objetivos general y específicos teniendo en cuenta definir el qué, el cómo y el para qué.",
+          "weight": 1.2
+        }
+      ]
+    },
+    {
+      "description": "Justificación",
+      "criteria": [
+        {
+          "description": "La justificación carece de un sustento claro de la importancia de realizar el proyecto.",
+          "weight": 0.01875
+        },
+        {
+          "description": "Sustenta la importancia de realizar el proyecto, teniendo en cuenta muy pocos criterios de los requeridos entre: la relevancia social, implicaciones prácticas , valor teórico, utilidad metodológica y conveniencia.",
+          "weight": 0.075
+        },
+        {
+          "description": "Sustenta la importancia de realizar el proyecto, teniendo en cuenta algunos criterios de los requeridos entre: la relevancia social, implicaciones prácticas , valor teórico, utilidad metodológica y conveniencia.",
+          "weight": 0.15
+        },
+        {
+          "description": "Sustenta la importancia de realizar el proyecto, teniendo en cuenta diversos criterios tales como: la relevancia social, implicaciones prácticas , valor teórico, utilidad metodológica y conveniencia.",
+          "weight": 0.2
+        }
+      ]
+    },
+    {
+      "description": "Metodología",
+      "criteria": [
+        {
+          "description": "Aunque se presenta una metodología, la misma no refleja orden en las actividades o tareas que permitan el cumplimiento de los objetivos general y específicos.",
+          "weight": 0.075
+        },
+        {
+          "description": "Presenta la metodología mostrando algunas actividades o tareas que permiten dar cumplimiento a los objetivos general y específicos del proyecto. Falta especificar concretamente muchas de las actividades a realizar y el entregable de las mismas.",
+          "weight": 0.3
+        },
+        {
+          "description": "Presenta la metodología de manera ordenada, mostrando las actividades o tareas que permiten dar cumplimiento a los objetivos general y específicos del proyecto. Se especifican algunas de las actividades a realizar y el entregable de las mismas.",
+          "weight": 0.6
+        },
+        {
+          "description": "Presenta la metodología de manera ordenada, mostrando las actividades o tareas que permiten dar cumplimiento a los objetivos general y específicos del proyecto. Se especifican concretamente cada una de las actividades a realizar y el entregable de las mismas.",
+          "weight": 0.8
+        }
+      ]
+    },
+    {
+      "description": "Especificación de requerimientos",
+      "criteria": [
+        {
+          "description": "No presenta una lista de requisitos funcionales.",
+          "weight": 0.1125
+        },
+        {
+          "description": "Presenta requisitos funcionales que no describen las características del sistema.",
+          "weight": 0.45
+        },
+        {
+          "description": "Presenta una lista incompleta de requisitos funcionales  y no funcionales que describen las características del sistema, indicando descripción y prioridad.",
+          "weight": 0.9
+        },
+        {
+          "description": "Presenta una lista de requisitos funcionales y no funcionales que describen las características del sistema, indicando descripción y prioridad.",
+          "weight": 1.2
+        }
+      ]
+    },
+    {
+      "description": "Referencias Bibliográficas",
+      "criteria": [
+        {
+          "description": "No se evidencian referentes pertinentes en el documento.",
+          "weight": 0.0375
+        },
+        {
+          "description": "Se incluyen menos 8 referentes pertinentes en el documento. 100% de referentes en español.",
+          "weight": 0.15
+        },
+        {
+          "description": "Se incluyen menos de 10 referentes pertinentes. 70% de referentes en español y 30% en ingles.",
+          "weight": 0.3
+        },
+        {
+          "description": "Se incluyen el mínimo de 16 referentes pertinentes en el documento. 50% de referentes en español y 50% en ingles.",
+          "weight": 0.4
+        }
+      ]
+    }
+  ]
+}

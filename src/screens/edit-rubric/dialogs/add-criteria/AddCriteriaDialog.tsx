@@ -7,36 +7,41 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { useEditRubricStore } from "@/stores/edit-rubric-store";
 import { useState } from "react";
 
-import { AddObjectiveForm } from "./AddObjectiveForm";
+import { AddCriteriaForm } from "./AddCriteriaForm";
 
-export const AddObjectiveDialog = () => {
+export const AddCriteriaDialog = ({
+  objectiveUUID,
+  index
+}: {
+  objectiveUUID: string;
+  index: number;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const closeDialog = () => setIsOpen(false);
 
-  const { rubric } = useEditRubricStore();
-  if (!rubric) return null;
+  console.log({ objectiveUUID, isOpen });
 
   return (
     <Dialog open={isOpen} onOpenChange={(status) => setIsOpen(status)}>
       <DialogTrigger asChild>
         <ActionButton
-          text="Add objective"
+          text="Add criteria"
+          ariaLabel={`Add criteria to objective ${index + 1}`}
           onClickCallback={() => setIsOpen(true)}
         />
       </DialogTrigger>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>Add a new objective</DialogTitle>
+          <DialogTitle>Add a new criteria</DialogTitle>
           <DialogDescription>
-            Enter a description for the new objective. Click create when you're
-            done.
+            Enter the required information for the new criteria. Click create
+            when you're done.
           </DialogDescription>
         </DialogHeader>
-        <AddObjectiveForm
-          rubricUUID={rubric?.uuid}
+        <AddCriteriaForm
+          objectiveUUID={objectiveUUID}
           closeDialogCallback={closeDialog}
         />
       </DialogContent>
