@@ -38,11 +38,13 @@ export const EditRubricView = () => {
 
   if (isError) return handleError(error.message);
 
+  if (!rubric) return null;
+
   return (
     <main className="mx-auto max-w-7xl space-y-4 p-4">
-      <RubricName rubricName={rubric.name} rubricUUID={rubric.uuid} />
-      {rubric.objectives.map((objective, oi) => (
-        <ObjectiveRow objective={objective} index={oi} />
+      <RubricName rubricName={rubric?.name} rubricUUID={rubric?.uuid} />
+      {rubric.objectives?.map((objective, oi) => (
+        <ObjectiveRow key={objective.uuid} objective={objective} index={oi} />
       ))}
       <AddObjectiveDialog rubricUUID={rubric.uuid} />
     </main>
