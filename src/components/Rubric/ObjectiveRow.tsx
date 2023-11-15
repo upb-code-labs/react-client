@@ -21,7 +21,7 @@ export const ObjectiveRow = ({ objective, index }: ObjectiveRowProps) => {
         <CriteriaCard criteria={criteria} index={ci} />
       ))}
 
-      <AddCriteriaDialog objectiveUUID={objective.uuid} />
+      <AddCriteriaDialog index={index} objectiveUUID={objective.uuid} />
     </article>
   );
 };

@@ -12,9 +12,11 @@ import { useState } from "react";
 import { AddCriteriaForm } from "./AddCriteriaForm";
 
 export const AddCriteriaDialog = ({
-  objectiveUUID
+  objectiveUUID,
+  index
 }: {
   objectiveUUID: string;
+  index: number;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const closeDialog = () => setIsOpen(false);
@@ -26,6 +28,7 @@ export const AddCriteriaDialog = ({
       <DialogTrigger asChild>
         <ActionButton
           text="Add criteria"
+          ariaLabel={`Add criteria to objective ${index + 1}`}
           onClickCallback={() => setIsOpen(true)}
         />
       </DialogTrigger>

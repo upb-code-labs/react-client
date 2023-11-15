@@ -39,6 +39,7 @@
     "zustand": "4.4.6"
   },
   "devDependencies": {
+    "@faker-js/faker": "8.3.1",
     "@playwright/test": "^1.39.0",
     "@tanstack/react-query-devtools": "5.8.3",
     "@trivago/prettier-plugin-sort-imports": "4.3.0",

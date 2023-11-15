@@ -53,11 +53,11 @@ export const AddCriteriaForm = ({
 
   const onSubmit = async (data: z.infer<typeof criteriaSchema>) => {
     setLoading(true);
-    await handleAddObjective(data.description, data.weight);
+    await handleAddCriteria(data.description, data.weight);
     setLoading(false);
   };
 
-  const handleAddObjective = async (description: string, weight: number) => {
+  const handleAddCriteria = async (description: string, weight: number) => {
     const { success, message, uuid } = await addCriteriaToObjectiveService(
       objectiveUUID,
       description,
@@ -88,7 +88,7 @@ export const AddCriteriaForm = ({
                 <Textarea
                   {...field}
                   rows={6}
-                  placeholder="Enter a description for the new objective"
+                  placeholder="Enter a description for the new criteria"
                   className="resize-none"
                 />
               </FormControl>
@@ -110,9 +110,9 @@ export const AddCriteriaForm = ({
                 <Input
                   {...field}
                   type="number"
-                  step={0.01}
                   min={0}
                   max={100}
+                  step="any"
                   placeholder="Enter a weight for the new criteria"
                   className="w-full"
                 />
