@@ -3,6 +3,7 @@ name: Integration
 on:
   pull_request:
     branches:
+      - main
       - dev
 
 jobs:
@@ -98,17 +99,16 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      
+
       - name: Install dependencies
         run: pnpm install
-      
+
       - name: Install Playwright browsers
         run: pnpx playwright install --with-deps chromium
 
       - name: Run tests
-        run: 
-          pnpm test:run-chromium
-  
+        run: pnpm test:run-chromium
+
   firefox-tests:
     runs-on: ubuntu-22.04
 
@@ -136,13 +136,12 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      
+
       - name: Install dependencies
         run: pnpm install
-      
+
       - name: Install Playwright browsers
         run: pnpx playwright install --with-deps firefox
 
       - name: Run tests
-        run: 
-          pnpm test:run-firefox
+        run: pnpm test:run-firefox
