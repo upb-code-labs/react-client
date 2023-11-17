@@ -72,7 +72,7 @@ export const RubricName = () => {
           )}
         />
         <Button type="submit">
-          <Save className="mr-2" /> Submit
+          <Save className="mr-2" /> Update
         </Button>
       </form>
     </Form>
