@@ -47,6 +47,37 @@ test.describe.serial("Rubrics edition workflow", () => {
     await expect(page.getByText(rubricName)).toBeVisible();
   });
 
+  test("Update rubric name", async ({ page }) => {
+    // Login as the teacher
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(teacherEmail);
+    await page.getByLabel("Password").fill(teacherPassword);
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Go to the rubrics page
+    await page.getByRole("link", { name: "Rubrics", exact: true }).click();
+    await page.waitForURL(/\/rubrics$/);
+
+    // Click on the edit rubric button
+    await page.getByLabel(`Edit ${rubricName}`).click();
+
+    // Wait for the input with the rubric name to be visible
+    const inputLabelText = "Rubric name"
+    await expect(page.getByLabel(inputLabelText)).toBeVisible();
+
+    // Change the rubric name
+    const newRubricName = "New Rubric Name";
+    await page.getByLabel(inputLabelText).fill(newRubricName);
+    await page.getByRole("button", { name: "Update" }).click();
+
+    // Assert an alert is shown
+    await expect(page.getByText("Rubric name has been updated successfully")).toBeVisible();
+
+    // Reload the page and assert the rubric name was updated
+    await page.reload();
+    await expect(page.getByLabel(inputLabelText)).toHaveValue(newRubricName);
+  })
+
   test("Add new objectives and criteria", async ({ page }) => {
     // Login as the teacher
     await page.goto("/login");

@@ -19,7 +19,7 @@ export const updateRubricNameService = async (
     });
     return {
       success: true,
-      message: "Rubric name was updated successfully"
+      message: "Rubric name has been updated successfully"
     };
   } catch (error) {
     let errorMessage = "There was an error updating the rubric name";

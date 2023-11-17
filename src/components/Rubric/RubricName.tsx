@@ -1,7 +1,9 @@
+import { updateRubricNameService } from "@/services/rubrics/update-rubric-name.service";
 import { useEditRubricStore } from "@/stores/edit-rubric-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Save } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import { Button } from "../ui/button";
@@ -13,19 +15,17 @@ import {
   FormMessage
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { updateRubricNameService } from "@/services/rubrics/update-rubric-name.service";
-import { toast } from "sonner";
 
 const RubricNameSchema = z.object({
-  name: z.preprocess((value) => {
-    // Sanitize whitespace before validation
-    if (typeof value !== "string") return value;
-    return value.trim().replace(/\s\s+/g, " ");
-  }, z.string().min(4, "Name must be at least 4 characters long.").max(96, "Name must be less than 96 characters long."))
+  name: z
+    .string()
+    .min(4, "Name must be at least 4 characters long.")
+    .max(96, "Name must be less than 96 characters long.")
 });
 
 export const RubricName = () => {
-  const { rubric, setName: setGlobalName } = useEditRubricStore();
+  const { rubric, setName } = useEditRubricStore();
+  console.log(rubric);
 
   const form = useForm<z.infer<typeof RubricNameSchema>>({
     resolver: zodResolver(RubricNameSchema),
@@ -37,9 +37,12 @@ export const RubricName = () => {
   const onSubmit = async (data: z.infer<typeof RubricNameSchema>) => {
     const { name } = data;
 
-    const {success, message} = await updateRubricNameService(rubric?.uuid as string, name);
+    const { success, message } = await updateRubricNameService(
+      rubric?.uuid as string,
+      name
+    );
     if (success) {
-      setGlobalName(name);
+      setName(name);
       toast.success(message);
     } else {
       toast.error(message);
@@ -50,7 +53,7 @@ export const RubricName = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col items-start w-full gap-2 md:flex-row"
+        className="flex w-full flex-col items-start gap-2 md:flex-row"
       >
         <FormField
           control={form.control}
