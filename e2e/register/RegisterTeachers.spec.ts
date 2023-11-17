@@ -1,17 +1,26 @@
 import { expect, test } from "@playwright/test";
+import {
+  getDefaultPassword,
+  getDevelopmentAdminCredentials,
+  getRandomEmail,
+  getRandomName
+} from "e2e/Utils";
 
 test.beforeEach(async ({ page }) => {
   // Login as an admin
+  const adminCredentials = getDevelopmentAdminCredentials();
   await page.goto("/login");
-  await page.getByLabel("Email").fill("development.admin@gmail.com");
-  await page.getByLabel("Password").fill("changeme123*/");
+  await page.getByLabel("Email").fill(adminCredentials.email);
+  await page.getByLabel("Password").fill(adminCredentials.password);
   await page.getByRole("button", { name: "Submit" }).click();
 
   // Assert the admins page is loaded
   await page.waitForURL(/\/admins$/);
 
   // Go to the teachers register page
-  await page.getByRole("link", { name: "R. Teachers", exact: true }).click();
+  await page
+    .getByRole("link", { name: "Register Teachers", exact: true })
+    .click();
 });
 
 test("The fields are validated", async ({ page }) => {
@@ -34,6 +43,8 @@ test("The fields are validated", async ({ page }) => {
 });
 
 test.describe.serial("Teacher registration", () => {
+  const newTeacherEmail = getRandomEmail();
+
   test("Admins can register new teachers", async ({ page }) => {
     // Select the forms
     const fullNameInput = page.getByLabel("Full name");
@@ -41,9 +52,9 @@ test.describe.serial("Teacher registration", () => {
     const passwordInput = page.getByLabel("Password");
 
     // Fill the form
-    await fullNameInput.fill("Angel Martin");
-    await emailInput.fill("angel.martin.2020@upb.edu.co");
-    await passwordInput.fill("upbbga2020*/");
+    await fullNameInput.fill(getRandomName());
+    await emailInput.fill(newTeacherEmail);
+    await passwordInput.fill(getDefaultPassword());
     await page.getByRole("button", { name: "Submit" }).click();
 
     // Assert the alert is shown
@@ -60,15 +71,14 @@ test.describe.serial("Teacher registration", () => {
   test("Admins can't register new teachers with an existing email", async ({
     page
   }) => {
-    const email = "angel.martin.2020@upb.edu.co";
-    await page.getByLabel("Full name").fill("Angel Martin");
-    await page.getByLabel("Email").fill(email);
-    await page.getByLabel("Password").fill("upbbga2020*/");
+    await page.getByLabel("Full name").fill(getRandomName());
+    await page.getByLabel("Email").fill(newTeacherEmail);
+    await page.getByLabel("Password").fill(getDefaultPassword());
     await page.getByRole("button", { name: "Submit" }).click();
 
     // Assert the alert is shown
     await expect(
-      page.getByText(`Email ${email} is already in use`)
+      page.getByText(`Email ${newTeacherEmail} is already in use`)
     ).toBeVisible();
   });
 
@@ -79,8 +89,8 @@ test.describe.serial("Teacher registration", () => {
 
     // Login as a teacher
     await page.goto("/login");
-    await page.getByLabel("Email").fill("angel.martin.2020@upb.edu.co");
-    await page.getByLabel("Password").fill("upbbga2020*/");
+    await page.getByLabel("Email").fill(newTeacherEmail);
+    await page.getByLabel("Password").fill(getDefaultPassword());
     await page.getByRole("button", { name: "Submit" }).click();
 
     // Assert the teacher is redirected

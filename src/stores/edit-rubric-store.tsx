@@ -4,13 +4,30 @@ import { create } from "zustand";
 type EditRubricStore = {
   rubric: Rubric | undefined;
   setRubric: (rubric: Rubric) => void;
+  setName: (name: string) => void;
   addObjective: (objective: Objective) => void;
   addCriteria: (objectiveUUID: string, criteria: Criteria) => void;
 };
 
 export const useEditRubricStore = create<EditRubricStore>((set) => ({
+  // Rubric global state
   rubric: {} as Rubric,
   setRubric: (rubric) => set({ rubric }),
+
+  // Rubric mutations
+  setName: (name: string) =>
+    set((state) => {
+      if (!state.rubric) return state;
+
+      return {
+        rubric: {
+          ...state.rubric,
+          name
+        }
+      };
+    }),
+
+  // Objective and criteria mutations
   addObjective: (objective) =>
     set((state) => {
       if (!state.rubric) return state;

@@ -19,9 +19,10 @@ export const EditRubricView = () => {
 
   // Query rubric data
   const { isLoading, isFetching, isError, error, data } = useQuery({
-    queryKey: ["rubric", id],
+    queryKey: [`rubric-${id}`],
     queryFn: () => getRubricByUuidService(id),
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
+    staleTime: Infinity
   });
 
   useEffect(() => {
@@ -38,11 +39,11 @@ export const EditRubricView = () => {
 
   if (isError) return handleError(error.message);
 
-  if (!rubric) return null;
+  if (!rubric?.uuid) return null;
 
   return (
     <main className="mx-auto max-w-7xl space-y-4 p-4">
-      <RubricName rubricName={rubric?.name} rubricUUID={rubric?.uuid} />
+      <RubricName />
       {rubric.objectives?.map((objective, oi) => (
         <ObjectiveRow key={objective.uuid} objective={objective} index={oi} />
       ))}

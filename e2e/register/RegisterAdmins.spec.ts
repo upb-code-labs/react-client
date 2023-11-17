@@ -1,10 +1,17 @@
 import { expect, test } from "@playwright/test";
+import {
+  getDefaultPassword,
+  getDevelopmentAdminCredentials,
+  getRandomEmail,
+  getRandomName
+} from "e2e/Utils";
 
 test.beforeEach(async ({ page }) => {
   // Login as an admin
+  const adminCredentials = getDevelopmentAdminCredentials();
   await page.goto("/login");
-  await page.getByLabel("Email").fill("development.admin@gmail.com");
-  await page.getByLabel("Password").fill("changeme123*/");
+  await page.getByLabel("Email").fill(adminCredentials.email);
+  await page.getByLabel("Password").fill(adminCredentials.password);
   await page.getByRole("button", { name: "Submit" }).click();
 
   // Assert the admins page is loaded
@@ -35,6 +42,9 @@ test("The fields are validated", async ({ page }) => {
 });
 
 test.describe.serial("Admin registration", () => {
+  const newAdminName = getRandomName();
+  const newAdminEmail = getRandomEmail();
+
   test("Admins can register new admins", async ({ page }) => {
     // Go to the register page
     await page
@@ -43,10 +53,9 @@ test.describe.serial("Admin registration", () => {
     await page.waitForURL(/\/register\/admins$/);
 
     // Fill the form
-    const newAdminName = "Inés Alvarez";
     await page.getByLabel("Full name").fill(newAdminName);
-    await page.getByLabel("Email").fill("ines.alvarez.fake@gmail.com");
-    await page.getByLabel("Password").fill("upbbga2020*/");
+    await page.getByLabel("Email").fill(newAdminEmail);
+    await page.getByLabel("Password").fill(getDefaultPassword());
     await page.getByRole("button", { name: "Submit" }).click();
 
     // Assert the alert is shown
@@ -85,15 +94,14 @@ test.describe.serial("Admin registration", () => {
     await page.waitForURL(/\/register\/admins$/);
 
     // Fill the form
-    const email = "ines.alvarez.fake@gmail.com";
-    await page.getByLabel("Full name").fill("Inés Alvarez");
-    await page.getByLabel("Email").fill(email);
-    await page.getByLabel("Password").fill("upbbga2020*/");
+    await page.getByLabel("Full name").fill(newAdminName);
+    await page.getByLabel("Email").fill(newAdminEmail);
+    await page.getByLabel("Password").fill(getDefaultPassword());
     await page.getByRole("button", { name: "Submit" }).click();
 
     // Assert the alert is shown
     await expect(
-      page.getByText(`Email ${email} is already in use`)
+      page.getByText(`Email ${newAdminEmail} is already in use`)
     ).toBeVisible();
   });
 

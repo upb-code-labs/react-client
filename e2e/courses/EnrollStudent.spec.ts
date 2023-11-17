@@ -1,25 +1,35 @@
 import { expect, test } from "@playwright/test";
+import {
+  getDefaultPassword,
+  getDevelopmentAdminCredentials,
+  getRandomEmail,
+  getRandomName,
+  getRandomUniversityID
+} from "e2e/Utils";
 
 test.describe.serial("Enroll student workflow", () => {
-  const teacherEmail = "iveta.ciel.2020@upb.edu.co";
-  const teacherPassword = "upbbga2020*/";
-  const courseName = "Programming I NRC 23456";
+  const teacherEmail = getRandomEmail();
+  const teacherPassword = getDefaultPassword();
+  const courseName = "Test course";
 
-  const studentFullName = "Narcisa Annalee";
-  const studentInstitutionalID = "000987654";
-  const studentEmail = "narcisa.annalee.2020@upb.edu.co";
-  const studentPassword = "upbbga2020*/";
+  const studentFullName = getRandomName();
+  const studentInstitutionalID = getRandomUniversityID();
+  const studentEmail = getRandomEmail();
+  const studentPassword = getDefaultPassword();
 
   test("Register test teacher", async ({ page }) => {
     // Login as an admin
+    const adminCredentials = getDevelopmentAdminCredentials();
     await page.goto("/login");
-    await page.getByLabel("Email").fill("development.admin@gmail.com");
-    await page.getByLabel("Password").fill("changeme123*/");
+    await page.getByLabel("Email").fill(adminCredentials.email);
+    await page.getByLabel("Password").fill(adminCredentials.password);
     await page.getByRole("button", { name: "Submit" }).click();
 
     // Register a teacher
-    await page.getByRole("link", { name: "R. Teachers", exact: true }).click();
-    await page.getByLabel("Full name").fill("Iveta Ciel");
+    await page
+      .getByRole("link", { name: "Register Teachers", exact: true })
+      .click();
+    await page.getByLabel("Full name").fill(getRandomName());
     await page.getByLabel("Email").fill(teacherEmail);
     await page.getByLabel("Password").fill(teacherPassword);
     await page.getByRole("button", { name: "Submit" }).click();
