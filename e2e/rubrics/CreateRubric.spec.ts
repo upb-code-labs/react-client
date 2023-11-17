@@ -1,20 +1,29 @@
 import { expect, test } from "@playwright/test";
+import {
+  getDefaultPassword,
+  getDevelopmentAdminCredentials,
+  getRandomEmail,
+  getRandomName
+} from "e2e/Utils";
 
 test.describe.serial("Rubrics creation workflow", () => {
-  const teacherEmail = "ermentrudis.klara.2020@upb.edu.co";
-  const teacherPassword = "upbbga2020*/";
+  const teacherEmail = getRandomEmail();
+  const teacherPassword = getDefaultPassword();
   const rubricName = "Data structures rubric";
 
   test("Register test teacher", async ({ page }) => {
     // Login as an admin
+    const adminCredentials = getDevelopmentAdminCredentials();
     await page.goto("/login");
-    await page.getByLabel("Email").fill("development.admin@gmail.com");
-    await page.getByLabel("Password").fill("changeme123*/");
+    await page.getByLabel("Email").fill(adminCredentials.email);
+    await page.getByLabel("Password").fill(adminCredentials.password);
     await page.getByRole("button", { name: "Submit" }).click();
 
     // Register a teacher
-    await page.getByRole("link", { name: "R. Teachers", exact: true }).click();
-    await page.getByLabel("Full name").fill("Ermentrudis Klara");
+    await page
+      .getByRole("link", { name: "Register Teachers", exact: true })
+      .click();
+    await page.getByLabel("Full name").fill(getRandomName());
     await page.getByLabel("Email").fill(teacherEmail);
     await page.getByLabel("Password").fill(teacherPassword);
     await page.getByRole("button", { name: "Submit" }).click();
