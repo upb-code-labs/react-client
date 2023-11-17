@@ -14,7 +14,6 @@ export const addCriteriaToObjectiveService = async (
   weight: number
 ): Promise<AddCriteriaToObjectiveResponse> => {
   const { axios } = HttpRequester.getInstance();
-  console.log({ description, weight });
 
   try {
     const { data } = await axios.post(
