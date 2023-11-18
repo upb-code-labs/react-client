@@ -97,6 +97,9 @@ export const CriteriaCard = memo(
                       min={0}
                       max={100}
                       step={0.1}
+                      aria-label={`Criteria ${criteriaIndex + 1} of objective ${
+                        objectiveIndex + 1
+                      } weight`}
                     />
                   </FormControl>
                   {form.formState.errors.weight && (

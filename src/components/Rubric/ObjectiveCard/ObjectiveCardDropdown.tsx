@@ -27,9 +27,7 @@ export const ObjectiveCardDropdown = ({
       <DropdownMenuTrigger asChild>
         <button
           className="absolute right-2 top-4"
-          aria-label={`Toggle objective options for objective ${
-            objectiveIndex + 1
-          }`}
+          aria-label={`Toggle options for objective ${objectiveIndex + 1}`}
         >
           <MoreVertical />
         </button>

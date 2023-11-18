@@ -1,23 +1,30 @@
 import { expect, test } from "@playwright/test";
 
 import rubricData from "./rubric.json" assert { type: "json" };
-import { getDefaultPassword, getDevelopmentAdminCredentials, getRandomEmail } from "e2e/Utils";
+
+import {
+  getDefaultPassword,
+  getDevelopmentAdminCredentials,
+  getRandomEmail
+} from "e2e/Utils";
 
 test.describe.serial("Rubrics edition workflow", () => {
-  const teacherEmail = getRandomEmail()
-  const teacherPassword = getDefaultPassword()
+  const teacherEmail = getRandomEmail();
+  const teacherPassword = getDefaultPassword();
   let rubricName = rubricData.name;
 
   test("Register test teacher", async ({ page }) => {
     // Login as an admin
-    const adminCredentials = getDevelopmentAdminCredentials(); 
+    const adminCredentials = getDevelopmentAdminCredentials();
     await page.goto("/login");
     await page.getByLabel("Email").fill(adminCredentials.email);
     await page.getByLabel("Password").fill(adminCredentials.password);
     await page.getByRole("button", { name: "Submit" }).click();
 
     // Register a teacher
-    await page.getByRole("link", { name: "Register Teachers", exact: true }).click();
+    await page
+      .getByRole("link", { name: "Register Teachers", exact: true })
+      .click();
     await page.getByLabel("Full name").fill(getRandomEmail());
     await page.getByLabel("Email").fill(teacherEmail);
     await page.getByLabel("Password").fill(teacherPassword);
@@ -63,7 +70,7 @@ test.describe.serial("Rubrics edition workflow", () => {
     await page.getByLabel(`Edit ${rubricName}`).click();
 
     // Wait for the input with the rubric name to be visible
-    const inputLabelText = "Rubric name"
+    const inputLabelText = "Rubric name";
     await expect(page.getByLabel(inputLabelText)).toBeVisible();
 
     // Change the rubric name
@@ -72,7 +79,9 @@ test.describe.serial("Rubrics edition workflow", () => {
     await page.getByRole("button", { name: "Update" }).click();
 
     // Assert an alert is shown
-    await expect(page.getByText("Rubric name has been updated successfully")).toBeVisible();
+    await expect(
+      page.getByText("Rubric name has been updated successfully")
+    ).toBeVisible();
 
     // Reload the page and assert the rubric name was updated
     await page.reload();
@@ -80,7 +89,7 @@ test.describe.serial("Rubrics edition workflow", () => {
 
     // Update the rubric name
     rubricName = newRubricName;
-  })
+  });
 
   test("Add new objectives and criteria", async ({ page }) => {
     // Login as the teacher
@@ -113,7 +122,9 @@ test.describe.serial("Rubrics edition workflow", () => {
       await expect(page.getByText("Add a new objective")).toBeVisible();
 
       // Fill the objective description
-      await page.getByPlaceholder("Enter a description for the new objective").fill(objective.description);
+      await page
+        .getByPlaceholder("Enter a description for the new objective")
+        .fill(objective.description);
       await page.getByRole("button", { name: "Create" }).click();
 
       // Assert the modal is closed
@@ -133,8 +144,12 @@ test.describe.serial("Rubrics edition workflow", () => {
         // Assert the modal is open
         await expect(page.getByText("Add a new criteria")).toBeVisible();
 
-        await page.getByPlaceholder("Enter a description for the new criteria").fill(criteria.description);
-        await page.getByPlaceholder("Enter a weight for the new criteria").fill(criteria.weight.toString());
+        await page
+          .getByPlaceholder("Enter a description for the new criteria")
+          .fill(criteria.description);
+        await page
+          .getByPlaceholder("Enter a weight for the new criteria")
+          .fill(criteria.weight.toString());
         await page.getByRole("button", { name: "Create" }).click();
 
         // Assert the modal is closed
@@ -166,19 +181,96 @@ test.describe.serial("Rubrics edition workflow", () => {
     await expect(page.getByLabel("Name")).toBeVisible();
 
     // Update the objective description
-    const objectiveIndex = 1; 
+    const objectiveIndex = 1;
     const newObjectiveDescription = "New objective description";
-    await page.getByLabel(`Objective ${objectiveIndex} description`).fill(newObjectiveDescription);
+    await page
+      .getByLabel(`Objective ${objectiveIndex} description`, { exact: true })
+      .fill(newObjectiveDescription);
 
     // Open the dropdown to save the changes
-    await page.getByLabel(`Toggle objective options for objective ${objectiveIndex}`).click();
+    await page
+      .getByLabel(`Toggle options for objective ${objectiveIndex}`, {
+        exact: true
+      })
+      .click();
     await page.getByText("Save changes").click();
 
     // Assert the changes were saved
-    await expect(page.getByText("The objective has been updated successfully")).toBeVisible();
+    await expect(
+      page.getByText("The objective has been updated successfully")
+    ).toBeVisible();
 
     // Reload the page and assert the changes were saved
     await page.reload();
-    await expect(page.getByLabel(`Objective ${objectiveIndex} description`)).toHaveValue(newObjectiveDescription);
-  })
+    await expect(
+      page.getByLabel(`Objective ${objectiveIndex} description`, {
+        exact: true
+      })
+    ).toHaveValue(newObjectiveDescription);
+  });
+
+  test("Update criteria", async ({ page }) => {
+    // Login as the teacher
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(teacherEmail);
+    await page.getByLabel("Password").fill(teacherPassword);
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Go to the rubrics page
+    await page.getByRole("link", { name: "Rubrics", exact: true }).click();
+    await page.waitForURL(/\/rubrics$/);
+
+    // Click on the edit rubric button
+    await page.getByLabel(`Edit ${rubricName}`).click();
+
+    // Wait for the input with the rubric name to be visible
+    await expect(page.getByLabel("Name")).toBeVisible();
+
+    // Update the criteria
+    const objectiveIndex = 1;
+    const criteriaIndex = 1;
+    const newCriteriaDescription = "New criteria description";
+    const newCriteriaWeight = "2";
+    await page
+      .getByLabel(
+        `Criteria ${criteriaIndex} of objective ${objectiveIndex} description`,
+        { exact: true }
+      )
+      .fill(newCriteriaDescription);
+    await page
+      .getByLabel(
+        `Criteria ${criteriaIndex} of objective ${objectiveIndex} weight`,
+        { exact: true }
+      )
+      .fill(newCriteriaWeight);
+
+    // Open the dropdown to save the changes
+    await page
+      .getByLabel(
+        `Toggle options for criteria ${criteriaIndex} of objective ${objectiveIndex}`,
+        { exact: true }
+      )
+      .click();
+    await page.getByText("Save changes").click();
+
+    // Assert the changes were saved
+    await expect(
+      page.getByText("The criteria has been updated successfully")
+    ).toBeVisible();
+
+    // Reload the page and assert the changes were saved
+    await page.reload();
+    await expect(
+      page.getByLabel(
+        `Criteria ${criteriaIndex} of objective ${objectiveIndex} description`,
+        { exact: true }
+      )
+    ).toHaveValue(newCriteriaDescription);
+    await expect(
+      page.getByLabel(
+        `Criteria ${criteriaIndex} of objective ${objectiveIndex} weight`,
+        { exact: true }
+      )
+    ).toHaveValue(newCriteriaWeight);
+  });
 });
