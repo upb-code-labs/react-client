@@ -25,7 +25,6 @@ const RubricNameSchema = z.object({
 
 export const RubricName = () => {
   const { rubric, setName } = useEditRubricStore();
-  console.log(rubric);
 
   const form = useForm<z.infer<typeof RubricNameSchema>>({
     resolver: zodResolver(RubricNameSchema),
