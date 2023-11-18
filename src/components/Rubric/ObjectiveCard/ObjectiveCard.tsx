@@ -76,7 +76,7 @@ export const ObjectiveCard = memo(
               control={form.control}
               name="description"
               render={({ field }) => (
-                <FormItem className="flex flex-grow flex-col gap-2">
+                <FormItem className="flex flex-grow flex-col">
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
