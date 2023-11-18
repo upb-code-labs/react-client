@@ -147,4 +147,38 @@ test.describe.serial("Rubrics edition workflow", () => {
       objectiveIndex++;
     }
   });
+
+  test("Update objective description", async ({ page }) => {
+    // Login as the teacher
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(teacherEmail);
+    await page.getByLabel("Password").fill(teacherPassword);
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Go to the rubrics page
+    await page.getByRole("link", { name: "Rubrics", exact: true }).click();
+    await page.waitForURL(/\/rubrics$/);
+
+    // Click on the edit rubric button
+    await page.getByLabel(`Edit ${rubricName}`).click();
+
+    // Wait for the input with the rubric name to be visible
+    await expect(page.getByLabel("Name")).toBeVisible();
+
+    // Update the objective description
+    const objectiveIndex = 1; 
+    const newObjectiveDescription = "New objective description";
+    await page.getByLabel(`Objective ${objectiveIndex} description`).fill(newObjectiveDescription);
+
+    // Open the dropdown to save the changes
+    await page.getByLabel(`Toggle objective options for objective ${objectiveIndex}`).click();
+    await page.getByText("Save changes").click();
+
+    // Assert the changes were saved
+    await expect(page.getByText("The objective has been updated successfully")).toBeVisible();
+
+    // Reload the page and assert the changes were saved
+    await page.reload();
+    await expect(page.getByLabel(`Objective ${objectiveIndex} description`)).toHaveValue(newObjectiveDescription);
+  })
 });

@@ -4,15 +4,18 @@ import { create } from "zustand";
 type EditRubricStore = {
   rubric: Rubric | undefined;
   setRubric: (rubric: Rubric) => void;
+  resetRubric: () => void;
   setName: (name: string) => void;
   addObjective: (objective: Objective) => void;
+  updateObjective: (objectiveUUID: string, description: string) => void;
   addCriteria: (objectiveUUID: string, criteria: Criteria) => void;
 };
 
 export const useEditRubricStore = create<EditRubricStore>((set) => ({
   // Rubric global state
-  rubric: {} as Rubric,
+  rubric: undefined,
   setRubric: (rubric) => set({ rubric }),
+  resetRubric: () => set({ rubric: undefined }),
 
   // Rubric mutations
   setName: (name: string) =>
@@ -27,7 +30,7 @@ export const useEditRubricStore = create<EditRubricStore>((set) => ({
       };
     }),
 
-  // Objective and criteria mutations
+  // Objective mutations
   addObjective: (objective) =>
     set((state) => {
       if (!state.rubric) return state;
@@ -39,6 +42,31 @@ export const useEditRubricStore = create<EditRubricStore>((set) => ({
         }
       };
     }),
+  updateObjective: (uuid, description) => {
+    set((state) => {
+      if (!state.rubric) return state;
+
+      const objectives = state.rubric.objectives.map((objective) => {
+        if (objective.uuid === uuid) {
+          return {
+            ...objective,
+            description
+          };
+        }
+
+        return objective;
+      });
+
+      return {
+        rubric: {
+          ...state.rubric,
+          objectives
+        }
+      };
+    });
+  },
+
+  // Criteria mutations
   addCriteria: (objectiveUUID, criteria) =>
     set((state) => {
       if (!state.rubric) return state;
