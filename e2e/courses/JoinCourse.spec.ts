@@ -92,7 +92,13 @@ test.describe.serial("Join courses workflow", () => {
     await expect(page.getByText(courseName)).toBeVisible();
   });
 
-  test("Teachers can copy the invitation code", async ({ page }) => {
+  test("Teachers can copy the invitation code", async ({
+    page,
+    browserName
+  }) => {
+    const isInFirefox = browserName == "firefox";
+    test.skip(isInFirefox, "No clipboard support in firefox");
+
     // Login as a teacher
     await page.goto("/login");
     await page.getByLabel("Email").fill(teacherEmail);
