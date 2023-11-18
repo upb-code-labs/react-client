@@ -9,6 +9,17 @@ type EditRubricStore = {
   addObjective: (objective: Objective) => void;
   updateObjective: (objectiveUUID: string, description: string) => void;
   addCriteria: (objectiveUUID: string, criteria: Criteria) => void;
+  updateCriteria: ({
+    criteriaUUID,
+    weight,
+    description
+  }: updateCriteriaParams) => void;
+};
+
+type updateCriteriaParams = {
+  criteriaUUID: string;
+  weight: number;
+  description: string;
 };
 
 export const useEditRubricStore = create<EditRubricStore>((set) => ({
@@ -88,5 +99,40 @@ export const useEditRubricStore = create<EditRubricStore>((set) => ({
           objectives
         }
       };
-    })
+    }),
+  updateCriteria: ({
+    criteriaUUID,
+    weight,
+    description
+  }: updateCriteriaParams) => {
+    set((state) => {
+      if (!state.rubric) return state;
+
+      const objectives = state.rubric.objectives.map((objective) => {
+        const criteria = objective.criteria.map((criteria) => {
+          if (criteria.uuid === criteriaUUID) {
+            return {
+              ...criteria,
+              weight,
+              description
+            };
+          }
+
+          return criteria;
+        });
+
+        return {
+          ...objective,
+          criteria
+        };
+      });
+
+      return {
+        rubric: {
+          ...state.rubric,
+          objectives
+        }
+      };
+    });
+  }
 }));
