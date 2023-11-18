@@ -62,7 +62,10 @@ export const ObjectiveCard = memo(
 
     return (
       <article className="relative">
-        <ObjectiveCardDropdown submitButtonRef={submitButtonRef} />
+        <ObjectiveCardDropdown
+          submitButtonRef={submitButtonRef}
+          objectiveIndex={index}
+        />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -79,6 +82,7 @@ export const ObjectiveCard = memo(
                     <Textarea
                       {...field}
                       className="flex-grow resize-none"
+                      aria-label={`Objective ${index + 1} description`}
                       placeholder="Enter a description for this objective here..."
                     />
                   </FormControl>

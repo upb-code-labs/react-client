@@ -13,7 +13,7 @@ export const updateObjectiveService = async (
     });
     return {
       success: true,
-      message: "Objective was updated successfully"
+      message: "The objective has been updated successfully"
     };
   } catch (error) {
     let errorMessage = "There was an error";

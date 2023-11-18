@@ -10,10 +10,12 @@ import { MoreVertical, Save } from "lucide-react";
 import { RefObject } from "react";
 
 interface ObjectiveCardDropdownProps {
+  objectiveIndex: number;
   submitButtonRef: RefObject<HTMLButtonElement>;
 }
 
 export const ObjectiveCardDropdown = ({
+  objectiveIndex,
   submitButtonRef
 }: ObjectiveCardDropdownProps) => {
   const handleSaveChanges = () => {
@@ -25,7 +27,9 @@ export const ObjectiveCardDropdown = ({
       <DropdownMenuTrigger asChild>
         <button
           className="absolute right-2 top-4"
-          aria-label="Toggle objective options menu"
+          aria-label={`Toggle objective options for objective ${
+            objectiveIndex + 1
+          }`}
         >
           <MoreVertical />
         </button>
