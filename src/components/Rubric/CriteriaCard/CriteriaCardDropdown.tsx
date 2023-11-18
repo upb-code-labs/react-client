@@ -9,15 +9,17 @@ import {
 import { MoreVertical, Save } from "lucide-react";
 import { RefObject } from "react";
 
-interface ObjectiveCardDropdownProps {
+interface CriteriaCardDropdownProps {
   objectiveIndex: number;
+  criteriaIndex: number;
   submitButtonRef: RefObject<HTMLButtonElement>;
 }
 
-export const ObjectiveCardDropdown = ({
+export const CriteriaCardDropdown = ({
   objectiveIndex,
+  criteriaIndex,
   submitButtonRef
-}: ObjectiveCardDropdownProps) => {
+}: CriteriaCardDropdownProps) => {
   const handleSaveChanges = () => {
     submitButtonRef.current?.click();
   };
@@ -27,13 +29,15 @@ export const ObjectiveCardDropdown = ({
       <DropdownMenuTrigger asChild>
         <button
           className="absolute right-2 top-4"
-          aria-label={`Toggle options for objective ${objectiveIndex + 1}`}
+          aria-label={`Toggle options for criteria ${
+            criteriaIndex + 1
+          } of objective ${objectiveIndex + 1}`}
         >
           <MoreVertical />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Objective Options</DropdownMenuLabel>
+        <DropdownMenuLabel>Criteria Options</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSaveChanges}>
           <Save className="mr-2 h-4 w-4" />

@@ -18,7 +18,12 @@ export const ObjectiveRow = ({ objective, index }: ObjectiveRowProps) => {
       <ObjectiveCard objective={objective} index={index} />
 
       {objective.criteria.map((criteria, ci) => (
-        <CriteriaCard criteria={criteria} index={ci} key={criteria.uuid} />
+        <CriteriaCard
+          key={criteria.uuid}
+          criteria={criteria}
+          criteriaIndex={ci}
+          objectiveIndex={index}
+        />
       ))}
 
       <AddCriteriaDialog index={index} objectiveUUID={objective.uuid} />
