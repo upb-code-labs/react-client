@@ -22,7 +22,7 @@ export const EditRubricView = () => {
     queryKey: [`rubric-${id}`],
     queryFn: () => getRubricByUuidService(id),
     refetchOnWindowFocus: false,
-    staleTime: Infinity
+    staleTime: 0
   });
 
   useEffect(() => {
