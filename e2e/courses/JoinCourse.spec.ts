@@ -7,6 +7,13 @@ import {
   getRandomUniversityID
 } from "e2e/Utils";
 
+// Skip this test in firefox because the last binary that comes with playwright
+// does not support clipboard operations.
+test.beforeEach(async ({ browserName }) => {
+  const isInFirefox = browserName == "firefox";
+  test.skip(isInFirefox, "No clipboard support in firefox");
+});
+
 test.describe.serial("Join courses workflow", () => {
   const teacherEmail = getRandomEmail();
   const teacherPassword = getDefaultPassword();
@@ -92,13 +99,7 @@ test.describe.serial("Join courses workflow", () => {
     await expect(page.getByText(courseName)).toBeVisible();
   });
 
-  test("Teachers can copy the invitation code", async ({
-    page,
-    browserName
-  }) => {
-    const isInFirefox = browserName == "firefox";
-    test.skip(isInFirefox, "No clipboard support in firefox");
-
+  test("Teachers can copy the invitation code", async ({ page }) => {
     // Login as a teacher
     await page.goto("/login");
     await page.getByLabel("Email").fill(teacherEmail);
@@ -146,7 +147,10 @@ test.describe.serial("Join courses workflow", () => {
     await page.waitForURL(/\/login$/);
   });
 
-  test("Students can join a course", async ({ page }) => {
+  test("Students can join a course", async ({ page, browserName }) => {
+    const isInFirefox = browserName == "firefox";
+    test.skip(isInFirefox, "No clipboard support in firefox");
+
     // Login as a student
     await page.goto("/login");
     await page.getByLabel("Email").fill(studentEmail);
