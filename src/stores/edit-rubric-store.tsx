@@ -2,18 +2,26 @@ import { Criteria, Objective, Rubric } from "@/types/entities/rubric";
 import { create } from "zustand";
 
 type EditRubricStore = {
+  // Rubric global state
   rubric: Rubric | undefined;
   setRubric: (rubric: Rubric) => void;
   resetRubric: () => void;
+
+  // Rubric mutations
   setName: (name: string) => void;
+
+  // Objective mutations
   addObjective: (objective: Objective) => void;
   updateObjective: (objectiveUUID: string, description: string) => void;
+
+  // Criteria mutations
   addCriteria: (objectiveUUID: string, criteria: Criteria) => void;
   updateCriteria: ({
     criteriaUUID,
     weight,
     description
   }: updateCriteriaParams) => void;
+  deleteCriteria: (criteriaUUID: string) => void;
 };
 
 type updateCriteriaParams = {
@@ -120,6 +128,29 @@ export const useEditRubricStore = create<EditRubricStore>((set) => ({
 
           return criteria;
         });
+
+        return {
+          ...objective,
+          criteria
+        };
+      });
+
+      return {
+        rubric: {
+          ...state.rubric,
+          objectives
+        }
+      };
+    });
+  },
+  deleteCriteria: (criteriaUUID) => {
+    set((state) => {
+      if (!state.rubric) return state;
+
+      const objectives = state.rubric.objectives.map((objective) => {
+        const criteria = objective.criteria.filter(
+          (criteria) => criteria.uuid !== criteriaUUID
+        );
 
         return {
           ...objective,

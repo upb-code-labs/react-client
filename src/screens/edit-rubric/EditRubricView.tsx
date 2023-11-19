@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { DeleteCriteriaDialog } from "./dialogs/DeleteCriteriaDialog";
 import { AddObjectiveDialog } from "./dialogs/add-objective/AddObjectiveDialog";
 
 export const EditRubricView = () => {
@@ -51,6 +52,7 @@ export const EditRubricView = () => {
         <ObjectiveRow key={objective.uuid} objective={objective} index={oi} />
       ))}
       <AddObjectiveDialog />
+      <DeleteCriteriaDialog />
     </main>
   );
 };

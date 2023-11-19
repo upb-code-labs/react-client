@@ -74,8 +74,9 @@ export const CriteriaCard = memo(
     return (
       <article className="relative">
         <CriteriaCardDropdown
-          submitButtonRef={submitButtonRef}
           criteriaIndex={criteriaIndex}
+          criteriaUUID={criteria.uuid}
+          submitButtonRef={submitButtonRef}
           objectiveIndex={objectiveIndex}
         />
         <Form {...form}>

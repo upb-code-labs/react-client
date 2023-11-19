@@ -1,12 +1,11 @@
 import { expect, test } from "@playwright/test";
-
-import rubricData from "./rubric.json" assert { type: "json" };
-
 import {
   getDefaultPassword,
   getDevelopmentAdminCredentials,
   getRandomEmail
 } from "e2e/Utils";
+
+import rubricData from "./rubric.json" assert { type: "json" };
 
 test.describe.serial("Rubrics edition workflow", () => {
   const teacherEmail = getRandomEmail();
@@ -31,13 +30,15 @@ test.describe.serial("Rubrics edition workflow", () => {
     await page.getByRole("button", { name: "Submit" }).click();
   });
 
-  test("Create test rubric", async ({ page }) => {
+  test.beforeEach(async ({ page }) => {
     // Login as the teacher
     await page.goto("/login");
     await page.getByLabel("Email").fill(teacherEmail);
     await page.getByLabel("Password").fill(teacherPassword);
     await page.getByRole("button", { name: "Submit" }).click();
+  });
 
+  test("Create test rubric", async ({ page }) => {
     // Go to the rubrics page
     await page.getByRole("link", { name: "Rubrics", exact: true }).click();
     await page.waitForURL(/\/rubrics$/);
@@ -56,12 +57,6 @@ test.describe.serial("Rubrics edition workflow", () => {
   });
 
   test("Update rubric name", async ({ page }) => {
-    // Login as the teacher
-    await page.goto("/login");
-    await page.getByLabel("Email").fill(teacherEmail);
-    await page.getByLabel("Password").fill(teacherPassword);
-    await page.getByRole("button", { name: "Submit" }).click();
-
     // Go to the rubrics page
     await page.getByRole("link", { name: "Rubrics", exact: true }).click();
     await page.waitForURL(/\/rubrics$/);
@@ -92,12 +87,6 @@ test.describe.serial("Rubrics edition workflow", () => {
   });
 
   test("Add new objectives and criteria", async ({ page }) => {
-    // Login as the teacher
-    await page.goto("/login");
-    await page.getByLabel("Email").fill(teacherEmail);
-    await page.getByLabel("Password").fill(teacherPassword);
-    await page.getByRole("button", { name: "Submit" }).click();
-
     // Go to the rubrics page
     await page.getByRole("link", { name: "Rubrics", exact: true }).click();
     await page.waitForURL(/\/rubrics$/);
@@ -164,12 +153,6 @@ test.describe.serial("Rubrics edition workflow", () => {
   });
 
   test("Update objective description", async ({ page }) => {
-    // Login as the teacher
-    await page.goto("/login");
-    await page.getByLabel("Email").fill(teacherEmail);
-    await page.getByLabel("Password").fill(teacherPassword);
-    await page.getByRole("button", { name: "Submit" }).click();
-
     // Go to the rubrics page
     await page.getByRole("link", { name: "Rubrics", exact: true }).click();
     await page.waitForURL(/\/rubrics$/);
@@ -210,12 +193,6 @@ test.describe.serial("Rubrics edition workflow", () => {
   });
 
   test("Update criteria", async ({ page }) => {
-    // Login as the teacher
-    await page.goto("/login");
-    await page.getByLabel("Email").fill(teacherEmail);
-    await page.getByLabel("Password").fill(teacherPassword);
-    await page.getByRole("button", { name: "Submit" }).click();
-
     // Go to the rubrics page
     await page.getByRole("link", { name: "Rubrics", exact: true }).click();
     await page.waitForURL(/\/rubrics$/);
@@ -272,5 +249,48 @@ test.describe.serial("Rubrics edition workflow", () => {
         { exact: true }
       )
     ).toHaveValue(newCriteriaWeight);
+  });
+
+  test("Delete criteria", async ({ page }) => {
+    // Go to the rubrics page
+    await page.getByRole("link", { name: "Rubrics", exact: true }).click();
+    await page.waitForURL(/\/rubrics$/);
+
+    // Click on the edit rubric button
+    await page.getByLabel(`Edit ${rubricName}`).click();
+
+    // Wait for the input with the rubric name to be visible
+    await expect(page.getByLabel("Name")).toBeVisible();
+
+    // Open the confirmation modal
+    const objectiveIndex = 2;
+    const criteriaIndex = 4;
+    await page
+      .getByLabel(
+        `Toggle options for criteria ${criteriaIndex} of objective ${objectiveIndex}`,
+        { exact: true }
+      )
+      .click();
+    await page.getByText("Delete criteria").click();
+
+    // Assert the modal is open
+    const confirmationModalText =
+      "Are you sure you want to delete this criteria?";
+    await expect(
+      page.getByText(confirmationModalText, { exact: true })
+    ).toBeVisible();
+
+    // Confirm the deletion
+    await page.getByText("Proceed").click();
+
+    // Assert the modal is closed
+    await expect(
+      page.getByText(confirmationModalText, { exact: true })
+    ).not.toBeVisible();
+
+    // Assert an alert is shown
+    await expect(
+      page.getByText("The criteria has been deleted successfully")
+    ).toBeVisible();
   });
 });
