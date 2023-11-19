@@ -80,28 +80,6 @@ export const AddCriteriaForm = ({
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem className="mb-4">
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea
-                  {...field}
-                  rows={6}
-                  placeholder="Enter a description for the new criteria"
-                  className="resize-none"
-                />
-              </FormControl>
-              {form.formState.errors.description && (
-                <FormMessage>
-                  {form.formState.errors.description.message}
-                </FormMessage>
-              )}
-            </FormItem>
-          )}
-        ></FormField>
-        <FormField
-          control={form.control}
           name="weight"
           render={({ field }) => (
             <FormItem className="mb-4">
@@ -124,7 +102,29 @@ export const AddCriteriaForm = ({
               )}
             </FormItem>
           )}
-        ></FormField>
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem className="mb-4">
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea
+                  {...field}
+                  rows={6}
+                  placeholder="Enter a description for the new criteria"
+                  className="resize-none"
+                />
+              </FormControl>
+              {form.formState.errors.description && (
+                <FormMessage>
+                  {form.formState.errors.description.message}
+                </FormMessage>
+              )}
+            </FormItem>
+          )}
+        />
         <DialogFooter>
           <Button type="submit" isLoading={loading}>
             Create
