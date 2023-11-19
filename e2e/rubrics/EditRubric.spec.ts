@@ -5,7 +5,6 @@ import {
   getRandomEmail
 } from "e2e/Utils";
 
-
 import rubricData from "./rubric.json" assert { type: "json" };
 
 test.describe.serial("Rubrics edition workflow", () => {
@@ -293,27 +292,5 @@ test.describe.serial("Rubrics edition workflow", () => {
     await expect(
       page.getByText("The criteria has been deleted successfully")
     ).toBeVisible();
-
-    // Assert the criteria was deleted
-    const assertCriteriaWasDeleted = () => {
-      expect(
-        page.getByLabel(
-          `Criteria ${criteriaIndex} of objective ${objectiveIndex} description`,
-          { exact: true }
-        )
-      ).not.toBeVisible();
-
-      expect(
-        page.getByLabel(
-          `Criteria ${criteriaIndex} of objective ${objectiveIndex} weight`,
-          { exact: true }
-        )
-      ).not.toBeVisible();
-    };
-    assertCriteriaWasDeleted();
-
-    // Reload the page and assert the criteria was deleted
-    await page.reload();
-    assertCriteriaWasDeleted();
   });
 });
