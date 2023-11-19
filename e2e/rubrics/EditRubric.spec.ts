@@ -263,7 +263,7 @@ test.describe.serial("Rubrics edition workflow", () => {
     await expect(page.getByLabel("Name")).toBeVisible();
 
     // Open the confirmation modal
-    const objectiveIndex = 2;
+    const objectiveIndex = 8;
     const criteriaIndex = 4;
     await page
       .getByLabel(
@@ -293,4 +293,52 @@ test.describe.serial("Rubrics edition workflow", () => {
       page.getByText("The criteria has been deleted successfully")
     ).toBeVisible();
   });
+
+  test("Delete objective", async ({ page }) => {
+    // Go to the rubrics page
+    await page.getByRole("link", { name: "Rubrics", exact: true }).click();
+    await page.waitForURL(/\/rubrics$/);
+
+    // Click on the edit rubric button
+    await page.getByLabel(`Edit ${rubricName}`).click();
+
+    // Wait for the input with the rubric name to be visible
+    await expect(page.getByLabel("Name")).toBeVisible();
+
+    // Open the confirmation modal
+    const objectiveIndex = 8;
+    await page
+      .getByLabel(`Toggle options for objective ${objectiveIndex}`, {
+        exact: true
+      })
+      .click();
+    await page.getByText("Delete objective").click();
+
+    // Assert the modal is open
+    const confirmationModalText =
+      "Are you sure you want to delete this objective?";
+    await expect(
+      page.getByText(confirmationModalText, { exact: true })
+    ).toBeVisible();
+
+    // Confirm the deletion
+    await page.getByText("Proceed").click();
+
+    // Assert the modal is closed
+    await expect(
+      page.getByText(confirmationModalText, { exact: true })
+    ).not.toBeVisible();
+
+    // Assert an alert is shown
+    await expect(
+      page.getByText("The objective has been deleted successfully")
+    ).toBeVisible();
+
+    // Assert the objective was deleted
+    await expect(page.getByText(`Objective ${objectiveIndex}`)).not.toBeVisible();
+
+    // Reload the page and assert the objective was deleted
+    await page.reload();
+    await expect(page.getByText(`Objective ${objectiveIndex}`)).not.toBeVisible();
+  })
 });

@@ -6,20 +6,31 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { MoreVertical, Save } from "lucide-react";
+import { useEditRubricModalsStore } from "@/stores/edit-rubric-modals-store";
+import { MoreVertical, Save, Trash } from "lucide-react";
 import { RefObject } from "react";
 
 interface ObjectiveCardDropdownProps {
+  objectiveUUID: string;
   objectiveIndex: number;
   submitButtonRef: RefObject<HTMLButtonElement>;
 }
 
 export const ObjectiveCardDropdown = ({
+  objectiveUUID,
   objectiveIndex,
   submitButtonRef
 }: ObjectiveCardDropdownProps) => {
+  const { setIsDeleteObjectiveModalOpen, setSelectedObjectiveUUID } =
+    useEditRubricModalsStore();
+
   const handleSaveChanges = () => {
     submitButtonRef.current?.click();
+  };
+
+  const handleDeleteObjective = () => {
+    setSelectedObjectiveUUID(objectiveUUID);
+    setIsDeleteObjectiveModalOpen(true);
   };
 
   return (
@@ -38,6 +49,10 @@ export const ObjectiveCardDropdown = ({
         <DropdownMenuItem onClick={handleSaveChanges}>
           <Save className="mr-2 h-4 w-4" />
           Save changes
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleDeleteObjective}>
+          <Trash className="mr-2 h-4 w-4" />
+          Delete objective
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

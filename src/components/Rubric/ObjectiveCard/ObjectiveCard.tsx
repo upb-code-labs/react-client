@@ -63,8 +63,9 @@ export const ObjectiveCard = memo(
     return (
       <article className="relative">
         <ObjectiveCardDropdown
-          submitButtonRef={submitButtonRef}
           objectiveIndex={index}
+          objectiveUUID={initialObjective.uuid}
+          submitButtonRef={submitButtonRef}
         />
         <Form {...form}>
           <form
