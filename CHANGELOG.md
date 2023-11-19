@@ -1,3 +1,12 @@
+# [0.23.0](https://github.com/upb-code-labs/react-client/compare/v0.22.0...v0.23.0) (2023-11-19)
+
+
+### Features
+
+* Delete criteria ([#142](https://github.com/upb-code-labs/react-client/issues/142)) ([e645ff6](https://github.com/upb-code-labs/react-client/commit/e645ff6a47b80df019a165c3434a077cbed07a13))
+
+
+
 # [0.22.0](https://github.com/upb-code-labs/react-client/compare/v0.21.0...v0.22.0) (2023-11-18)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Add criteria to rubric objective ([#127](https://github.com/upb-code-labs/react-client/issues/127)) ([680d139](https://github.com/upb-code-labs/react-client/commit/680d1392404f9aa391f7289f98fa1aa283dae738))
-
-
-
-# [0.18.0](https://github.com/upb-code-labs/react-client/compare/v0.17.0...v0.18.0) (2023-11-15)
-
-
-### Features
-
-* Add objective to rubric ([#126](https://github.com/upb-code-labs/react-client/issues/126)) ([950ee3c](https://github.com/upb-code-labs/react-client/commit/950ee3c71dceb342dd700de19f073d006e3bed21))
 
 
 
