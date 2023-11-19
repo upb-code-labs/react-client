@@ -1,4 +1,10 @@
 import { expect, test } from "@playwright/test";
+import {
+  getDefaultPassword,
+  getRandomEmail,
+  getRandomName,
+  getRandomUniversityID
+} from "e2e/Utils";
 
 test("The fields are validated", async ({ page }) => {
   await page.goto("/register/students");
@@ -22,13 +28,16 @@ test("The fields are validated", async ({ page }) => {
 });
 
 test.describe.serial("Student registration", () => {
+  const newStudentEmail = getRandomEmail();
+  const newStudentID = getRandomUniversityID();
+
   test("An student can register", async ({ page, baseURL }) => {
     await page.goto("/register/students");
 
-    await page.getByLabel("Full name").fill("John Doe");
-    await page.getByLabel("Email").fill("john.doe.2020@upb.edu.co");
-    await page.getByLabel("Institutional ID").fill("000123456");
-    await page.getByLabel("Password").fill("upbbga2020*/");
+    await page.getByLabel("Full name").fill(getRandomName());
+    await page.getByLabel("Email").fill(newStudentEmail);
+    await page.getByLabel("Institutional ID").fill(newStudentID);
+    await page.getByLabel("Password").fill(getDefaultPassword());
     await page.getByRole("button", { name: "Submit" }).click();
 
     await expect(
@@ -40,15 +49,14 @@ test.describe.serial("Student registration", () => {
   test("An student can't register with an existing email", async ({ page }) => {
     await page.goto("/register/students");
 
-    const email = "john.doe.2020@upb.edu.co";
-    await page.getByLabel("Full name").fill("John Doe");
-    await page.getByLabel("Email").fill(email);
-    await page.getByLabel("Institutional ID").fill("000234561");
-    await page.getByLabel("Password").fill("upbbga2020*/");
+    await page.getByLabel("Full name").fill(getRandomName());
+    await page.getByLabel("Email").fill(newStudentEmail);
+    await page.getByLabel("Institutional ID").fill(getRandomUniversityID());
+    await page.getByLabel("Password").fill(getDefaultPassword());
     await page.getByRole("button", { name: "Submit" }).click();
 
     await expect(
-      page.getByText(`Email ${email} is already in use`)
+      page.getByText(`Email ${newStudentEmail} is already in use`)
     ).toBeVisible();
   });
 
@@ -57,21 +65,20 @@ test.describe.serial("Student registration", () => {
   }) => {
     await page.goto("/register/students");
 
-    const institutionalId = "000123456";
-    await page.getByLabel("Full name").fill("John Doe");
-    await page.getByLabel("Email").fill("doe.john.2020@upb.edu.co");
-    await page.getByLabel("Institutional ID").fill(institutionalId);
-    await page.getByLabel("Password").fill("upbbga2020*/");
+    await page.getByLabel("Full name").fill(getRandomName());
+    await page.getByLabel("Email").fill(getRandomEmail());
+    await page.getByLabel("Institutional ID").fill(newStudentID);
+    await page.getByLabel("Password").fill(getDefaultPassword());
     await page.getByRole("button", { name: "Submit" }).click();
 
     await expect(
-      page.getByText(`Institutional ID ${institutionalId} is already in use`)
+      page.getByText(`Institutional ID ${newStudentID} is already in use`)
     ).toBeVisible();
   });
 
   test("Student can login and logout", async ({ page }) => {
     await page.goto("/login");
-    await page.getByLabel("Email").fill("john.doe.2020@upb.edu.co");
+    await page.getByLabel("Email").fill(newStudentEmail);
     await page.getByLabel("Password").fill("wrong");
     await page.getByRole("button", { name: "Submit" }).click();
 
@@ -79,7 +86,7 @@ test.describe.serial("Student registration", () => {
     await expect(page.getByText("Invalid credentials")).toBeVisible();
 
     // Fill the form with the correct credentials
-    await page.getByLabel("Password").fill("upbbga2020*/");
+    await page.getByLabel("Password").fill(getDefaultPassword());
     await page.getByRole("button", { name: "Submit" }).click();
 
     // Assert the alert is shown

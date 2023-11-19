@@ -15,7 +15,7 @@ export const NavigationOptions = {
       path: "/admins"
     },
     {
-      name: "R. Teachers",
+      name: "Register Teachers",
       path: "/register/teachers"
     },
     {

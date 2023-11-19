@@ -21,8 +21,6 @@ export const AddCriteriaDialog = ({
   const [isOpen, setIsOpen] = useState(false);
   const closeDialog = () => setIsOpen(false);
 
-  console.log({ objectiveUUID, isOpen });
-
   return (
     <Dialog open={isOpen} onOpenChange={(status) => setIsOpen(status)}>
       <DialogTrigger asChild>

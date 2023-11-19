@@ -1,8 +1,8 @@
 import { AddCriteriaDialog } from "@/screens/edit-rubric/dialogs/add-criteria/AddCriteriaDialog";
 import { Objective } from "@/types/entities/rubric";
 
-import { CriteriaCard } from "./CriteriaCard";
-import { ObjectiveCard } from "./ObjectiveCard";
+import { CriteriaCard } from "./CriteriaCard/CriteriaCard";
+import { ObjectiveCard } from "./ObjectiveCard/ObjectiveCard";
 
 interface ObjectiveRowProps {
   objective: Objective;
@@ -18,7 +18,12 @@ export const ObjectiveRow = ({ objective, index }: ObjectiveRowProps) => {
       <ObjectiveCard objective={objective} index={index} />
 
       {objective.criteria.map((criteria, ci) => (
-        <CriteriaCard criteria={criteria} index={ci} />
+        <CriteriaCard
+          key={criteria.uuid}
+          criteria={criteria}
+          criteriaIndex={ci}
+          objectiveIndex={index}
+        />
       ))}
 
       <AddCriteriaDialog index={index} objectiveUUID={objective.uuid} />

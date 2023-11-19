@@ -1,23 +1,17 @@
-import { Rubric } from "@/types/entities/rubric";
 import { AxiosError } from "axios";
 
 import { GenericResponse, HttpRequester } from "../axios";
 
-type GetRubricByUuidResponse = GenericResponse & {
-  rubric: Rubric;
-};
-
-export const getRubricByUuidService = async (
-  uuid: string
-): Promise<GetRubricByUuidResponse> => {
+export const deleteCriteriaService = async (
+  criteriaUUID: string
+): Promise<GenericResponse> => {
   const { axios } = HttpRequester.getInstance();
 
   try {
-    const { data } = await axios.get(`/rubrics/${uuid}`);
+    await axios.delete(`rubrics/criteria/${criteriaUUID}`);
     return {
       success: true,
-      message: "Rubric retrieved successfully",
-      rubric: data.rubric
+      message: "The criteria has been deleted successfully"
     };
   } catch (error) {
     let errorMessage = "There was an error";
@@ -29,8 +23,7 @@ export const getRubricByUuidService = async (
 
     return {
       success: false,
-      message: errorMessage,
-      rubric: {} as Rubric
+      message: errorMessage
     };
   }
 };

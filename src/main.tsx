@@ -18,8 +18,6 @@ import {
   RegisterTeacherForm,
   RubricsHome
 } from "@/screens";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Home } from "lucide-react";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -28,121 +26,116 @@ import { Toaster } from "sonner";
 
 import "./global.css";
 
-const queryClient = new QueryClient();
-
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <AuthContextProvider>
-        <BrowserRouter>
-          <Toaster expand closeButton richColors />
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route
-              path="/login"
-              element={
-                <AuthMiddleware>
-                  <Login />
+    <AuthContextProvider>
+      <BrowserRouter>
+        <Toaster expand closeButton richColors />
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/login"
+            element={
+              <AuthMiddleware>
+                <Login />
+              </AuthMiddleware>
+            }
+          />
+          <Route
+            path="/logout"
+            element={
+              <AuthMiddleware mustBeLoggedIn>
+                <Logout />
+              </AuthMiddleware>
+            }
+          />
+          <Route
+            path="/register/students"
+            element={
+              <AuthMiddleware>
+                <FormContainer form={<RegisterStudentForm />} />
+              </AuthMiddleware>
+            }
+          />
+          <Route
+            path="/register/admins"
+            element={
+              <AuthMiddleware mustBeLoggedIn roles={["admin"]}>
+                <FormContainer form={<RegisterAdminForm />} />
+              </AuthMiddleware>
+            }
+          />
+          <Route
+            path="/register/teachers"
+            element={
+              <AuthMiddleware mustBeLoggedIn roles={["admin"]}>
+                <FormContainer form={<RegisterTeacherForm />} />
+              </AuthMiddleware>
+            }
+          />
+          <Route
+            path="/admins"
+            element={
+              <AuthMiddleware mustBeLoggedIn roles={["admin"]}>
+                <AdminsView />
+              </AuthMiddleware>
+            }
+          />
+          <Route
+            path="/courses"
+            element={
+              <UserCoursesProvider>
+                <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
+                  <CoursesHome />
                 </AuthMiddleware>
-              }
-            />
+              </UserCoursesProvider>
+            }
+          />
+          <Route
+            path="/courses/:id"
+            element={
+              <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
+                <CoursePageLayout />
+              </AuthMiddleware>
+            }
+          >
             <Route
-              path="/logout"
-              element={
-                <AuthMiddleware mustBeLoggedIn>
-                  <Logout />
-                </AuthMiddleware>
-              }
-            />
-            <Route
-              path="/register/students"
-              element={
-                <AuthMiddleware>
-                  <FormContainer form={<RegisterStudentForm />} />
-                </AuthMiddleware>
-              }
-            />
-            <Route
-              path="/register/admins"
-              element={
-                <AuthMiddleware mustBeLoggedIn roles={["admin"]}>
-                  <FormContainer form={<RegisterAdminForm />} />
-                </AuthMiddleware>
-              }
-            />
-            <Route
-              path="/register/teachers"
-              element={
-                <AuthMiddleware mustBeLoggedIn roles={["admin"]}>
-                  <FormContainer form={<RegisterTeacherForm />} />
-                </AuthMiddleware>
-              }
-            />
-            <Route
-              path="/admins"
-              element={
-                <AuthMiddleware mustBeLoggedIn roles={["admin"]}>
-                  <AdminsView />
-                </AuthMiddleware>
-              }
-            />
-            <Route
-              path="/courses"
-              element={
-                <UserCoursesProvider>
-                  <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
-                    <CoursesHome />
-                  </AuthMiddleware>
-                </UserCoursesProvider>
-              }
-            />
-            <Route
-              path="/courses/:id"
+              path="laboratories"
               element={
                 <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
-                  <CoursePageLayout />
-                </AuthMiddleware>
-              }
-            >
-              <Route
-                path="laboratories"
-                element={
-                  <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
-                    <CourseLaboratories />
-                  </AuthMiddleware>
-                }
-              />
-              <Route
-                path="participants"
-                element={
-                  <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
-                    <CourseParticipants />
-                  </AuthMiddleware>
-                }
-              />
-            </Route>
-            <Route
-              path="/rubrics"
-              element={
-                <AuthMiddleware roles={["teacher"]} mustBeLoggedIn>
-                  <RubricsHome />
+                  <CourseLaboratories />
                 </AuthMiddleware>
               }
             />
             <Route
-              path="/rubrics/:id"
+              path="participants"
               element={
-                <AuthMiddleware roles={["teacher"]} mustBeLoggedIn>
-                  <EditRubricView />
+                <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
+                  <CourseParticipants />
                 </AuthMiddleware>
               }
             />
-          </Routes>
-          <Footer />
-        </BrowserRouter>
-        <ReactQueryDevtools buttonPosition="bottom-left" />
-      </AuthContextProvider>
-    </QueryClientProvider>
+          </Route>
+          <Route
+            path="/rubrics"
+            element={
+              <AuthMiddleware roles={["teacher"]} mustBeLoggedIn>
+                <RubricsHome />
+              </AuthMiddleware>
+            }
+          />
+          <Route
+            path="/rubrics/:id"
+            element={
+              <AuthMiddleware roles={["teacher"]} mustBeLoggedIn>
+                <EditRubricView />
+              </AuthMiddleware>
+            }
+          />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </AuthContextProvider>
   </React.StrictMode>
 );

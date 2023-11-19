@@ -1,45 +1,45 @@
-# [0.19.0](https://github.com/upb-code-labs/react-client/compare/v0.18.0...v0.19.0) (2023-11-15)
+# [0.24.0](https://github.com/upb-code-labs/react-client/compare/v0.23.0...v0.24.0) (2023-11-19)
 
 
 ### Features
 
-* Add criteria to rubric objective ([#127](https://github.com/upb-code-labs/react-client/issues/127)) ([680d139](https://github.com/upb-code-labs/react-client/commit/680d1392404f9aa391f7289f98fa1aa283dae738))
+* Delete rubric objective ([#143](https://github.com/upb-code-labs/react-client/issues/143)) ([f869366](https://github.com/upb-code-labs/react-client/commit/f869366463800ae0525a4faed4f0c71d97d3ec04))
 
 
 
-# [0.18.0](https://github.com/upb-code-labs/react-client/compare/v0.17.0...v0.18.0) (2023-11-15)
-
-
-### Features
-
-* Add objective to rubric ([#126](https://github.com/upb-code-labs/react-client/issues/126)) ([950ee3c](https://github.com/upb-code-labs/react-client/commit/950ee3c71dceb342dd700de19f073d006e3bed21))
-
-
-
-# [0.17.0](https://github.com/upb-code-labs/react-client/compare/v0.16.0...v0.17.0) (2023-11-12)
+# [0.23.0](https://github.com/upb-code-labs/react-client/compare/v0.22.0...v0.23.0) (2023-11-19)
 
 
 ### Features
 
-* **ui:** Edit rubric view ([#122](https://github.com/upb-code-labs/react-client/issues/122)) ([b5830a7](https://github.com/upb-code-labs/react-client/commit/b5830a7c6b550985c8acc9e1a94385fb684fcb2c))
+* Delete criteria ([#142](https://github.com/upb-code-labs/react-client/issues/142)) ([e645ff6](https://github.com/upb-code-labs/react-client/commit/e645ff6a47b80df019a165c3434a077cbed07a13))
 
 
 
-# [0.16.0](https://github.com/upb-code-labs/react-client/compare/v0.15.1...v0.16.0) (2023-10-13)
+# [0.22.0](https://github.com/upb-code-labs/react-client/compare/v0.21.0...v0.22.0) (2023-11-18)
 
 
 ### Features
 
-* Create and list rubrics ([#88](https://github.com/upb-code-labs/react-client/issues/88)) ([69b8daa](https://github.com/upb-code-labs/react-client/commit/69b8daa11bcec233b9acfb6c43d41c7c34e84445))
+* Update criteria ([#141](https://github.com/upb-code-labs/react-client/issues/141)) ([489403e](https://github.com/upb-code-labs/react-client/commit/489403e541a0158688bdb706c12561f847af7674))
 
 
 
-## [0.15.1](https://github.com/upb-code-labs/react-client/compare/v0.15.0...v0.15.1) (2023-10-13)
+# [0.21.0](https://github.com/upb-code-labs/react-client/compare/v0.20.0...v0.21.0) (2023-11-18)
 
 
-### Bug Fixes
+### Features
 
-* Show admin accounts creator ([#83](https://github.com/upb-code-labs/react-client/issues/83)) ([6f25f2f](https://github.com/upb-code-labs/react-client/commit/6f25f2ff78bd12c7e1c24285d3ce9291a5a69c61))
+* Update rubric objective ([#140](https://github.com/upb-code-labs/react-client/issues/140)) ([7dffd39](https://github.com/upb-code-labs/react-client/commit/7dffd3963c9567327f0ed6eb4838949cf4568853))
+
+
+
+# [0.20.0](https://github.com/upb-code-labs/react-client/compare/v0.19.0...v0.20.0) (2023-11-17)
+
+
+### Features
+
+* Update rubric name ([#139](https://github.com/upb-code-labs/react-client/issues/139)) ([8d46db1](https://github.com/upb-code-labs/react-client/commit/8d46db16ca01d1081e6664d86bcf2b0fac2e4751))
 
 
 
