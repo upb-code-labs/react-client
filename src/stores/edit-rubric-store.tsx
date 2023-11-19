@@ -13,6 +13,7 @@ type EditRubricStore = {
   // Objective mutations
   addObjective: (objective: Objective) => void;
   updateObjective: (objectiveUUID: string, description: string) => void;
+  deleteObjective: (objectiveUUID: string) => void;
 
   // Criteria mutations
   addCriteria: (objectiveUUID: string, criteria: Criteria) => void;
@@ -75,6 +76,22 @@ export const useEditRubricStore = create<EditRubricStore>((set) => ({
 
         return objective;
       });
+
+      return {
+        rubric: {
+          ...state.rubric,
+          objectives
+        }
+      };
+    });
+  },
+  deleteObjective: (uuid) => {
+    set((state) => {
+      if (!state.rubric) return state;
+
+      const objectives = state.rubric.objectives.filter(
+        (objective) => objective.uuid !== uuid
+      );
 
       return {
         rubric: {
