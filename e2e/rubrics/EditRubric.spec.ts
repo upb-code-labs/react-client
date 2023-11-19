@@ -5,6 +5,7 @@ import {
   getRandomEmail
 } from "e2e/Utils";
 
+
 import rubricData from "./rubric.json" assert { type: "json" };
 
 test.describe.serial("Rubrics edition workflow", () => {
@@ -30,13 +31,15 @@ test.describe.serial("Rubrics edition workflow", () => {
     await page.getByRole("button", { name: "Submit" }).click();
   });
 
-  test("Create test rubric", async ({ page }) => {
+  test.beforeEach(async ({ page }) => {
     // Login as the teacher
     await page.goto("/login");
     await page.getByLabel("Email").fill(teacherEmail);
     await page.getByLabel("Password").fill(teacherPassword);
     await page.getByRole("button", { name: "Submit" }).click();
+  });
 
+  test("Create test rubric", async ({ page }) => {
     // Go to the rubrics page
     await page.getByRole("link", { name: "Rubrics", exact: true }).click();
     await page.waitForURL(/\/rubrics$/);
@@ -55,12 +58,6 @@ test.describe.serial("Rubrics edition workflow", () => {
   });
 
   test("Update rubric name", async ({ page }) => {
-    // Login as the teacher
-    await page.goto("/login");
-    await page.getByLabel("Email").fill(teacherEmail);
-    await page.getByLabel("Password").fill(teacherPassword);
-    await page.getByRole("button", { name: "Submit" }).click();
-
     // Go to the rubrics page
     await page.getByRole("link", { name: "Rubrics", exact: true }).click();
     await page.waitForURL(/\/rubrics$/);
@@ -91,12 +88,6 @@ test.describe.serial("Rubrics edition workflow", () => {
   });
 
   test("Add new objectives and criteria", async ({ page }) => {
-    // Login as the teacher
-    await page.goto("/login");
-    await page.getByLabel("Email").fill(teacherEmail);
-    await page.getByLabel("Password").fill(teacherPassword);
-    await page.getByRole("button", { name: "Submit" }).click();
-
     // Go to the rubrics page
     await page.getByRole("link", { name: "Rubrics", exact: true }).click();
     await page.waitForURL(/\/rubrics$/);
@@ -163,12 +154,6 @@ test.describe.serial("Rubrics edition workflow", () => {
   });
 
   test("Update objective description", async ({ page }) => {
-    // Login as the teacher
-    await page.goto("/login");
-    await page.getByLabel("Email").fill(teacherEmail);
-    await page.getByLabel("Password").fill(teacherPassword);
-    await page.getByRole("button", { name: "Submit" }).click();
-
     // Go to the rubrics page
     await page.getByRole("link", { name: "Rubrics", exact: true }).click();
     await page.waitForURL(/\/rubrics$/);
@@ -209,12 +194,6 @@ test.describe.serial("Rubrics edition workflow", () => {
   });
 
   test("Update criteria", async ({ page }) => {
-    // Login as the teacher
-    await page.goto("/login");
-    await page.getByLabel("Email").fill(teacherEmail);
-    await page.getByLabel("Password").fill(teacherPassword);
-    await page.getByRole("button", { name: "Submit" }).click();
-
     // Go to the rubrics page
     await page.getByRole("link", { name: "Rubrics", exact: true }).click();
     await page.waitForURL(/\/rubrics$/);
@@ -274,12 +253,6 @@ test.describe.serial("Rubrics edition workflow", () => {
   });
 
   test("Delete criteria", async ({ page }) => {
-    // Login as the teacher
-    await page.goto("/login");
-    await page.getByLabel("Email").fill(teacherEmail);
-    await page.getByLabel("Password").fill(teacherPassword);
-    await page.getByRole("button", { name: "Submit" }).click();
-
     // Go to the rubrics page
     await page.getByRole("link", { name: "Rubrics", exact: true }).click();
     await page.waitForURL(/\/rubrics$/);
@@ -292,7 +265,7 @@ test.describe.serial("Rubrics edition workflow", () => {
 
     // Open the confirmation modal
     const objectiveIndex = 2;
-    const criteriaIndex = 1;
+    const criteriaIndex = 4;
     await page
       .getByLabel(
         `Toggle options for criteria ${criteriaIndex} of objective ${objectiveIndex}`,
@@ -337,7 +310,6 @@ test.describe.serial("Rubrics edition workflow", () => {
         )
       ).not.toBeVisible();
     };
-
     assertCriteriaWasDeleted();
 
     // Reload the page and assert the criteria was deleted
