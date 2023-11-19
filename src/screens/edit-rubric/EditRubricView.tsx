@@ -8,6 +8,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 import { DeleteCriteriaDialog } from "./dialogs/DeleteCriteriaDialog";
+import { DeleteObjectiveDialog } from "./dialogs/DeleteObjectiveDialog";
 import { AddObjectiveDialog } from "./dialogs/add-objective/AddObjectiveDialog";
 
 export const EditRubricView = () => {
@@ -53,6 +54,7 @@ export const EditRubricView = () => {
       ))}
       <AddObjectiveDialog />
       <DeleteCriteriaDialog />
+      <DeleteObjectiveDialog />
     </main>
   );
 };
