@@ -1,5 +1,6 @@
 import { LaboratoryBaseInfo } from "@/types/entities/laboratory";
 import { useEffect, useReducer, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { courseLaboratoriesReducer } from "./courseLaboratoriesReducer";
 
@@ -7,13 +8,7 @@ export type courseLaboratoriesState = {
   laboratories: LaboratoryBaseInfo[];
 };
 
-interface useCourseLaboratoriesProps {
-  courseUUID: string;
-}
-
-export const useCourseLaboratories = ({
-  courseUUID
-}: useCourseLaboratoriesProps) => {
+export const useCourseLaboratories = () => {
   const [laboratoriesState, laboratoriesStateDispatcher] = useReducer(
     courseLaboratoriesReducer,
     {
@@ -22,6 +17,7 @@ export const useCourseLaboratories = ({
   );
 
   const [loading, setLoading] = useState(false);
+  const { id: courseUUID } = useParams<{ id: string }>();
 
   useEffect(() => {
     const getLaboratories = async () => {

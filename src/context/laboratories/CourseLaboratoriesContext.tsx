@@ -24,7 +24,7 @@ export const CourseLaboratoriesProvider = ({
   children: React.ReactNode;
 }) => {
   const { loading, laboratoriesState, laboratoriesStateDispatcher } =
-    useCourseLaboratories({ courseUUID: "{{UUID}}" });
+    useCourseLaboratories();
 
   const { laboratories } = laboratoriesState;
 
