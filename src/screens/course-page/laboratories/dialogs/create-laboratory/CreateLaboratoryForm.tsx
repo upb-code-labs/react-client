@@ -9,9 +9,12 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { createLaboratoryService } from "@/services/laboratories/create-laboratory.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
+import { toast } from "sonner";
 import * as z from "zod";
 
 const createLaboratorySchema = z
@@ -26,7 +29,7 @@ const createLaboratorySchema = z
         /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/,
         "You must select a valid opening date"
       ),
-    closingDate: z
+    dueDate: z
       .string()
       .regex(
         /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/,
@@ -36,7 +39,7 @@ const createLaboratorySchema = z
   .refine(
     (data) => {
       const openingDate = new Date(data.openingDate);
-      const closingDate = new Date(data.closingDate);
+      const closingDate = new Date(data.dueDate);
       return openingDate < closingDate;
     },
     {
@@ -59,15 +62,31 @@ export const CreateLaboratoryForm = ({
     defaultValues: {
       name: "",
       openingDate: "",
-      closingDate: ""
+      dueDate: ""
     }
   });
 
-  const onSubmit = (values: z.infer<typeof createLaboratorySchema>) => {
+  const { id } = useParams<{ id: string }>();
+  const courseUUID = id as string;
+
+  const onSubmit = async (values: z.infer<typeof createLaboratorySchema>) => {
     setLoading(true);
-    console.log(values);
+
+    // Send the request
+    const { success, message } = await createLaboratoryService({
+      ...values,
+      courseUUID
+    });
+    if (!success) {
+      toast.error(message);
+      return;
+    }
+
     setLoading(false);
-    // closeDialogCallback();
+    toast.success("The laboratory has been created successfully");
+    closeDialogCallback();
+
+    // TODO: Add the new laboratory to the laboratories table
   };
 
   return (
@@ -117,7 +136,7 @@ export const CreateLaboratoryForm = ({
         />
         <FormField
           control={form.control}
-          name="closingDate"
+          name="dueDate"
           render={({ field }) => (
             <FormItem className="mb-4 grid grid-cols-4 items-center gap-x-4">
               <FormLabel>Closing date</FormLabel>
@@ -128,9 +147,9 @@ export const CreateLaboratoryForm = ({
                   className="col-span-3"
                 />
               </FormControl>
-              {form.formState.errors.closingDate && (
+              {form.formState.errors.dueDate && (
                 <FormMessage className="col-span-3 col-start-2">
-                  {form.formState.errors.closingDate.message}
+                  {form.formState.errors.dueDate.message}
                 </FormMessage>
               )}
             </FormItem>
