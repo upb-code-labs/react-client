@@ -41,7 +41,7 @@ export const CourseLaboratoriesTable = ({
   }
 
   if (laboratories.length === 0) {
-    <EmptyContentText text="There are no laboratories to show" />;
+    return <EmptyContentText text="There are no laboratories to show" />;
   }
 
   return (
