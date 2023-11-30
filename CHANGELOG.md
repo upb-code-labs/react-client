@@ -1,3 +1,12 @@
+# [0.26.0](https://github.com/upb-code-labs/react-client/compare/v0.25.0...v0.26.0) (2023-11-30)
+
+
+### Features
+
+* List laboratories ([#177](https://github.com/upb-code-labs/react-client/issues/177)) ([05c23b2](https://github.com/upb-code-labs/react-client/commit/05c23b23028e5a2f42080f76ba05ca70a5ce0b30))
+
+
+
 # [0.25.0](https://github.com/upb-code-labs/react-client/compare/v0.24.0...v0.25.0) (2023-11-29)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Update criteria ([#141](https://github.com/upb-code-labs/react-client/issues/141)) ([489403e](https://github.com/upb-code-labs/react-client/commit/489403e541a0158688bdb706c12561f847af7674))
-
-
-
-# [0.21.0](https://github.com/upb-code-labs/react-client/compare/v0.20.0...v0.21.0) (2023-11-18)
-
-
-### Features
-
-* Update rubric objective ([#140](https://github.com/upb-code-labs/react-client/issues/140)) ([7dffd39](https://github.com/upb-code-labs/react-client/commit/7dffd3963c9567327f0ed6eb4838949cf4568853))
 
 
 
