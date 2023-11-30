@@ -17,8 +17,8 @@ export type LaboratoryBlock = MarkdownBlock | TestBlock;
 export type LaboratoryBaseInfo = {
   uuid: string;
   name: string;
-  openingDate: string;
-  dueDate: string;
+  opening_date: string;
+  due_date: string;
 };
 
 export type Laboratory = LaboratoryBaseInfo & {
