@@ -9,9 +9,11 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { CourseLaboratoriesContext } from "@/context/laboratories/CourseLaboratoriesContext";
+import { courseLaboratoriesActionType } from "@/hooks/laboratories/courseLaboratoriesReducer";
 import { createLaboratoryService } from "@/services/laboratories/create-laboratory.service";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -69,11 +71,13 @@ export const CreateLaboratoryForm = ({
   const { id } = useParams<{ id: string }>();
   const courseUUID = id as string;
 
+  const { laboratoriesDispatcher } = useContext(CourseLaboratoriesContext);
+
   const onSubmit = async (values: z.infer<typeof createLaboratorySchema>) => {
     setLoading(true);
 
     // Send the request
-    const { success, message } = await createLaboratoryService({
+    const { success, message, laboratoryUUID } = await createLaboratoryService({
       ...values,
       courseUUID
     });
@@ -86,7 +90,17 @@ export const CreateLaboratoryForm = ({
     toast.success("The laboratory has been created successfully");
     closeDialogCallback();
 
-    // TODO: Add the new laboratory to the laboratories table
+    laboratoriesDispatcher({
+      type: courseLaboratoriesActionType.ADD_LABORATORY,
+      payload: {
+        laboratory: {
+          uuid: laboratoryUUID,
+          name: values.name,
+          opening_date: values.openingDate,
+          due_date: values.dueDate
+        }
+      }
+    });
   };
 
   return (
