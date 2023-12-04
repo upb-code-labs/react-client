@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { EnrollStudentDialog } from "./dialogs/enroll-student/EnrollStudentDialog";
 
 export const CourseParticipants = () => {
-  const { id = "empty" } = useParams();
+  const { courseUUID = "" } = useParams<{ courseUUID: string }>();
   const navigate = useNavigate();
 
   const [state, setState] = useState<"loading" | "idle">("loading");
@@ -29,7 +29,8 @@ export const CourseParticipants = () => {
   }, []);
 
   const getStudents = async () => {
-    const { success, ...response } = await getEnrolledStudentsService(id);
+    const { success, ...response } =
+      await getEnrolledStudentsService(courseUUID);
     if (!success) {
       toast.error(response.message);
       navigate("/courses");

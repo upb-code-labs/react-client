@@ -3,7 +3,7 @@ import { LaboratoryBaseInfo } from "@/types/entities/laboratory";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { BookOpenCheck, Edit } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { GenericTableSkeleton } from "../Skeletons/GenericTableSkeleton";
 import { EmptyContentText } from "../Texts/EmptyContentText";
@@ -29,6 +29,7 @@ export const CourseLaboratoriesTable = ({
   laboratories
 }: courseLaboratoriesTableProps) => {
   const { user } = useSession();
+  const { courseUUID } = useParams<{ courseUUID: string }>();
 
   if (loading) {
     return (
@@ -70,7 +71,7 @@ export const CourseLaboratoriesTable = ({
                   <Link
                     className={buttonVariants({ variant: "default" })}
                     aria-label={`Edit ${lab.name} laboratory`}
-                    to={`/laboratories/${lab.uuid}/edit`}
+                    to={`/courses/${courseUUID}/laboratories/${lab.uuid}/edit`}
                   >
                     <Edit className="mr-2" /> Edit
                   </Link>
@@ -80,7 +81,7 @@ export const CourseLaboratoriesTable = ({
                   <Link
                     aria-label={`Complete ${lab.name} laboratory`}
                     className={buttonVariants({ variant: "default" })}
-                    to={`/laboratories/${lab.uuid}/complete`}
+                    to={`/courses/${courseUUID}/laboratories/${lab.uuid}/complete`}
                   >
                     <BookOpenCheck className="mr-2" /> Complete
                   </Link>

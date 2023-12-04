@@ -11,7 +11,7 @@ import { CourseNavigationSkeleton } from "./CourseNavigationSkeleton";
 
 export const CoursePageLayout = () => {
   const navigate = useNavigate();
-  const { id = "empty" } = useParams();
+  const { courseUUID = "" } = useParams<{ courseUUID: string }>();
 
   const { user } = useContext(AuthContext);
   const role = user?.role || "student";
@@ -25,7 +25,7 @@ export const CoursePageLayout = () => {
   }, []);
 
   const getCourse = async () => {
-    const { success, ...response } = await getCourseService(id);
+    const { success, ...response } = await getCourseService(courseUUID);
     if (!success) {
       toast.error(response.message);
       redirectToCoursesView();
@@ -65,7 +65,9 @@ export const CoursePageLayout = () => {
                   className="py-1 text-foreground/75 transition-colors hover:text-foreground"
                   key={option.path}
                 >
-                  <Link to={option.path.replace(":id", id)}>{option.name}</Link>
+                  <Link to={option.path.replace(":id", courseUUID)}>
+                    {option.name}
+                  </Link>
                 </li>
               ))}
             </ul>
