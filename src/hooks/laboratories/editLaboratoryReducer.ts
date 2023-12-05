@@ -1,3 +1,5 @@
+import { MarkdownBlock } from "@/types/entities/laboratory";
+
 import {
   EditLaboratoryAction,
   EditLaboratoryActionType
@@ -26,21 +28,22 @@ export function editLaboratoryReducer(
         }
       };
 
-    case EditLaboratoryActionType.ADD_MARKDOWN_BLOCK:
+    case EditLaboratoryActionType.ADD_MARKDOWN_BLOCK: {
+      const newMarkdownBlock: MarkdownBlock = {
+        uuid: action.payload.uuid,
+        index: state.laboratory!.blocks.length,
+        content: "",
+        blockType: "markdown"
+      };
+
       return {
         ...state,
         laboratory: {
           ...state.laboratory!,
-          blocks: [
-            ...state.laboratory!.blocks,
-            {
-              uuid: action.payload.uuid,
-              content: "",
-              index: state.laboratory!.blocks.length
-            }
-          ]
+          blocks: [...state.laboratory!.blocks, newMarkdownBlock]
         }
       };
+    }
 
     case EditLaboratoryActionType.UPDATE_MARKDOWN_BLOCK:
       return {

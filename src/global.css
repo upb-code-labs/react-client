@@ -37,4 +37,10 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Keep list styles in markdown editor */
+  .markdown-editor ul,
+  .markdown-editor ol {
+    list-style: revert;
+  }
 }
