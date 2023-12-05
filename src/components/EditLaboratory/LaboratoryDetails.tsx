@@ -1,7 +1,12 @@
+import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
+import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
+import { updateLaboratoryDetailsService } from "@/services/laboratories/update-laboratory-details.service";
 import { LaboratoryBaseInfo } from "@/types/entities/laboratory";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Save } from "lucide-react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 import { Button } from "../ui/button";
@@ -39,7 +44,7 @@ const editLaboratoryScheme = z
         /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/,
         "You must select a valid closing date"
       ),
-    rubricUUID: z.string().uuid()
+    rubricUUID: z.string().uuid().nullable()
   })
   .refine(
     (data) => {
@@ -72,18 +77,48 @@ export const LaboratoryDetails = ({
     dueDate
   });
 
+  // Global laboratory state
+  const { laboratoryStateDispatcher } = useContext(EditLaboratoryContext);
+
+  // Form state
+  const [isUpdating, setIsUpdating] = useState(false);
   const form = useForm<z.infer<typeof editLaboratoryScheme>>({
     resolver: zodResolver(editLaboratoryScheme),
     defaultValues: {
       ...laboratoryDetails,
-      rubricUUID: laboratoryDetails.rubricUUID || "",
+      rubricUUID: laboratoryDetails.rubricUUID,
       openingDate,
       dueDate
     }
   });
 
-  const handleSubmit = (data: z.infer<typeof editLaboratoryScheme>) => {
-    console.log(data);
+  const handleSubmit = async (data: z.infer<typeof editLaboratoryScheme>) => {
+    setIsUpdating(true);
+
+    const { success, message } = await updateLaboratoryDetailsService({
+      laboratoryUUID: laboratoryDetails.uuid,
+      name: data.name,
+      due_date: data.dueDate,
+      opening_date: data.openingDate,
+      rubric_uuid: data.rubricUUID
+    });
+
+    if (!success) {
+      toast.error(message);
+    } else {
+      toast.success(message);
+      laboratoryStateDispatcher({
+        type: EditLaboratoryActionType.UPDATE_LABORATORY_DATA,
+        payload: {
+          name: data.name,
+          due_date: data.dueDate,
+          opening_date: data.openingDate,
+          rubricUUID: data.rubricUUID
+        }
+      });
+    }
+
+    setIsUpdating(false);
   };
 
   return (
@@ -112,8 +147,8 @@ export const LaboratoryDetails = ({
               </FormItem>
             )}
           />
-          <Button type="button">
-            <Save className="mr-2" /> Save
+          <Button type="submit" isLoading={isUpdating}>
+            <Save className="mr-2" /> Save changes
           </Button>
         </div>
         {/* Dates and rubric selection*/}

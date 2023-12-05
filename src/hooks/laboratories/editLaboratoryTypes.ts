@@ -26,7 +26,7 @@ export type EditLaboratoryAction =
         name: string;
         opening_date: string;
         due_date: string;
-        rubricUUID: string;
+        rubricUUID: string | null;
       };
     }
   | {
