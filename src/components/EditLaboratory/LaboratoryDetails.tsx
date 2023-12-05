@@ -219,7 +219,12 @@ export const LaboratoryDetails = ({
                   </FormControl>
                   <SelectContent>
                     {rubrics.map((rubric) => (
-                      <SelectItem value={rubric.uuid}>{rubric.name}</SelectItem>
+                      <SelectItem
+                        key={`rubric-option-${rubric.uuid}`}
+                        value={rubric.uuid}
+                      >
+                        {rubric.name}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
