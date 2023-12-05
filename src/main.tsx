@@ -18,6 +18,7 @@ import {
   RegisterTeacherForm,
   RubricsHome
 } from "@/screens";
+import { EditLaboratory } from "@/screens/course-page/laboratories/EditLaboratory";
 import { Home } from "lucide-react";
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -25,6 +26,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 
 import { CourseLaboratoriesProvider } from "./context/laboratories/CourseLaboratoriesContext";
+import { EditLaboratoryProvider } from "./context/laboratories/EditLaboratoryContext";
 import "./global.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -94,7 +96,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             }
           />
           <Route
-            path="/courses/:id"
+            path="/courses/:courseUUID"
             element={
               <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
                 <CoursePageLayout />
@@ -108,6 +110,16 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                   <CourseLaboratoriesProvider>
                     <CourseLaboratories />
                   </CourseLaboratoriesProvider>
+                </AuthMiddleware>
+              }
+            />
+            <Route
+              path="laboratories/:laboratoryUUID/edit"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
+                  <EditLaboratoryProvider>
+                    <EditLaboratory />
+                  </EditLaboratoryProvider>
                 </AuthMiddleware>
               }
             />
