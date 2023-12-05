@@ -69,13 +69,14 @@ export const EditLaboratory = () => {
       <Separator className="my-8" />
 
       {/* Laboratory blocks */}
-      {laboratory.blocks.map((block) => {
+      {laboratory.blocks.map((block, index) => {
         if (block.blockType === "markdown") {
           const mdBlock: MarkdownBlock = block as MarkdownBlock;
           return (
             <EditableMarkdownBlock
               key={mdBlock.uuid}
               blockUUID={mdBlock.uuid}
+              blockIndex={index}
               blockContent={mdBlock.content}
               onChangeCallback={onMarkdownBlockChange}
             />

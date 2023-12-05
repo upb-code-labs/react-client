@@ -16,9 +16,13 @@ import {
 
 interface MarkdownBlockDropDown {
   blockUUID: string;
+  blockIndex: number;
 }
 
-export const MarkdownBlockDropDown = ({ blockUUID }: MarkdownBlockDropDown) => {
+export const MarkdownBlockDropDown = ({
+  blockUUID,
+  blockIndex
+}: MarkdownBlockDropDown) => {
   const { laboratoryState } = useContext(EditLaboratoryContext);
   const { laboratory } = laboratoryState;
 
@@ -42,7 +46,10 @@ export const MarkdownBlockDropDown = ({ blockUUID }: MarkdownBlockDropDown) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="h-min px-2">
+        <button
+          className="h-min px-2"
+          aria-label={`Toggle options for block number ${blockIndex + 1}`}
+        >
           <MoreVertical />
         </button>
       </DropdownMenuTrigger>

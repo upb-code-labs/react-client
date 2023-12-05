@@ -6,6 +6,7 @@ import { MarkdownBlockDropDown } from "./MarkdownBlockDropDown";
 
 interface EditableMarkdownBlockProps {
   blockUUID: string;
+  blockIndex: number;
   blockContent: string;
   onChangeCallback: (uuid: string, content: string) => void;
 }
@@ -13,6 +14,7 @@ interface EditableMarkdownBlockProps {
 export const EditableMarkdownBlock = memo(
   ({
     blockUUID,
+    blockIndex,
     blockContent,
     onChangeCallback
   }: EditableMarkdownBlockProps) => {
@@ -23,6 +25,9 @@ export const EditableMarkdownBlock = memo(
           onChange={(value, _viewUpdate) => {
             onChangeCallback(blockUUID, value || "");
           }}
+          textareaProps={{
+            "aria-label": `Laboratory block ${blockIndex + 1} markdown content`
+          }}
           data-color-mode="light"
           className="markdown-editor flex-grow"
           minHeight={350}
@@ -32,7 +37,7 @@ export const EditableMarkdownBlock = memo(
             rehypePlugins: [[rehypeSanitize]]
           }}
         />
-        <MarkdownBlockDropDown blockUUID={blockUUID} />
+        <MarkdownBlockDropDown blockUUID={blockUUID} blockIndex={blockIndex} />
       </div>
     );
   }
