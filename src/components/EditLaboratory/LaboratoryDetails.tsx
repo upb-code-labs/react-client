@@ -1,10 +1,12 @@
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
 import { updateLaboratoryDetailsService } from "@/services/laboratories/update-laboratory-details.service";
+import { getTeacherRubricsService } from "@/services/rubrics/get-teacher-rubrics.service";
 import { LaboratoryBaseInfo } from "@/types/entities/laboratory";
+import { CreatedRubric } from "@/types/entities/rubric";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Save } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -22,6 +24,7 @@ import { Input } from "../ui/input";
 import {
   Select,
   SelectContent,
+  SelectItem,
   SelectTrigger,
   SelectValue
 } from "../ui/select";
@@ -72,10 +75,6 @@ export const LaboratoryDetails = ({
   // Remove empty timezone from dates
   const openingDate = laboratoryDetails.opening_date.slice(0, -4);
   const dueDate = laboratoryDetails.due_date.slice(0, -4);
-  console.log({
-    openingDate,
-    dueDate
-  });
 
   // Global laboratory state
   const { laboratoryStateDispatcher } = useContext(EditLaboratoryContext);
@@ -120,6 +119,22 @@ export const LaboratoryDetails = ({
 
     setIsUpdating(false);
   };
+
+  // Rubrics state
+  const [rubrics, setRubrics] = useState<CreatedRubric[]>([]);
+  useEffect(() => {
+    const fetchTeacherRubrics = async () => {
+      const { success, rubrics, message } = await getTeacherRubricsService();
+      if (!success) {
+        toast.error(message);
+        return;
+      }
+
+      setRubrics(rubrics);
+    };
+
+    fetchTeacherRubrics();
+  }, []);
 
   return (
     <Form {...form}>
@@ -193,14 +208,19 @@ export const LaboratoryDetails = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Rubric</FormLabel>
-                <Select onValueChange={field.onChange}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value || undefined}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a rubric from your rubrics list" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {/* TODO: Get and map teacher rubrics */}
+                    {rubrics.map((rubric) => (
+                      <SelectItem value={rubric.uuid}>{rubric.name}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 {form.formState.errors.rubricUUID && (

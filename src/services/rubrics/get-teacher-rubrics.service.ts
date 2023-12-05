@@ -21,7 +21,7 @@ export const getTeacherRubricsService =
         rubrics: data.rubrics
       };
     } catch (error) {
-      let errorMessage = "There was an error";
+      let errorMessage = "There was an error retrieving your rubrics";
 
       if (error instanceof AxiosError) {
         const { message } = error.response?.data || "";
