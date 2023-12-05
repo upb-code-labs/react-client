@@ -1,7 +1,10 @@
+type BlockType = "markdown" | "test";
+
 export type MarkdownBlock = {
   uuid: string;
   content: string;
   index: number;
+  blockType: BlockType;
 };
 
 export type TestBlock = {
@@ -10,6 +13,7 @@ export type TestBlock = {
   testArchiveUUID: string;
   name: string;
   index: number;
+  blockType: BlockType;
 };
 
 export type LaboratoryBlock = MarkdownBlock | TestBlock;

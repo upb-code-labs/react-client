@@ -15,7 +15,7 @@ export const FoundStudentCard = ({
   student,
   addStudentCallback
 }: FoundStudentCardProps) => {
-  const { id: courseUUID = "empty" } = useParams();
+  const { courseUUID = "" } = useParams<{ courseUUID: string }>();
 
   const enrollStudent = async () => {
     const { success, message } = await enrollStudentService(

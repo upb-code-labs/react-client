@@ -68,8 +68,7 @@ export const CreateLaboratoryForm = ({
     }
   });
 
-  const { id } = useParams<{ id: string }>();
-  const courseUUID = id as string;
+  const { courseUUID = "" } = useParams<{ courseUUID: string }>();
 
   const { laboratoriesDispatcher } = useContext(CourseLaboratoriesContext);
 

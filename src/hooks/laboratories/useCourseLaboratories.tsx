@@ -23,15 +23,14 @@ export const useCourseLaboratories = () => {
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { id } = useParams<{ id: string }>();
-  const courseUUID = id as string;
+  const { courseUUID } = useParams<{ courseUUID: string }>();
 
   useEffect(() => {
     const getLaboratories = async () => {
       setLoading(true);
 
       const { success, message, laboratories } =
-        await getCourseLaboratoriesService(courseUUID);
+        await getCourseLaboratoriesService(courseUUID as string);
       if (!success) {
         toast.error(message);
         navigate(`/courses/${courseUUID}`);
