@@ -18,7 +18,7 @@ import {
   RegisterTeacherForm,
   RubricsHome
 } from "@/screens";
-import { EditLaboratory } from "@/screens/course-page/laboratories/EditLaboratory";
+import { EditLaboratory } from "@/screens/edit-laboratory/EditLaboratory";
 import { Home } from "lucide-react";
 import React from "react";
 import ReactDOM from "react-dom/client";
