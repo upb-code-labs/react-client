@@ -14,7 +14,7 @@ export const updateMarkdownBlockContentService = async ({
   const { axios } = HttpRequester.getInstance();
 
   try {
-    await axios.put(`/blocks/markdown_blocks/${markdownBlockUUID}/content`, {
+    await axios.patch(`/blocks/markdown_blocks/${markdownBlockUUID}/content`, {
       content
     });
 
