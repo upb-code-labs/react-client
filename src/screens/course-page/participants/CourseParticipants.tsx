@@ -67,15 +67,17 @@ export const CourseParticipants = () => {
 
   return (
     <main className="md:col-span-3">
-      <div className="mb-4 flex flex-col items-start justify-between md:flex-row md:items-center">
+      <div className="flex flex-col items-start justify-between md:flex-row md:items-center">
         <h1 className="my-4 text-3xl font-bold">Enrolled students</h1>
         <EnrollStudentDialog addStudentCallback={addStudent} />
       </div>
-      <CourseParticipantsTable
-        isLoading={isLoading}
-        students={students}
-        tableColsDefinition={tableColumns}
-      />
+      <div className="mt-12 md:mt-4">
+        <CourseParticipantsTable
+          isLoading={isLoading}
+          students={students}
+          tableColsDefinition={tableColumns}
+        />
+      </div>
     </main>
   );
 };

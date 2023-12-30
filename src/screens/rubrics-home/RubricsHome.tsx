@@ -34,11 +34,11 @@ export const RubricsHome = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-4">
-      <div className="mb-2 flex flex-col items-start justify-between md:flex-row md:items-center">
+      <div className="mt-4 flex flex-col items-start justify-between md:flex-row md:items-center">
         <h1 className="my-4 text-3xl font-bold">Your rubrics</h1>
         <CreateRubricDialog addRubricCallback={addRubric} />
       </div>
-      <main>
+      <main className="mt-8 md:mt-4">
         <RubricsTable isLoading={loading} rubrics={rubrics} />
       </main>
     </div>
