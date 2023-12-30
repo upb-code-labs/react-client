@@ -1,3 +1,12 @@
+# [0.28.0](https://github.com/upb-code-labs/react-client/compare/v0.27.0...v0.28.0) (2023-12-30)
+
+
+### Features
+
+* Sort enrolled students by full name ([#201](https://github.com/upb-code-labs/react-client/issues/201)) ([f3cab6c](https://github.com/upb-code-labs/react-client/commit/f3cab6cb6e2f3616d8236d40a0656c48a59c5884))
+
+
+
 # [0.27.0](https://github.com/upb-code-labs/react-client/compare/v0.26.0...v0.27.0) (2023-12-05)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Delete rubric objective ([#143](https://github.com/upb-code-labs/react-client/issues/143)) ([f869366](https://github.com/upb-code-labs/react-client/commit/f869366463800ae0525a4faed4f0c71d97d3ec04))
-
-
-
-# [0.23.0](https://github.com/upb-code-labs/react-client/compare/v0.22.0...v0.23.0) (2023-11-19)
-
-
-### Features
-
-* Delete criteria ([#142](https://github.com/upb-code-labs/react-client/issues/142)) ([e645ff6](https://github.com/upb-code-labs/react-client/commit/e645ff6a47b80df019a165c3434a077cbed07a13))
 
 
 
