@@ -171,7 +171,7 @@ export const EditableTestBlockForm = ({
                   {!form.getFieldState("languageUUID").invalid && (
                     <Button
                       type="button"
-                      aria-label={`Download language template for block ${testBlock.index}`}
+                      aria-label={`Download language template for block ${blockIndex}`}
                     >
                       <DownloadIcon size={20} />
                     </Button>
@@ -206,7 +206,7 @@ export const EditableTestBlockForm = ({
                     </FormControl>
                     <Button
                       type="button"
-                      aria-label={`Download current test archive for block ${testBlock.index}`}
+                      aria-label={`Download current test archive for block ${blockIndex}`}
                     >
                       <DownloadIcon size={20} />
                     </Button>
