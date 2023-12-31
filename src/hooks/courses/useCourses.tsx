@@ -1,5 +1,5 @@
 import { getCoursesService } from "@/services/courses/get-user-courses.service";
-import { Course } from "@/types/entities/course";
+import { Course } from "@/types/entities/general-entities";
 import { useEffect, useReducer, useState } from "react";
 import { toast } from "sonner";
 

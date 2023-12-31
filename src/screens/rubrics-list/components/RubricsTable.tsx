@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { CreatedRubric } from "@/types/entities/rubric";
+import { CreatedRubric } from "@/types/entities/rubric-entities";
 import { PenSquareIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 

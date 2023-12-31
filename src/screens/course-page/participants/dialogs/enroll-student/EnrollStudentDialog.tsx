@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { EnrolledStudent } from "@/types/entities/enrolled-student";
+import { EnrolledStudent } from "@/types/entities/general-entities";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { PlusCircle } from "lucide-react";
 

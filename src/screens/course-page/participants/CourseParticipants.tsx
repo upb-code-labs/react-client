@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import { getEnrolledStudentsService } from "@/services/courses/get-enrolled-students.service";
-import { EnrolledStudent } from "@/types/entities/enrolled-student";
+import { EnrolledStudent } from "@/types/entities/general-entities";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";

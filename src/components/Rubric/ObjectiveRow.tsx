@@ -1,5 +1,5 @@
 import { AddCriteriaDialog } from "@/screens/edit-rubric/dialogs/add-criteria/AddCriteriaDialog";
-import { Objective } from "@/types/entities/rubric";
+import { Objective } from "@/types/entities/rubric-entities";
 
 import { CriteriaCard } from "./CriteriaCard/CriteriaCard";
 import { ObjectiveCard } from "./ObjectiveCard/ObjectiveCard";

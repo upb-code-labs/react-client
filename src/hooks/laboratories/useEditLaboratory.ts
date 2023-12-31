@@ -1,5 +1,5 @@
 import { getLaboratoryByUUIDService } from "@/services/laboratories/get-laboratory-by-uuid.service";
-import { Laboratory } from "@/types/entities/laboratory";
+import { Laboratory } from "@/types/entities/laboratory-entities";
 import { useEffect, useReducer, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";

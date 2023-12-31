@@ -1,4 +1,4 @@
-import { MarkdownBlock } from "@/types/entities/laboratory";
+import { MarkdownBlock } from "@/types/entities/laboratory-entities";
 
 import {
   EditLaboratoryAction,

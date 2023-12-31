@@ -5,11 +5,13 @@ import { Separator } from "@/components/ui/separator";
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
 import { createMarkdownBlockService } from "@/services/laboratories/add-markdown-block.service";
-import { MarkdownBlock, TestBlock } from "@/types/entities/laboratory";
-import { FlaskConical, TextCursor } from "lucide-react";
+import { MarkdownBlock, TestBlock } from "@/types/entities/laboratory-entities";
+import { TextCursor } from "lucide-react";
 import { useCallback, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
+
+import { CreateTestBlockDialog } from "./dialogs/CreateTestBlockDialog";
 
 export const EditLaboratory = () => {
   // Global laboratory state
@@ -94,10 +96,7 @@ export const EditLaboratory = () => {
         Add text block
       </Button>
 
-      <Button className="ml-4">
-        <FlaskConical className="mr-2" />
-        Add unit test block
-      </Button>
+      <CreateTestBlockDialog />
     </main>
   );
 };

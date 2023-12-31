@@ -1,4 +1,4 @@
-import { Rubric } from "@/types/entities/rubric";
+import { Rubric } from "@/types/entities/rubric-entities";
 import { AxiosError } from "axios";
 
 import { GenericResponse, HttpRequester } from "../axios";

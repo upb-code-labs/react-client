@@ -1,4 +1,4 @@
-import { Laboratory } from "@/types/entities/laboratory";
+import { Laboratory } from "@/types/entities/laboratory-entities";
 
 export enum EditLaboratoryActionType {
   SET_LABORATORY_DATA = "SET_LABORATORY",

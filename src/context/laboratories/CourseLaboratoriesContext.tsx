@@ -1,6 +1,6 @@
 import { courseLaboratoriesActions } from "@/hooks/laboratories/courseLaboratoriesReducer";
 import { useCourseLaboratories } from "@/hooks/laboratories/useCourseLaboratories";
-import { LaboratoryBaseInfo } from "@/types/entities/laboratory";
+import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
 import { Dispatch, createContext } from "react";
 
 interface courseLaboratoriesContext {

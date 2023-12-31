@@ -1,4 +1,4 @@
-import { Course } from "@/types/entities/course";
+import { Course } from "@/types/entities/general-entities";
 import { getCourseInitials } from "@/utils/get-course-initials";
 import { Link } from "react-router-dom";
 

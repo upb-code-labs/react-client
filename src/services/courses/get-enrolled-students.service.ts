@@ -1,4 +1,4 @@
-import { EnrolledStudent } from "@/types/entities/enrolled-student";
+import { EnrolledStudent } from "@/types/entities/general-entities";
 import { AxiosError } from "axios";
 
 import { HttpRequester } from "../axios";

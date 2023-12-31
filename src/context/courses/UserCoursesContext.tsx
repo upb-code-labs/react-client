@@ -1,6 +1,6 @@
 import { CoursesActions } from "@/hooks/courses/coursesReducer";
 import { CoursesState, useCourses } from "@/hooks/courses/useCourses";
-import { Course } from "@/types/entities/course";
+import { Course } from "@/types/entities/general-entities";
 import { ReactNode, createContext, useState } from "react";
 
 interface UserCoursesContext {

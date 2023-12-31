@@ -1,5 +1,5 @@
 import { getTeacherRubricsService } from "@/services/rubrics/get-teacher-rubrics.service";
-import { CreatedRubric } from "@/types/entities/rubric";
+import { CreatedRubric } from "@/types/entities/rubric-entities";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 

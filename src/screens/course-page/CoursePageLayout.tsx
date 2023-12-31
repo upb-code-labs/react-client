@@ -1,6 +1,6 @@
 import { AuthContext } from "@/context/AuthContext";
 import { getCourseService } from "@/services/courses/get-course.service";
-import { Course } from "@/types/entities/course";
+import { Course } from "@/types/entities/general-entities";
 import { getCourseInitials } from "@/utils/get-course-initials";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";

@@ -14,6 +14,7 @@ export type TestBlock = {
   name: string;
   index: number;
   blockType: BlockType;
+  submissionUUID?: string; // Only for student
 };
 
 export type LaboratoryBlock = MarkdownBlock | TestBlock;

@@ -1,6 +1,6 @@
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
 import { updateMarkdownBlockContentService } from "@/services/blocks/update-markdown-block-content.service";
-import { MarkdownBlock } from "@/types/entities/laboratory";
+import { MarkdownBlock } from "@/types/entities/laboratory-entities";
 import { ArrowDown, ArrowUp, MoreVertical, Save, Trash2 } from "lucide-react";
 import { useContext } from "react";
 import { toast } from "sonner";
