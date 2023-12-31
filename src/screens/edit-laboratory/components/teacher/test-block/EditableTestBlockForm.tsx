@@ -21,6 +21,7 @@ import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTyp
 import { getSupportedLanguagesService } from "@/services/languages/get-supported-languages.service";
 import { useSupportedLanguagesStore } from "@/stores/supported-languages-store";
 import { TestBlock } from "@/types/entities/laboratory-entities";
+import { downloadLanguageTemplate } from "@/utils/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DownloadIcon } from "lucide-react";
 import { useContext, useEffect, useRef } from "react";
@@ -62,7 +63,7 @@ export const EditableTestBlockForm = ({
 }: EditableTestBlockFormProps) => {
   const { laboratoryStateDispatcher } = useContext(EditLaboratoryContext);
 
-  const { supportedLanguages, setSupportedLanguages } =
+  const { supportedLanguages, setSupportedLanguages, getLanguageNameByUUID } =
     useSupportedLanguagesStore();
 
   const getSupportedLanguages = async () => {
@@ -113,6 +114,12 @@ export const EditableTestBlockForm = ({
   ) => {
     // TODO: Send the update to the server
     console.log(data);
+  };
+
+  const handleDownloadLanguageTemplate = () => {
+    const selectedLanguageUUID = form.getValues("languageUUID");
+    const selectedLanguageName = getLanguageNameByUUID(selectedLanguageUUID);
+    downloadLanguageTemplate(selectedLanguageUUID, selectedLanguageName);
   };
 
   return (
@@ -172,6 +179,7 @@ export const EditableTestBlockForm = ({
                     <Button
                       type="button"
                       aria-label={`Download language template for block ${blockIndex}`}
+                      onClick={handleDownloadLanguageTemplate}
                     >
                       <DownloadIcon size={20} />
                     </Button>
