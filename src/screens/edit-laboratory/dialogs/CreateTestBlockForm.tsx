@@ -16,23 +16,25 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
+import { CONSTANTS } from "@/config/constants";
+import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
+import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
 import { createTestBlockService } from "@/services/laboratories/add-test-block.service";
 import { getSupportedLanguagesService } from "@/services/languages/get-supported-languages.service";
 import { useSupportedLanguagesStore } from "@/stores/supported-languages-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 import * as z from "zod";
 
-const MAX_FILE_SIZE = 150 * 1024;
 const CreateTestBlockSchema = z.object({
   name: z
     .string()
     .min(4, "Name must be at least 4 characters long")
     .max(255, "Name must be at most 255 characters long"),
-  languageUUID: z.string().uuid("Please select a language"),
+  languageUUID: z.string().uuid("Please select a valid language"),
   testFile: z
     .custom<FileList>(
       (val) => val instanceof FileList,
@@ -41,7 +43,7 @@ const CreateTestBlockSchema = z.object({
     .refine((files) => files.length === 1, "You must select a file")
     .transform((files) => files[0] as File)
     .refine(
-      (file) => file.size <= MAX_FILE_SIZE,
+      (file) => file.size <= CONSTANTS.MAX_ARCHIVE_SIZE,
       "The file should be less than 150KB"
     )
 });
@@ -57,6 +59,8 @@ export const CreateTestBlockForm = ({
     laboratoryUUID: string;
     courseUUID: string;
   }>();
+
+  const { laboratoryStateDispatcher } = useContext(EditLaboratoryContext);
 
   const { supportedLanguages, setSupportedLanguages } =
     useSupportedLanguagesStore();
@@ -103,7 +107,7 @@ export const CreateTestBlockForm = ({
   const createTestBlock = async (
     data: z.infer<typeof CreateTestBlockSchema>
   ) => {
-    const { success, message } = await createTestBlockService({
+    const { success, message, uuid } = await createTestBlockService({
       laboratoryUUID: laboratoryUUID as string,
       blockLanguageUUID: data.languageUUID,
       blockName: data.name,
@@ -115,6 +119,19 @@ export const CreateTestBlockForm = ({
       return;
     }
 
+    // Add the block to the global state
+    laboratoryStateDispatcher({
+      type: EditLaboratoryActionType.ADD_TEST_BLOCK,
+      payload: {
+        uuid: uuid,
+        name: data.name,
+        languageUUID: data.languageUUID,
+        // TODO: Sync the test archive uuid with the backend
+        testArchiveUUID: "PLACEHOLDER"
+      }
+    });
+
+    // Close the dialog
     toast.success(message);
     closeDialogCallback();
   };
