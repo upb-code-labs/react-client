@@ -222,7 +222,11 @@ export const EditableTestBlockForm = ({
           />
         </form>
       </Form>
-      <TestBlockDropDown blockIndex={blockIndex} formRef={formRef} />
+      <TestBlockDropDown
+        blockUUID={testBlock.uuid}
+        blockIndex={blockIndex}
+        formRef={formRef}
+      />
     </div>
   );
 };

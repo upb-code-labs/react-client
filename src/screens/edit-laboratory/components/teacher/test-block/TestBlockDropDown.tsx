@@ -1,5 +1,9 @@
+import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
+import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
+import { deleteTestBlockService } from "@/services/blocks/delete-test-block.service";
 import { ArrowDown, ArrowUp, MoreVertical, Save, Trash2 } from "lucide-react";
-import { RefObject } from "react";
+import { RefObject, useContext } from "react";
+import { toast } from "sonner";
 
 import {
   DropdownMenu,
@@ -11,14 +15,18 @@ import {
 } from "../../../../../components/ui/dropdown-menu";
 
 interface TestBlockDropdown {
+  blockUUID: string;
   blockIndex: number;
   formRef: RefObject<HTMLFormElement>;
 }
 
 export const TestBlockDropDown = ({
-  formRef,
-  blockIndex
+  blockUUID,
+  blockIndex,
+  formRef
 }: TestBlockDropdown) => {
+  const { laboratoryStateDispatcher } = useContext(EditLaboratoryContext);
+
   const handleSaveTestBlock = async () => {
     formRef.current?.dispatchEvent(
       new Event("submit", {
@@ -26,6 +34,21 @@ export const TestBlockDropDown = ({
         bubbles: true
       })
     );
+  };
+
+  const handleDeleteTestBlock = async () => {
+    const { success, message } = await deleteTestBlockService(blockUUID);
+    if (!success) {
+      toast.error(message);
+    }
+
+    laboratoryStateDispatcher({
+      type: EditLaboratoryActionType.DELETE_BLOCK,
+      payload: {
+        uuid: blockUUID
+      }
+    });
+    toast.success(message);
   };
 
   return (
@@ -53,7 +76,7 @@ export const TestBlockDropDown = ({
           <Save className="mr-2 aspect-square h-5" />
           Save changes
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleDeleteTestBlock}>
           <Trash2 className="mr-2 aspect-square h-5" />
           Delete block
         </DropdownMenuItem>
