@@ -223,7 +223,7 @@ test.describe.serial("Edit laboratory workflow", () => {
 
     // Open block dropdown
     const blockDropdownButton = page.getByRole("button", {
-      name: "Toggle options for block number 2"
+      name: "Toggle options for block number 1"
     });
     await expect(blockDropdownButton).toBeVisible();
     await blockDropdownButton.click();
