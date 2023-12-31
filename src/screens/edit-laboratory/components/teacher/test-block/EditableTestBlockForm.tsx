@@ -32,6 +32,7 @@ import { TestBlockDropDown } from "./TestBlockDropDown";
 
 interface EditableTestBlockFormProps {
   testBlock: TestBlock;
+  blockIndex: number;
 }
 
 const EditableTestBlockFormScheme = z.object({
@@ -56,7 +57,8 @@ const EditableTestBlockFormScheme = z.object({
 });
 
 export const EditableTestBlockForm = ({
-  testBlock
+  testBlock,
+  blockIndex
 }: EditableTestBlockFormProps) => {
   const { laboratoryStateDispatcher } = useContext(EditLaboratoryContext);
 
@@ -220,7 +222,7 @@ export const EditableTestBlockForm = ({
           />
         </form>
       </Form>
-      <TestBlockDropDown blockIndex={testBlock.index} formRef={formRef} />
+      <TestBlockDropDown blockIndex={blockIndex} formRef={formRef} />
     </div>
   );
 };

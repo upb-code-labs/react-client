@@ -4,8 +4,14 @@ import { EditableTestBlockForm } from "./EditableTestBlockForm";
 
 interface EditableTestBlockProps {
   testBlock: TestBlock;
+  blockIndex: number;
 }
 
-export const EditableTestBlock = ({ testBlock }: EditableTestBlockProps) => {
-  return <EditableTestBlockForm testBlock={testBlock} />;
+export const EditableTestBlock = ({
+  testBlock,
+  blockIndex
+}: EditableTestBlockProps) => {
+  return (
+    <EditableTestBlockForm testBlock={testBlock} blockIndex={blockIndex} />
+  );
 };
