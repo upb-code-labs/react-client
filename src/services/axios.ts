@@ -1,3 +1,4 @@
+import { CONSTANTS } from "@/config/constants";
 import axios, { AxiosInstance } from "axios";
 
 export type GenericResponse = {
@@ -11,7 +12,7 @@ export class HttpRequester {
 
   constructor() {
     this.axios = axios.create({
-      baseURL: "http://localhost:8080/api/v1",
+      baseURL: CONSTANTS.API_BASE_URL,
       withCredentials: true
     });
   }
