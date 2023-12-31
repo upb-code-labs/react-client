@@ -37,7 +37,7 @@ export const createTestBlockService = async ({
     // Parse the request
     return {
       success: true,
-      message: "The new test block has been created",
+      message: "The new test block has been created successfully",
       uuid: data.uuid
     };
   } catch (error) {

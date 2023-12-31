@@ -5,6 +5,11 @@ import {
   getRandomEmail,
   getRandomName
 } from "e2e/Utils";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 test.describe.serial("Edit laboratory workflow", () => {
   const teacherEmail = getRandomEmail();
@@ -68,7 +73,7 @@ test.describe.serial("Edit laboratory workflow", () => {
     await page.getByRole("button", { name: "Create" }).click();
   });
 
-  test("Edit laboratory", async ({ page }) => {
+  test("Add and edit markdown blocks", async ({ page }) => {
     // Login as a teacher
     await page.goto("/login");
     await page.getByLabel("Email").fill(teacherEmail);
@@ -99,9 +104,6 @@ test.describe.serial("Edit laboratory workflow", () => {
       name: "Add text block"
     });
     await expect(addTextBlockButton).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Add unit test block" })
-    ).toBeVisible();
 
     // ## Add a markdown block
     await addTextBlockButton.click();
@@ -134,5 +136,94 @@ test.describe.serial("Edit laboratory workflow", () => {
     await expect(
       page.getByText("The markdown block has been updated successfully")
     ).toBeVisible();
+  });
+
+  test("Add and edit test blocks", async ({ page }) => {
+    // Login as a teacher
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(teacherEmail);
+    await page.getByLabel("Password").fill(teacherPassword);
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Go to the course page
+    await page.getByRole("link", { name: courseName }).click();
+
+    // Enter to the edit page
+    const editLaboratoryButton = page.getByRole("link", {
+      name: `Edit ${laboratoryName} laboratory`
+    });
+    await expect(editLaboratoryButton).toBeVisible();
+    await editLaboratoryButton.click();
+
+    // Assert the buttons to add blocks are shown
+    const addTestBlockButton = page.getByRole("button", {
+      name: "Add test block"
+    });
+    await expect(addTestBlockButton).toBeVisible();
+
+    // ## Add a test block
+    await addTestBlockButton.click();
+
+    // Assert the modal is opened
+    const addTestBlockModal = page.getByRole("dialog");
+    await expect(addTestBlockModal).toBeVisible();
+
+    // Set a name for the test block
+    const testBlockName = "Test block name";
+    await addTestBlockModal.getByLabel("Name").fill(testBlockName);
+
+    // Select a language
+    const languageSelect = addTestBlockModal.getByRole("combobox", {
+      name: "Language"
+    });
+    await expect(languageSelect).toBeVisible();
+    languageSelect.click();
+
+    const javaOption = page.getByLabel("Java");
+    await expect(javaOption).toBeVisible();
+    await javaOption.click();
+
+    // Open the zip archive
+    const zipFile = join(__dirname, "data", "java.zip");
+
+    // Upload the zip archive
+    const zipFileInput = addTestBlockModal.getByLabel("Test file");
+    await expect(zipFileInput).toBeVisible();
+
+    const fileChooserPromise = page.waitForEvent("filechooser");
+    await zipFileInput.click();
+    const fileChooser = await fileChooserPromise;
+    await fileChooser.setFiles(zipFile);
+
+    // Submit the form
+    const submitButton = page.getByRole("button", { name: "Add" });
+    await expect(submitButton).toBeVisible();
+    await submitButton.click();
+
+    // Assert an alert is shown
+    await expect(
+      page.getByText("The new test block has been created successfully")
+    ).toBeVisible();
+
+    // Open block dropdown
+    const blockDropdownButton = page.getByRole("button", {
+      name: "Toggle options for block number 2"
+    });
+    await expect(blockDropdownButton).toBeVisible();
+    await blockDropdownButton.click();
+
+    // Click on the save option
+    /** 
+    const saveBlockButton = page.getByRole("menuitem", {
+      name: "Save changes"
+    });
+    await expect(saveBlockButton).toBeVisible();
+    await saveBlockButton.click();
+
+    // Assert an alert is shown
+    await expect(
+      page.getByText("The test block has been updated successfully")
+    ).toBeVisible();
+    */
   });
 });
