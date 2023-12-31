@@ -1,4 +1,4 @@
-import { MarkdownBlock } from "@/types/entities/laboratory-entities";
+import { MarkdownBlock, TestBlock } from "@/types/entities/laboratory-entities";
 
 import {
   EditLaboratoryAction,
@@ -63,7 +63,7 @@ export function editLaboratoryReducer(
       };
 
     case EditLaboratoryActionType.ADD_TEST_BLOCK: {
-      const newTestBlock = {
+      const newTestBlock: TestBlock = {
         uuid: action.payload.uuid,
         index: state.laboratory!.blocks.length,
         blockType: "test",
