@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -21,6 +22,7 @@ import { getSupportedLanguagesService } from "@/services/languages/get-supported
 import { useSupportedLanguagesStore } from "@/stores/supported-languages-store";
 import { TestBlock } from "@/types/entities/laboratory-entities";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { DownloadIcon } from "lucide-react";
 import { useContext, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -145,34 +147,45 @@ export const EditableTestBlockForm = ({
             control={form.control}
             name="languageUUID"
             render={({ field }) => (
-              <FormItem className="grid grid-cols-4 items-center gap-x-4">
-                <FormLabel>Language</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value || undefined}
-                >
-                  <FormControl>
-                    <SelectTrigger className="col-span-3">
-                      <SelectValue placeholder="Select a language" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {supportedLanguages.map((language) => (
-                      <SelectItem
-                        key={`language-option-${language.uuid}`}
-                        value={language.uuid}
-                      >
-                        {language.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {form.formState.errors.languageUUID && (
-                  <FormMessage className="col-span-3 col-start-2">
-                    {form.formState.errors.languageUUID.message}
-                  </FormMessage>
+              <div className="flex gap-4">
+                <FormItem className="grid flex-grow grid-cols-4 items-center gap-x-4">
+                  <FormLabel>Language</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value || undefined}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="col-span-3">
+                        <SelectValue placeholder="Select a language" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {supportedLanguages.map((language) => (
+                        <SelectItem
+                          key={`language-option-${language.uuid}`}
+                          value={language.uuid}
+                        >
+                          {language.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {form.formState.errors.languageUUID && (
+                    <FormMessage className="col-span-3 col-start-2">
+                      {form.formState.errors.languageUUID.message}
+                    </FormMessage>
+                  )}
+                </FormItem>
+                {!form.getFieldState("languageUUID").invalid && (
+                  <Button
+                    type="button"
+                    className="place-self-end"
+                    aria-label={`Download language template for block ${testBlock.index}`}
+                  >
+                    <DownloadIcon size={20} />
+                  </Button>
                 )}
-              </FormItem>
+              </div>
             )}
           />
           <FormField
@@ -180,26 +193,35 @@ export const EditableTestBlockForm = ({
             name="testFile"
             render={({ field: { onChange }, ...field }) => {
               return (
-                <FormItem className="grid grid-cols-4 items-center gap-x-4">
-                  <FormLabel>Test file</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      accept=".zip,application/zip"
-                      className="col-span-3"
-                      multiple={false}
-                      {...field}
-                      onChange={(e) => {
-                        onChange(e.target.files);
-                      }}
-                    />
-                  </FormControl>
-                  {form.formState.errors.testFile && (
-                    <FormMessage className="col-span-3 col-start-2">
-                      {form.formState.errors.testFile.message}
-                    </FormMessage>
-                  )}
-                </FormItem>
+                <div className="col-start-2 flex gap-4">
+                  <FormItem className="grid flex-grow grid-cols-4 items-center gap-x-4">
+                    <FormLabel>Test file</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        accept=".zip,application/zip"
+                        className="col-span-3"
+                        multiple={false}
+                        {...field}
+                        onChange={(e) => {
+                          onChange(e.target.files);
+                        }}
+                      />
+                    </FormControl>
+                    {form.formState.errors.testFile && (
+                      <FormMessage className="col-span-3 col-start-2">
+                        {form.formState.errors.testFile.message}
+                      </FormMessage>
+                    )}
+                  </FormItem>
+                  <Button
+                    type="button"
+                    className="place-self-end"
+                    aria-label={`Download current test archive for block ${testBlock.index}`}
+                  >
+                    <DownloadIcon size={20} />
+                  </Button>
+                </div>
               );
             }}
           />
