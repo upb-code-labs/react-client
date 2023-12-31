@@ -126,17 +126,13 @@ export const EditableTestBlockForm = ({
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem className="grid grid-cols-4 items-center gap-x-4">
+              <FormItem className="gap-4">
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Enter a name here..."
-                    className="col-span-3"
-                    {...field}
-                  />
+                  <Input placeholder="Enter a name here..." {...field} />
                 </FormControl>
                 {form.formState.errors.name && (
-                  <FormMessage className="col-span-3 col-start-2">
+                  <FormMessage className="w-full">
                     {form.formState.errors.name.message}
                   </FormMessage>
                 )}
@@ -147,15 +143,15 @@ export const EditableTestBlockForm = ({
             control={form.control}
             name="languageUUID"
             render={({ field }) => (
-              <div className="flex gap-4">
-                <FormItem className="grid flex-grow grid-cols-4 items-center gap-x-4">
-                  <FormLabel>Language</FormLabel>
+              <FormItem className="gap-4">
+                <FormLabel>Language</FormLabel>
+                <div className="flex gap-4">
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value || undefined}
                   >
                     <FormControl>
-                      <SelectTrigger className="col-span-3">
+                      <SelectTrigger>
                         <SelectValue placeholder="Select a language" />
                       </SelectTrigger>
                     </FormControl>
@@ -170,22 +166,21 @@ export const EditableTestBlockForm = ({
                       ))}
                     </SelectContent>
                   </Select>
-                  {form.formState.errors.languageUUID && (
-                    <FormMessage className="col-span-3 col-start-2">
-                      {form.formState.errors.languageUUID.message}
-                    </FormMessage>
+                  {!form.getFieldState("languageUUID").invalid && (
+                    <Button
+                      type="button"
+                      aria-label={`Download language template for block ${testBlock.index}`}
+                    >
+                      <DownloadIcon size={20} />
+                    </Button>
                   )}
-                </FormItem>
-                {!form.getFieldState("languageUUID").invalid && (
-                  <Button
-                    type="button"
-                    className="place-self-end"
-                    aria-label={`Download language template for block ${testBlock.index}`}
-                  >
-                    <DownloadIcon size={20} />
-                  </Button>
+                </div>
+                {form.formState.errors.languageUUID && (
+                  <FormMessage className="w-full">
+                    {form.formState.errors.languageUUID.message}
+                  </FormMessage>
                 )}
-              </div>
+              </FormItem>
             )}
           />
           <FormField
@@ -193,14 +188,13 @@ export const EditableTestBlockForm = ({
             name="testFile"
             render={({ field: { onChange }, ...field }) => {
               return (
-                <div className="col-start-2 flex gap-4">
-                  <FormItem className="grid flex-grow grid-cols-4 items-center gap-x-4">
-                    <FormLabel>Test file</FormLabel>
+                <FormItem className="gap-4">
+                  <FormLabel>Test file</FormLabel>
+                  <div className="flex gap-4">
                     <FormControl>
                       <Input
                         type="file"
                         accept=".zip,application/zip"
-                        className="col-span-3"
                         multiple={false}
                         {...field}
                         onChange={(e) => {
@@ -208,20 +202,19 @@ export const EditableTestBlockForm = ({
                         }}
                       />
                     </FormControl>
-                    {form.formState.errors.testFile && (
-                      <FormMessage className="col-span-3 col-start-2">
-                        {form.formState.errors.testFile.message}
-                      </FormMessage>
-                    )}
-                  </FormItem>
-                  <Button
-                    type="button"
-                    className="place-self-end"
-                    aria-label={`Download current test archive for block ${testBlock.index}`}
-                  >
-                    <DownloadIcon size={20} />
-                  </Button>
-                </div>
+                    <Button
+                      type="button"
+                      aria-label={`Download current test archive for block ${testBlock.index}`}
+                    >
+                      <DownloadIcon size={20} />
+                    </Button>
+                  </div>
+                  {form.formState.errors.testFile && (
+                    <FormMessage className="w-full">
+                      {form.formState.errors.testFile.message}
+                    </FormMessage>
+                  )}
+                </FormItem>
               );
             }}
           />
