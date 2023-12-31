@@ -1,13 +1,13 @@
 import { AuthContext } from "@/context/AuthContext";
 import { getCourseService } from "@/services/courses/get-course.service";
 import { Course } from "@/types/entities/general-entities";
+import { getCourseInitials } from "@/utils/utils";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 import { CourseAsideOptions } from "./CourseAsideOptions";
 import { CourseNavigationSkeleton } from "./CourseNavigationSkeleton";
-import { getCourseInitials } from "@/utils/utils";
 
 export const CoursePageLayout = () => {
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { GenericResponse, HttpRequester } from "../axios";
 
 type downloadLanguateTemplateResponse = GenericResponse & {
-  template: Blob
+  template: Blob;
 };
 
 export const downloadLanguageTemplateService = async (
@@ -17,7 +17,7 @@ export const downloadLanguageTemplateService = async (
     });
     return {
       success: true,
-      message: "Language template was downloaded successfully", 
+      message: "Language template was downloaded successfully",
       template: response.data
     };
   } catch (error) {
@@ -30,4 +30,4 @@ export const downloadLanguageTemplateService = async (
 
     return { success: false, message: errorMessage, template: new Blob() };
   }
-}
+};
