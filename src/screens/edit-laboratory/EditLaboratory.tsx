@@ -1,3 +1,4 @@
+import { EditLaboratoryPageSkeleton } from "@/components/Skeletons/EditLaboratoryPageSkeleton";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
@@ -9,8 +10,9 @@ import { useCallback, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
-import { EditableMarkdownBlock } from "./components/EditableMarkdownBlock";
-import { LaboratoryDetails } from "./components/LaboratoryDetails";
+import { LaboratoryDetails } from "./components/teacher/LaboratoryDetails";
+import { EditableMarkdownBlock } from "./components/teacher/markdown-block/EditableMarkdownBlock";
+import { EditableTestBlock } from "./components/teacher/test-block/EditableTestBlock";
 import { CreateTestBlockDialog } from "./dialogs/CreateTestBlockDialog";
 
 export const EditLaboratory = () => {
@@ -34,10 +36,7 @@ export const EditLaboratory = () => {
     });
   }, []);
 
-  // TODO: Add loading skeleton
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  if (loading) return <EditLaboratoryPageSkeleton />;
 
   // Handlers
   const handleAddTextBlock = async () => {
@@ -84,9 +83,10 @@ export const EditLaboratory = () => {
             />
           );
         } else {
-          // TODO: Handle test blocks
           const testBlock: TestBlock = block as TestBlock;
-          return <p key={testBlock.uuid}>{testBlock.languageUUID}</p>;
+          return (
+            <EditableTestBlock key={testBlock.uuid} testBlock={testBlock} />
+          );
         }
       })}
 
