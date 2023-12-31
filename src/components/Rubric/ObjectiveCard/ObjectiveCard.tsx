@@ -1,7 +1,7 @@
 import { Textarea } from "@/components/ui/textarea";
 import { updateObjectiveService } from "@/services/rubrics/update-objective.service";
 import { useEditRubricStore } from "@/stores/edit-rubric-store";
-import { Objective } from "@/types/entities/rubric";
+import { Objective } from "@/types/entities/rubric-entities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RefObject, memo, useRef } from "react";
 import { useForm } from "react-hook-form";

@@ -1,4 +1,4 @@
-import { Course } from "@/types/entities/course";
+import { Course } from "@/types/entities/general-entities";
 
 import { CoursesState } from "./useCourses";
 

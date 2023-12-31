@@ -5,8 +5,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useDebounce from "@/hooks/useDebounce";
 import { searchStudentByFullNameService } from "@/services/accounts/search-student-by-fullname.service";
-import { EnrolledStudent } from "@/types/entities/enrolled-student";
-import { Student } from "@/types/entities/student";
+import { EnrolledStudent, Student } from "@/types/entities/general-entities";
 import { Fragment, useEffect, useState } from "react";
 import { toast } from "sonner";
 

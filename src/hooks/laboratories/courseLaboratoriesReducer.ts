@@ -1,4 +1,4 @@
-import { LaboratoryBaseInfo } from "@/types/entities/laboratory";
+import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
 
 import { courseLaboratoriesState } from "./useCourseLaboratories";
 

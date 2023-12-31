@@ -9,7 +9,7 @@ import {
   TableRow
 } from "@/components/ui/table";
 import { useSession } from "@/hooks/useSession";
-import { LaboratoryBaseInfo } from "@/types/entities/laboratory";
+import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { BookOpenCheck, Edit } from "lucide-react";

@@ -1,4 +1,4 @@
-import { CreatedRubric } from "@/types/entities/rubric";
+import { CreatedRubric } from "@/types/entities/rubric-entities";
 import { AxiosError } from "axios";
 
 import { HttpRequester } from "../axios";

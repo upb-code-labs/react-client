@@ -1,4 +1,4 @@
-import { Criteria, Objective, Rubric } from "@/types/entities/rubric";
+import { Criteria, Objective, Rubric } from "@/types/entities/rubric-entities";
 import { create } from "zustand";
 
 type EditRubricStore = {

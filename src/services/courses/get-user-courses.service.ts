@@ -1,4 +1,4 @@
-import { Course } from "@/types/entities/course";
+import { Course } from "@/types/entities/general-entities";
 import { AxiosError } from "axios";
 
 import { HttpRequester } from "../axios";

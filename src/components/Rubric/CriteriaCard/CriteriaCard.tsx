@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { updateCriteriaService } from "@/services/rubrics/update-criteria.service";
 import { useEditRubricStore } from "@/stores/edit-rubric-store";
-import { Criteria } from "@/types/entities/rubric";
+import { Criteria } from "@/types/entities/rubric-entities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RefObject, memo, useRef } from "react";
 import { useForm } from "react-hook-form";

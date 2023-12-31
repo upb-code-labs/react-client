@@ -1,9 +1,5 @@
-import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
-import { updateMarkdownBlockContentService } from "@/services/blocks/update-markdown-block-content.service";
-import { MarkdownBlock } from "@/types/entities/laboratory";
 import { ArrowDown, ArrowUp, MoreVertical, Save, Trash2 } from "lucide-react";
-import { useContext } from "react";
-import { toast } from "sonner";
+import { RefObject } from "react";
 
 import {
   DropdownMenu,
@@ -12,35 +8,24 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from "../ui/dropdown-menu";
+} from "../../../../../components/ui/dropdown-menu";
 
-interface MarkdownBlockDropDown {
-  blockUUID: string;
+interface TestBlockDropdown {
   blockIndex: number;
+  formRef: RefObject<HTMLFormElement>;
 }
 
-export const MarkdownBlockDropDown = ({
-  blockUUID,
+export const TestBlockDropDown = ({
+  formRef,
   blockIndex
-}: MarkdownBlockDropDown) => {
-  const { laboratoryState } = useContext(EditLaboratoryContext);
-  const { laboratory } = laboratoryState;
-
-  const block = laboratory?.blocks.find(
-    (b) => b.uuid === blockUUID
-  ) as MarkdownBlock;
-
-  const handleSaveMarkdownBlock = async () => {
-    const { success, message } = await updateMarkdownBlockContentService({
-      markdownBlockUUID: blockUUID,
-      content: block.content
-    });
-
-    if (!success) {
-      toast.error(message);
-    } else {
-      toast.success(message);
-    }
+}: TestBlockDropdown) => {
+  const handleSaveTestBlock = async () => {
+    formRef.current?.dispatchEvent(
+      new Event("submit", {
+        cancelable: true,
+        bubbles: true
+      })
+    );
   };
 
   return (
@@ -64,7 +49,7 @@ export const MarkdownBlockDropDown = ({
           <ArrowDown className="mr-2 aspect-square h-5" />
           Move down
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleSaveMarkdownBlock}>
+        <DropdownMenuItem onClick={handleSaveTestBlock}>
           <Save className="mr-2 aspect-square h-5" />
           Save changes
         </DropdownMenuItem>

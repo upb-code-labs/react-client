@@ -2,8 +2,8 @@ import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryCont
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
 import { updateLaboratoryDetailsService } from "@/services/laboratories/update-laboratory-details.service";
 import { getTeacherRubricsService } from "@/services/rubrics/get-teacher-rubrics.service";
-import { LaboratoryBaseInfo } from "@/types/entities/laboratory";
-import { CreatedRubric } from "@/types/entities/rubric";
+import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
+import { CreatedRubric } from "@/types/entities/rubric-entities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Save } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
-import { Button } from "../ui/button";
+import { Button } from "../../../../components/ui/button";
 import {
   Form,
   FormControl,
@@ -19,15 +19,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from "../ui/form";
-import { Input } from "../ui/input";
+} from "../../../../components/ui/form";
+import { Input } from "../../../../components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue
-} from "../ui/select";
+} from "../../../../components/ui/select";
 
 const editLaboratoryScheme = z
   .object({
@@ -146,7 +146,7 @@ export const LaboratoryDetails = ({
             name="name"
             render={({ field }) => (
               <FormItem className="flex-grow sm:w-1/2 sm:flex-grow-0 lg:w-1/3">
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Laboratory name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter a name for the laboratory here..."

@@ -1,4 +1,4 @@
-import { MarkdownBlock } from "@/types/entities/laboratory";
+import { MarkdownBlock, TestBlock } from "@/types/entities/laboratory-entities";
 
 import {
   EditLaboratoryAction,
@@ -16,6 +16,7 @@ export function editLaboratoryReducer(
         ...state,
         laboratory: action.payload.laboratory
       };
+
     case EditLaboratoryActionType.UPDATE_LABORATORY_DATA:
       return {
         ...state,
@@ -55,6 +56,42 @@ export function editLaboratoryReducer(
               ? {
                   ...block,
                   content: action.payload.content
+                }
+              : block
+          )
+        }
+      };
+
+    case EditLaboratoryActionType.ADD_TEST_BLOCK: {
+      const newTestBlock: TestBlock = {
+        uuid: action.payload.uuid,
+        index: state.laboratory!.blocks.length,
+        blockType: "test",
+        languageUUID: action.payload.languageUUID,
+        testArchiveUUID: action.payload.testArchiveUUID,
+        name: action.payload.name
+      };
+
+      return {
+        ...state,
+        laboratory: {
+          ...state.laboratory!,
+          blocks: [...state.laboratory!.blocks, newTestBlock]
+        }
+      };
+    }
+
+    case EditLaboratoryActionType.UPDATE_TEST_BLOCK:
+      return {
+        ...state,
+        laboratory: {
+          ...state.laboratory!,
+          blocks: state.laboratory!.blocks.map((block) =>
+            block.uuid === action.payload.uuid
+              ? {
+                  ...block,
+                  languageUUID: action.payload.languageUUID,
+                  name: action.payload.name
                 }
               : block
           )

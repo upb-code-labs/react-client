@@ -1,5 +1,5 @@
 import { getCourseLaboratoriesService } from "@/services/laboratories/get-course-laboratories.service";
-import { LaboratoryBaseInfo } from "@/types/entities/laboratory";
+import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
 import { useEffect, useReducer, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";

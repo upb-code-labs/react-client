@@ -1,4 +1,4 @@
-import { Student } from "@/types/entities/student";
+import { Student } from "@/types/entities/general-entities";
 import { AxiosError } from "axios";
 
 import { GenericResponse, HttpRequester } from "../axios";

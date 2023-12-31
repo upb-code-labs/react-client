@@ -1,15 +1,19 @@
-import { LaboratoryDetails } from "@/components/EditLaboratory/LaboratoryDetails";
-import { EditableMarkdownBlock } from "@/components/Markdown/EditableMarkdownBlock";
+import { EditLaboratoryPageSkeleton } from "@/components/Skeletons/EditLaboratoryPageSkeleton";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
 import { createMarkdownBlockService } from "@/services/laboratories/add-markdown-block.service";
-import { MarkdownBlock, TestBlock } from "@/types/entities/laboratory";
-import { FlaskConical, TextCursor } from "lucide-react";
+import { MarkdownBlock, TestBlock } from "@/types/entities/laboratory-entities";
+import { TextCursor } from "lucide-react";
 import { useCallback, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
+
+import { LaboratoryDetails } from "./components/teacher/LaboratoryDetails";
+import { EditableMarkdownBlock } from "./components/teacher/markdown-block/EditableMarkdownBlock";
+import { EditableTestBlock } from "./components/teacher/test-block/EditableTestBlock";
+import { CreateTestBlockDialog } from "./dialogs/CreateTestBlockDialog";
 
 export const EditLaboratory = () => {
   // Global laboratory state
@@ -32,10 +36,7 @@ export const EditLaboratory = () => {
     });
   }, []);
 
-  // TODO: Add loading skeleton
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  if (loading) return <EditLaboratoryPageSkeleton />;
 
   // Handlers
   const handleAddTextBlock = async () => {
@@ -82,9 +83,10 @@ export const EditLaboratory = () => {
             />
           );
         } else {
-          // TODO: Handle test blocks
           const testBlock: TestBlock = block as TestBlock;
-          return <p key={testBlock.uuid}>{testBlock.languageUUID}</p>;
+          return (
+            <EditableTestBlock key={testBlock.uuid} testBlock={testBlock} />
+          );
         }
       })}
 
@@ -94,10 +96,7 @@ export const EditLaboratory = () => {
         Add text block
       </Button>
 
-      <Button className="ml-4">
-        <FlaskConical className="mr-2" />
-        Add unit test block
-      </Button>
+      <CreateTestBlockDialog />
     </main>
   );
 };

@@ -1,6 +1,6 @@
 import { GenericTableSkeleton } from "@/components/Skeletons/GenericTableSkeleton";
 import { DataTable } from "@/components/ui/data-table";
-import { EnrolledStudent } from "@/types/entities/enrolled-student";
+import { EnrolledStudent } from "@/types/entities/general-entities";
 import { ColumnDef } from "@tanstack/react-table";
 
 interface CourseParticipantsTableProps {

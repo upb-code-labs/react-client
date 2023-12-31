@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { CreatedRubric } from "@/types/entities/rubric";
+import { CreatedRubric } from "@/types/entities/rubric-entities";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 

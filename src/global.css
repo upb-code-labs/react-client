@@ -44,3 +44,7 @@
     list-style: revert;
   }
 }
+
+.w-md-editor {
+  --md-editor-box-shadow-color: hsl(var(--border));
+}

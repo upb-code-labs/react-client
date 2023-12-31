@@ -12,7 +12,7 @@ import { CoursesActionType } from "@/hooks/courses/coursesReducer";
 import { SessionRole } from "@/hooks/useSession";
 import { getInvitationCodeService } from "@/services/courses/get-invitation-code.service";
 import { toggleCourseVisibilityService } from "@/services/courses/toggle-course-visibility.service";
-import { Course } from "@/types/entities/course";
+import { Course } from "@/types/entities/general-entities";
 import { copyToClipboard } from "@/utils/copy-to-clipboard";
 import {
   ClipboardCopy,

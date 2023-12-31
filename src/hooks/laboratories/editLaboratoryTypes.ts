@@ -1,4 +1,4 @@
-import { Laboratory } from "@/types/entities/laboratory";
+import { Laboratory } from "@/types/entities/laboratory-entities";
 
 export enum EditLaboratoryActionType {
   SET_LABORATORY_DATA = "SET_LABORATORY",
@@ -6,10 +6,11 @@ export enum EditLaboratoryActionType {
 
   ADD_MARKDOWN_BLOCK = "ADD_MARKDOWN_BLOCK",
   UPDATE_MARKDOWN_BLOCK = "UPDATE_MARKDOWN_BLOCK",
+
   ADD_TEST_BLOCK = "ADD_TEST_BLOCK",
   UPDATE_TEST_BLOCK = "UPDATE_TEST_BLOCK",
-  DELETE_BLOCK = "DELETE_BLOCK",
 
+  DELETE_BLOCK = "DELETE_BLOCK",
   SWAP_BLOCKS = "SWAP_BLOCKS"
 }
 
