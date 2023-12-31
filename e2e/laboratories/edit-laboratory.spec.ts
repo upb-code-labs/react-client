@@ -199,6 +199,19 @@ test.describe.serial("Edit laboratory workflow", () => {
     await expect(javaOption).toBeVisible();
     await javaOption.click();
 
+    // Assert the teacher can download the template
+    const downloadButton = addTestBlockModal.getByRole("button", {
+      name: "Download template"
+    });
+    await expect(downloadButton).toBeVisible();
+
+    // Assert the template is downloaded
+    const downloadPromise = page.waitForEvent("download");
+
+    await downloadButton.click();
+    const download = await downloadPromise;
+    await download.saveAs(join(__dirname, "data", "java-downloaded.zip"));
+
     // Open the zip archive
     const zipFile = join(__dirname, "data", "java.zip");
 

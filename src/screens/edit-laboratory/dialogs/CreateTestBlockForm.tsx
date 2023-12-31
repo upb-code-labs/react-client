@@ -22,7 +22,9 @@ import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTyp
 import { createTestBlockService } from "@/services/laboratories/add-test-block.service";
 import { getSupportedLanguagesService } from "@/services/languages/get-supported-languages.service";
 import { useSupportedLanguagesStore } from "@/stores/supported-languages-store";
+import { downloadLanguageTemplate } from "@/utils/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { DownloadIcon } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -62,7 +64,7 @@ export const CreateTestBlockForm = ({
 
   const { laboratoryStateDispatcher } = useContext(EditLaboratoryContext);
 
-  const { supportedLanguages, setSupportedLanguages } =
+  const { supportedLanguages, setSupportedLanguages, getLanguageNameByUUID } =
     useSupportedLanguagesStore();
 
   const getSupportedLanguages = async () => {
@@ -104,6 +106,7 @@ export const CreateTestBlockForm = ({
     setIsSending(false);
   };
 
+  // Actions
   const createTestBlock = async (
     data: z.infer<typeof CreateTestBlockSchema>
   ) => {
@@ -134,6 +137,12 @@ export const CreateTestBlockForm = ({
     // Close the dialog
     toast.success(message);
     closeDialogCallback();
+  };
+
+  const handleDownloadSelectedLanguageTemplate = async () => {
+    const selectedLanguageUUID = form.getValues("languageUUID");
+    const selectedLanguageName = getLanguageNameByUUID(selectedLanguageUUID);
+    downloadLanguageTemplate(selectedLanguageUUID, selectedLanguageName);
   };
 
   return (
@@ -194,6 +203,18 @@ export const CreateTestBlockForm = ({
             </FormItem>
           )}
         />
+        {form.getValues("languageUUID") && (
+          <div className="mb-2 grid grid-cols-4 gap-4">
+            <Button
+              type="button"
+              className="col-span-3 col-start-2"
+              onClick={handleDownloadSelectedLanguageTemplate}
+            >
+              <DownloadIcon className="mr-2" size={16} />
+              Download template
+            </Button>
+          </div>
+        )}
         <FormField
           control={form.control}
           name="testFile"
