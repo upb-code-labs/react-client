@@ -113,10 +113,10 @@ test.describe.serial("Edit laboratory workflow", () => {
       page.getByText("The new markdown block has been created successfully")
     ).toBeVisible();
 
+    // ### Edit the markdown block
+    const markdownBlockContentLabel = "Laboratory block 1 markdown content";
     const markdownBlockContent = "# This is a title";
-    await page
-      .getByLabel("Laboratory block 1 markdown content")
-      .fill(markdownBlockContent);
+    await page.getByLabel(markdownBlockContentLabel).fill(markdownBlockContent);
 
     // Open block dropdown
     const blockDropdownButton = page.getByRole("button", {
@@ -136,6 +136,22 @@ test.describe.serial("Edit laboratory workflow", () => {
     await expect(
       page.getByText("The markdown block has been updated successfully")
     ).toBeVisible();
+
+    // ### Delete the markdown block
+    await blockDropdownButton.click();
+    const deleteBlockButton = page.getByRole("menuitem", {
+      name: "Delete block"
+    });
+    await expect(deleteBlockButton).toBeVisible();
+    await deleteBlockButton.click();
+
+    // Assert an alert is shown
+    await expect(
+      page.getByText("The markdown block has been deleted successfully")
+    ).toBeVisible();
+
+    // Assert the block is not shown
+    await expect(page.getByLabel(markdownBlockContentLabel)).not.toBeVisible();
   });
 
   test("Add and edit test blocks", async ({ page }) => {
