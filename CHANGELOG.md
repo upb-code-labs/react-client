@@ -1,3 +1,12 @@
+# [0.30.0](https://github.com/upb-code-labs/react-client/compare/v0.29.0...v0.30.0) (2023-12-31)
+
+
+### Features
+
+* Delete markdown block ([#205](https://github.com/upb-code-labs/react-client/issues/205)) ([e19079f](https://github.com/upb-code-labs/react-client/commit/e19079f1a137854c612b110a3bec13526746a426))
+
+
+
 # [0.29.0](https://github.com/upb-code-labs/react-client/compare/v0.28.0...v0.29.0) (2023-12-31)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * List laboratories ([#177](https://github.com/upb-code-labs/react-client/issues/177)) ([05c23b2](https://github.com/upb-code-labs/react-client/commit/05c23b23028e5a2f42080f76ba05ca70a5ce0b30))
-
-
-
-# [0.25.0](https://github.com/upb-code-labs/react-client/compare/v0.24.0...v0.25.0) (2023-11-29)
-
-
-### Features
-
-* Create laboratory ([#173](https://github.com/upb-code-labs/react-client/issues/173)) ([7498e69](https://github.com/upb-code-labs/react-client/commit/7498e69877c27c4e0989d051da7ec24b177c0e40))
 
 
 
