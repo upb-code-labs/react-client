@@ -76,8 +76,8 @@ export const EditLaboratory = () => {
           return (
             <EditableMarkdownBlock
               key={mdBlock.uuid}
-              blockUUID={mdBlock.uuid}
               blockIndex={index}
+              blockUUID={mdBlock.uuid}
               blockContent={mdBlock.content}
               onChangeCallback={onMarkdownBlockChange}
             />
@@ -85,7 +85,11 @@ export const EditLaboratory = () => {
         } else {
           const testBlock: TestBlock = block as TestBlock;
           return (
-            <EditableTestBlock key={testBlock.uuid} testBlock={testBlock} />
+            <EditableTestBlock
+              key={testBlock.uuid}
+              blockIndex={index}
+              testBlock={testBlock}
+            />
           );
         }
       })}

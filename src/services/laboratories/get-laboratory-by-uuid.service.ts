@@ -41,21 +41,27 @@ export const getLaboratoryByUUIDService = async (
     );
     laboratory.blocks.push(...markdownBlocks);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const testBlocks: TestBlock[] = data.test_blocks.map((block: any) => ({
-      uuid: block.uuid,
-      languageUUID: block.language_uuid,
-      testArchiveUUID: block.test_archive_uuid,
-      submissionUUID: block.submission_uuid,
-      name: block.name,
-      index: block.index
-    }));
+    const testBlocks: TestBlock[] = data.test_blocks.map(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (block: any) => ({
+        uuid: block.uuid,
+        languageUUID: block.language_uuid,
+        testArchiveUUID: block.test_archive_uuid,
+        submissionUUID: block.submission_uuid,
+        name: block.name,
+        index: block.index,
+        blockType: "test"
+      })
+    );
     laboratory.blocks.push(...testBlocks);
 
-    console.table(testBlocks);
-
-    // Sort blocks by index
-    laboratory.blocks.sort((a, b) => a.index - b.index);
+    // Sort blocks by index and replace the index with the array index
+    laboratory.blocks
+      .sort((a, b) => a.index - b.index)
+      .map((block, index) => ({
+        ...block,
+        index
+      }));
 
     return {
       success: true,

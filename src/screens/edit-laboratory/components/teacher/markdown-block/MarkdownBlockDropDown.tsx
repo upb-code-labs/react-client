@@ -1,4 +1,6 @@
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
+import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
+import { deleteMarkdownBlockService } from "@/services/blocks/delete-markdown-block.service";
 import { updateMarkdownBlockContentService } from "@/services/blocks/update-markdown-block-content.service";
 import { MarkdownBlock } from "@/types/entities/laboratory-entities";
 import { ArrowDown, ArrowUp, MoreVertical, Save, Trash2 } from "lucide-react";
@@ -23,7 +25,9 @@ export const MarkdownBlockDropDown = ({
   blockUUID,
   blockIndex
 }: MarkdownBlockDropDown) => {
-  const { laboratoryState } = useContext(EditLaboratoryContext);
+  const { laboratoryState, laboratoryStateDispatcher } = useContext(
+    EditLaboratoryContext
+  );
   const { laboratory } = laboratoryState;
 
   const block = laboratory?.blocks.find(
@@ -41,6 +45,21 @@ export const MarkdownBlockDropDown = ({
     } else {
       toast.success(message);
     }
+  };
+
+  const handleDeleteMarkdownBlock = async () => {
+    const { success, message } = await deleteMarkdownBlockService(blockUUID);
+    if (!success) {
+      toast.error(message);
+    }
+
+    laboratoryStateDispatcher({
+      type: EditLaboratoryActionType.DELETE_BLOCK,
+      payload: {
+        uuid: blockUUID
+      }
+    });
+    toast.success(message);
   };
 
   return (
@@ -68,7 +87,7 @@ export const MarkdownBlockDropDown = ({
           <Save className="mr-2 aspect-square h-5" />
           Save changes
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleDeleteMarkdownBlock}>
           <Trash2 className="mr-2 aspect-square h-5" />
           Delete block
         </DropdownMenuItem>
