@@ -1,5 +1,3 @@
-import { LaboratoryDetails } from "@/components/EditLaboratory/LaboratoryDetails";
-import { EditableMarkdownBlock } from "@/components/Markdown/EditableMarkdownBlock";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
@@ -11,6 +9,8 @@ import { useCallback, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { EditableMarkdownBlock } from "./components/EditableMarkdownBlock";
+import { LaboratoryDetails } from "./components/LaboratoryDetails";
 import { CreateTestBlockDialog } from "./dialogs/CreateTestBlockDialog";
 
 export const EditLaboratory = () => {
