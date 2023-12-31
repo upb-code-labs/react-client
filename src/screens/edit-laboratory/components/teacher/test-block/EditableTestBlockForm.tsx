@@ -127,7 +127,7 @@ export const EditableTestBlockForm = ({
             name="name"
             render={({ field }) => (
               <FormItem className="gap-4">
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Block name</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter a name here..." {...field} />
                 </FormControl>
@@ -144,7 +144,7 @@ export const EditableTestBlockForm = ({
             name="languageUUID"
             render={({ field }) => (
               <FormItem className="gap-4">
-                <FormLabel>Language</FormLabel>
+                <FormLabel>Tests language</FormLabel>
                 <div className="flex gap-4">
                   <Select
                     onValueChange={field.onChange}
@@ -189,7 +189,7 @@ export const EditableTestBlockForm = ({
             render={({ field: { onChange }, ...field }) => {
               return (
                 <FormItem className="gap-4">
-                  <FormLabel>Test file</FormLabel>
+                  <FormLabel>Tests archive</FormLabel>
                   <div className="flex gap-4">
                     <FormControl>
                       <Input

@@ -146,7 +146,7 @@ export const LaboratoryDetails = ({
             name="name"
             render={({ field }) => (
               <FormItem className="flex-grow sm:w-1/2 sm:flex-grow-0 lg:w-1/3">
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Laboratory name</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter a name for the laboratory here..."
