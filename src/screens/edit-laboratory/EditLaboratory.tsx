@@ -1,19 +1,25 @@
-import { EditLaboratoryPageSkeleton } from "@/components/Skeletons/EditLaboratoryPageSkeleton";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
+import { EditLaboratoryPageSkeleton } from "@/screens/edit-laboratory/skeletons/EditLaboratoryPageSkeleton";
 import { createMarkdownBlockService } from "@/services/laboratories/add-markdown-block.service";
-import { MarkdownBlock, TestBlock } from "@/types/entities/laboratory-entities";
 import { TextCursor } from "lucide-react";
-import { useCallback, useContext } from "react";
+import { Suspense, useContext } from "react";
+import { lazily } from "react-lazily";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
-import { LaboratoryDetails } from "./components/teacher/LaboratoryDetails";
-import { EditableMarkdownBlock } from "./components/teacher/markdown-block/EditableMarkdownBlock";
-import { EditableTestBlock } from "./components/teacher/test-block/EditableTestBlock";
+import { LaboratoryBlockSkeleton } from "../../components/Skeletons/LaboratoryBlockSkeleton";
 import { CreateTestBlockDialog } from "./dialogs/CreateTestBlockDialog";
+import { LaboratoryDetailsSkeleton } from "./skeletons/LaboratoryDetailsSkeleton";
+
+const { LaboratoryDetails } = lazily(
+  () => import("./components/LaboratoryDetails")
+);
+const { TeacherLaboratoryBlocks } = lazily(
+  () => import("./components/TeacherLaboratoryBlocks")
+);
 
 export const EditLaboratory = () => {
   // Global laboratory state
@@ -24,19 +30,6 @@ export const EditLaboratory = () => {
 
   // Url params
   const { laboratoryUUID } = useParams<{ laboratoryUUID: string }>();
-
-  // Callback handlers
-  const onMarkdownBlockChange = useCallback((uuid: string, content: string) => {
-    laboratoryStateDispatcher({
-      type: EditLaboratoryActionType.UPDATE_MARKDOWN_BLOCK,
-      payload: {
-        uuid,
-        content
-      }
-    });
-  }, []);
-
-  if (loading) return <EditLaboratoryPageSkeleton />;
 
   // Handlers
   const handleAddTextBlock = async () => {
@@ -59,47 +52,39 @@ export const EditLaboratory = () => {
 
   if (!laboratory) return null;
 
+  if (loading) return <EditLaboratoryPageSkeleton />;
+
   return (
     <main className="col-span-3">
       {/* Header to update base laboratory details */}
-      <LaboratoryDetails
-        laboratoryDetails={{
-          ...laboratory
-        }}
-      />
+      <Suspense fallback={<LaboratoryDetailsSkeleton />}>
+        <LaboratoryDetails
+          laboratoryDetails={{
+            ...laboratory
+          }}
+        />
+      </Suspense>
+
+      {/* Horizontal line to separate the content */}
       <Separator className="my-8" />
 
       {/* Laboratory blocks */}
-      {laboratory.blocks.map((block, index) => {
-        if (block.blockType === "markdown") {
-          const mdBlock: MarkdownBlock = block as MarkdownBlock;
-          return (
-            <EditableMarkdownBlock
-              key={mdBlock.uuid}
-              blockIndex={index}
-              blockUUID={mdBlock.uuid}
-              blockContent={mdBlock.content}
-              onChangeCallback={onMarkdownBlockChange}
-            />
-          );
-        } else {
-          const testBlock: TestBlock = block as TestBlock;
-          return (
-            <EditableTestBlock
-              key={testBlock.uuid}
-              blockIndex={index}
-              testBlock={testBlock}
-            />
-          );
+      <Suspense
+        fallback={
+          <>
+            <LaboratoryBlockSkeleton />
+            <LaboratoryBlockSkeleton />
+          </>
         }
-      })}
+      >
+        <TeacherLaboratoryBlocks blocks={laboratory.blocks} />
+      </Suspense>
 
       {/* Buttons to add blocks */}
       <Button onClick={handleAddTextBlock}>
         <TextCursor className="mr-2" />
         Add text block
       </Button>
-
       <CreateTestBlockDialog />
     </main>
   );

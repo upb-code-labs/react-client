@@ -25,3 +25,6 @@ dist-ssr
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# Test data
+e2e/laboratories/data/java-downloaded.zip
