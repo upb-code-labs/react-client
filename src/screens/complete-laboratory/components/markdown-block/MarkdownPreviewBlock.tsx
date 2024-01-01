@@ -1,8 +1,16 @@
 import { MarkdownBlock } from "@/types/entities/laboratory-entities";
 import MarkdownPreview from "@uiw/react-markdown-preview";
+import rehypeExternalLinks from "rehype-external-links";
 import rehypeSanitize from "rehype-sanitize";
 
-const rehypePlugins = [rehypeSanitize];
+const rehypePlugins = [
+  rehypeSanitize,
+  () =>
+    rehypeExternalLinks({
+      rel: ["noopener", "noreferrer", "nofollow"],
+      target: "_blank"
+    })
+];
 
 interface MarkdownPreviewBlockProps {
   block: MarkdownBlock;

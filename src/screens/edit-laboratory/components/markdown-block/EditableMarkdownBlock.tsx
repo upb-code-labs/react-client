@@ -1,8 +1,18 @@
 import MDEditor from "@uiw/react-md-editor";
 import { memo } from "react";
+import rehypeExternalLinks from "rehype-external-links";
 import rehypeSanitize from "rehype-sanitize";
 
 import { MarkdownBlockDropDown } from "./MarkdownBlockDropDown";
+
+const rehypePlugins = [
+  rehypeSanitize,
+  () =>
+    rehypeExternalLinks({
+      rel: ["noopener", "noreferrer", "nofollow"],
+      target: "_blank"
+    })
+];
 
 interface EditableMarkdownBlockProps {
   blockUUID: string;
@@ -34,7 +44,7 @@ export const EditableMarkdownBlock = memo(
           height="100%"
           visibleDragbar={false}
           previewOptions={{
-            rehypePlugins: [[rehypeSanitize]]
+            rehypePlugins: rehypePlugins
           }}
         />
         <MarkdownBlockDropDown blockUUID={blockUUID} blockIndex={blockIndex} />
