@@ -10,8 +10,8 @@ import { lazily } from "react-lazily";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { LaboratoryBlockSkeleton } from "../../components/Skeletons/LaboratoryBlockSkeleton";
 import { CreateTestBlockDialog } from "./dialogs/CreateTestBlockDialog";
-import { LaboratoryBlockSkeleton } from "./skeletons/LaboratoryBlockSkeleton";
 import { LaboratoryDetailsSkeleton } from "./skeletons/LaboratoryDetailsSkeleton";
 
 const { LaboratoryDetails } = lazily(

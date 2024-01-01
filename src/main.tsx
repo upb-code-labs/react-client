@@ -28,6 +28,7 @@ import { Toaster } from "sonner";
 import { CourseLaboratoriesProvider } from "./context/laboratories/CourseLaboratoriesContext";
 import { EditLaboratoryProvider } from "./context/laboratories/EditLaboratoryContext";
 import "./global.css";
+import { StudentsLaboratoryView } from "./screens/complete-laboratory/StudentsLaboratoryView";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -120,6 +121,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                   <EditLaboratoryProvider>
                     <EditLaboratory />
                   </EditLaboratoryProvider>
+                </AuthMiddleware>
+              }
+            />
+            <Route
+              path="laboratories/:laboratoryUUID/complete"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["student"]}>
+                  <StudentsLaboratoryView />
                 </AuthMiddleware>
               }
             />

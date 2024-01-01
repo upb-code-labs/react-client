@@ -1,4 +1,4 @@
-import { LaboratoryBlockSkeleton } from "./LaboratoryBlockSkeleton";
+import { LaboratoryBlockSkeleton } from "../../../components/Skeletons/LaboratoryBlockSkeleton";
 import { LaboratoryDetailsSkeleton } from "./LaboratoryDetailsSkeleton";
 
 export const EditLaboratoryPageSkeleton = () => {
