@@ -22,7 +22,7 @@ export const StudentsLaboratoryView = () => {
 
   // Page state
   const [laboratory, setLaboratory] = useState<Laboratory | null>(null);
-  const [_loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getLaboratoryData = async () => {
@@ -42,11 +42,17 @@ export const StudentsLaboratoryView = () => {
     getLaboratoryData();
   }, []);
 
-  console.log(laboratory);
+  if (loading) {
+    return (
+      <div className="col-span-3">
+        {Array.from({ length: 3 }).map((_, index) => {
+          return <LaboratoryBlockSkeleton key={`laboratory-block-${index}`} />;
+        })}
+      </div>
+    );
+  }
 
   if (!laboratory) return null;
-
-  // TODO: Add loading skeleton
 
   return (
     <main className="col-span-3">
