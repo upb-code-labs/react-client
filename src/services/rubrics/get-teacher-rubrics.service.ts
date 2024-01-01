@@ -1,4 +1,4 @@
-import { CreatedRubric } from "@/types/entities/rubric";
+import { CreatedRubric } from "@/types/entities/rubric-entities";
 import { AxiosError } from "axios";
 
 import { HttpRequester } from "../axios";
@@ -21,7 +21,7 @@ export const getTeacherRubricsService =
         rubrics: data.rubrics
       };
     } catch (error) {
-      let errorMessage = "There was an error";
+      let errorMessage = "There was an error retrieving your rubrics";
 
       if (error instanceof AxiosError) {
         const { message } = error.response?.data || "";

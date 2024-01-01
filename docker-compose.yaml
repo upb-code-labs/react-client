@@ -12,19 +12,30 @@ services:
       POSTGRES_DB: codelabs
     ports:
       - "127.0.0.1:5432:5432"
-  
+
   # Microservices
+  codelabs_static_files:
+    image: ghcr.io/upb-code-labs/static-files-microservice:latest
+    container_name: codelabs_static_files
+    restart: on-failure
+    ports:
+      - "127.0.0.1:8081:8080"
+    depends_on:
+      - codelabs_postgres_db
+
   codelabs_main_api:
     image: ghcr.io/upb-code-labs/main-api:latest
     container_name: codelabs_main_api
     restart: on-failure
     environment:
-      - DB_CONNECTION_STRING=postgres://postgres:postgres@codelabs_postgres_db:5432/codelabs?sslmode=disable
       - ENVIRONMENT=production
+      - DB_CONNECTION_STRING=postgres://postgres:postgres@codelabs_postgres_db:5432/codelabs?sslmode=disable
+      - STATIC_FILES_MICROSERVICE_ADDRESS=http://codelabs_static_files:8080
     ports:
       - "127.0.0.1:8080:8080"
     depends_on:
       - codelabs_postgres_db
+      - codelabs_static_files
 
   # Utils
   postgres_db_admin:
@@ -38,4 +49,3 @@ services:
       - "127.0.0.1:5050:80"
     depends_on:
       - codelabs_postgres_db
-      

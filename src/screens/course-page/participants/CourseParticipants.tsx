@@ -1,94 +1,83 @@
-import { GenericTableSkeleton } from "@/components/Skeletons/GenericTableSkeleton";
-import { EmptyContentText } from "@/components/Texts/EmptyContentText";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/ui/table";
+import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import { getEnrolledStudentsService } from "@/services/courses/get-enrolled-students.service";
-import { EnrolledStudent } from "@/types/entities/enrolled-student";
-import { useEffect, useState } from "react";
+import { EnrolledStudent } from "@/types/entities/general-entities";
+import { ColumnDef } from "@tanstack/react-table";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { CourseParticipantsTable } from "./components/CourseParticipantsTable";
 import { EnrollStudentDialog } from "./dialogs/enroll-student/EnrollStudentDialog";
 
 export const CourseParticipants = () => {
-  const { id = "empty" } = useParams();
+  const { courseUUID = "" } = useParams<{ courseUUID: string }>();
   const navigate = useNavigate();
 
-  const [state, setState] = useState<"loading" | "idle">("loading");
+  // Data state
+  const [isLoading, setIsLoading] = useState(true);
   const [students, setStudents] = useState<EnrolledStudent[]>([]);
+
+  // Table state
+  const tableColumns = useMemo<ColumnDef<EnrolledStudent>[]>(
+    () => [
+      {
+        accessorKey: "full_name",
+        header: ({ column }) => {
+          return <DataTableColumnHeader column={column} title="Full name" />;
+        }
+      },
+      {
+        accessorKey: "institutional_id",
+        header: "Institutional Id"
+      },
+      {
+        accessorKey: "actions",
+        header: "Actions",
+        cell: ({ row }) => {
+          const student = row.original;
+          console.log(student.is_active);
+          return <Button variant={"destructive"}>Deactivate</Button>;
+        }
+      }
+    ],
+    []
+  );
 
   useEffect(() => {
     getStudents();
   }, []);
 
   const getStudents = async () => {
-    const { success, ...response } = await getEnrolledStudentsService(id);
+    const { success, ...response } =
+      await getEnrolledStudentsService(courseUUID);
     if (!success) {
       toast.error(response.message);
       navigate("/courses");
     }
 
     setStudents(response.students);
-    setState("idle");
+    setIsLoading(false);
   };
 
+  // State modifiers
   const addStudent = (student: EnrolledStudent) => {
     setStudents((prev) => [...prev, student]);
   };
 
-  const renderParticipants = () => {
-    if (state === "loading") {
-      return (
-        <GenericTableSkeleton
-          columns={3}
-          rows={4}
-          headers={["Full name", "Institutional Id", "Actions"]}
-        />
-      );
-    }
-
-    if (students.length === 0) {
-      return <EmptyContentText text="There are no students enrolled yet" />;
-    }
-
-    return (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Full name</TableHead>
-            <TableHead>Institutional Id</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {students.map((student) => (
-            <TableRow key={student.uuid}>
-              <TableCell>{student.full_name}</TableCell>
-              <TableCell>{student.institutional_id}</TableCell>
-              <TableCell>
-                <Button variant={"destructive"}>Deactivate</Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    );
-  };
-
   return (
     <main className="md:col-span-3">
-      <div className="mb-4 flex flex-col items-start justify-between md:flex-row md:items-center">
+      <div className="flex flex-col items-start justify-between md:flex-row md:items-center">
         <h1 className="my-4 text-3xl font-bold">Enrolled students</h1>
         <EnrollStudentDialog addStudentCallback={addStudent} />
       </div>
-      {renderParticipants()}
+      <div className="mt-12 md:mt-4">
+        <CourseParticipantsTable
+          isLoading={isLoading}
+          students={students}
+          tableColsDefinition={tableColumns}
+        />
+      </div>
     </main>
   );
 };

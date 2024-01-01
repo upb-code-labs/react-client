@@ -1,45 +1,45 @@
-# [0.24.0](https://github.com/upb-code-labs/react-client/compare/v0.23.0...v0.24.0) (2023-11-19)
+# [0.33.0](https://github.com/upb-code-labs/react-client/compare/v0.32.0...v0.33.0) (2024-01-01)
 
 
 ### Features
 
-* Delete rubric objective ([#143](https://github.com/upb-code-labs/react-client/issues/143)) ([f869366](https://github.com/upb-code-labs/react-client/commit/f869366463800ae0525a4faed4f0c71d97d3ec04))
+* Show laboratory content to students ([#211](https://github.com/upb-code-labs/react-client/issues/211)) ([6d7c2e4](https://github.com/upb-code-labs/react-client/commit/6d7c2e45527ca3d0f3122d5a6ffbd3d43f4495af))
 
 
 
-# [0.23.0](https://github.com/upb-code-labs/react-client/compare/v0.22.0...v0.23.0) (2023-11-19)
-
-
-### Features
-
-* Delete criteria ([#142](https://github.com/upb-code-labs/react-client/issues/142)) ([e645ff6](https://github.com/upb-code-labs/react-client/commit/e645ff6a47b80df019a165c3434a077cbed07a13))
-
-
-
-# [0.22.0](https://github.com/upb-code-labs/react-client/compare/v0.21.0...v0.22.0) (2023-11-18)
+# [0.32.0](https://github.com/upb-code-labs/react-client/compare/v0.31.0...v0.32.0) (2023-12-31)
 
 
 ### Features
 
-* Update criteria ([#141](https://github.com/upb-code-labs/react-client/issues/141)) ([489403e](https://github.com/upb-code-labs/react-client/commit/489403e541a0158688bdb706c12561f847af7674))
+* Download language template ([#209](https://github.com/upb-code-labs/react-client/issues/209)) ([d2f1b9c](https://github.com/upb-code-labs/react-client/commit/d2f1b9cf758e2f3507b41c355304134dcc373740))
 
 
 
-# [0.21.0](https://github.com/upb-code-labs/react-client/compare/v0.20.0...v0.21.0) (2023-11-18)
-
-
-### Features
-
-* Update rubric objective ([#140](https://github.com/upb-code-labs/react-client/issues/140)) ([7dffd39](https://github.com/upb-code-labs/react-client/commit/7dffd3963c9567327f0ed6eb4838949cf4568853))
-
-
-
-# [0.20.0](https://github.com/upb-code-labs/react-client/compare/v0.19.0...v0.20.0) (2023-11-17)
+# [0.31.0](https://github.com/upb-code-labs/react-client/compare/v0.30.0...v0.31.0) (2023-12-31)
 
 
 ### Features
 
-* Update rubric name ([#139](https://github.com/upb-code-labs/react-client/issues/139)) ([8d46db1](https://github.com/upb-code-labs/react-client/commit/8d46db16ca01d1081e6664d86bcf2b0fac2e4751))
+* Delete tests block ([2c0e6d4](https://github.com/upb-code-labs/react-client/commit/2c0e6d4c6c21ff0f6e74e93ef5535d4f688a8ef0))
+
+
+
+# [0.30.0](https://github.com/upb-code-labs/react-client/compare/v0.29.0...v0.30.0) (2023-12-31)
+
+
+### Features
+
+* Delete markdown block ([#205](https://github.com/upb-code-labs/react-client/issues/205)) ([e19079f](https://github.com/upb-code-labs/react-client/commit/e19079f1a137854c612b110a3bec13526746a426))
+
+
+
+# [0.29.0](https://github.com/upb-code-labs/react-client/compare/v0.28.0...v0.29.0) (2023-12-31)
+
+
+### Features
+
+* Create test blocks ([#203](https://github.com/upb-code-labs/react-client/issues/203)) ([a1a975f](https://github.com/upb-code-labs/react-client/commit/a1a975f3b0eafa25dc6349be4511ee417845e20f))
 
 
 

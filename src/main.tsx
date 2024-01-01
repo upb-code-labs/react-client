@@ -18,13 +18,17 @@ import {
   RegisterTeacherForm,
   RubricsHome
 } from "@/screens";
+import { EditLaboratory } from "@/screens/edit-laboratory/EditLaboratory";
 import { Home } from "lucide-react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 
+import { CourseLaboratoriesProvider } from "./context/laboratories/CourseLaboratoriesContext";
+import { EditLaboratoryProvider } from "./context/laboratories/EditLaboratoryContext";
 import "./global.css";
+import { StudentsLaboratoryView } from "./screens/complete-laboratory/StudentsLaboratoryView";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -93,7 +97,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             }
           />
           <Route
-            path="/courses/:id"
+            path="/courses/:courseUUID"
             element={
               <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
                 <CoursePageLayout />
@@ -104,7 +108,27 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               path="laboratories"
               element={
                 <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
-                  <CourseLaboratories />
+                  <CourseLaboratoriesProvider>
+                    <CourseLaboratories />
+                  </CourseLaboratoriesProvider>
+                </AuthMiddleware>
+              }
+            />
+            <Route
+              path="laboratories/:laboratoryUUID/edit"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
+                  <EditLaboratoryProvider>
+                    <EditLaboratory />
+                  </EditLaboratoryProvider>
+                </AuthMiddleware>
+              }
+            />
+            <Route
+              path="laboratories/:laboratoryUUID/complete"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["student"]}>
+                  <StudentsLaboratoryView />
                 </AuthMiddleware>
               }
             />

@@ -1,6 +1,5 @@
 import { enrollStudentService } from "@/services/courses/enroll-student.service";
-import { EnrolledStudent } from "@/types/entities/enrolled-student";
-import { Student } from "@/types/entities/student";
+import { EnrolledStudent, Student } from "@/types/entities/general-entities";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -15,7 +14,7 @@ export const FoundStudentCard = ({
   student,
   addStudentCallback
 }: FoundStudentCardProps) => {
-  const { id: courseUUID = "empty" } = useParams();
+  const { courseUUID = "" } = useParams<{ courseUUID: string }>();
 
   const enrollStudent = async () => {
     const { success, message } = await enrollStudentService(

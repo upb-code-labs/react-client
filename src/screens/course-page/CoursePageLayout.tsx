@@ -1,7 +1,7 @@
 import { AuthContext } from "@/context/AuthContext";
 import { getCourseService } from "@/services/courses/get-course.service";
-import { Course } from "@/types/entities/course";
-import { getCourseInitials } from "@/utils/get-course-initials";
+import { Course } from "@/types/entities/general-entities";
+import { getCourseInitials } from "@/utils/utils";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -11,7 +11,7 @@ import { CourseNavigationSkeleton } from "./CourseNavigationSkeleton";
 
 export const CoursePageLayout = () => {
   const navigate = useNavigate();
-  const { id = "empty" } = useParams();
+  const { courseUUID = "" } = useParams<{ courseUUID: string }>();
 
   const { user } = useContext(AuthContext);
   const role = user?.role || "student";
@@ -25,7 +25,7 @@ export const CoursePageLayout = () => {
   }, []);
 
   const getCourse = async () => {
-    const { success, ...response } = await getCourseService(id);
+    const { success, ...response } = await getCourseService(courseUUID);
     if (!success) {
       toast.error(response.message);
       redirectToCoursesView();
@@ -41,7 +41,7 @@ export const CoursePageLayout = () => {
 
   return (
     <div className="mx-auto grid min-h-[calc(100vh-5rem)] max-w-7xl auto-rows-min gap-4 p-4 md:auto-rows-auto md:grid-cols-4">
-      <aside className="space-y-8 border-b pb-8 pr-2 md:border-b-0 md:border-r md:pb-0">
+      <aside className="space-y-8 pb-2 pr-2 md:border-r md:pb-0">
         {isLoading ? (
           <CourseNavigationSkeleton />
         ) : (
@@ -65,7 +65,9 @@ export const CoursePageLayout = () => {
                   className="py-1 text-foreground/75 transition-colors hover:text-foreground"
                   key={option.path}
                 >
-                  <Link to={option.path.replace(":id", id)}>{option.name}</Link>
+                  <Link to={option.path.replace(":id", courseUUID)}>
+                    {option.name}
+                  </Link>
                 </li>
               ))}
             </ul>
