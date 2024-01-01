@@ -8,7 +8,7 @@ import {
 import { Suspense, useCallback, useContext } from "react";
 import { lazily } from "react-lazily";
 
-import { LaboratoryBlockSkeleton } from "../../skeletons/LaboratoryBlockSkeleton";
+import { LaboratoryBlockSkeleton } from "../skeletons/LaboratoryBlockSkeleton";
 
 const { EditableMarkdownBlock } = lazily(
   () => import("./markdown-block/EditableMarkdownBlock")

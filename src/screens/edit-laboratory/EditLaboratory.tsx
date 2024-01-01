@@ -15,10 +15,10 @@ import { LaboratoryBlockSkeleton } from "./skeletons/LaboratoryBlockSkeleton";
 import { LaboratoryDetailsSkeleton } from "./skeletons/LaboratoryDetailsSkeleton";
 
 const { LaboratoryDetails } = lazily(
-  () => import("./components/teacher/LaboratoryDetails")
+  () => import("./components/LaboratoryDetails")
 );
 const { TeacherLaboratoryBlocks } = lazily(
-  () => import("./components/teacher/TeacherLaboratoryBlocks")
+  () => import("./components/TeacherLaboratoryBlocks")
 );
 
 export const EditLaboratory = () => {
