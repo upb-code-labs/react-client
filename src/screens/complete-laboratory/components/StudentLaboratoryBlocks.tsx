@@ -1,13 +1,18 @@
 import { LaboratoryBlockSkeleton } from "@/components/Skeletons/LaboratoryBlockSkeleton";
 import {
   LaboratoryBlock,
-  MarkdownBlock
+  MarkdownBlock,
+  TestBlock
 } from "@/types/entities/laboratory-entities";
 import { Suspense } from "react";
 import { lazily } from "react-lazily";
 
 const { MarkdownPreviewBlock } = lazily(
   () => import("./markdown-block/MarkdownPreviewBlock")
+);
+
+const { TestPreviewBlock } = lazily(
+  () => import("./test-block/TestPreviewBlock")
 );
 
 interface StudentLaboratoryBlocksProps {
@@ -19,7 +24,7 @@ export const StudentLaboratoryBlocks = ({
 }: StudentLaboratoryBlocksProps) => {
   return (
     <section className="grid gap-8">
-      {blocks.map((block) => {
+      {blocks.map((block, index) => {
         if (block.blockType === "markdown") {
           const mdBlock: MarkdownBlock = block as MarkdownBlock;
           return (
@@ -28,10 +33,11 @@ export const StudentLaboratoryBlocks = ({
             </Suspense>
           );
         } else {
+          const testBlock: TestBlock = block as TestBlock;
           return (
-            <div key={`test-preview-block-${block.uuid}`}>
-              <h1>Test Block</h1>
-            </div>
+            <Suspense fallback={<LaboratoryBlockSkeleton />}>
+              <TestPreviewBlock block={testBlock} blockIndex={index} />
+            </Suspense>
           );
         }
       })}
