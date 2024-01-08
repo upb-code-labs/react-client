@@ -10,11 +10,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { CONSTANTS } from "@/config/constants";
 import { getSupportedLanguagesService } from "@/services/languages/get-supported-languages.service";
+import { submitToTestBlockService } from "@/services/submissions/submit-to-test-block.service";
 import { useSupportedLanguagesStore } from "@/stores/supported-languages-store";
 import { TestBlock } from "@/types/entities/laboratory-entities";
 import { downloadLanguageTemplate } from "@/utils/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DownloadIcon } from "lucide-react";
+import { DownloadIcon, SendIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -41,11 +42,13 @@ const testPreviewBlockFormScheme = z.object({
 interface TestPreviewBlockFormProps {
   testBlock: TestBlock;
   blockIndex: number;
+  changeToStatusTabCallback: () => void;
 }
 
 export const TestPreviewBlockForm = ({
   testBlock,
-  blockIndex
+  blockIndex,
+  changeToStatusTabCallback
 }: TestPreviewBlockFormProps) => {
   const [isSending, setIsSending] = useState(false);
 
@@ -90,8 +93,25 @@ export const TestPreviewBlockForm = ({
     data: z.infer<typeof testPreviewBlockFormScheme>
   ) => {
     setIsSending(true);
-    console.log(data);
+    await submitArchive(data);
     setIsSending(false);
+  };
+
+  const submitArchive = async (
+    data: z.infer<typeof testPreviewBlockFormScheme>
+  ) => {
+    const { success, message } = await submitToTestBlockService({
+      testBlockUUID: testBlock.uuid,
+      submissionArchive: data.submissionFile
+    });
+
+    if (!success) {
+      toast.error(message);
+      return;
+    }
+
+    toast.success(message);
+    changeToStatusTabCallback();
   };
 
   return (
@@ -152,6 +172,10 @@ export const TestPreviewBlockForm = ({
                       }}
                     />
                   </FormControl>
+                  <Button type="submit" disabled={isSending}>
+                    <SendIcon size={20} className="mr-2" />
+                    Submit
+                  </Button>
                   {testBlock.submissionUUID && (
                     <Button
                       type="button"
@@ -170,13 +194,6 @@ export const TestPreviewBlockForm = ({
             );
           }}
         />
-        <Button
-          type="submit"
-          className="col-span-2 w-min self-end"
-          disabled={isSending}
-        >
-          Submit
-        </Button>
       </form>
     </Form>
   );
