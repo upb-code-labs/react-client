@@ -18,6 +18,7 @@ import {
 import { CONSTANTS } from "@/config/constants";
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
+import { updateTestBlockService } from "@/services/blocks/update-test-block.service";
 import { getSupportedLanguagesService } from "@/services/languages/get-supported-languages.service";
 import { useSupportedLanguagesStore } from "@/stores/supported-languages-store";
 import { TestBlock } from "@/types/entities/laboratory-entities";
@@ -112,8 +113,27 @@ export const EditableTestBlockForm = ({
   const handleSubmit = async (
     data: z.infer<typeof EditableTestBlockFormScheme>
   ) => {
-    // TODO: Send the update to the server
-    console.log(data);
+    const { success, message } = await updateTestBlockService({
+      blockUUID: testBlock.uuid,
+      blockLanguageUUID: data.languageUUID,
+      blockName: data.name,
+      blockTestArchive: data.testFile
+    });
+
+    if (!success) {
+      toast.error(message);
+      return;
+    }
+
+    laboratoryStateDispatcher({
+      type: EditLaboratoryActionType.UPDATE_TEST_BLOCK,
+      payload: {
+        ...testBlock,
+        name: data.name,
+        languageUUID: data.languageUUID
+      }
+    });
+    toast.success(message);
   };
 
   const handleDownloadLanguageTemplate = () => {
@@ -178,7 +198,9 @@ export const EditableTestBlockForm = ({
                   {!form.getFieldState("languageUUID").invalid && (
                     <Button
                       type="button"
-                      aria-label={`Download language template for block ${blockIndex}`}
+                      aria-label={`Download language template for block number ${
+                        blockIndex + 1
+                      }`}
                       onClick={handleDownloadLanguageTemplate}
                     >
                       <DownloadIcon size={20} />
@@ -212,6 +234,7 @@ export const EditableTestBlockForm = ({
                         }}
                       />
                     </FormControl>
+                    {/* TODO: Download the current test archive from the server */}
                     <Button
                       type="button"
                       aria-label={`Download current test archive for block ${blockIndex}`}

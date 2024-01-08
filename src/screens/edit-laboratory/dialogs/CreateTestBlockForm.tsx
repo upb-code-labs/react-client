@@ -129,7 +129,6 @@ export const CreateTestBlockForm = ({
         uuid: uuid,
         name: data.name,
         languageUUID: data.languageUUID,
-        // TODO: Sync the test archive uuid with the backend
         testArchiveUUID: "PLACEHOLDER"
       }
     });
