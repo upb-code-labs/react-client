@@ -198,7 +198,9 @@ export const EditableTestBlockForm = ({
                   {!form.getFieldState("languageUUID").invalid && (
                     <Button
                       type="button"
-                      aria-label={`Download language template for block ${blockIndex}`}
+                      aria-label={`Download language template for block number ${
+                        blockIndex + 1
+                      }`}
                       onClick={handleDownloadLanguageTemplate}
                     >
                       <DownloadIcon size={20} />

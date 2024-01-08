@@ -234,6 +234,27 @@ test.describe.serial("Edit laboratory workflow", () => {
       page.getByText("The new test block has been created successfully")
     ).toBeVisible();
 
+    // Assert teachers can download the language template from the test block
+    const blockLanguageDownloadButton = page.getByLabel(
+      "Download language template for block number 1"
+    );
+    await expect(blockLanguageDownloadButton).toBeVisible();
+
+    // Assert the template is downloaded
+    const blockLanguageDownloadPromise = page.waitForEvent("download");
+
+    await blockLanguageDownloadButton.click();
+    const blockLanguageDownloadEvent = await blockLanguageDownloadPromise;
+    await blockLanguageDownloadEvent.saveAs(
+      join(__dirname, "data", "java-downloaded.zip")
+    );
+
+    // ## Edit the test block
+    // Update the block name
+    const nameInput = page.getByLabel("Block name");
+    await expect(nameInput).toBeVisible();
+    await nameInput.fill("New test block name");
+
     // Open block dropdown
     const blockDropdownButton = page.getByRole("button", {
       name: "Toggle options for block number 1"
@@ -242,7 +263,6 @@ test.describe.serial("Edit laboratory workflow", () => {
     await blockDropdownButton.click();
 
     // Click on the save option
-    /** 
     const saveBlockButton = page.getByRole("menuitem", {
       name: "Save changes"
     });
@@ -253,6 +273,22 @@ test.describe.serial("Edit laboratory workflow", () => {
     await expect(
       page.getByText("The test block has been updated successfully")
     ).toBeVisible();
-    */
+
+    // ## Delete the test block
+    await blockDropdownButton.click();
+    const deleteBlockButton = page.getByRole("menuitem", {
+      name: "Delete block"
+    });
+
+    await expect(deleteBlockButton).toBeVisible();
+    await deleteBlockButton.click();
+
+    // Assert an alert is shown
+    await expect(
+      page.getByText("The test block has been deleted successfully")
+    ).toBeVisible();
+
+    // Assert the block is not shown
+    await expect(page.getByLabel("Block name")).not.toBeVisible();
   });
 });
