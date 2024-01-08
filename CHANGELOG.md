@@ -1,3 +1,12 @@
+# [0.34.0](https://github.com/upb-code-labs/react-client/compare/v0.33.0...v0.34.0) (2024-01-08)
+
+
+### Features
+
+* Update test blocks ([#220](https://github.com/upb-code-labs/react-client/issues/220)) ([147f3db](https://github.com/upb-code-labs/react-client/commit/147f3db5efaa1ca325e8b9ac7dd8e66981c79ec8))
+
+
+
 # [0.33.0](https://github.com/upb-code-labs/react-client/compare/v0.32.0...v0.33.0) (2024-01-01)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Delete markdown block ([#205](https://github.com/upb-code-labs/react-client/issues/205)) ([e19079f](https://github.com/upb-code-labs/react-client/commit/e19079f1a137854c612b110a3bec13526746a426))
-
-
-
-# [0.29.0](https://github.com/upb-code-labs/react-client/compare/v0.28.0...v0.29.0) (2023-12-31)
-
-
-### Features
-
-* Create test blocks ([#203](https://github.com/upb-code-labs/react-client/issues/203)) ([a1a975f](https://github.com/upb-code-labs/react-client/commit/a1a975f3b0eafa25dc6349be4511ee417845e20f))
 
 
 
