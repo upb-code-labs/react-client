@@ -28,15 +28,28 @@ export const StudentLaboratoryBlocks = ({
         if (block.blockType === "markdown") {
           const mdBlock: MarkdownBlock = block as MarkdownBlock;
           return (
-            <Suspense fallback={<LaboratoryBlockSkeleton />}>
-              <MarkdownPreviewBlock block={mdBlock} />
+            <Suspense
+              fallback={<LaboratoryBlockSkeleton />}
+              key={`block-${mdBlock.uuid}-suspense`}
+            >
+              <MarkdownPreviewBlock
+                block={mdBlock}
+                key={`block-${mdBlock.uuid}`}
+              />
             </Suspense>
           );
         } else {
           const testBlock: TestBlock = block as TestBlock;
           return (
-            <Suspense fallback={<LaboratoryBlockSkeleton />}>
-              <TestPreviewBlock block={testBlock} blockIndex={index} />
+            <Suspense
+              fallback={<LaboratoryBlockSkeleton />}
+              key={`block-${testBlock.uuid}-suspense`}
+            >
+              <TestPreviewBlock
+                block={testBlock}
+                blockIndex={index}
+                key={`block-${testBlock.uuid}`}
+              />
             </Suspense>
           );
         }
