@@ -13,11 +13,24 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
 
+  codelabs_rabbitmq:
+    image: docker.io/library/rabbitmq:3.12.11-management-alpine
+    container_name: codelabs_rabbitmq
+    restart: on-failure
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
+
   # Microservices
   codelabs_static_files:
     image: ghcr.io/upb-code-labs/static-files-microservice:latest
     container_name: codelabs_static_files
     restart: on-failure
+    environment:
+      - GIN_MODE=release
     ports:
       - "127.0.0.1:8081:8080"
     depends_on:
@@ -28,14 +41,38 @@ services:
     container_name: codelabs_main_api
     restart: on-failure
     environment:
-      - ENVIRONMENT=production
+      - GIN_MODE=release
       - DB_CONNECTION_STRING=postgres://postgres:postgres@codelabs_postgres_db:5432/codelabs?sslmode=disable
+      - RABBIT_MQ_CONNECTION_STRING=amqp://rabbitmq:rabbitmq@codelabs_rabbitmq:5672/
       - STATIC_FILES_MICROSERVICE_ADDRESS=http://codelabs_static_files:8080
     ports:
       - "127.0.0.1:8080:8080"
     depends_on:
       - codelabs_postgres_db
+      - codelabs_rabbitmq
       - codelabs_static_files
+
+  codelabs_tests_runner:
+    image: ghcr.io/upb-code-labs/tests-microservice:latest
+    container_name: codelabs_tests_runner
+    restart: on-failure
+    environment:
+      - STATIC_FILES_MICROSERVICE_ADDRESS=http://codelabs_static_files:8080
+      - RABBIT_MQ_CONNECTION_STRING=amqp://rabbitmq:rabbitmq@codelabs_rabbitmq:5672/
+    depends_on:
+      - codelabs_static_files
+      - codelabs_rabbitmq
+
+  codelabs_submissions_status_updater:
+    image: ghcr.io/upb-code-labs/submissions-status-updater-microservice:latest
+    container_name: codelabs_submissions_status_updater
+    restart: on-failure
+    environment:
+      - DB_CONNECTION_STRING=postgres://postgres:postgres@codelabs_postgres_db:5432/codelabs?sslmode=disable
+      - RABBIT_MQ_CONNECTION_STRING=amqp://rabbitmq:rabbitmq@codelabs_rabbitmq:5672/
+    depends_on:
+      - codelabs_rabbitmq
+      - codelabs_postgres_db
 
   # Utils
   postgres_db_admin:
