@@ -232,6 +232,7 @@ export const EditableTestBlockForm = ({
                         }}
                       />
                     </FormControl>
+                    {/* TODO: Download the current test archive from the server */}
                     <Button
                       type="button"
                       aria-label={`Download current test archive for block ${blockIndex}`}
