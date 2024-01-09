@@ -3,6 +3,7 @@ import { TestBlock } from "@/types/entities/laboratory-entities";
 import { useState } from "react";
 
 import { TestPreviewBlockForm } from "./TestPreviewBlockForm";
+import { TestStatus } from "./TestStatus";
 
 interface TestPreviewBlockProps {
   block: TestBlock;
@@ -41,7 +42,13 @@ export const TestPreviewBlock = ({
           changeToStatusTabCallback={() => setActiveTab(`${block.uuid}-status`)}
         />
       </TabsContent>
-      <TabsContent value={`${block.uuid}-status`}>Pending...</TabsContent>
+      <TabsContent value={`${block.uuid}-status`}>
+        <TestStatus
+          testBlock={block}
+          blockIndex={blockIndex}
+          changeToFormTabCallback={() => setActiveTab(`${block.uuid}-form`)}
+        />
+      </TabsContent>
     </Tabs>
   );
 };
