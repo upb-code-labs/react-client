@@ -6,25 +6,22 @@ import { AuthContextProvider } from "@/context/AuthContext";
 import { UserCoursesProvider } from "@/context/courses/UserCoursesContext";
 import { CourseLaboratoriesProvider } from "@/context/laboratories/CourseLaboratoriesContext";
 import { EditLaboratoryProvider } from "@/context/laboratories/EditLaboratoryContext";
-import {
-  AdminsView,
-  CourseLaboratories,
-  CoursePageLayout,
-  CourseParticipants,
-  CoursesHome,
-  EditRubricView,
-  FormContainer,
-  Login,
-  Logout,
-  RegisterAdminForm,
-  RegisterStudentForm,
-  RegisterTeacherForm,
-  RubricsHome
-} from "@/screens";
+import { AdminsView } from "@/screens/admins-list/AdminsView";
 import { StudentsLaboratoryView } from "@/screens/complete-laboratory/StudentsLaboratoryView";
+import { CoursePageLayout } from "@/screens/course-page/CoursePageLayout";
+import { CourseLaboratories } from "@/screens/course-page/laboratories/CourseLaboratories";
+import { CourseParticipants } from "@/screens/course-page/participants/CourseParticipants";
+import { CoursesHome } from "@/screens/courses-list/CoursesHome";
 import { EditLaboratory } from "@/screens/edit-laboratory/EditLaboratory";
+import { EditRubricView } from "@/screens/edit-rubric/EditRubricView";
+import { RubricsHome } from "@/screens/rubrics-list/RubricsHome";
+import { FormContainer } from "@/screens/session/FormContainer";
+import { Login } from "@/screens/session/login/Login";
+import { Logout } from "@/screens/session/logout/Logout";
+import { RegisterAdminForm } from "@/screens/session/register-admin/Form";
+import { RegisterStudentForm } from "@/screens/session/register-student/Form";
+import { RegisterTeacherForm } from "@/screens/session/register-teacher/Form";
 // Import fonts
-import "@fontsource/ibm-plex-mono/300.css";
 import "@fontsource/ibm-plex-mono/400.css";
 import { Home } from "lucide-react";
 import ReactDOM from "react-dom/client";

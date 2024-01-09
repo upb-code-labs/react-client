@@ -1,4 +1,3 @@
-import { ActionButton } from "@/components/Rubric/ActionButton";
 import {
   Dialog,
   DialogContent,
@@ -7,6 +6,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
+import { ActionButton } from "@/screens/edit-rubric/components/ActionButton";
 import { useEditRubricStore } from "@/stores/edit-rubric-store";
 import { useState } from "react";
 

@@ -48,24 +48,26 @@ export const AdminsView = () => {
           Register admin
         </Link>
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Full Name</TableHead>
-            <TableHead>Creation Date</TableHead>
-            <TableHead>Created By</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {admins?.map((admin) => (
-            <TableRow key={admin.uuid}>
-              <TableCell>{admin.full_name}</TableCell>
-              <TableCell>{dayjs(admin.created_at).fromNow()}</TableCell>
-              <TableCell>{admin.created_by}</TableCell>
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Full Name</TableHead>
+              <TableHead>Creation Date</TableHead>
+              <TableHead>Created By</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {admins?.map((admin) => (
+              <TableRow key={admin.uuid}>
+                <TableCell>{admin.full_name}</TableCell>
+                <TableCell>{dayjs(admin.created_at).fromNow()}</TableCell>
+                <TableCell>{admin.created_by}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </main>
   );
 };

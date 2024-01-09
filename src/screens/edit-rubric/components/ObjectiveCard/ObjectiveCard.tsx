@@ -15,7 +15,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from "../../ui/form";
+} from "../../../../components/ui/form";
 import { ObjectiveCardDropdown } from "./ObjectiveCardDropdown";
 
 interface ObjectiveCardProps {

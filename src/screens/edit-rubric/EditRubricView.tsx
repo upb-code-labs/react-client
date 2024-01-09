@@ -1,15 +1,19 @@
-import { ObjectiveRow } from "@/components/Rubric/ObjectiveRow";
-import { RubricName } from "@/components/Rubric/RubricName";
-import { RubricSkeleton } from "@/components/Skeletons/RubricSkeleton";
 import { getRubricByUuidService } from "@/services/rubrics/get-rubric-by-uuid.service";
 import { useEditRubricStore } from "@/stores/edit-rubric-store";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { lazily } from "react-lazily";
 import { Navigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 import { DeleteCriteriaDialog } from "./dialogs/DeleteCriteriaDialog";
 import { DeleteObjectiveDialog } from "./dialogs/DeleteObjectiveDialog";
 import { AddObjectiveDialog } from "./dialogs/add-objective/AddObjectiveDialog";
+import { RubricNameSkeleton } from "./skeletons/RubricNameSkeleton";
+import { RubricSkeleton } from "./skeletons/RubricSkeleton";
+
+const { RubricName } = lazily(() => import("./components/RubricName"));
+
+const { ObjectiveRow } = lazily(() => import("./components/ObjectiveRow"));
 
 export const EditRubricView = () => {
   // Get rubric UUID from URL
@@ -48,9 +52,13 @@ export const EditRubricView = () => {
 
   return (
     <main className="mx-auto max-w-7xl space-y-4 p-4">
-      <RubricName />
+      <Suspense fallback={<RubricNameSkeleton />}>
+        <RubricName />
+      </Suspense>
       {rubric.objectives?.map((objective, oi) => (
-        <ObjectiveRow key={objective.uuid} objective={objective} index={oi} />
+        <Suspense key={`${objective.uuid}-skeleton`}>
+          <ObjectiveRow key={objective.uuid} objective={objective} index={oi} />
+        </Suspense>
       ))}
       <AddObjectiveDialog />
       <DeleteCriteriaDialog />
