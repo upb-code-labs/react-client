@@ -1,3 +1,12 @@
+# [0.36.0](https://github.com/upb-code-labs/react-client/compare/v0.35.0...v0.36.0) (2024-01-09)
+
+
+### Features
+
+* Get submission status ([#227](https://github.com/upb-code-labs/react-client/issues/227)) ([feff79c](https://github.com/upb-code-labs/react-client/commit/feff79c31521fdeb2bb430fadc9671a10f048256))
+
+
+
 # [0.35.0](https://github.com/upb-code-labs/react-client/compare/v0.34.0...v0.35.0) (2024-01-08)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Download language template ([#209](https://github.com/upb-code-labs/react-client/issues/209)) ([d2f1b9c](https://github.com/upb-code-labs/react-client/commit/d2f1b9cf758e2f3507b41c355304134dcc373740))
-
-
-
-# [0.31.0](https://github.com/upb-code-labs/react-client/compare/v0.30.0...v0.31.0) (2023-12-31)
-
-
-### Features
-
-* Delete tests block ([2c0e6d4](https://github.com/upb-code-labs/react-client/commit/2c0e6d4c6c21ff0f6e74e93ef5535d4f688a8ef0))
 
 
 
