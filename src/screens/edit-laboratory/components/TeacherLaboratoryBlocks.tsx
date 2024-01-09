@@ -5,18 +5,10 @@ import {
   MarkdownBlock,
   TestBlock
 } from "@/types/entities/laboratory-entities";
-import { Suspense, useCallback, useContext } from "react";
-import { lazily } from "react-lazily";
+import { useCallback, useContext } from "react";
 
-import { LaboratoryBlockSkeleton } from "../../../components/Skeletons/LaboratoryBlockSkeleton";
-
-const { EditableMarkdownBlock } = lazily(
-  () => import("./markdown-block/EditableMarkdownBlock")
-);
-
-const { EditableTestBlock } = lazily(
-  () => import("./test-block/EditableTestBlock")
-);
+import { EditableMarkdownBlock } from "./markdown-block/EditableMarkdownBlock";
+import { EditableTestBlock } from "./test-block/EditableTestBlock";
 
 interface TeacherLaboratoryBlocksProps {
   blocks: LaboratoryBlock[];
@@ -45,26 +37,22 @@ export const TeacherLaboratoryBlocks = ({
         if (block.blockType === "markdown") {
           const mdBlock: MarkdownBlock = block as MarkdownBlock;
           return (
-            <Suspense fallback={<LaboratoryBlockSkeleton />}>
-              <EditableMarkdownBlock
-                key={mdBlock.uuid}
-                blockIndex={index}
-                blockUUID={mdBlock.uuid}
-                blockContent={mdBlock.content}
-                onChangeCallback={onMarkdownBlockChange}
-              />
-            </Suspense>
+            <EditableMarkdownBlock
+              key={mdBlock.uuid}
+              blockIndex={index}
+              blockUUID={mdBlock.uuid}
+              blockContent={mdBlock.content}
+              onChangeCallback={onMarkdownBlockChange}
+            />
           );
         } else {
           const testBlock: TestBlock = block as TestBlock;
           return (
-            <Suspense fallback={<LaboratoryBlockSkeleton />}>
-              <EditableTestBlock
-                key={testBlock.uuid}
-                blockIndex={index}
-                testBlock={testBlock}
-              />
-            </Suspense>
+            <EditableTestBlock
+              key={testBlock.uuid}
+              blockIndex={index}
+              testBlock={testBlock}
+            />
           );
         }
       })}
