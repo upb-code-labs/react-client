@@ -90,8 +90,8 @@ export const TestStatusPhase = ({
       </div>
       {/* Status content */}
       {mayShowTestOutput && (
-        <div>
-          <pre className="max-h-72 overflow-y-auto whitespace-pre-wrap text-wrap font-ibmPlexMono leading-relaxed">
+        <div className="max-w-[calc(100vw-6rem)] md:max-w-full">
+          <pre className="max-h-72 overflow-y-auto whitespace-pre-wrap text-wrap break-words font-ibmPlexMono leading-relaxed">
             {currentPhase.testsOutput}
           </pre>
         </div>
