@@ -12,6 +12,8 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
+import { submissionsChartsStatus } from "./LaboratoryProgressDashboard";
+
 // Register the chart elements
 ChartJS.register(
   BarElement,
@@ -57,10 +59,14 @@ const laboratoryStackedProgressChartOptions: ChartOptions<"bar"> = {
 
 interface StackedStudentsProgressChartProps {
   studentsProgress: StudentProgress[];
+  submissionsGroupedByStatus: {
+    [key in submissionsChartsStatus]: number[];
+  };
 }
 
 export const StackedStudentsProgressChart = ({
-  studentsProgress
+  studentsProgress,
+  submissionsGroupedByStatus
 }: StackedStudentsProgressChartProps) => {
   // Parse the data to generate the chart dataset
   const chartData: ChartData<"bar", number[], string> = {
@@ -70,30 +76,22 @@ export const StackedStudentsProgressChart = ({
     datasets: [
       {
         label: "Success",
-        data: studentsProgress.map(
-          (studentProgress) => studentProgress.success_submissions
-        ),
+        data: submissionsGroupedByStatus["success"],
         backgroundColor: "#34d399"
       },
       {
         label: "Failing",
-        data: studentsProgress.map(
-          (studentProgress) => studentProgress.failing_submissions
-        ),
+        data: submissionsGroupedByStatus["failing"],
         backgroundColor: "#f87171"
       },
       {
         label: "Running",
-        data: studentsProgress.map(
-          (studentProgress) => studentProgress.running_submissions
-        ),
+        data: submissionsGroupedByStatus["running"],
         backgroundColor: "#818cf8"
       },
       {
         label: "Pending",
-        data: studentsProgress.map(
-          (studentProgress) => studentProgress.pending_submissions
-        )
+        data: submissionsGroupedByStatus["pending"]
       }
     ]
   };
