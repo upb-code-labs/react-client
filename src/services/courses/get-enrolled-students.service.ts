@@ -36,3 +36,12 @@ export const getEnrolledStudentsService = async (
     };
   }
 };
+
+export const getEnrolledStudentsNewService = async (
+  courseUUID: string
+): Promise<EnrolledStudent[]> => {
+  const { axios } = HttpRequester.getInstance();
+
+  const { data } = await axios.get(`/courses/${courseUUID}/students`);
+  return data.students;
+};
