@@ -1,5 +1,6 @@
 import { StudentProgress } from "@/types/entities/laboratory-entities";
 
+import { DoughnutLaboratoryCompletionRateChart } from "./DoughnutLaboratoryCompletionRateChart";
 import { StackedStudentsProgressChart } from "./StackedStudentsProgressChart";
 
 interface LaboratoryProgressDashboardProps {
@@ -37,11 +38,21 @@ export const LaboratoryProgressDashboard = ({
   );
 
   return (
-    <section className="rounded-md border p-4">
-      <StackedStudentsProgressChart
-        studentsProgress={studentsProgress}
-        submissionsGroupedByStatus={submissionsGroupedByStatus}
-      />
-    </section>
+    <div className="grid gap-4 md:grid-cols-2">
+      <div className="col-span-2">
+        <div className="rounded-md border p-4">
+          <StackedStudentsProgressChart
+            studentsProgress={studentsProgress}
+            submissionsGroupedByStatus={submissionsGroupedByStatus}
+          />
+        </div>
+      </div>
+      <div className="rounded-md border p-4">
+        <DoughnutLaboratoryCompletionRateChart
+          totalTestBlocks={totalTestBlocks}
+          successSubmissionsCountList={submissionsGroupedByStatus["success"]}
+        />
+      </div>
+    </div>
   );
 };
