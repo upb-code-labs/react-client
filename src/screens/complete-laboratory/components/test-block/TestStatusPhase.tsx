@@ -1,7 +1,7 @@
 import {
   submissionStatus,
   submissionUpdate
-} from "@/types/entities/submission-entitines";
+} from "@/types/entities/submission-entities";
 import { CheckIcon, HourglassIcon, Loader2Icon, XIcon } from "lucide-react";
 import { ReactElement } from "react";
 

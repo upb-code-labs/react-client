@@ -3,7 +3,7 @@ import { TestBlock } from "@/types/entities/laboratory-entities";
 import {
   submissionStatus,
   submissionUpdate
-} from "@/types/entities/submission-entitines";
+} from "@/types/entities/submission-entities";
 import { parseSubmissionSSEUpdate } from "@/utils/utils";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

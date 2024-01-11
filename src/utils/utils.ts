@@ -1,5 +1,5 @@
 import { downloadLanguageTemplateService } from "@/services/languages/download-language-template.service";
-import { submissionUpdate } from "@/types/entities/submission-entitines";
+import { submissionUpdate } from "@/types/entities/submission-entities";
 import { toast } from "sonner";
 
 export const copyToClipboard = async (text: string): Promise<boolean> => {
