@@ -77,17 +77,23 @@ export const StackedStudentsProgressChart = ({
       {
         label: "Success",
         data: submissionsGroupedByStatus["success"],
-        backgroundColor: "#34d399"
+        backgroundColor: "#34d399",
+        borderColor: "#10b981",
+        borderWidth: 2
       },
       {
         label: "Failing",
         data: submissionsGroupedByStatus["failing"],
-        backgroundColor: "#f87171"
+        backgroundColor: "#f87171",
+        borderColor: "#ef4444",
+        borderWidth: 2
       },
       {
         label: "Running",
         data: submissionsGroupedByStatus["running"],
-        backgroundColor: "#818cf8"
+        backgroundColor: "#818cf8",
+        borderColor: "#6366f1",
+        borderWidth: 2
       },
       {
         label: "Pending",
