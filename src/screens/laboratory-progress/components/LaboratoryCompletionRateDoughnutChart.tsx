@@ -46,8 +46,8 @@ export const LaboratoryCompletionRateDoughnutChart = ({
           successSubmissionsCountList.length -
             studentsThatCompletedTheLaboratory.length
         ],
-        backgroundColor: ["#34d399", "#f87171"],
-        borderColor: ["#10b981", "#ef4444"],
+        backgroundColor: ["#34d399", "#d1d5db"],
+        borderColor: ["#10b981", "#9ca3af"],
         borderWidth: 2,
         hoverOffset: 4
       }

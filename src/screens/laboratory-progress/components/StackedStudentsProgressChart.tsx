@@ -97,7 +97,10 @@ export const StackedStudentsProgressChart = ({
       },
       {
         label: "Pending",
-        data: submissionsGroupedByStatus["pending"]
+        data: submissionsGroupedByStatus["pending"],
+        backgroundColor: "#d1d5db",
+        borderColor: "#9ca3af",
+        borderWidth: 2
       }
     ]
   };
