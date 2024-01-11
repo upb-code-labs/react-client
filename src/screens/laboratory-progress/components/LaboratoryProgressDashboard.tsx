@@ -1,5 +1,6 @@
 import { StudentProgress } from "@/types/entities/laboratory-entities";
 
+import { AverageCompletedTestsDoughnutChart } from "./AverageCompletedTestsDoughnutChart";
 import { LaboratoryCompletionRateDoughnutChart } from "./LaboratoryCompletionRateDoughnutChart";
 import { StackedStudentsProgressChart } from "./StackedStudentsProgressChart";
 
@@ -49,6 +50,12 @@ export const LaboratoryProgressDashboard = ({
       </div>
       <div className="rounded-md border p-4">
         <LaboratoryCompletionRateDoughnutChart
+          totalTestBlocks={totalTestBlocks}
+          successSubmissionsCountList={submissionsGroupedByStatus["success"]}
+        />
+      </div>
+      <div className="rounded-md border p-4">
+        <AverageCompletedTestsDoughnutChart
           totalTestBlocks={totalTestBlocks}
           successSubmissionsCountList={submissionsGroupedByStatus["success"]}
         />
