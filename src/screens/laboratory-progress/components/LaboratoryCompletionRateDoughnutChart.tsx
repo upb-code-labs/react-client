@@ -22,15 +22,15 @@ const laboratoryCompletionRateChartOptions: ChartOptions<"doughnut"> = {
   responsive: true
 };
 
-interface DoughnutLaboratoryCompletionRateChartProps {
+interface LaboratoryCompletionRateDoughnutChartProps {
   totalTestBlocks: number;
   successSubmissionsCountList: number[];
 }
 
-export const DoughnutLaboratoryCompletionRateChart = ({
+export const LaboratoryCompletionRateDoughnutChart = ({
   totalTestBlocks,
   successSubmissionsCountList
-}: DoughnutLaboratoryCompletionRateChartProps) => {
+}: LaboratoryCompletionRateDoughnutChartProps) => {
   const studentsThatCompletedTheLaboratory = successSubmissionsCountList.filter(
     (completedTestBlocks) => completedTestBlocks === totalTestBlocks
   );
