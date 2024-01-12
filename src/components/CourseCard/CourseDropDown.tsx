@@ -11,9 +11,10 @@ import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
 import { CoursesActionType } from "@/hooks/courses/coursesReducer";
 import { SessionRole } from "@/hooks/useSession";
 import { getInvitationCodeService } from "@/services/courses/get-invitation-code.service";
-import { toggleCourseVisibilityService } from "@/services/courses/toggle-course-visibility.service";
+import { toggleCourseVisibilityNewService } from "@/services/courses/toggle-course-visibility.service";
 import { Course } from "@/types/entities/general-entities";
 import { copyToClipboard } from "@/utils/utils";
+import { useMutation } from "@tanstack/react-query";
 import {
   ClipboardCopy,
   Eye,
@@ -32,8 +33,35 @@ interface CourseDropDownProps {
 export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
   const { userCoursesDispatcher, openRenameCourseDialog } =
     useContext(UserCoursesContext);
+
   const { user } = useContext(AuthContext);
   const role = user?.role || "student";
+
+  // Courses mutations
+  const { mutate: toggleCourseVisibilityMutation } = useMutation({
+    mutationFn: toggleCourseVisibilityNewService,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      const { visible } = data;
+
+      // Show a success toast
+      toast.success(
+        visible ? "Course shown successfully" : "Course hidden successfully"
+      );
+
+      // Update courses state
+      userCoursesDispatcher({
+        type: visible
+          ? CoursesActionType.SHOW_COURSE
+          : CoursesActionType.HIDE_COURSE,
+        payload: {
+          uuid: course.uuid
+        }
+      });
+    }
+  });
 
   const getDropdownOptionsByRole = (role: SessionRole) => {
     if (role == "teacher") {
@@ -58,6 +86,7 @@ export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
     const { success, ...response } = await getInvitationCodeService(
       course.uuid
     );
+
     if (!success) {
       toast.error(response.message);
       return;
@@ -76,41 +105,9 @@ export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
     }
   };
 
-  const hideCourse = async () => {
-    const { success, message, visible } = await toggleCourseVisibilityService(
-      course.uuid
-    );
-    if (!success || visible) {
-      toast.error(message);
-      return;
-    }
+  const hideCourse = () => toggleCourseVisibilityMutation(course.uuid);
 
-    toast.success(message);
-    userCoursesDispatcher({
-      type: CoursesActionType.HIDE_COURSE,
-      payload: {
-        uuid: course.uuid
-      }
-    });
-  };
-
-  const showCourse = async () => {
-    const { success, message, visible } = await toggleCourseVisibilityService(
-      course.uuid
-    );
-    if (!success || !visible) {
-      toast.error(message);
-      return;
-    }
-
-    toast.success(message);
-    userCoursesDispatcher({
-      type: CoursesActionType.SHOW_COURSE,
-      payload: {
-        uuid: course.uuid
-      }
-    });
-  };
+  const showCourse = () => toggleCourseVisibilityMutation(course.uuid);
 
   return (
     <DropdownMenu>

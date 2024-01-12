@@ -2,34 +2,24 @@ import { AxiosError } from "axios";
 
 import { HttpRequester } from "../axios";
 
-type RenameCourseResponse = {
-  success: boolean;
-  message: string;
-};
-
 export const renameCourseService = async (
   id: string,
   name: string
-): Promise<RenameCourseResponse> => {
+): Promise<void> => {
   const { axios } = HttpRequester.getInstance();
 
   try {
     await axios.patch(`/courses/${id}/name`, { name });
-    return {
-      success: true,
-      message: "Course was renamed successfully"
-    };
   } catch (error) {
-    let errorMessage = "There was an error renaming the course";
+    const DEFAULT_ERROR_MESSAGE = "There was an error renaming the course";
 
+    // Try to get the error from the response
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
-      if (message) errorMessage = message;
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
 
-    return {
-      success: false,
-      message: errorMessage
-    };
+    throw new Error(errorMessage);
   }
 };
