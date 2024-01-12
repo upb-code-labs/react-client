@@ -11,8 +11,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
 import { CoursesActionType } from "@/hooks/courses/coursesReducer";
+import { CoursesState } from "@/hooks/courses/useCourses";
 import { joinUsingInvitationCodeService } from "@/services/courses/join-using-invitation-code.service";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -32,8 +34,11 @@ interface JoinCourseFormProps {
 export const JoinCourseForm = ({
   closeDialogCallback
 }: JoinCourseFormProps) => {
+  // Global courses state
   const { userCoursesDispatcher } = useContext(UserCoursesContext);
-  const [state, setState] = useState<"idle" | "loading">("idle");
+
+  // Form state
+  const [isJoiningToCourse, setIsJoiningToCourse] = useState(false);
   const form = useForm<z.infer<typeof JoinCourseSchema>>({
     resolver: zodResolver(JoinCourseSchema),
     defaultValues: {
@@ -41,40 +46,47 @@ export const JoinCourseForm = ({
     }
   });
 
-  const formSubmitCallback = async (
-    values: z.infer<typeof JoinCourseSchema>
-  ) => {
-    joinCourse(values.invitationCode);
-  };
+  // Join course mutation
+  const queryClient = useQueryClient();
+  const { mutate: joinCourseMutation } = useMutation({
+    mutationFn: joinUsingInvitationCodeService,
+    onMutate: () => {
+      setIsJoiningToCourse(true);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (joinResponse) => {
+      const course = joinResponse;
 
-  const joinCourse = async (code: string) => {
-    setState("loading");
+      // Update the global courses state
+      userCoursesDispatcher({
+        type: CoursesActionType.ADD_COURSE,
+        payload: {
+          course
+        }
+      });
 
-    const { success, ...response } = await joinUsingInvitationCodeService(code);
-    if (!success) {
-      toast.error(response.message);
-      setState("idle");
-      return;
+      // Update courses query
+      queryClient.setQueryData(["courses"], (oldCourses: CoursesState) => {
+        return {
+          ...oldCourses,
+          courses: [...oldCourses.courses, course]
+        };
+      });
+
+      // Show a success message
+      toast.success("You have joined the course");
+
+      closeDialogCallback();
+    },
+    onSettled: () => {
+      setIsJoiningToCourse(false);
     }
+  });
 
-    const { course } = response;
-    if (!course) {
-      toast.error("Unable to get the course data");
-      setState("idle");
-      return;
-    }
-
-    const { message } = response;
-    toast.success(message);
-    setState("idle");
-
-    userCoursesDispatcher({
-      type: CoursesActionType.ADD_COURSE,
-      payload: {
-        course
-      }
-    });
-    closeDialogCallback();
+  const formSubmitCallback = (values: z.infer<typeof JoinCourseSchema>) => {
+    joinCourseMutation(values.invitationCode);
   };
 
   return (
@@ -102,7 +114,7 @@ export const JoinCourseForm = ({
           )}
         ></FormField>
         <DialogFooter>
-          <Button type="submit" isLoading={state === "loading"}>
+          <Button type="submit" isLoading={isJoiningToCourse}>
             Join
           </Button>
         </DialogFooter>

@@ -3,36 +3,24 @@ import { AxiosError } from "axios";
 
 import { HttpRequester } from "../axios";
 
-type JoinUsingInvitationCodeResponse = {
-  success: boolean;
-  message: string;
-  course?: Course;
-};
-
-export const joinUsingInvitationCodeService = async (
+export async function joinUsingInvitationCodeService(
   code: string
-): Promise<JoinUsingInvitationCodeResponse> => {
+): Promise<Course> {
   const { axios } = HttpRequester.getInstance();
 
   try {
-    const response = await axios.post(`/courses/join/${code}`);
-
-    return {
-      success: true,
-      message: "You have joined the course",
-      course: response.data.course
-    };
+    const { data } = await axios.post(`/courses/join/${code}`);
+    return data.course;
   } catch (error) {
-    let errorMessage = "There was an error";
+    const DEFAULT_ERROR_MESSAGE = "We had a problem adding you to the course";
 
+    // Try to get the error from the response
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
-      if (message) errorMessage = message;
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
 
-    return {
-      success: false,
-      message: errorMessage
-    };
+    throw new Error(errorMessage);
   }
-};
+}
