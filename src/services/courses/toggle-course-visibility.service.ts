@@ -2,36 +2,30 @@ import { AxiosError } from "axios";
 
 import { HttpRequester } from "../axios";
 
-type ToggleCourseVisibilityResponse = {
-  success: boolean;
-  message: string;
+type ToggleCourseVisibilityNewResponse = {
   visible: boolean;
 };
 
-export const toggleCourseVisibilityService = async (
+export const toggleCourseVisibilityNewService = async (
   courseId: string
-): Promise<ToggleCourseVisibilityResponse> => {
+): Promise<ToggleCourseVisibilityNewResponse> => {
   const { axios } = HttpRequester.getInstance();
 
   try {
     const { data } = await axios.patch(`/courses/${courseId}/visibility`);
     return {
-      success: true,
-      message: "Course visibility was updated successfully",
       visible: data.visible
     };
   } catch (error) {
-    let errorMessage = "There was an error";
+    const DEFAULT_ERROR_MESSAGE = "There was an error";
 
+    // Try to get the error from the response
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
-      if (message) errorMessage = message;
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
 
-    return {
-      success: false,
-      message: errorMessage,
-      visible: false
-    };
+    throw new Error(errorMessage);
   }
 };
