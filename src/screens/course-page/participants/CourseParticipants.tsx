@@ -2,8 +2,9 @@ import { Button } from "@/components/ui/button";
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import { getEnrolledStudentsService } from "@/services/courses/get-enrolled-students.service";
 import { EnrolledStudent } from "@/types/entities/general-entities";
+import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -15,8 +16,15 @@ export const CourseParticipants = () => {
   const navigate = useNavigate();
 
   // Data state
-  const [isLoading, setIsLoading] = useState(true);
-  const [students, setStudents] = useState<EnrolledStudent[]>([]);
+  const {
+    data: students,
+    isLoading,
+    isError,
+    error
+  } = useQuery({
+    queryKey: ["course-students", courseUUID],
+    queryFn: () => getEnrolledStudentsService(courseUUID)
+  });
 
   // Table state
   const tableColumns = useMemo<ColumnDef<EnrolledStudent>[]>(
@@ -44,32 +52,17 @@ export const CourseParticipants = () => {
     []
   );
 
-  useEffect(() => {
-    getStudents();
-  }, []);
-
-  const getStudents = async () => {
-    const { success, ...response } =
-      await getEnrolledStudentsService(courseUUID);
-    if (!success) {
-      toast.error(response.message);
-      navigate("/courses");
-    }
-
-    setStudents(response.students);
-    setIsLoading(false);
-  };
-
-  // State modifiers
-  const addStudent = (student: EnrolledStudent) => {
-    setStudents((prev) => [...prev, student]);
-  };
+  // Error handling
+  if (isError) {
+    toast.error(error?.message);
+    navigate(`/courses/${courseUUID}/laboratories`);
+  }
 
   return (
     <main className="md:col-span-3">
       <div className="flex flex-col items-start justify-between md:flex-row md:items-center">
         <h1 className="my-4 text-3xl font-bold">Enrolled students</h1>
-        <EnrollStudentDialog addStudentCallback={addStudent} />
+        <EnrollStudentDialog />
       </div>
       <div className="mt-12 md:mt-4">
         <CourseParticipantsTable

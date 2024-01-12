@@ -1,4 +1,4 @@
-import { getEnrolledStudentsNewService } from "@/services/courses/get-enrolled-students.service";
+import { getEnrolledStudentsService } from "@/services/courses/get-enrolled-students.service";
 import { getStudentsProgressInLaboratory } from "@/services/laboratories/get-students-progress.service";
 import { StudentProgress } from "@/types/entities/laboratory-entities";
 import { useQuery } from "@tanstack/react-query";
@@ -34,7 +34,7 @@ export const LaboratoryProgressView = () => {
     isError: isErrorProgress,
     error: errorProgress
   } = useQuery({
-    queryKey: [`laboratory-${laboratoryUUID}-progress`],
+    queryKey: ["laboratory-progress", laboratoryUUID],
     queryFn: () => getStudentsProgressInLaboratory(laboratoryUUID!)
   });
 
@@ -45,8 +45,8 @@ export const LaboratoryProgressView = () => {
     isError: isErrorStudents,
     error: errorStudents
   } = useQuery({
-    queryKey: [`course-${courseUUID}-students`],
-    queryFn: () => getEnrolledStudentsNewService(courseUUID!)
+    queryKey: ["course-students", courseUUID],
+    queryFn: () => getEnrolledStudentsService(courseUUID!)
   });
 
   // Join the two data sets
