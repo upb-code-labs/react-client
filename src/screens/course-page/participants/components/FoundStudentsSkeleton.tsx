@@ -1,5 +1,5 @@
-import { ScrollArea } from "../ui/scroll-area";
-import { Skeleton } from "../ui/skeleton";
+import { ScrollArea } from "../../../../components/ui/scroll-area";
+import { Skeleton } from "../../../../components/ui/skeleton";
 
 export const FoundStudentsSkeleton = () => {
   return (
