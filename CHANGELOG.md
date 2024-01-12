@@ -1,3 +1,12 @@
+# [0.37.0](https://github.com/upb-code-labs/react-client/compare/v0.36.0...v0.37.0) (2024-01-12)
+
+
+### Features
+
+* Laboratory progress and statistics ([#232](https://github.com/upb-code-labs/react-client/issues/232)) ([52406a5](https://github.com/upb-code-labs/react-client/commit/52406a57c8474e8d9d2f5de10bb46ed3048fe8ab))
+
+
+
 # [0.36.0](https://github.com/upb-code-labs/react-client/compare/v0.35.0...v0.36.0) (2024-01-09)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Show laboratory content to students ([#211](https://github.com/upb-code-labs/react-client/issues/211)) ([6d7c2e4](https://github.com/upb-code-labs/react-client/commit/6d7c2e45527ca3d0f3122d5a6ffbd3d43f4495af))
-
-
-
-# [0.32.0](https://github.com/upb-code-labs/react-client/compare/v0.31.0...v0.32.0) (2023-12-31)
-
-
-### Features
-
-* Download language template ([#209](https://github.com/upb-code-labs/react-client/issues/209)) ([d2f1b9c](https://github.com/upb-code-labs/react-client/commit/d2f1b9cf758e2f3507b41c355304134dcc373740))
 
 
 
