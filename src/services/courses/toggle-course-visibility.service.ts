@@ -6,7 +6,7 @@ type ToggleCourseVisibilityNewResponse = {
   visible: boolean;
 };
 
-export const toggleCourseVisibilityNewService = async (
+export const toggleCourseVisibilityService = async (
   courseId: string
 ): Promise<ToggleCourseVisibilityNewResponse> => {
   const { axios } = HttpRequester.getInstance();

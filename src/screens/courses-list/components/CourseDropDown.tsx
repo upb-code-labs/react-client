@@ -11,7 +11,7 @@ import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
 import { CoursesActionType } from "@/hooks/courses/coursesReducer";
 import { SessionRole } from "@/hooks/useSession";
 import { getInvitationCodeService } from "@/services/courses/get-invitation-code.service";
-import { toggleCourseVisibilityNewService } from "@/services/courses/toggle-course-visibility.service";
+import { toggleCourseVisibilityService } from "@/services/courses/toggle-course-visibility.service";
 import { Course } from "@/types/entities/general-entities";
 import { copyToClipboard } from "@/utils/utils";
 import { useMutation } from "@tanstack/react-query";
@@ -39,7 +39,7 @@ export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
 
   // Courses mutations
   const { mutate: toggleCourseVisibilityMutation } = useMutation({
-    mutationFn: toggleCourseVisibilityNewService,
+    mutationFn: toggleCourseVisibilityService,
     onError: (error) => {
       toast.error(error.message);
     },

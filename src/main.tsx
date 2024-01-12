@@ -169,7 +169,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             }
           />
           <Route
-            path="/rubrics/:id"
+            path="/rubrics/:rubricUUID"
             element={
               <AuthMiddleware roles={["teacher"]} mustBeLoggedIn>
                 <EditRubricView />

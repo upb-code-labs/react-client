@@ -2,36 +2,26 @@ import { AxiosError } from "axios";
 
 import { HttpRequester } from "../axios";
 
-type UpdateRubricNameResponse = {
-  success: boolean;
-  message: string;
-};
-
-export const updateRubricNameService = async (
+export async function updateRubricNameService(
   rubricUUID: string,
   name: string
-): Promise<UpdateRubricNameResponse> => {
+): Promise<void> {
   const { axios } = HttpRequester.getInstance();
 
   try {
     await axios.patch(`/rubrics/${rubricUUID}/name`, {
       name
     });
-    return {
-      success: true,
-      message: "Rubric name has been updated successfully"
-    };
   } catch (error) {
-    let errorMessage = "There was an error updating the rubric name";
+    const DEFAULT_ERROR_MESSAGE = "We had an error updating the rubric name";
 
+    // Try to get the error from the response
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
-      if (message) errorMessage = message;
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
 
-    return {
-      success: false,
-      message: errorMessage
-    };
+    throw new Error(errorMessage);
   }
-};
+}
