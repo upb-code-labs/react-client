@@ -1,6 +1,7 @@
 import { getCourseLaboratoriesService } from "@/services/laboratories/get-course-laboratories.service";
 import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
-import { useEffect, useReducer, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useReducer } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -14,6 +15,10 @@ export type courseLaboratoriesState = {
 };
 
 export const useCourseLaboratories = () => {
+  const { courseUUID } = useParams<{ courseUUID: string }>();
+  const navigate = useNavigate();
+
+  // Course laboratories state
   const [laboratoriesState, laboratoriesStateDispatcher] = useReducer(
     courseLaboratoriesReducer,
     {
@@ -21,36 +26,38 @@ export const useCourseLaboratories = () => {
     }
   );
 
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const { courseUUID } = useParams<{ courseUUID: string }>();
+  // Fetching state
+  const {
+    data: laboratories,
+    status: laboratoriesStatus,
+    isLoading,
+    isError: isCourseLaboratoriesError,
+    error: courseLaboratoriesError
+  } = useQuery({
+    queryKey: ["course-laboratories", courseUUID],
+    queryFn: () => getCourseLaboratoriesService(courseUUID!)
+  });
 
+  // Sync dispatcher state
   useEffect(() => {
-    const getLaboratories = async () => {
-      setLoading(true);
-
-      const { success, message, laboratories } =
-        await getCourseLaboratoriesService(courseUUID as string);
-      if (!success) {
-        toast.error(message);
-        navigate(`/courses/${courseUUID}`);
-        return;
-      }
-
+    if (laboratoriesStatus === "success" && laboratories) {
       laboratoriesStateDispatcher({
         type: courseLaboratoriesActionType.SET_LABORATORIES,
         payload: {
-          laboratories
+          laboratories: laboratories!
         }
       });
-      setLoading(false);
-    };
+    }
+  }, [laboratoriesStatus, laboratories]);
 
-    getLaboratories();
-  }, []);
+  // Handle errors
+  if (isCourseLaboratoriesError) {
+    toast.error(courseLaboratoriesError?.message);
+    navigate(`/courses/${courseUUID}`);
+  }
 
   return {
-    loading,
+    loading: isLoading,
     laboratoriesState,
     laboratoriesStateDispatcher
   };

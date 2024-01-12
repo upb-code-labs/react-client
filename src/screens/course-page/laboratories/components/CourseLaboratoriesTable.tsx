@@ -70,7 +70,7 @@ export const CourseLaboratoriesTable = ({
     }
   };
 
-  if (loading) {
+  if (loading || !user) {
     return (
       <GenericTableSkeleton
         headers={["Name", "Opening date", "Due date", "Actions"]}
@@ -105,7 +105,7 @@ export const CourseLaboratoriesTable = ({
                 <TableCell>
                   <div className="flex max-w-sm flex-wrap gap-4">
                     {getLaboratoryActionsByRole({
-                      role: user!.role,
+                      role: user.role,
                       labInfo: lab
                     })}
                   </div>

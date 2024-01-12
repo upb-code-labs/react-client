@@ -12,7 +12,9 @@ import { Input } from "@/components/ui/input";
 import { CourseLaboratoriesContext } from "@/context/laboratories/CourseLaboratoriesContext";
 import { courseLaboratoriesActionType } from "@/hooks/laboratories/courseLaboratoriesReducer";
 import { createLaboratoryService } from "@/services/laboratories/create-laboratory.service";
+import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -57,7 +59,10 @@ interface CreateLaboratoryFormProps {
 export const CreateLaboratoryForm = ({
   closeDialogCallback
 }: CreateLaboratoryFormProps) => {
-  const [loading, setLoading] = useState(false);
+  const { courseUUID = "" } = useParams<{ courseUUID: string }>();
+
+  // Form state
+  const [isCreatingLab, setIsCreatingLab] = useState(false);
 
   const form = useForm<z.infer<typeof createLaboratorySchema>>({
     resolver: zodResolver(createLaboratorySchema),
@@ -68,37 +73,63 @@ export const CreateLaboratoryForm = ({
     }
   });
 
-  const { courseUUID = "" } = useParams<{ courseUUID: string }>();
-
+  // Global laboratories state
   const { laboratoriesDispatcher } = useContext(CourseLaboratoriesContext);
 
-  const onSubmit = async (values: z.infer<typeof createLaboratorySchema>) => {
-    setLoading(true);
+  // Create laboratory mutation
+  const queryClient = useQueryClient();
+  const { mutate: createLaboratoryMutation } = useMutation({
+    mutationFn: createLaboratoryService,
+    onMutate: (args) => {
+      setIsCreatingLab(true);
 
-    // Send the request
-    const { success, message, laboratoryUUID } = await createLaboratoryService({
-      ...values,
-      courseUUID
-    });
-    if (!success) {
-      toast.error(message);
-      return;
-    }
+      // Forward parameters to the following callbacks
+      return args;
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (newLabUUID, args) => {
+      const { name, openingDate, dueDate } = args;
 
-    setLoading(false);
-    toast.success("The laboratory has been created successfully");
-    closeDialogCallback();
+      const newLaboratory: LaboratoryBaseInfo = {
+        uuid: newLabUUID,
+        name,
+        opening_date: openingDate,
+        due_date: dueDate
+      };
 
-    laboratoriesDispatcher({
-      type: courseLaboratoriesActionType.ADD_LABORATORY,
-      payload: {
-        laboratory: {
-          uuid: laboratoryUUID,
-          name: values.name,
-          opening_date: values.openingDate,
-          due_date: values.dueDate
+      // Update the global laboratories state
+      laboratoriesDispatcher({
+        type: courseLaboratoriesActionType.ADD_LABORATORY,
+        payload: {
+          laboratory: newLaboratory
         }
-      }
+      });
+
+      // Update the laboratories query
+      queryClient.setQueryData(
+        ["course-laboratories", courseUUID],
+        (oldData: LaboratoryBaseInfo[]) => {
+          return [...oldData, newLaboratory];
+        }
+      );
+
+      // Show a success toast
+      toast.success("The laboratory has been created successfully");
+
+      // Close the dialog
+      closeDialogCallback();
+    },
+    onSettled: () => {
+      setIsCreatingLab(false);
+    }
+  });
+
+  const onSubmit = async (values: z.infer<typeof createLaboratorySchema>) => {
+    createLaboratoryMutation({
+      courseUUID,
+      ...values
     });
   };
 
@@ -169,7 +200,7 @@ export const CreateLaboratoryForm = ({
           )}
         />
         <DialogFooter>
-          <Button type="submit" isLoading={loading}>
+          <Button type="submit" isLoading={isCreatingLab}>
             Create
           </Button>
         </DialogFooter>

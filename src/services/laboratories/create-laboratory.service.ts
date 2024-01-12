@@ -1,10 +1,6 @@
 import { AxiosError } from "axios";
 
-import { GenericResponse, HttpRequester } from "../axios";
-
-type createLaboratoryResponse = GenericResponse & {
-  laboratoryUUID: string;
-};
+import { HttpRequester } from "../axios";
 
 interface createLaboratoryServiceParams {
   courseUUID: string;
@@ -13,12 +9,12 @@ interface createLaboratoryServiceParams {
   dueDate: string;
 }
 
-export const createLaboratoryService = async ({
+export async function createLaboratoryService({
   courseUUID,
   name,
   openingDate,
   dueDate
-}: createLaboratoryServiceParams): Promise<createLaboratoryResponse> => {
+}: createLaboratoryServiceParams): Promise<string> {
   const { axios } = HttpRequester.getInstance();
 
   try {
@@ -29,23 +25,17 @@ export const createLaboratoryService = async ({
       due_date: dueDate
     });
 
-    return {
-      success: true,
-      message: "Laboratory was created successfully",
-      laboratoryUUID: data.uuid
-    };
+    return data.uuid;
   } catch (error) {
-    let errorMessage = "There was an error";
+    const DEFAULT_ERROR_MESSAGE = "There was an error creating the laboratory";
 
+    // Try to get the error from the response
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
-      if (message) errorMessage = message;
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
 
-    return {
-      success: false,
-      message: errorMessage,
-      laboratoryUUID: ""
-    };
+    throw new Error(errorMessage);
   }
-};
+}
