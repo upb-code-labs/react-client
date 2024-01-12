@@ -1,6 +1,7 @@
 import { getCoursesService } from "@/services/courses/get-user-courses.service";
 import { Course } from "@/types/entities/general-entities";
-import { useEffect, useReducer, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useReducer } from "react";
 import { toast } from "sonner";
 
 import { CoursesActionType, coursesReducer } from "./coursesReducer";
@@ -17,29 +18,31 @@ export const useCourses = () => {
     hiddenCourses: []
   });
 
-  const [loading, setLoading] = useState(false);
+  const {
+    data,
+    isLoading: loading,
+    status,
+    isError,
+    error
+  } = useQuery({
+    queryKey: ["courses"],
+    queryFn: getCoursesService
+  });
 
-  // Get the courses on load
-  const getCourses = async () => {
-    setLoading(true);
-    const { success, ...res } = await getCoursesService();
-
-    if (!success) {
-      toast.error(res.message);
-      setLoading(false);
-      return;
-    }
-
-    coursesDispatcher({
-      type: CoursesActionType.SET_COURSES,
-      payload: res
-    });
-    setLoading(false);
-  };
-
+  // Update courses state
   useEffect(() => {
-    getCourses();
-  }, []);
+    if (status === "success") {
+      coursesDispatcher({
+        type: CoursesActionType.SET_COURSES,
+        payload: data
+      });
+    }
+  }, [data, status]);
+
+  // Handle error
+  if (isError) {
+    toast.error(error?.message);
+  }
 
   return {
     loading,
