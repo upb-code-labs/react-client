@@ -18,7 +18,7 @@ export async function getRegisteredAdminsService(): Promise<
     const { data } = await axios.get("/accounts/admins");
     return data["admins"];
   } catch (error) {
-    const DEFAULT_ERROR_MESSAGE = "We had an error getting the admins list";
+    const DEFAULT_ERROR_MESSAGE = "We had an error obtaining the admins list";
 
     // Try to get the error from the response
     let errorMessage = DEFAULT_ERROR_MESSAGE;

@@ -12,7 +12,7 @@ export const getEnrolledStudentsService = async (
     const { data } = await axios.get(`/courses/${courseUUID}/students`);
     return data.students;
   } catch (error) {
-    const DEFAULT_ERROR_MESSAGE = "We had an error getting the students";
+    const DEFAULT_ERROR_MESSAGE = "We had an error obtaining the students";
 
     // Try to get the error from the response
     let errorMessage = DEFAULT_ERROR_MESSAGE;

@@ -16,7 +16,7 @@ export const getCoursesService = async (): Promise<GetCoursesResponse> => {
       hiddenCourses: data["hidden_courses"]
     };
   } catch (error) {
-    const DEFAULT_ERROR_MESSAGE = "We had an error getting your courses";
+    const DEFAULT_ERROR_MESSAGE = "We had an error obtaining your courses";
 
     // Try to get the error from the response
     let errorMessage = DEFAULT_ERROR_MESSAGE;
