@@ -1,5 +1,3 @@
-import { CourseCard } from "@/components/CourseCard/CourseCard";
-import { CourseCardSkeleton } from "@/components/CourseCard/CourseCardSkeleton";
 import { GridContainer } from "@/components/GridContainer";
 import { EmptyContentText } from "@/components/Texts/EmptyContentText";
 import { AuthContext } from "@/context/AuthContext";
@@ -7,6 +5,8 @@ import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
 import { SessionRole } from "@/hooks/useSession";
 import { useContext } from "react";
 
+import { CourseCard } from "./components/CourseCard";
+import { CourseCardSkeleton } from "./components/CourseCardSkeleton";
 import { CreateCourseDialog } from "./dialogs/create-course/CreateCourseDialog";
 import { JoinCourseDialog } from "./dialogs/join-course/JoinCourseDialog";
 import { RenameCourseDialog } from "./dialogs/rename-course/RenameCourseDialog";

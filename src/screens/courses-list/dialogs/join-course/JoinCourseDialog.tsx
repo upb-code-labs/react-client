@@ -1,4 +1,3 @@
-import { ButtonIconContainer } from "@/components/CourseCard/ButtonIconContainer";
 import {
   Dialog,
   DialogContent,
@@ -10,6 +9,7 @@ import {
 import { LogIn } from "lucide-react";
 import { useState } from "react";
 
+import { ButtonIconContainer } from "../../components/ButtonIconContainer";
 import { JoinCourseForm } from "./JoinCourseForm";
 
 export const JoinCourseDialog = () => {
