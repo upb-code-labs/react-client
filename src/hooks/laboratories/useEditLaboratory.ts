@@ -1,4 +1,4 @@
-import { getLaboratoryByUUIDNewService } from "@/services/laboratories/get-laboratory-by-uuid.service";
+import { getLaboratoryByUUIDService } from "@/services/laboratories/get-laboratory-by-uuid.service";
 import { Laboratory } from "@/types/entities/laboratory-entities";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useReducer } from "react";
@@ -39,7 +39,7 @@ export const useEditLaboratory = () => {
     error: laboratoryError
   } = useQuery({
     queryKey: ["laboratory", laboratoryUUID],
-    queryFn: () => getLaboratoryByUUIDNewService(laboratoryUUID!)
+    queryFn: () => getLaboratoryByUUIDService(laboratoryUUID!)
   });
 
   // Sync dispatcher with the fetched data
