@@ -61,10 +61,12 @@ export const RenameCourseForm = () => {
           name
         }
       });
+
+      // Close dialog
+      closeRenameCourseDialog();
     },
     onSettled: () => {
       setIsUpdating(false);
-      closeRenameCourseDialog();
     }
   });
 
