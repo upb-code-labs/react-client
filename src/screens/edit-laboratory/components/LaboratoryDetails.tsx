@@ -3,10 +3,10 @@ import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTyp
 import { updateLaboratoryDetailsService } from "@/services/laboratories/update-laboratory-details.service";
 import { getTeacherRubricsService } from "@/services/rubrics/get-teacher-rubrics.service";
 import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
-import { CreatedRubric } from "@/types/entities/rubric-entities";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { Save } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -121,20 +121,18 @@ export const LaboratoryDetails = ({
   };
 
   // Rubrics state
-  const [rubrics, setRubrics] = useState<CreatedRubric[]>([]);
-  useEffect(() => {
-    const fetchTeacherRubrics = async () => {
-      const { success, rubrics, message } = await getTeacherRubricsService();
-      if (!success) {
-        toast.error(message);
-        return;
-      }
+  const {
+    data: rubrics,
+    isError: isTeacherRubricsError,
+    error: TeacherRubricsError
+  } = useQuery({
+    queryKey: ["rubrics"],
+    queryFn: getTeacherRubricsService
+  });
 
-      setRubrics(rubrics);
-    };
-
-    fetchTeacherRubrics();
-  }, []);
+  if (isTeacherRubricsError) {
+    toast.error(TeacherRubricsError.message);
+  }
 
   return (
     <Form {...form}>
@@ -218,7 +216,7 @@ export const LaboratoryDetails = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {rubrics.map((rubric) => (
+                    {rubrics?.map((rubric) => (
                       <SelectItem
                         key={`rubric-option-${rubric.uuid}`}
                         value={rubric.uuid}

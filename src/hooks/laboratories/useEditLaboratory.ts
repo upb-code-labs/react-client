@@ -1,6 +1,7 @@
-import { getLaboratoryByUUIDService } from "@/services/laboratories/get-laboratory-by-uuid.service";
+import { getLaboratoryByUUIDNewService } from "@/services/laboratories/get-laboratory-by-uuid.service";
 import { Laboratory } from "@/types/entities/laboratory-entities";
-import { useEffect, useReducer, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useReducer } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -16,13 +17,6 @@ const initialLaboratoryState: EditLaboratoryState = {
 };
 
 export const useEditLaboratory = () => {
-  // State
-  const [loading, setLoading] = useState(false);
-  const [laboratoryState, laboratoryStateDispatcher] = useReducer(
-    editLaboratoryReducer,
-    initialLaboratoryState
-  );
-
   // Navigation and url params
   const navigate = useNavigate();
   const { laboratoryUUID, courseUUID } = useParams<{
@@ -30,44 +24,50 @@ export const useEditLaboratory = () => {
     courseUUID: string;
   }>();
 
-  const handleFetchingError = (message: string) => {
-    toast.error(message);
-    navigate(`/courses/${courseUUID}/laboratories`);
-  };
+  // State
+  const [laboratoryState, laboratoryStateDispatcher] = useReducer(
+    editLaboratoryReducer,
+    initialLaboratoryState
+  );
 
+  // Fetching state
+  const {
+    data: laboratory,
+    status: laboratoryStatus,
+    isLoading,
+    isError: isLaboratoryError,
+    error: laboratoryError
+  } = useQuery({
+    queryKey: ["laboratory", laboratoryUUID],
+    queryFn: () => getLaboratoryByUUIDNewService(laboratoryUUID!)
+  });
+
+  // Sync dispatcher with the fetched data
   useEffect(() => {
-    const fetchLaboratory = async () => {
-      setLoading(true);
-
-      const { laboratory, success, message } = await getLaboratoryByUUIDService(
-        laboratoryUUID as string
-      );
-
-      if (!success) {
-        handleFetchingError(message);
-        return;
-      }
-
-      if (!laboratory) {
-        handleFetchingError("Unable to fetch laboratory data");
-        return;
-      }
-
+    if (laboratoryStatus === "success" && laboratory) {
       laboratoryStateDispatcher({
         type: EditLaboratoryActionType.SET_LABORATORY_DATA,
         payload: {
           laboratory
         }
       });
+    }
+  }, [laboratoryStatus, laboratory]);
 
-      setLoading(false);
-    };
+  // Handle fetching error
+  const handleFetchingError = (message: string) => {
+    toast.error(message);
+    navigate(`/courses/${courseUUID}/laboratories`);
+  };
 
-    fetchLaboratory();
-  }, []);
+  if (isLaboratoryError) {
+    handleFetchingError(
+      laboratoryError?.message || "Unable to fetch laboratory data"
+    );
+  }
 
   return {
-    loading,
+    loading: isLoading,
     laboratoryState,
     laboratoryStateDispatcher
   };
