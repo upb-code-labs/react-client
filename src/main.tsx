@@ -36,7 +36,9 @@ import { LaboratoryProgressView } from "./screens/laboratory-progress/Laboratory
 
 // Define query client
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { refetchOnWindowFocus: false } }
+  defaultOptions: {
+    queries: { refetchOnWindowFocus: false, refetchOnReconnect: false }
+  }
 });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

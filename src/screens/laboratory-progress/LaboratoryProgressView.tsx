@@ -2,9 +2,16 @@ import { getEnrolledStudentsNewService } from "@/services/courses/get-enrolled-s
 import { getStudentsProgressInLaboratory } from "@/services/laboratories/get-students-progress.service";
 import { StudentProgress } from "@/types/entities/laboratory-entities";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { Suspense } from "react";
+import { lazily } from "react-lazily";
+import { Navigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 
-import { LaboratoryProgressDashboard } from "./components/LaboratoryProgressDashboard";
+import { LaboratoryProgressDashboardSkeleton } from "./skeletons/LaboratoryProgressDashboardSkeleton";
+
+const { LaboratoryProgressDashboard } = lazily(
+  () => import("./components/LaboratoryProgressDashboard")
+);
 
 const defaultSubmissionProgress = {
   pending_submissions: 0,
@@ -23,33 +30,23 @@ export const LaboratoryProgressView = () => {
   // Fetch the progress of students that have submitted to the lab
   const {
     data: progressData,
+    isLoading: isLoadingProgress,
     isError: isErrorProgress,
-    isFetching: isFetchingProgress
+    error: errorProgress
   } = useQuery({
     queryKey: [`laboratory-${laboratoryUUID}-progress`],
     queryFn: () => getStudentsProgressInLaboratory(laboratoryUUID!)
   });
 
-  console.log({
-    isErrorProgress,
-    isFetchingProgress
-  });
-
   // Fetch the list of students in the course
   const {
     data: studentsData,
+    isLoading: isLoadingStudents,
     isError: isErrorStudents,
-    isFetching: isFetchingStudents
+    error: errorStudents
   } = useQuery({
     queryKey: [`course-${courseUUID}-students`],
     queryFn: () => getEnrolledStudentsNewService(courseUUID!)
-  });
-
-  console.log(progressData?.students_progress);
-
-  console.log({
-    isErrorStudents,
-    isFetchingStudents
   });
 
   // Join the two data sets
@@ -75,16 +72,32 @@ export const LaboratoryProgressView = () => {
     });
   }
 
-  console.log(studentsProgressMap);
+  // If the data is being fetched, show the skeleton
+  if (isLoadingProgress || isLoadingStudents) {
+    return <LaboratoryProgressDashboardSkeleton />;
+  }
+
+  // If there was an error fetching the data, show an error message
+  if (isErrorStudents) {
+    // Since the course students are not critical to the page, we can just show a toast
+    toast.error(errorStudents.message);
+  }
+
+  if (isErrorProgress) {
+    toast.error(errorProgress.message);
+    return <Navigate to={`/courses/${courseUUID}/laboratories`} />;
+  }
 
   if (!progressData || !studentsProgressMap) return null;
 
   return (
     <main className="col-span-3">
-      <LaboratoryProgressDashboard
-        totalTestBlocks={progressData!.total_test_blocks}
-        studentsProgress={Object.values(studentsProgressMap!)}
-      />
+      <Suspense fallback={<LaboratoryProgressDashboardSkeleton />}>
+        <LaboratoryProgressDashboard
+          totalTestBlocks={progressData!.total_test_blocks}
+          studentsProgress={Object.values(studentsProgressMap!)}
+        />
+      </Suspense>
     </main>
   );
 };
