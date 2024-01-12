@@ -8,11 +8,12 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { useSession } from "@/hooks/useSession";
+import { AuthContext } from "@/context/AuthContext";
 import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { BarChartBigIcon, BookOpenCheck, Edit } from "lucide-react";
+import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 
 dayjs.extend(relativeTime);
@@ -26,7 +27,7 @@ export const CourseLaboratoriesTable = ({
   loading,
   laboratories
 }: courseLaboratoriesTableProps) => {
-  const { user } = useSession();
+  const { user } = useContext(AuthContext);
   const { courseUUID } = useParams<{ courseUUID: string }>();
 
   const getLaboratoryActionsByRole = ({
@@ -70,7 +71,7 @@ export const CourseLaboratoriesTable = ({
     }
   };
 
-  if (loading || !user) {
+  if (loading) {
     return (
       <GenericTableSkeleton
         headers={["Name", "Opening date", "Due date", "Actions"]}
@@ -105,7 +106,7 @@ export const CourseLaboratoriesTable = ({
                 <TableCell>
                   <div className="flex max-w-sm flex-wrap gap-4">
                     {getLaboratoryActionsByRole({
-                      role: user.role,
+                      role: user!.role,
                       labInfo: lab
                     })}
                   </div>
