@@ -30,3 +30,17 @@ export type Laboratory = LaboratoryBaseInfo & {
   rubricUUID: string | null;
   blocks: LaboratoryBlock[];
 };
+
+export type LaboratoryProgressReport = {
+  total_test_blocks: number;
+  students_progress: StudentProgress[];
+};
+
+export type StudentProgress = {
+  student_uuid: string;
+  student_full_name: string;
+  pending_submissions: number;
+  running_submissions: number;
+  failing_submissions: number;
+  success_submissions: number;
+};
