@@ -71,6 +71,9 @@ export const CreateCourseForm = ({
         }
       });
 
+      // Show a success toast
+      toast.success("The course was created successfully");
+
       // Update courses query
       queryClient.setQueryData(["courses"], (oldCourses: CoursesState) => {
         return {
