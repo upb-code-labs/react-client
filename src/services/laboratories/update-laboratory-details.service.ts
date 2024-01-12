@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import { GenericResponse, HttpRequester } from "../axios";
+import { HttpRequester } from "../axios";
 
 type updateLaboratoryDetailsParams = {
   laboratoryUUID: string;
@@ -10,15 +10,13 @@ type updateLaboratoryDetailsParams = {
   due_date: string;
 };
 
-type updateLaboratoryDetailsResponse = GenericResponse;
-
-export const updateLaboratoryDetailsService = async ({
+export async function updateLaboratoryDetailsService({
   laboratoryUUID,
   name,
-  rubric_uuid,
   opening_date,
-  due_date
-}: updateLaboratoryDetailsParams): Promise<updateLaboratoryDetailsResponse> => {
+  due_date,
+  rubric_uuid
+}: updateLaboratoryDetailsParams): Promise<void> {
   const { axios } = HttpRequester.getInstance();
 
   try {
@@ -28,22 +26,15 @@ export const updateLaboratoryDetailsService = async ({
       opening_date,
       due_date
     });
-
-    return {
-      success: true,
-      message: "The laboratory has been updated successfully"
-    };
   } catch (error) {
-    let errorMessage = "There was an error updating the laboratory";
+    const DEFAULT_ERROR_MESSAGE = "We had an error updating the laboratory";
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
 
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
-      if (message) errorMessage = message;
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
 
-    return {
-      success: false,
-      message: errorMessage
-    };
+    throw new Error(errorMessage);
   }
-};
+}
