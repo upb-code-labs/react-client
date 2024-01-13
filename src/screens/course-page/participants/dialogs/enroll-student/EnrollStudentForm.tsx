@@ -1,4 +1,4 @@
-import { EmptyContentText } from "@/components/Texts/EmptyContentText";
+import { EmptyContentText } from "@/components/EmptyContentText";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useDebounce from "@/hooks/useDebounce";

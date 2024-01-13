@@ -7,12 +7,16 @@ import { Dispatch, ReactNode, createContext } from "react";
 
 interface EditLaboratoryContext {
   loading: boolean;
+  isError: boolean;
+  error: Error | null;
   laboratoryState: EditLaboratoryState;
   laboratoryStateDispatcher: Dispatch<EditLaboratoryAction>;
 }
 
 const defaultValues: EditLaboratoryContext = {
   loading: false,
+  isError: false,
+  error: null,
   laboratoryState: {
     laboratory: null
   },
@@ -27,13 +31,20 @@ export const EditLaboratoryProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const { loading, laboratoryState, laboratoryStateDispatcher } =
-    useEditLaboratory();
+  const {
+    loading,
+    isError,
+    error,
+    laboratoryState,
+    laboratoryStateDispatcher
+  } = useEditLaboratory();
 
   return (
     <EditLaboratoryContext.Provider
       value={{
         loading,
+        isError,
+        error,
         laboratoryState,
         laboratoryStateDispatcher
       }}

@@ -1,3 +1,4 @@
+import { CustomError } from "@/components/CustomError";
 import { Button } from "@/components/ui/button";
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import { getEnrolledStudentsService } from "@/services/courses/get-enrolled-students.service";
@@ -5,7 +6,7 @@ import { EnrolledStudent } from "@/types/entities/general-entities";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 import { CourseParticipantsTable } from "./components/CourseParticipantsTable";
@@ -13,7 +14,6 @@ import { EnrollStudentDialog } from "./dialogs/enroll-student/EnrollStudentDialo
 
 export const CourseParticipants = () => {
   const { courseUUID = "" } = useParams<{ courseUUID: string }>();
-  const navigate = useNavigate();
 
   // Data state
   const {
@@ -54,8 +54,17 @@ export const CourseParticipants = () => {
 
   // Error handling
   if (isError) {
-    toast.error(error?.message);
-    navigate(`/courses/${courseUUID}/laboratories`);
+    toast.error(error!.message);
+
+    return (
+      <div className="md:col-span-3">
+        <CustomError
+          message={error!.message}
+          redirectText="Go back to course laboratories"
+          redirectTo={`/courses/${courseUUID}/laboratories`}
+        />
+      </div>
+    );
   }
 
   return (
