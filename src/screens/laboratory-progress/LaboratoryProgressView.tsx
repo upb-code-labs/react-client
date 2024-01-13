@@ -1,10 +1,11 @@
+import { CustomError } from "@/components/CustomError";
 import { getEnrolledStudentsService } from "@/services/courses/get-enrolled-students.service";
 import { getStudentsProgressInLaboratory } from "@/services/laboratories/get-students-progress.service";
 import { StudentProgress } from "@/types/entities/laboratory-entities";
 import { useQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { lazily } from "react-lazily";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 import { LaboratoryProgressDashboardSkeleton } from "./skeletons/LaboratoryProgressDashboardSkeleton";
@@ -85,10 +86,30 @@ export const LaboratoryProgressView = () => {
 
   if (isErrorProgress) {
     toast.error(errorProgress.message);
-    return <Navigate to={`/courses/${courseUUID}/laboratories`} />;
+
+    return (
+      <div className="col-span-3">
+        <CustomError
+          message={errorProgress.message}
+          redirectText="Go back to laboratories"
+          redirectTo={`/courses/${courseUUID}/laboratories`}
+        />
+      </div>
+    );
   }
 
-  if (!progressData || !studentsProgressMap) return null;
+  // If its not loading but the progress data is undefined, return an error
+  if (!progressData || !studentsProgressMap) {
+    return (
+      <div className="col-span-3">
+        <CustomError
+          message="We couldn't get the progress of the students."
+          redirectText="Go back to laboratories"
+          redirectTo={`/courses/${courseUUID}/laboratories`}
+        />
+      </div>
+    );
+  }
 
   return (
     <main className="col-span-3">
