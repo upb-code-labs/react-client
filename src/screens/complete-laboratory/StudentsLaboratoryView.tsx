@@ -1,9 +1,10 @@
+import { CustomError } from "@/components/CustomError";
 import { LaboratoryBlockSkeleton } from "@/components/Skeletons/LaboratoryBlockSkeleton";
 import { getLaboratoryByUUIDService } from "@/services/laboratories/get-laboratory-by-uuid.service";
 import { useQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { lazily } from "react-lazily";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const { StudentLaboratoryBlocks } = lazily(
@@ -16,9 +17,6 @@ export const StudentsLaboratoryView = () => {
     laboratoryUUID: string;
     courseUUID: string;
   }>();
-
-  // Navigation state
-  const navigate = useNavigate();
 
   // Fetching state
   const {
@@ -45,12 +43,28 @@ export const StudentsLaboratoryView = () => {
   // Handle error state
   if (isLaboratoryError) {
     toast.error(laboratoryError.message);
-    navigate(`/courses/${courseUUID}/laboratories`);
-    return;
+
+    return (
+      <div className="col-span-3">
+        <CustomError
+          message={laboratoryError.message}
+          redirectTo={`/courses/${courseUUID}/laboratories`}
+          redirectText="Go back to laboratories"
+        />
+      </div>
+    );
   }
 
-  // TODO: Display an error component if its not loading but there is no laboratory
-  if (!laboratory) return null;
+  // Show an error if the laboratory is not loading but is undefined
+  if (!laboratory)
+    return (
+      <div className="col-span-3">
+        <CustomError
+          redirectTo={`/courses/${courseUUID}/laboratories`}
+          redirectText="Go back to laboratories"
+        />
+      </div>
+    );
 
   return (
     <main className="col-span-3">
