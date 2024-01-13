@@ -8,10 +8,10 @@ export type CoursesState = {
   hiddenCourses: Course[];
 };
 
-export const useCourses = () => {
+export const useUserCourses = () => {
   const {
-    data: courses,
-    isLoading: loading,
+    data: userCourses,
+    isLoading,
     isError,
     error
   } = useQuery({
@@ -25,7 +25,7 @@ export const useCourses = () => {
   }
 
   return {
-    loading,
-    courses
+    isLoading,
+    userCourses
   };
 };

@@ -9,7 +9,7 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
+import { UserCoursesDialogsContext } from "@/context/courses/UserCoursesDialogsContext";
 import { CoursesState } from "@/hooks/courses/useCourses";
 import { renameCourseService } from "@/services/courses/rename-course.service";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,8 +28,9 @@ const RenameCourseSchema = z.object({
 });
 
 export const RenameCourseForm = () => {
-  const { renameCourseDialogState, closeRenameCourseDialog } =
-    useContext(UserCoursesContext);
+  const { renameCourseDialogState, closeRenameCourseDialog } = useContext(
+    UserCoursesDialogsContext
+  );
   const course = renameCourseDialogState.selectedCourse;
 
   const [isUpdating, setIsUpdating] = useState(false);

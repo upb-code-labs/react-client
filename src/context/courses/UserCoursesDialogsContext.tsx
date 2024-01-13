@@ -1,24 +1,13 @@
-import { CoursesState, useCourses } from "@/hooks/courses/useCourses";
 import { Course } from "@/types/entities/general-entities";
 import { ReactNode, createContext, useState } from "react";
 
-interface UserCoursesContext {
-  isLoading: boolean;
-  userCourses: CoursesState | undefined;
-
+interface UserCoursesDialogsContext {
   renameCourseDialogState: RenameCourseDialogState;
   openRenameCourseDialog: (course: Course) => void;
   closeRenameCourseDialog: () => void;
 }
 
-const defaultValues: UserCoursesContext = {
-  // Courses state
-  isLoading: false,
-  userCourses: {
-    courses: [],
-    hiddenCourses: []
-  },
-
+const defaultValues: UserCoursesDialogsContext = {
   // Dialogs state
   openRenameCourseDialog: () => {},
   closeRenameCourseDialog: () => {},
@@ -33,12 +22,14 @@ type RenameCourseDialogState = {
   selectedCourse: Course | null;
 };
 
-export const UserCoursesContext =
-  createContext<UserCoursesContext>(defaultValues);
+export const UserCoursesDialogsContext =
+  createContext<UserCoursesDialogsContext>(defaultValues);
 
-export const UserCoursesProvider = ({ children }: { children: ReactNode }) => {
-  const { loading, courses } = useCourses();
-
+export const UserCoursesDialogsProvider = ({
+  children
+}: {
+  children: ReactNode;
+}) => {
   // Dialogs state
   const [renameCourseDialogState, setRenameCourseDialogState] =
     useState<RenameCourseDialogState>({
@@ -60,16 +51,14 @@ export const UserCoursesProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <UserCoursesContext.Provider
+    <UserCoursesDialogsContext.Provider
       value={{
-        isLoading: loading,
-        userCourses: courses,
         renameCourseDialogState,
         openRenameCourseDialog,
         closeRenameCourseDialog
       }}
     >
       {children}
-    </UserCoursesContext.Provider>
+    </UserCoursesDialogsContext.Provider>
   );
 };

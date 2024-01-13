@@ -3,7 +3,7 @@ import { Footer } from "@/components/Footer/Footer";
 import { Navbar } from "@/components/Navbar/Navbar.tsx";
 import { AuthMiddleware } from "@/components/session/AuthMiddleware";
 import { AuthContextProvider } from "@/context/AuthContext";
-import { UserCoursesProvider } from "@/context/courses/UserCoursesContext";
+import { UserCoursesDialogsProvider } from "@/context/courses/UserCoursesDialogsContext";
 import { EditLaboratoryProvider } from "@/context/laboratories/EditLaboratoryContext";
 import { AdminsView } from "@/screens/admins-list/AdminsView";
 import { StudentsLaboratoryView } from "@/screens/complete-laboratory/StudentsLaboratoryView";
@@ -99,11 +99,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Route
             path="/courses"
             element={
-              <UserCoursesProvider>
+              <UserCoursesDialogsProvider>
                 <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
                   <CoursesHome />
                 </AuthMiddleware>
-              </UserCoursesProvider>
+              </UserCoursesDialogsProvider>
             }
           />
           <Route

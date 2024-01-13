@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { AuthContext } from "@/context/AuthContext";
-import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
+import { UserCoursesDialogsContext } from "@/context/courses/UserCoursesDialogsContext";
 import { CoursesState } from "@/hooks/courses/useCourses";
 import { SessionRole } from "@/hooks/useSession";
 import { getInvitationCodeService } from "@/services/courses/get-invitation-code.service";
@@ -31,7 +31,7 @@ interface CourseDropDownProps {
 }
 
 export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
-  const { openRenameCourseDialog } = useContext(UserCoursesContext);
+  const { openRenameCourseDialog } = useContext(UserCoursesDialogsContext);
 
   const { user } = useContext(AuthContext);
   const role = user?.role || "student";

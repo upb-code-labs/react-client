@@ -1,7 +1,7 @@
 import { GridContainer } from "@/components/GridContainer";
 import { EmptyContentText } from "@/components/Texts/EmptyContentText";
 import { AuthContext } from "@/context/AuthContext";
-import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
+import { useUserCourses } from "@/hooks/courses/useCourses";
 import { SessionRole } from "@/hooks/useSession";
 import { useContext } from "react";
 
@@ -12,7 +12,7 @@ import { JoinCourseDialog } from "./dialogs/join-course/JoinCourseDialog";
 import { RenameCourseDialog } from "./dialogs/rename-course/RenameCourseDialog";
 
 export const CoursesHome = () => {
-  const { isLoading, userCourses } = useContext(UserCoursesContext);
+  const { isLoading, userCourses } = useUserCourses();
   const { user } = useContext(AuthContext);
   const role = user?.role || "student";
 
