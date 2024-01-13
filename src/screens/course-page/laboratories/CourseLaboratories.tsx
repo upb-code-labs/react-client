@@ -1,5 +1,5 @@
 import { AuthContext } from "@/context/AuthContext";
-import { CourseLaboratoriesContext } from "@/context/laboratories/CourseLaboratoriesContext";
+import { useCourseLaboratories } from "@/hooks/laboratories/useCourseLaboratories";
 import { useContext } from "react";
 
 import { CourseLaboratoriesTable } from "./components/CourseLaboratoriesTable";
@@ -7,7 +7,7 @@ import { CreateLaboratoryDialog } from "./dialogs/create-laboratory/CreateLabora
 
 export const CourseLaboratories = () => {
   const { user } = useContext(AuthContext);
-  const { loading, laboratories } = useContext(CourseLaboratoriesContext);
+  const { loading, laboratories } = useCourseLaboratories();
 
   return (
     <main className="col-span-3">

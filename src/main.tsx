@@ -4,7 +4,6 @@ import { Navbar } from "@/components/Navbar/Navbar.tsx";
 import { AuthMiddleware } from "@/components/session/AuthMiddleware";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { UserCoursesProvider } from "@/context/courses/UserCoursesContext";
-import { CourseLaboratoriesProvider } from "@/context/laboratories/CourseLaboratoriesContext";
 import { EditLaboratoryProvider } from "@/context/laboratories/EditLaboratoryContext";
 import { AdminsView } from "@/screens/admins-list/AdminsView";
 import { StudentsLaboratoryView } from "@/screens/complete-laboratory/StudentsLaboratoryView";
@@ -119,9 +118,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               path="laboratories"
               element={
                 <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
-                  <CourseLaboratoriesProvider>
-                    <CourseLaboratories />
-                  </CourseLaboratoriesProvider>
+                  <CourseLaboratories />
                 </AuthMiddleware>
               }
             />

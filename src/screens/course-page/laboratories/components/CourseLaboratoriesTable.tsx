@@ -20,7 +20,7 @@ dayjs.extend(relativeTime);
 
 interface courseLaboratoriesTableProps {
   loading: boolean;
-  laboratories: LaboratoryBaseInfo[];
+  laboratories: LaboratoryBaseInfo[] | undefined;
 }
 
 export const CourseLaboratoriesTable = ({
@@ -93,7 +93,7 @@ export const CourseLaboratoriesTable = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {laboratories.length ? (
+          {laboratories?.length ? (
             laboratories.map((lab) => (
               <TableRow key={lab.uuid}>
                 <TableCell>{lab.name}</TableCell>

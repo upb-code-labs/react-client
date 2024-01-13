@@ -9,13 +9,11 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CourseLaboratoriesContext } from "@/context/laboratories/CourseLaboratoriesContext";
-import { courseLaboratoriesActionType } from "@/hooks/laboratories/courseLaboratoriesReducer";
 import { createLaboratoryService } from "@/services/laboratories/create-laboratory.service";
 import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -73,9 +71,6 @@ export const CreateLaboratoryForm = ({
     }
   });
 
-  // Global laboratories state
-  const { laboratoriesDispatcher } = useContext(CourseLaboratoriesContext);
-
   // Create laboratory mutation
   const queryClient = useQueryClient();
   const { mutate: createLaboratoryMutation } = useMutation({
@@ -98,14 +93,6 @@ export const CreateLaboratoryForm = ({
         opening_date: openingDate,
         due_date: dueDate
       };
-
-      // Update the global laboratories state
-      laboratoriesDispatcher({
-        type: courseLaboratoriesActionType.ADD_LABORATORY,
-        payload: {
-          laboratory: newLaboratory
-        }
-      });
 
       // Update the laboratories query
       queryClient.setQueryData(
