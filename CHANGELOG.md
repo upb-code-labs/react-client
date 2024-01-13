@@ -1,3 +1,12 @@
+# [0.40.0](https://github.com/upb-code-labs/react-client/compare/v0.39.0...v0.40.0) (2024-01-13)
+
+
+### Features
+
+* Toggle enrolled students status ([#241](https://github.com/upb-code-labs/react-client/issues/241)) ([cd5c754](https://github.com/upb-code-labs/react-client/commit/cd5c7541c254597852aadfe3f96a1a13c156f871))
+
+
+
 # [0.39.0](https://github.com/upb-code-labs/react-client/compare/v0.38.0...v0.39.0) (2024-01-13)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Get submission status ([#227](https://github.com/upb-code-labs/react-client/issues/227)) ([feff79c](https://github.com/upb-code-labs/react-client/commit/feff79c31521fdeb2bb430fadc9671a10f048256))
-
-
-
-# [0.35.0](https://github.com/upb-code-labs/react-client/compare/v0.34.0...v0.35.0) (2024-01-08)
-
-
-### Features
-
-* Submit to test block ([#221](https://github.com/upb-code-labs/react-client/issues/221)) ([4ce7d19](https://github.com/upb-code-labs/react-client/commit/4ce7d196ae097374efe71c5b4751f1a8aac3543e))
 
 
 
