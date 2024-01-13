@@ -1,3 +1,4 @@
+import { CustomError } from "@/components/CustomError";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
@@ -34,7 +35,10 @@ export const EditLaboratory = () => {
   const { laboratory } = laboratoryState;
 
   // Url params
-  const { laboratoryUUID } = useParams<{ laboratoryUUID: string }>();
+  const { courseUUID, laboratoryUUID } = useParams<{
+    courseUUID: string;
+    laboratoryUUID: string;
+  }>();
 
   // Create markdown block mutation
   const queryClient = useQueryClient();
@@ -81,7 +85,17 @@ export const EditLaboratory = () => {
 
   if (loading) return <EditLaboratoryPageSkeleton />;
 
-  if (!laboratory) return null;
+  if (!laboratory) {
+    return (
+      <div className="col-span-3">
+        <CustomError
+          message="We couldn't get the laboratory you are looking for."
+          redirectTo={`/courses/${courseUUID}/laboratories`}
+          redirectText="Go back to laboratories"
+        />
+      </div>
+    );
+  }
 
   return (
     <main className="col-span-3">

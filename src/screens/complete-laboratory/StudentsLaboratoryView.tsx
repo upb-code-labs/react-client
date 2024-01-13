@@ -60,6 +60,7 @@ export const StudentsLaboratoryView = () => {
     return (
       <div className="col-span-3">
         <CustomError
+          message="We couldn't get the laboratory you are looking for."
           redirectTo={`/courses/${courseUUID}/laboratories`}
           redirectText="Go back to laboratories"
         />
