@@ -1,8 +1,8 @@
 import { AuthContext } from "@/context/AuthContext";
 import { getCourseService } from "@/services/courses/get-course.service";
-import { Course } from "@/types/entities/general-entities";
 import { getCourseInitials } from "@/utils/utils";
-import { Fragment, useContext, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Fragment, useContext } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -10,34 +10,33 @@ import { CourseAsideOptions } from "./CourseAsideOptions";
 import { CourseNavigationSkeleton } from "./CourseNavigationSkeleton";
 
 export const CoursePageLayout = () => {
-  const navigate = useNavigate();
+  // Url state
   const { courseUUID = "" } = useParams<{ courseUUID: string }>();
+  const navigate = useNavigate();
 
+  // Global user state
   const { user } = useContext(AuthContext);
   const role = user?.role || "student";
+  // Fetching state
+  const {
+    data: course,
+    isLoading,
+    isError: isCourseError,
+    error: courseError
+  } = useQuery({
+    queryKey: ["course", courseUUID],
+    queryFn: () => getCourseService(courseUUID)
+  });
 
-  const [state, setState] = useState<"loading" | "idle">("loading");
-  const [course, setCourse] = useState<Course | null>(null);
-  const isLoading = state === "loading" || course === null;
-
-  useEffect(() => {
-    getCourse();
-  }, []);
-
-  const getCourse = async () => {
-    const { success, ...response } = await getCourseService(courseUUID);
-    if (!success) {
-      toast.error(response.message);
-      redirectToCoursesView();
-    }
-
-    setCourse(response.course);
-    setState("idle");
-  };
-
-  const redirectToCoursesView = () => {
+  if (isCourseError) {
+    toast.error(courseError.message);
     navigate("/courses");
-  };
+  }
+
+  if (!isLoading && !course) {
+    // TODO: Return the error component if its not loading and there is no course
+    return null;
+  }
 
   return (
     <div className="mx-auto grid min-h-[calc(100vh-5rem)] max-w-7xl auto-rows-min gap-4 p-4 md:auto-rows-auto md:grid-cols-4">
@@ -50,12 +49,12 @@ export const CoursePageLayout = () => {
             <div className="space-y-4">
               <div
                 className="grid aspect-square w-24 place-items-center rounded-2xl text-3xl font-bold -tracking-tight text-white"
-                style={{ backgroundColor: course.color }}
+                style={{ backgroundColor: course!.color }}
               >
-                {getCourseInitials(course.name)}
+                {getCourseInitials(course!.name)}
               </div>
               <h1 className="line-clamp-2 text-xl font-medium">
-                {course.name}
+                {course!.name}
               </h1>
             </div>
             {/* Course navigation */}
