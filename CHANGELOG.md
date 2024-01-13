@@ -1,3 +1,12 @@
+# [0.39.0](https://github.com/upb-code-labs/react-client/compare/v0.38.0...v0.39.0) (2024-01-13)
+
+
+### Features
+
+* Delete rubric ([#240](https://github.com/upb-code-labs/react-client/issues/240)) ([53a0984](https://github.com/upb-code-labs/react-client/commit/53a0984a8182ce747f956f270c88a7a5e7f7ff00))
+
+
+
 # [0.38.0](https://github.com/upb-code-labs/react-client/compare/v0.37.0...v0.38.0) (2024-01-13)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Submit to test block ([#221](https://github.com/upb-code-labs/react-client/issues/221)) ([4ce7d19](https://github.com/upb-code-labs/react-client/commit/4ce7d196ae097374efe71c5b4751f1a8aac3543e))
-
-
-
-# [0.34.0](https://github.com/upb-code-labs/react-client/compare/v0.33.0...v0.34.0) (2024-01-08)
-
-
-### Features
-
-* Update test blocks ([#220](https://github.com/upb-code-labs/react-client/issues/220)) ([147f3db](https://github.com/upb-code-labs/react-client/commit/147f3db5efaa1ca325e8b9ac7dd8e66981c79ec8))
 
 
 
