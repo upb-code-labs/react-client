@@ -1,4 +1,5 @@
 import { downloadLanguageTemplateService } from "@/services/languages/download-language-template.service";
+import { submissionUpdate } from "@/types/entities/submission-entities";
 import { toast } from "sonner";
 
 export const copyToClipboard = async (text: string): Promise<boolean> => {
@@ -57,4 +58,15 @@ export async function downloadLanguageTemplate(
     file: template,
     fileName: `${languageName.toLowerCase()}-template.zip`
   });
+}
+
+export function parseSubmissionSSEUpdate(data: string): submissionUpdate {
+  const parsedData = JSON.parse(data);
+
+  return {
+    submissionUUID: parsedData.submission_uuid,
+    submissionStatus: parsedData.submission_status,
+    testsPassed: parsedData.tests_passed,
+    testsOutput: parsedData.tests_output
+  };
 }

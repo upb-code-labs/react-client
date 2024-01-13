@@ -1,7 +1,7 @@
 import { LaboratoryBlockSkeleton } from "@/components/Skeletons/LaboratoryBlockSkeleton";
 import { getLaboratoryByUUIDService } from "@/services/laboratories/get-laboratory-by-uuid.service";
-import { Laboratory } from "@/types/entities/laboratory-entities";
-import { Suspense, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Suspense } from "react";
 import { lazily } from "react-lazily";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -20,29 +20,19 @@ export const StudentsLaboratoryView = () => {
   // Navigation state
   const navigate = useNavigate();
 
-  // Page state
-  const [laboratory, setLaboratory] = useState<Laboratory | null>(null);
-  const [loading, setLoading] = useState(true);
+  // Fetching state
+  const {
+    data: laboratory,
+    isLoading,
+    isError: isLaboratoryError,
+    error: laboratoryError
+  } = useQuery({
+    queryKey: ["laboratory", laboratoryUUID],
+    queryFn: () => getLaboratoryByUUIDService(laboratoryUUID!)
+  });
 
-  useEffect(() => {
-    const getLaboratoryData = async () => {
-      const { success, message, laboratory } = await getLaboratoryByUUIDService(
-        laboratoryUUID as string
-      );
-      if (!success) {
-        toast.error(message);
-        navigate(`/courses/${courseUUID}/laboratories`);
-        return;
-      }
-
-      setLaboratory(laboratory);
-      setLoading(false);
-    };
-
-    getLaboratoryData();
-  }, []);
-
-  if (loading) {
+  // Handle loading state
+  if (isLoading) {
     return (
       <div className="col-span-3">
         {Array.from({ length: 3 }).map((_, index) => {
@@ -52,6 +42,14 @@ export const StudentsLaboratoryView = () => {
     );
   }
 
+  // Handle error state
+  if (isLaboratoryError) {
+    toast.error(laboratoryError.message);
+    navigate(`/courses/${courseUUID}/laboratories`);
+    return;
+  }
+
+  // TODO: Display an error component if its not loading but there is no laboratory
   if (!laboratory) return null;
 
   return (

@@ -8,26 +8,68 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { useSession } from "@/hooks/useSession";
+import { AuthContext } from "@/context/AuthContext";
 import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { BookOpenCheck, Edit } from "lucide-react";
+import { BarChartBigIcon, BookOpenCheck, Edit } from "lucide-react";
+import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 
 dayjs.extend(relativeTime);
 
 interface courseLaboratoriesTableProps {
   loading: boolean;
-  laboratories: LaboratoryBaseInfo[];
+  laboratories: LaboratoryBaseInfo[] | undefined;
 }
 
 export const CourseLaboratoriesTable = ({
   loading,
   laboratories
 }: courseLaboratoriesTableProps) => {
-  const { user } = useSession();
+  const { user } = useContext(AuthContext);
   const { courseUUID } = useParams<{ courseUUID: string }>();
+
+  const getLaboratoryActionsByRole = ({
+    role,
+    labInfo
+  }: {
+    role: string;
+    labInfo: LaboratoryBaseInfo;
+  }) => {
+    if (role === "teacher") {
+      return (
+        <>
+          <Link
+            className={buttonVariants({ variant: "default" })}
+            aria-label={`Edit ${labInfo.name} laboratory`}
+            to={`/courses/${courseUUID}/laboratories/${labInfo.uuid}/edit`}
+          >
+            <Edit className="mr-2" /> Edit
+          </Link>
+          <Link
+            className={buttonVariants({ variant: "default" })}
+            aria-label={`View ${labInfo.name} laboratory progress`}
+            to={`/courses/${courseUUID}/laboratories/${labInfo.uuid}/progress`}
+          >
+            <BarChartBigIcon className="mr-2" /> View progress
+          </Link>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Link
+            aria-label={`Complete ${labInfo.name} laboratory`}
+            className={buttonVariants({ variant: "default" })}
+            to={`/courses/${courseUUID}/laboratories/${labInfo.uuid}/complete`}
+          >
+            <BookOpenCheck className="mr-2" /> Complete
+          </Link>
+        </>
+      );
+    }
+  };
 
   if (loading) {
     return (
@@ -51,7 +93,7 @@ export const CourseLaboratoriesTable = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {laboratories.length ? (
+          {laboratories?.length ? (
             laboratories.map((lab) => (
               <TableRow key={lab.uuid}>
                 <TableCell>{lab.name}</TableCell>
@@ -62,27 +104,12 @@ export const CourseLaboratoriesTable = ({
                   {dayjs(lab.due_date).fromNow()}
                 </TableCell>
                 <TableCell>
-                  {user?.role === "teacher" ? (
-                    <>
-                      <Link
-                        className={buttonVariants({ variant: "default" })}
-                        aria-label={`Edit ${lab.name} laboratory`}
-                        to={`/courses/${courseUUID}/laboratories/${lab.uuid}/edit`}
-                      >
-                        <Edit className="mr-2" /> Edit
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        aria-label={`Complete ${lab.name} laboratory`}
-                        className={buttonVariants({ variant: "default" })}
-                        to={`/courses/${courseUUID}/laboratories/${lab.uuid}/complete`}
-                      >
-                        <BookOpenCheck className="mr-2" /> Complete
-                      </Link>
-                    </>
-                  )}
+                  <div className="flex max-w-sm flex-wrap gap-4">
+                    {getLaboratoryActionsByRole({
+                      role: user!.role,
+                      labInfo: lab
+                    })}
+                  </div>
                 </TableCell>
               </TableRow>
             ))

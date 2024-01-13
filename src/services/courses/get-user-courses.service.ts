@@ -3,37 +3,28 @@ import { AxiosError } from "axios";
 
 import { HttpRequester } from "../axios";
 
-type GetCoursesREsponse = {
-  success: boolean;
-  message: string;
+type GetCoursesResponse = {
   courses: Course[];
   hiddenCourses: Course[];
 };
 
-export const getCoursesService = async (): Promise<GetCoursesREsponse> => {
-  const { axios } = HttpRequester.getInstance();
-
+export const getCoursesService = async (): Promise<GetCoursesResponse> => {
   try {
-    const { data } = await axios.get("/courses");
+    const { data } = await HttpRequester.getInstance().axios.get("/courses");
     return {
-      success: true,
-      message: "Courses were obtained successfully",
       courses: data["courses"],
       hiddenCourses: data["hidden_courses"]
     };
   } catch (error) {
-    let errorMessage = "There was an error";
+    const DEFAULT_ERROR_MESSAGE = "We had an error obtaining your courses";
 
+    // Try to get the error from the response
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
-      if (message) errorMessage = message;
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
 
-    return {
-      success: false,
-      message: errorMessage,
-      courses: [],
-      hiddenCourses: []
-    };
+    throw new Error(errorMessage);
   }
 };

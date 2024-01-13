@@ -1,24 +1,20 @@
 import { AxiosError } from "axios";
 
-import { GenericResponse, HttpRequester } from "../axios";
+import { HttpRequester } from "../axios";
 
-type createTestBlockResponse = GenericResponse & {
-  uuid: string;
-};
-
-type createTestBlockRequest = {
+type createTestBlockParams = {
   laboratoryUUID: string;
   blockLanguageUUID: string;
   blockName: string;
   blockTestArchive: File;
 };
 
-export const createTestBlockService = async ({
+export async function createTestBlockService({
   blockLanguageUUID,
   laboratoryUUID,
   blockName,
   blockTestArchive
-}: createTestBlockRequest): Promise<createTestBlockResponse> => {
+}: createTestBlockParams): Promise<string> {
   const { axios } = HttpRequester.getInstance();
 
   try {
@@ -34,24 +30,17 @@ export const createTestBlockService = async ({
       formData
     );
 
-    // Parse the request
-    return {
-      success: true,
-      message: "The new test block has been created successfully",
-      uuid: data.uuid
-    };
+    return data.uuid;
   } catch (error) {
-    let errorMessage = "There was an error creating the new test block";
+    const DEFAULT_ERROR_MESSAGE =
+      "There was an error creating the new test block";
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
 
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
       if (message) errorMessage = message;
     }
 
-    return {
-      success: false,
-      message: errorMessage,
-      uuid: ""
-    };
+    throw new Error(errorMessage);
   }
-};
+}

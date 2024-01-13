@@ -4,6 +4,11 @@ import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryCont
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
 import { EditLaboratoryPageSkeleton } from "@/screens/edit-laboratory/skeletons/EditLaboratoryPageSkeleton";
 import { createMarkdownBlockService } from "@/services/laboratories/add-markdown-block.service";
+import {
+  Laboratory,
+  MarkdownBlock
+} from "@/types/entities/laboratory-entities";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TextCursor } from "lucide-react";
 import { Suspense, useContext } from "react";
 import { lazily } from "react-lazily";
@@ -31,28 +36,52 @@ export const EditLaboratory = () => {
   // Url params
   const { laboratoryUUID } = useParams<{ laboratoryUUID: string }>();
 
-  // Handlers
-  const handleAddTextBlock = async () => {
-    const { success, message, uuid } = await createMarkdownBlockService(
-      laboratoryUUID as string
-    );
-    if (!success) {
-      toast.error(message);
-      return;
-    }
+  // Create markdown block mutation
+  const queryClient = useQueryClient();
+  const { mutate: createMarkdownBlockMutation } = useMutation({
+    mutationFn: createMarkdownBlockService,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (createdBlockUUID) => {
+      // Update the global state
+      laboratoryStateDispatcher({
+        type: EditLaboratoryActionType.ADD_MARKDOWN_BLOCK,
+        payload: {
+          uuid: createdBlockUUID
+        }
+      });
 
-    toast.success(message);
-    laboratoryStateDispatcher({
-      type: EditLaboratoryActionType.ADD_MARKDOWN_BLOCK,
-      payload: {
-        uuid
-      }
-    });
+      // Update the laboratory query
+      const newMarkdownBlock: MarkdownBlock = {
+        uuid: createdBlockUUID,
+        content: "",
+        index: laboratory!.blocks.length,
+        blockType: "markdown"
+      };
+
+      queryClient.setQueryData(
+        ["laboratory", laboratoryUUID],
+        (oldData: Laboratory) => {
+          return {
+            ...oldData,
+            blocks: [...oldData.blocks, newMarkdownBlock]
+          };
+        }
+      );
+
+      // Show success message
+      toast.success("The new markdown block has been created successfully");
+    }
+  });
+
+  const handleAddTextBlock = () => {
+    createMarkdownBlockMutation(laboratoryUUID!);
   };
 
-  if (!laboratory) return null;
-
   if (loading) return <EditLaboratoryPageSkeleton />;
+
+  if (!laboratory) return null;
 
   return (
     <main className="col-span-3">

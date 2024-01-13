@@ -2,11 +2,14 @@ import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryCont
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
 import { updateLaboratoryDetailsService } from "@/services/laboratories/update-laboratory-details.service";
 import { getTeacherRubricsService } from "@/services/rubrics/get-teacher-rubrics.service";
-import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
-import { CreatedRubric } from "@/types/entities/rubric-entities";
+import {
+  Laboratory,
+  LaboratoryBaseInfo
+} from "@/types/entities/laboratory-entities";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Save } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -91,50 +94,79 @@ export const LaboratoryDetails = ({
     }
   });
 
-  const handleSubmit = async (data: z.infer<typeof editLaboratoryScheme>) => {
-    setIsUpdating(true);
+  // Update laboratory details mutation
+  const queryClient = useQueryClient();
+  const { mutate: updateLaboratoryMutation } = useMutation({
+    mutationFn: updateLaboratoryDetailsService,
+    onMutate: () => {
+      setIsUpdating(true);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (_, { name, opening_date, due_date, rubric_uuid }) => {
+      const openingDateWithDefaultTimeZone = `${opening_date}:00Z`;
+      const dueDateWithDefaultTimeZone = `${due_date}:00Z`;
 
-    const { success, message } = await updateLaboratoryDetailsService({
-      laboratoryUUID: laboratoryDetails.uuid,
-      name: data.name,
-      due_date: data.dueDate,
-      opening_date: data.openingDate,
-      rubric_uuid: data.rubricUUID
-    });
-
-    if (!success) {
-      toast.error(message);
-    } else {
-      toast.success(message);
+      // Update laboratory state
       laboratoryStateDispatcher({
         type: EditLaboratoryActionType.UPDATE_LABORATORY_DATA,
         payload: {
-          name: data.name,
-          due_date: data.dueDate,
-          opening_date: data.openingDate,
-          rubricUUID: data.rubricUUID
+          name,
+          opening_date: openingDateWithDefaultTimeZone,
+          due_date: dueDateWithDefaultTimeZone,
+          rubricUUID: rubric_uuid
         }
       });
-    }
 
-    setIsUpdating(false);
+      // Show success message
+      toast.success("Laboratory details updated successfully");
+
+      // Update laboratory query
+      queryClient.setQueryData(
+        ["laboratory", laboratoryDetails.uuid],
+        (oldData: Laboratory) => {
+          return {
+            // Keep the UUID and blocks
+            ...oldData,
+            name,
+            opening_date: openingDateWithDefaultTimeZone,
+            due_date: dueDateWithDefaultTimeZone,
+            rubric_uuid
+          };
+        }
+      );
+    },
+    onSettled: () => {
+      setIsUpdating(false);
+    }
+  });
+
+  const handleSubmit = async (data: z.infer<typeof editLaboratoryScheme>) => {
+    const { name, rubricUUID, openingDate, dueDate } = data;
+
+    updateLaboratoryMutation({
+      laboratoryUUID: laboratoryDetails.uuid,
+      name,
+      due_date: dueDate,
+      opening_date: openingDate,
+      rubric_uuid: rubricUUID
+    });
   };
 
   // Rubrics state
-  const [rubrics, setRubrics] = useState<CreatedRubric[]>([]);
-  useEffect(() => {
-    const fetchTeacherRubrics = async () => {
-      const { success, rubrics, message } = await getTeacherRubricsService();
-      if (!success) {
-        toast.error(message);
-        return;
-      }
+  const {
+    data: rubrics,
+    isError: isTeacherRubricsError,
+    error: TeacherRubricsError
+  } = useQuery({
+    queryKey: ["rubrics"],
+    queryFn: getTeacherRubricsService
+  });
 
-      setRubrics(rubrics);
-    };
-
-    fetchTeacherRubrics();
-  }, []);
+  if (isTeacherRubricsError) {
+    toast.error(TeacherRubricsError.message);
+  }
 
   return (
     <Form {...form}>
@@ -218,7 +250,7 @@ export const LaboratoryDetails = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {rubrics.map((rubric) => (
+                    {rubrics?.map((rubric) => (
                       <SelectItem
                         key={`rubric-option-${rubric.uuid}`}
                         value={rubric.uuid}

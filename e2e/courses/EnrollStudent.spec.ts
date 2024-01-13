@@ -93,9 +93,7 @@ test.describe.serial("Enroll student workflow", () => {
     await studentButton.click();
 
     // Assert an alert is shown
-    await expect(
-      page.getByText("Student was enrolled successfully")
-    ).toBeVisible();
+    await expect(page.getByText("Student enrolled successfully")).toBeVisible();
 
     // Close the dialog
     await page.keyboard.press("Escape");

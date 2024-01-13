@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { createRubricService } from "@/services/rubrics/create-rubric.service";
 import { CreatedRubric } from "@/types/entities/rubric-entities";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -27,14 +28,13 @@ const CreateRubricSchema = z.object({
 
 interface CreateRubricFormProps {
   closeDialogCallback: () => void;
-  addRubricCallback: (rubric: CreatedRubric) => void;
 }
 
 export const CreateRubricForm = ({
-  closeDialogCallback,
-  addRubricCallback
+  closeDialogCallback
 }: CreateRubricFormProps) => {
-  const [state, setState] = useState<"idle" | "loading">("idle");
+  // Form state
+  const [isCreatingRubric, setIsCreatingRubric] = useState(false);
   const form = useForm<z.infer<typeof CreateRubricSchema>>({
     resolver: zodResolver(CreateRubricSchema),
     defaultValues: {
@@ -42,28 +42,43 @@ export const CreateRubricForm = ({
     }
   });
 
+  // Create rubric mutation
+  const queryClient = useQueryClient();
+  const { mutate: createRubricMutation } = useMutation({
+    mutationFn: createRubricService,
+    onMutate: () => {
+      setIsCreatingRubric(true);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (newRubricUUID: string, rubricName: string) => {
+      // Update the rubrics state
+      queryClient.setQueryData(["rubrics"], (oldData: CreatedRubric[]) => {
+        const newRubric = {
+          uuid: newRubricUUID,
+          name: rubricName
+        };
+
+        return [...oldData, newRubric];
+      });
+
+      // Close the dialog
+      closeDialogCallback();
+
+      // Show a toast
+      toast.success("The rubric has been created!");
+    },
+    onSettled: () => {
+      setIsCreatingRubric(false);
+    }
+  });
+
   const formSubmitCallback = async (
     values: z.infer<typeof CreateRubricSchema>
   ) => {
-    setState("loading");
-    createRubric(values.name);
-  };
-
-  const createRubric = async (name: string) => {
-    const { success, ...response } = await createRubricService(name);
-    if (!success) {
-      toast.error(response.message);
-      setState("idle");
-      return;
-    }
-
-    setState("idle");
-    addRubricCallback({
-      uuid: response.uuid,
-      name: name
-    });
-    closeDialogCallback();
-    toast.success("The rubric has been created!");
+    const { name } = values;
+    createRubricMutation(name);
   };
 
   return (
@@ -91,7 +106,7 @@ export const CreateRubricForm = ({
           )}
         ></FormField>
         <DialogFooter>
-          <Button type="submit" isLoading={state === "loading"}>
+          <Button type="submit" isLoading={isCreatingRubric}>
             Create
           </Button>
         </DialogFooter>

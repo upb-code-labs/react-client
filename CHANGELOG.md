@@ -1,45 +1,45 @@
+# [0.37.0](https://github.com/upb-code-labs/react-client/compare/v0.36.0...v0.37.0) (2024-01-12)
+
+
+### Features
+
+* Laboratory progress and statistics ([#232](https://github.com/upb-code-labs/react-client/issues/232)) ([52406a5](https://github.com/upb-code-labs/react-client/commit/52406a57c8474e8d9d2f5de10bb46ed3048fe8ab))
+
+
+
+# [0.36.0](https://github.com/upb-code-labs/react-client/compare/v0.35.0...v0.36.0) (2024-01-09)
+
+
+### Features
+
+* Get submission status ([#227](https://github.com/upb-code-labs/react-client/issues/227)) ([feff79c](https://github.com/upb-code-labs/react-client/commit/feff79c31521fdeb2bb430fadc9671a10f048256))
+
+
+
+# [0.35.0](https://github.com/upb-code-labs/react-client/compare/v0.34.0...v0.35.0) (2024-01-08)
+
+
+### Features
+
+* Submit to test block ([#221](https://github.com/upb-code-labs/react-client/issues/221)) ([4ce7d19](https://github.com/upb-code-labs/react-client/commit/4ce7d196ae097374efe71c5b4751f1a8aac3543e))
+
+
+
+# [0.34.0](https://github.com/upb-code-labs/react-client/compare/v0.33.0...v0.34.0) (2024-01-08)
+
+
+### Features
+
+* Update test blocks ([#220](https://github.com/upb-code-labs/react-client/issues/220)) ([147f3db](https://github.com/upb-code-labs/react-client/commit/147f3db5efaa1ca325e8b9ac7dd8e66981c79ec8))
+
+
+
 # [0.33.0](https://github.com/upb-code-labs/react-client/compare/v0.32.0...v0.33.0) (2024-01-01)
 
 
 ### Features
 
 * Show laboratory content to students ([#211](https://github.com/upb-code-labs/react-client/issues/211)) ([6d7c2e4](https://github.com/upb-code-labs/react-client/commit/6d7c2e45527ca3d0f3122d5a6ffbd3d43f4495af))
-
-
-
-# [0.32.0](https://github.com/upb-code-labs/react-client/compare/v0.31.0...v0.32.0) (2023-12-31)
-
-
-### Features
-
-* Download language template ([#209](https://github.com/upb-code-labs/react-client/issues/209)) ([d2f1b9c](https://github.com/upb-code-labs/react-client/commit/d2f1b9cf758e2f3507b41c355304134dcc373740))
-
-
-
-# [0.31.0](https://github.com/upb-code-labs/react-client/compare/v0.30.0...v0.31.0) (2023-12-31)
-
-
-### Features
-
-* Delete tests block ([2c0e6d4](https://github.com/upb-code-labs/react-client/commit/2c0e6d4c6c21ff0f6e74e93ef5535d4f688a8ef0))
-
-
-
-# [0.30.0](https://github.com/upb-code-labs/react-client/compare/v0.29.0...v0.30.0) (2023-12-31)
-
-
-### Features
-
-* Delete markdown block ([#205](https://github.com/upb-code-labs/react-client/issues/205)) ([e19079f](https://github.com/upb-code-labs/react-client/commit/e19079f1a137854c612b110a3bec13526746a426))
-
-
-
-# [0.29.0](https://github.com/upb-code-labs/react-client/compare/v0.28.0...v0.29.0) (2023-12-31)
-
-
-### Features
-
-* Create test blocks ([#203](https://github.com/upb-code-labs/react-client/issues/203)) ([a1a975f](https://github.com/upb-code-labs/react-client/commit/a1a975f3b0eafa25dc6349be4511ee417845e20f))
 
 
 

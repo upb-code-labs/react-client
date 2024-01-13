@@ -10,10 +10,18 @@ import {
 } from "@/components/ui/alert-dialog";
 import { deleteObjectiveService } from "@/services/rubrics/delete-objective.service";
 import { useEditRubricModalsStore } from "@/stores/edit-rubric-modals-store";
-import { useEditRubricStore } from "@/stores/edit-rubric-store";
+import { Rubric } from "@/types/entities/rubric-entities";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-export const DeleteObjectiveDialog = () => {
+interface DeleteObjectiveDialogProps {
+  rubricUUID: string;
+}
+
+export const DeleteObjectiveDialog = ({
+  rubricUUID
+}: DeleteObjectiveDialogProps) => {
+  // Modal state
   const {
     isDeleteObjectiveModalOpen,
     setIsDeleteObjectiveModalOpen,
@@ -21,27 +29,36 @@ export const DeleteObjectiveDialog = () => {
     setSelectedObjectiveUUID
   } = useEditRubricModalsStore();
 
-  const { deleteObjective } = useEditRubricStore();
+  // Delete objective mutation
+  const queryClient = useQueryClient();
+  const { mutate: deleteObjectiveMutation } = useMutation({
+    mutationFn: deleteObjectiveService,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (_ctx, objectiveUUID: string) => {
+      // Show a success toast
+      toast.success("Objective deleted successfully");
+
+      // Update rubric query
+      queryClient.setQueryData(["rubric", rubricUUID], (oldData: Rubric) => {
+        return {
+          ...oldData,
+          objectives: oldData.objectives?.filter(
+            (objective) => objective.uuid !== objectiveUUID
+          )
+        };
+      });
+
+      // Update modals state
+      handleCloseDialog();
+    }
+  });
 
   if (!selectedObjectiveUUID) return null;
 
-  const handleCancel = () => {
-    setSelectedObjectiveUUID(undefined);
-  };
-
-  const handleProceed = async () => {
-    // Send request to delete the objective
-    const { success, message } = await deleteObjectiveService(
-      selectedObjectiveUUID
-    );
-    if (!success) {
-      toast.error(message);
-      return;
-    }
-
-    // Update modal state and show confirmation alert
-    toast.success(message);
-    deleteObjective(selectedObjectiveUUID);
+  const handleCloseDialog = () => {
+    setIsDeleteObjectiveModalOpen(false);
     setSelectedObjectiveUUID(undefined);
   };
 
@@ -62,8 +79,14 @@ export const DeleteObjectiveDialog = () => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleCancel}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleProceed}>Proceed</AlertDialogAction>
+          <AlertDialogCancel onClick={handleCloseDialog}>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={() => deleteObjectiveMutation(selectedObjectiveUUID)}
+          >
+            Proceed
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -1,4 +1,3 @@
-import { ActionButton } from "@/components/Rubric/ActionButton";
 import {
   Dialog,
   DialogContent,
@@ -7,17 +6,18 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { useEditRubricStore } from "@/stores/edit-rubric-store";
+import { ActionButton } from "@/screens/edit-rubric/components/ActionButton";
 import { useState } from "react";
 
 import { AddObjectiveForm } from "./AddObjectiveForm";
 
-export const AddObjectiveDialog = () => {
+interface AddObjectiveDialogProps {
+  rubricUUID: string;
+}
+
+export const AddObjectiveDialog = ({ rubricUUID }: AddObjectiveDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const closeDialog = () => setIsOpen(false);
-
-  const { rubric } = useEditRubricStore();
-  if (!rubric) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={(status) => setIsOpen(status)}>
@@ -36,7 +36,7 @@ export const AddObjectiveDialog = () => {
           </DialogDescription>
         </DialogHeader>
         <AddObjectiveForm
-          rubricUUID={rubric?.uuid}
+          rubricUUID={rubricUUID}
           closeDialogCallback={closeDialog}
         />
       </DialogContent>

@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import { GenericResponse, HttpRequester } from "../axios";
+import { HttpRequester } from "../axios";
 
 export type registeredAdminDTO = {
   uuid: string;
@@ -9,29 +9,24 @@ export type registeredAdminDTO = {
   created_at: string;
 };
 
-type registeredAdminsResponse = GenericResponse & {
-  admins: registeredAdminDTO[];
-};
+export async function getRegisteredAdminsService(): Promise<
+  registeredAdminDTO[]
+> {
+  const { axios } = HttpRequester.getInstance();
 
-export const getRegisteredAdminsService =
-  async (): Promise<registeredAdminsResponse> => {
-    const { axios } = HttpRequester.getInstance();
+  try {
+    const { data } = await axios.get("/accounts/admins");
+    return data["admins"];
+  } catch (error) {
+    const DEFAULT_ERROR_MESSAGE = "We had an error obtaining the admins list";
 
-    try {
-      const { data } = await axios.get("/accounts/admins");
-      return {
-        success: true,
-        message: "Admins were obtained successfully",
-        admins: data["admins"]
-      };
-    } catch (error) {
-      let errorMessage = "There was an error";
-
-      if (error instanceof AxiosError) {
-        const { message } = error.response?.data || "";
-        if (message) errorMessage = message;
-      }
-
-      return { success: false, message: errorMessage, admins: [] };
+    // Try to get the error from the response
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
+    if (error instanceof AxiosError) {
+      const { message } = error.response?.data || "";
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
-  };
+
+    throw new Error(errorMessage);
+  }
+}

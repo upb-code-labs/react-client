@@ -1,38 +1,48 @@
+// Import components and views
 import { Footer } from "@/components/Footer/Footer";
 import { Navbar } from "@/components/Navbar/Navbar.tsx";
 import { AuthMiddleware } from "@/components/session/AuthMiddleware";
 import { AuthContextProvider } from "@/context/AuthContext";
-import { UserCoursesProvider } from "@/context/courses/UserCoursesContext";
-import {
-  AdminsView,
-  CourseLaboratories,
-  CoursePageLayout,
-  CourseParticipants,
-  CoursesHome,
-  EditRubricView,
-  FormContainer,
-  Login,
-  Logout,
-  RegisterAdminForm,
-  RegisterStudentForm,
-  RegisterTeacherForm,
-  RubricsHome
-} from "@/screens";
+import { UserCoursesDialogsProvider } from "@/context/courses/UserCoursesDialogsContext";
+import { EditLaboratoryProvider } from "@/context/laboratories/EditLaboratoryContext";
+import { AdminsView } from "@/screens/admins-list/AdminsView";
+import { StudentsLaboratoryView } from "@/screens/complete-laboratory/StudentsLaboratoryView";
+import { CoursePageLayout } from "@/screens/course-page/CoursePageLayout";
+import { CourseLaboratories } from "@/screens/course-page/laboratories/CourseLaboratories";
+import { CourseParticipants } from "@/screens/course-page/participants/CourseParticipants";
+import { CoursesHome } from "@/screens/courses-list/CoursesHome";
 import { EditLaboratory } from "@/screens/edit-laboratory/EditLaboratory";
+import { EditRubricView } from "@/screens/edit-rubric/EditRubricView";
+import { RubricsHome } from "@/screens/rubrics-list/RubricsHome";
+import { FormContainer } from "@/screens/session/FormContainer";
+import { Login } from "@/screens/session/login/Login";
+import { Logout } from "@/screens/session/logout/Logout";
+import { RegisterAdminForm } from "@/screens/session/register-admin/Form";
+import { RegisterStudentForm } from "@/screens/session/register-student/Form";
+import { RegisterTeacherForm } from "@/screens/session/register-teacher/Form";
+// Import fonts
+import "@fontsource/ibm-plex-mono/400.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Home } from "lucide-react";
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 
-import { CourseLaboratoriesProvider } from "./context/laboratories/CourseLaboratoriesContext";
-import { EditLaboratoryProvider } from "./context/laboratories/EditLaboratoryContext";
+// Apply global styles
 import "./global.css";
-import { StudentsLaboratoryView } from "./screens/complete-laboratory/StudentsLaboratoryView";
+import { LaboratoryProgressView } from "./screens/laboratory-progress/LaboratoryProgressView";
+
+// Define query client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { refetchOnWindowFocus: false, refetchOnReconnect: false }
+  }
+});
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <AuthContextProvider>
+  <AuthContextProvider>
+    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Toaster expand closeButton richColors />
         <Navbar />
@@ -89,11 +99,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Route
             path="/courses"
             element={
-              <UserCoursesProvider>
+              <UserCoursesDialogsProvider>
                 <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
                   <CoursesHome />
                 </AuthMiddleware>
-              </UserCoursesProvider>
+              </UserCoursesDialogsProvider>
             }
           />
           <Route
@@ -108,9 +118,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               path="laboratories"
               element={
                 <AuthMiddleware mustBeLoggedIn roles={["teacher", "student"]}>
-                  <CourseLaboratoriesProvider>
-                    <CourseLaboratories />
-                  </CourseLaboratoriesProvider>
+                  <CourseLaboratories />
                 </AuthMiddleware>
               }
             />
@@ -133,6 +141,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               }
             />
             <Route
+              path="laboratories/:laboratoryUUID/progress"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
+                  <LaboratoryProgressView />
+                </AuthMiddleware>
+              }
+            />
+            <Route
               path="participants"
               element={
                 <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
@@ -150,7 +166,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             }
           />
           <Route
-            path="/rubrics/:id"
+            path="/rubrics/:rubricUUID"
             element={
               <AuthMiddleware roles={["teacher"]} mustBeLoggedIn>
                 <EditRubricView />
@@ -160,6 +176,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         </Routes>
         <Footer />
       </BrowserRouter>
-    </AuthContextProvider>
-  </React.StrictMode>
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-right" />
+    </QueryClientProvider>
+  </AuthContextProvider>
 );

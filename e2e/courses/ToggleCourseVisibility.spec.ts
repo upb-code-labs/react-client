@@ -74,9 +74,7 @@ test.describe.serial("User can toggle the course visibility", () => {
     await expect(dropdownMenu).not.toBeVisible();
 
     // Assert an alert is shown
-    await expect(
-      page.getByText("Course visibility was updated successfully")
-    ).toBeVisible();
+    await expect(page.getByText("Course hidden successfully")).toBeVisible();
 
     // Assert the course is not listed in the "Your courses" list
     await expect(page.getByText(courseName)).not.toBeVisible();
@@ -117,9 +115,7 @@ test.describe.serial("User can toggle the course visibility", () => {
     await expect(dropdownMenu).not.toBeVisible();
 
     // Assert an alert is shown
-    await expect(
-      page.getByText("Course visibility was updated successfully")
-    ).toBeVisible();
+    await expect(page.getByText("Course shown successfully")).toBeVisible();
 
     // Close the "Hidden courses" list
     await page.getByText("Hidden courses", { exact: true }).click();

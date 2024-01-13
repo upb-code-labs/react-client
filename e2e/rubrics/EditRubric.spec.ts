@@ -75,7 +75,7 @@ test.describe.serial("Rubrics edition workflow", () => {
 
     // Assert an alert is shown
     await expect(
-      page.getByText("Rubric name has been updated successfully")
+      page.getByText("Rubric renamed successfully")
     ).toBeVisible();
 
     // Reload the page and assert the rubric name was updated
@@ -180,7 +180,7 @@ test.describe.serial("Rubrics edition workflow", () => {
 
     // Assert the changes were saved
     await expect(
-      page.getByText("The objective has been updated successfully")
+      page.getByText("Objective updated successfully")
     ).toBeVisible();
 
     // Reload the page and assert the changes were saved
@@ -232,7 +232,7 @@ test.describe.serial("Rubrics edition workflow", () => {
 
     // Assert the changes were saved
     await expect(
-      page.getByText("The criteria has been updated successfully")
+      page.getByText("Criteria updated successfully")
     ).toBeVisible();
 
     // Reload the page and assert the changes were saved
@@ -290,7 +290,7 @@ test.describe.serial("Rubrics edition workflow", () => {
 
     // Assert an alert is shown
     await expect(
-      page.getByText("The criteria has been deleted successfully")
+      page.getByText("Criteria deleted successfully")
     ).toBeVisible();
   });
 
@@ -331,7 +331,7 @@ test.describe.serial("Rubrics edition workflow", () => {
 
     // Assert an alert is shown
     await expect(
-      page.getByText("The objective has been deleted successfully")
+      page.getByText("Objective deleted successfully")
     ).toBeVisible();
 
     // Assert the objective was deleted

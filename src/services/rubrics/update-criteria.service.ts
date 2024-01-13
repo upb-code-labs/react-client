@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import { GenericResponse, HttpRequester } from "../axios";
+import { HttpRequester } from "../axios";
 
 type updateCriteriaServiceParams = {
   criteriaUUID: string;
@@ -8,32 +8,28 @@ type updateCriteriaServiceParams = {
   weight: number;
 };
 
-export const updateCriteriaService = async ({
+export async function updateCriteriaService({
   criteriaUUID,
   description,
   weight
-}: updateCriteriaServiceParams): Promise<GenericResponse> => {
+}: updateCriteriaServiceParams): Promise<void> {
+  const { axios } = HttpRequester.getInstance();
+
   try {
-    const { axios } = HttpRequester.getInstance();
     await axios.put(`/rubrics/criteria/${criteriaUUID}`, {
       description,
       weight
     });
-    return {
-      success: true,
-      message: "The criteria has been updated successfully"
-    };
   } catch (error) {
-    let errorMessage = "There was an error";
+    const DEFAULT_ERROR_MESSAGE = "There was an error updating the criteria";
 
+    // Try to get the error from the response
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
-      if (message) errorMessage = message;
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
 
-    return {
-      success: false,
-      message: errorMessage
-    };
+    throw new Error(errorMessage);
   }
-};
+}
