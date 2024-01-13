@@ -74,7 +74,7 @@ export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
           } else {
             // Remove the course from the courses list
             const courses = oldData.courses.filter(
-              (course) => course.uuid != course.uuid
+              (visibleCourse) => visibleCourse.uuid != course.uuid
             );
 
             // Add the course to the hidden courses list
