@@ -2,9 +2,11 @@ import { CustomError } from "@/components/CustomError";
 import { Button } from "@/components/ui/button";
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import { getEnrolledStudentsService } from "@/services/courses/get-enrolled-students.service";
+import { setStudentEnrollmentStatusService } from "@/services/courses/set-student-enrollment-status.service";
 import { EnrolledStudent } from "@/types/entities/general-entities";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
+import { UserRoundCheckIcon, UserRoundXIcon } from "lucide-react";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -26,6 +28,36 @@ export const CourseParticipants = () => {
     queryFn: () => getEnrolledStudentsService(courseUUID)
   });
 
+  // Toggle student status mutation
+  const queryClient = useQueryClient();
+  const { mutate: toggleStudentStatusMutation } = useMutation({
+    mutationFn: setStudentEnrollmentStatusService,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (_, { toActive, studentUUID }) => {
+      // Update course students query
+      queryClient.setQueryData(
+        ["course-students", courseUUID],
+        (oldData: EnrolledStudent[] | undefined) => {
+          return oldData?.map((student) => {
+            if (student.uuid !== studentUUID) return student;
+
+            return {
+              ...student,
+              is_active: toActive
+            };
+          });
+        }
+      );
+
+      // Show success toast
+      toast.success(
+        `Student ${toActive ? "activated" : "deactivated"} successfully`
+      );
+    }
+  });
+
   // Table state
   const tableColumns = useMemo<ColumnDef<EnrolledStudent>[]>(
     () => [
@@ -44,8 +76,31 @@ export const CourseParticipants = () => {
         header: "Actions",
         cell: ({ row }) => {
           const student = row.original;
-          console.log(student.is_active);
-          return <Button variant={"destructive"}>Deactivate</Button>;
+          const { is_active } = student;
+          return (
+            <Button
+              variant={is_active ? "destructive" : "default"}
+              aria-label={
+                is_active
+                  ? `Deactivate ${student.full_name}`
+                  : `Activate ${student.full_name}`
+              }
+              onClick={() => {
+                toggleStudentStatusMutation({
+                  courseUUID,
+                  studentUUID: student.uuid,
+                  toActive: !is_active
+                });
+              }}
+            >
+              {is_active ? (
+                <UserRoundXIcon className="mr-2" />
+              ) : (
+                <UserRoundCheckIcon className="mr-2" />
+              )}
+              {is_active ? "Deactivate" : "Activate"}
+            </Button>
+          );
         }
       }
     ],
