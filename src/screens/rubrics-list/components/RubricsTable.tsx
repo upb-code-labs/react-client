@@ -69,8 +69,8 @@ export const RubricsTable = ({ isLoading, rubrics }: rubricsTableProps) => {
               rubrics.map((rubric) => (
                 <TableRow key={rubric.uuid}>
                   <TableCell className="line-clamp-1">{rubric.name}</TableCell>
-                  <TableCell>
-                    <div className="flex flex-wrap gap-4">
+                  <TableCell className="w-min">
+                    <div className="flex max-w-sm flex-wrap gap-4">
                       <Link
                         to={`/rubrics/${rubric.uuid}`}
                         aria-label={`Edit ${rubric.name}`}
@@ -81,6 +81,7 @@ export const RubricsTable = ({ isLoading, rubrics }: rubricsTableProps) => {
                       </Link>
                       <Button
                         variant="destructive"
+                        aria-label={`Delete ${rubric.name}`}
                         onClick={() => {
                           setDeleteRubricDialogState((prevState) => ({
                             ...prevState,
