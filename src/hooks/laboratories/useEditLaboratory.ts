@@ -2,8 +2,7 @@ import { getLaboratoryByUUIDService } from "@/services/laboratories/get-laborato
 import { Laboratory } from "@/types/entities/laboratory-entities";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useReducer } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "sonner";
+import { useParams } from "react-router-dom";
 
 import { editLaboratoryReducer } from "./editLaboratoryReducer";
 import { EditLaboratoryActionType } from "./editLaboratoryTypes";
@@ -18,8 +17,7 @@ const initialLaboratoryState: EditLaboratoryState = {
 
 export const useEditLaboratory = () => {
   // Navigation and url params
-  const navigate = useNavigate();
-  const { laboratoryUUID, courseUUID } = useParams<{
+  const { laboratoryUUID } = useParams<{
     laboratoryUUID: string;
     courseUUID: string;
   }>();
@@ -35,8 +33,8 @@ export const useEditLaboratory = () => {
     data: laboratory,
     status: laboratoryStatus,
     isLoading,
-    isError: isLaboratoryError,
-    error: laboratoryError
+    isError,
+    error
   } = useQuery({
     queryKey: ["laboratory", laboratoryUUID],
     queryFn: () => getLaboratoryByUUIDService(laboratoryUUID!)
@@ -54,20 +52,10 @@ export const useEditLaboratory = () => {
     }
   }, [laboratoryStatus, laboratory]);
 
-  // Handle fetching error
-  const handleFetchingError = (message: string) => {
-    toast.error(message);
-    navigate(`/courses/${courseUUID}/laboratories`);
-  };
-
-  if (isLaboratoryError) {
-    handleFetchingError(
-      laboratoryError?.message || "Unable to fetch laboratory data"
-    );
-  }
-
   return {
     loading: isLoading,
+    isError,
+    error,
     laboratoryState,
     laboratoryStateDispatcher
   };

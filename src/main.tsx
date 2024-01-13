@@ -1,7 +1,7 @@
 // Import components and views
+import { AuthMiddleware } from "@/components/AuthMiddleware";
 import { Footer } from "@/components/Footer/Footer";
 import { Navbar } from "@/components/Navbar/Navbar.tsx";
-import { AuthMiddleware } from "@/components/session/AuthMiddleware";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { UserCoursesDialogsProvider } from "@/context/courses/UserCoursesDialogsContext";
 import { EditLaboratoryProvider } from "@/context/laboratories/EditLaboratoryContext";

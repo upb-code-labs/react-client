@@ -90,5 +90,50 @@ test.describe.serial("Rubrics creation workflow", () => {
     await expect(
       rubricRow.getByRole("link", { name: `Edit ${rubricName}`, exact: true })
     ).toBeVisible();
+    await expect(
+      rubricRow.getByRole("button", {
+        name: `Delete ${rubricName}`,
+        exact: true
+      })
+    ).toBeVisible();
+  });
+
+  test("Teachers can delete rubrics", async ({ page }) => {
+    // Login as the teacher
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(teacherEmail);
+    await page.getByLabel("Password").fill(teacherPassword);
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Go to the rubrics page
+    await page.getByRole("link", { name: "Rubrics", exact: true }).click();
+    await page.waitForURL(/\/rubrics$/);
+
+    // Delete the rubric
+    await page
+      .getByRole("button", { name: `Delete ${rubricName}`, exact: true })
+      .click();
+
+    // Assert the confirmation dialog is open
+    const confirmationModalText =
+      "Are you sure you want to delete this rubric?";
+    await expect(
+      page.getByText(confirmationModalText, { exact: true })
+    ).toBeVisible();
+
+    // Confirm the deletion
+    await page.getByRole("button", { name: "Proceed", exact: true }).click();
+
+    // Assert the alert is shown
+    await expect(page.getByText("The rubric has been deleted")).toBeVisible();
+
+    // Assert the rubric is not shown in the table
+    const rubricRow = page.getByRole("row", {
+      name: /Data structures rubric/i
+    });
+    await expect(rubricRow).not.toBeVisible();
+
+    // Assert the empty state is shown
+    await expect(page.getByText("No results.")).toBeVisible();
   });
 });

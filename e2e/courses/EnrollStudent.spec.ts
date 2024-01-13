@@ -100,17 +100,83 @@ test.describe.serial("Enroll student workflow", () => {
 
     // Assert the student is listed
     const studentRow = page.getByRole("row", {
-      name: new RegExp(studentFullName)
+      name: new RegExp(`^\\s*${studentFullName}`),
+      exact: true
     });
+
     await expect(studentRow).toBeVisible();
     await expect(
-      studentRow.getByRole("cell", { name: studentFullName })
+      studentRow.getByRole("cell", { name: studentFullName, exact: true })
     ).toBeVisible();
     await expect(
       studentRow.getByRole("cell", { name: studentInstitutionalID })
     ).toBeVisible();
     await expect(
-      studentRow.getByRole("button", { name: "Deactivate", exact: true })
+      studentRow.getByLabel(`Deactivate ${studentFullName}`, { exact: true })
+    ).toBeVisible();
+  });
+
+  test("Deactivate student in test course", async ({ page }) => {
+    // Login as a teacher
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(teacherEmail);
+    await page.getByLabel("Password").fill(teacherPassword);
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Go to the participants view
+    await page.getByRole("link", { name: courseName }).click();
+    await page
+      .getByRole("link", { name: "Manage participants", exact: true })
+      .click();
+
+    // Deactivate the student
+    const studentRow = page.getByRole("row", {
+      name: new RegExp(`^\\s*${studentFullName}`),
+      exact: true
+    });
+    const deactivateStudentButton = studentRow.getByLabel(
+      `Deactivate ${studentFullName}`,
+      { exact: true }
+    );
+
+    await expect(deactivateStudentButton).toBeVisible();
+    await deactivateStudentButton.click();
+
+    // Assert an alert is shown
+    await expect(
+      page.getByText("Student deactivated successfully")
+    ).toBeVisible();
+  });
+
+  test("Activate student in test course", async ({ page }) => {
+    // Login as a teacher
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(teacherEmail);
+    await page.getByLabel("Password").fill(teacherPassword);
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Go to the participants view
+    await page.getByRole("link", { name: courseName }).click();
+    await page
+      .getByRole("link", { name: "Manage participants", exact: true })
+      .click();
+
+    // Activate the student
+    const studentRow = page.getByRole("row", {
+      name: new RegExp(`^\\s*${studentFullName}`),
+      exact: true
+    });
+    const activateStudentButton = studentRow.getByLabel(
+      `Activate ${studentFullName}`,
+      { exact: true }
+    );
+
+    await expect(activateStudentButton).toBeVisible();
+    await activateStudentButton.click();
+
+    // Assert an alert is shown
+    await expect(
+      page.getByText("Student activated successfully")
     ).toBeVisible();
   });
 });

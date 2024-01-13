@@ -1,3 +1,4 @@
+import { CustomError } from "@/components/CustomError";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
@@ -28,13 +29,20 @@ const { TeacherLaboratoryBlocks } = lazily(
 
 export const EditLaboratory = () => {
   // Global laboratory state
-  const { loading, laboratoryState, laboratoryStateDispatcher } = useContext(
-    EditLaboratoryContext
-  );
+  const {
+    loading,
+    isError,
+    error,
+    laboratoryState,
+    laboratoryStateDispatcher
+  } = useContext(EditLaboratoryContext);
   const { laboratory } = laboratoryState;
 
   // Url params
-  const { laboratoryUUID } = useParams<{ laboratoryUUID: string }>();
+  const { courseUUID, laboratoryUUID } = useParams<{
+    courseUUID: string;
+    laboratoryUUID: string;
+  }>();
 
   // Create markdown block mutation
   const queryClient = useQueryClient();
@@ -79,9 +87,36 @@ export const EditLaboratory = () => {
     createMarkdownBlockMutation(laboratoryUUID!);
   };
 
+  // Handle loading state
   if (loading) return <EditLaboratoryPageSkeleton />;
 
-  if (!laboratory) return null;
+  // Handle error state
+  if (isError) {
+    toast.error(error!.message);
+
+    return (
+      <div className="col-span-3">
+        <CustomError
+          message={error!.message}
+          redirectTo={`/courses/${courseUUID}/laboratories`}
+          redirectText="Go back to laboratories"
+        />
+      </div>
+    );
+  }
+
+  // Show an error if the laboratory is not loading but is undefined
+  if (!laboratory) {
+    return (
+      <div className="col-span-3">
+        <CustomError
+          message="We couldn't get the laboratory you are looking for."
+          redirectTo={`/courses/${courseUUID}/laboratories`}
+          redirectText="Go back to laboratories"
+        />
+      </div>
+    );
+  }
 
   return (
     <main className="col-span-3">
