@@ -135,7 +135,7 @@ export const CreateTestBlockForm = ({
       });
 
       // Show success message
-      toast.success("Test block added successfully");
+      toast.success("The new test block has been created successfully");
 
       // Update laboratory query
       queryClient.setQueryData(
