@@ -29,9 +29,13 @@ const { TeacherLaboratoryBlocks } = lazily(
 
 export const EditLaboratory = () => {
   // Global laboratory state
-  const { loading, laboratoryState, laboratoryStateDispatcher } = useContext(
-    EditLaboratoryContext
-  );
+  const {
+    loading,
+    isError,
+    error,
+    laboratoryState,
+    laboratoryStateDispatcher
+  } = useContext(EditLaboratoryContext);
   const { laboratory } = laboratoryState;
 
   // Url params
@@ -83,8 +87,25 @@ export const EditLaboratory = () => {
     createMarkdownBlockMutation(laboratoryUUID!);
   };
 
+  // Handle loading state
   if (loading) return <EditLaboratoryPageSkeleton />;
 
+  // Handle error state
+  if (isError) {
+    toast.error(error!.message);
+
+    return (
+      <div className="col-span-3">
+        <CustomError
+          message={error!.message}
+          redirectTo={`/courses/${courseUUID}/laboratories`}
+          redirectText="Go back to laboratories"
+        />
+      </div>
+    );
+  }
+
+  // Show an error if the laboratory is not loading but is undefined
   if (!laboratory) {
     return (
       <div className="col-span-3">
