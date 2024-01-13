@@ -4,6 +4,7 @@ import { ExternalLinkIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface CustomErrorProps {
+  className?: string;
   title?: string;
   message?: string;
   showFooter?: boolean;
@@ -12,6 +13,7 @@ interface CustomErrorProps {
 }
 
 export const CustomError = ({
+  className,
   title = "Oops! We had an error",
   message = "Sorry for the inconvenience.",
   showFooter = true,
@@ -21,7 +23,7 @@ export const CustomError = ({
   message = message.endsWith(".") ? message : `${message}.`;
 
   return (
-    <Card className="mx-auto w-full max-w-sm">
+    <Card className={`mx-auto w-full max-w-sm ${className}`}>
       <CardContent className="space-y-4 py-4 text-center">
         <img
           src="/images/error-image.svg"

@@ -1,8 +1,9 @@
+import { CustomError } from "@/components/CustomError";
 import { getRubricByUUIDService } from "@/services/rubrics/get-rubric-by-uuid.service";
 import { useQuery } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { lazily } from "react-lazily";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 import { DeleteCriteriaDialog } from "./dialogs/DeleteCriteriaDialog";
@@ -30,10 +31,18 @@ export const EditRubricView = () => {
     queryFn: () => getRubricByUUIDService(id)
   });
 
-  // Handle error state
   if (isRubricError) {
     toast.error(rubricError.message);
-    return <Navigate to="/rubrics" />;
+
+    return (
+      <div className="p-4">
+        <CustomError
+          message={rubricError.message}
+          redirectText="Go back to rubrics."
+          redirectTo="/rubrics"
+        />
+      </div>
+    );
   }
 
   if (isLoadingRubric) {
@@ -41,8 +50,15 @@ export const EditRubricView = () => {
   }
 
   if (!rubric) {
-    // TODO: Show an error component if the rubric is not loading and is undefined
-    return null;
+    return (
+      <div className="p-4">
+        <CustomError
+          message="We couldn't get the rubric you are looking for."
+          redirectText="Go back to rubrics."
+          redirectTo="/rubrics"
+        />
+      </div>
+    );
   }
 
   return (
