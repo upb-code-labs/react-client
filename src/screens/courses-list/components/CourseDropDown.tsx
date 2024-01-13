@@ -8,13 +8,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AuthContext } from "@/context/AuthContext";
 import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
-import { CoursesActionType } from "@/hooks/courses/coursesReducer";
+import { CoursesState } from "@/hooks/courses/useCourses";
 import { SessionRole } from "@/hooks/useSession";
 import { getInvitationCodeService } from "@/services/courses/get-invitation-code.service";
 import { toggleCourseVisibilityService } from "@/services/courses/toggle-course-visibility.service";
 import { Course } from "@/types/entities/general-entities";
 import { copyToClipboard } from "@/utils/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   ClipboardCopy,
   Eye,
@@ -31,13 +31,13 @@ interface CourseDropDownProps {
 }
 
 export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
-  const { userCoursesDispatcher, openRenameCourseDialog } =
-    useContext(UserCoursesContext);
+  const { openRenameCourseDialog } = useContext(UserCoursesContext);
 
   const { user } = useContext(AuthContext);
   const role = user?.role || "student";
 
   // Courses mutations
+  const queryClient = useQueryClient();
   const { mutate: toggleCourseVisibilityMutation } = useMutation({
     mutationFn: toggleCourseVisibilityService,
     onError: (error) => {
@@ -51,15 +51,43 @@ export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
         visible ? "Course shown successfully" : "Course hidden successfully"
       );
 
-      // Update courses state
-      userCoursesDispatcher({
-        type: visible
-          ? CoursesActionType.SHOW_COURSE
-          : CoursesActionType.HIDE_COURSE,
-        payload: {
-          uuid: course.uuid
+      // Update courses query
+      queryClient.setQueryData<CoursesState>(
+        ["courses"],
+        (oldData: CoursesState | undefined) => {
+          if (!oldData) return oldData;
+
+          if (visible) {
+            // Remove the course from the hidden courses list
+            const hiddenCourses = oldData.hiddenCourses.filter(
+              (hiddenCourse) => hiddenCourse.uuid != course.uuid
+            );
+
+            // Add the course to the courses list
+            const courses = [...oldData.courses, course];
+
+            return {
+              ...oldData,
+              courses,
+              hiddenCourses
+            };
+          } else {
+            // Remove the course from the courses list
+            const courses = oldData.courses.filter(
+              (course) => course.uuid != course.uuid
+            );
+
+            // Add the course to the hidden courses list
+            const hiddenCourses = [...oldData.hiddenCourses, course];
+
+            return {
+              ...oldData,
+              courses,
+              hiddenCourses
+            };
+          }
         }
-      });
+      );
     }
   });
 

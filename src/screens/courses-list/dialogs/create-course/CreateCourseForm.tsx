@@ -9,13 +9,11 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
-import { CoursesActionType } from "@/hooks/courses/coursesReducer";
 import { CoursesState } from "@/hooks/courses/useCourses";
 import { createCourseService } from "@/services/courses/create-course.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -35,9 +33,6 @@ interface CreateCourseFormProps {
 export const CreateCourseForm = ({
   closeDialogCallback
 }: CreateCourseFormProps) => {
-  // Global courses state
-  const { userCoursesDispatcher } = useContext(UserCoursesContext);
-
   // Form state
   const [isCreatingCourse, setIsCreatingCourse] = useState(false);
   const form = useForm<z.infer<typeof CreateCourseSchema>>({
@@ -62,14 +57,6 @@ export const CreateCourseForm = ({
         ...creationResponse,
         name
       };
-
-      // Update user courses state
-      userCoursesDispatcher({
-        type: CoursesActionType.ADD_COURSE,
-        payload: {
-          course: newCourse
-        }
-      });
 
       // Show a success toast
       toast.success("The course was created successfully");

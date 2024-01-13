@@ -9,13 +9,11 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
-import { CoursesActionType } from "@/hooks/courses/coursesReducer";
 import { CoursesState } from "@/hooks/courses/useCourses";
 import { joinUsingInvitationCodeService } from "@/services/courses/join-using-invitation-code.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -34,9 +32,6 @@ interface JoinCourseFormProps {
 export const JoinCourseForm = ({
   closeDialogCallback
 }: JoinCourseFormProps) => {
-  // Global courses state
-  const { userCoursesDispatcher } = useContext(UserCoursesContext);
-
   // Form state
   const [isJoiningToCourse, setIsJoiningToCourse] = useState(false);
   const form = useForm<z.infer<typeof JoinCourseSchema>>({
@@ -58,14 +53,6 @@ export const JoinCourseForm = ({
     },
     onSuccess: (joinResponse) => {
       const course = joinResponse;
-
-      // Update the global courses state
-      userCoursesDispatcher({
-        type: CoursesActionType.ADD_COURSE,
-        payload: {
-          course
-        }
-      });
 
       // Update courses query
       queryClient.setQueryData(["courses"], (oldCourses: CoursesState) => {

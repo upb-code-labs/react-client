@@ -37,7 +37,7 @@ export const CoursesHome = () => {
             ? Array.from({ length: 3 }).map((_, i) => (
                 <CourseCardSkeleton key={`course-skeleton-${i}`} />
               ))
-            : userCourses.courses.map((course) => {
+            : userCourses?.courses.map((course) => {
                 return (
                   <CourseCard
                     key={course.uuid}
@@ -51,9 +51,9 @@ export const CoursesHome = () => {
       {/* "Accordion element" to show the hidden courses*/}
       <details className="mt-4">
         <summary className="py-4">Hidden courses</summary>
-        {userCourses.hiddenCourses.length > 0 ? (
+        {(userCourses?.hiddenCourses.length || 0) > 0 ? (
           <GridContainer>
-            {userCourses.hiddenCourses.map((course) => (
+            {userCourses?.hiddenCourses.map((course) => (
               <CourseCard key={course.uuid} course={course} isHidden />
             ))}
           </GridContainer>

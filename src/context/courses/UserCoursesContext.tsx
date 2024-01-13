@@ -1,12 +1,10 @@
-import { CoursesActions } from "@/hooks/courses/coursesReducer";
 import { CoursesState, useCourses } from "@/hooks/courses/useCourses";
 import { Course } from "@/types/entities/general-entities";
 import { ReactNode, createContext, useState } from "react";
 
 interface UserCoursesContext {
   isLoading: boolean;
-  userCourses: CoursesState;
-  userCoursesDispatcher: React.Dispatch<CoursesActions>;
+  userCourses: CoursesState | undefined;
 
   renameCourseDialogState: RenameCourseDialogState;
   openRenameCourseDialog: (course: Course) => void;
@@ -20,7 +18,6 @@ const defaultValues: UserCoursesContext = {
     courses: [],
     hiddenCourses: []
   },
-  userCoursesDispatcher: () => {},
 
   // Dialogs state
   openRenameCourseDialog: () => {},
@@ -40,7 +37,7 @@ export const UserCoursesContext =
   createContext<UserCoursesContext>(defaultValues);
 
 export const UserCoursesProvider = ({ children }: { children: ReactNode }) => {
-  const { loading, courses, coursesDispatcher } = useCourses();
+  const { loading, courses } = useCourses();
 
   // Dialogs state
   const [renameCourseDialogState, setRenameCourseDialogState] =
@@ -67,7 +64,6 @@ export const UserCoursesProvider = ({ children }: { children: ReactNode }) => {
       value={{
         isLoading: loading,
         userCourses: courses,
-        userCoursesDispatcher: coursesDispatcher,
         renameCourseDialogState,
         openRenameCourseDialog,
         closeRenameCourseDialog
