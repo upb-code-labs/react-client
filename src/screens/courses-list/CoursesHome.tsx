@@ -1,5 +1,5 @@
+import { EmptyContentText } from "@/components/EmptyContentText";
 import { GridContainer } from "@/components/GridContainer";
-import { EmptyContentText } from "@/components/Texts/EmptyContentText";
 import { AuthContext } from "@/context/AuthContext";
 import { useUserCourses } from "@/hooks/courses/useCourses";
 import { SessionRole } from "@/hooks/useSession";
