@@ -203,17 +203,18 @@ test.describe.serial("Join courses workflow", () => {
 
     // Assert the student is listed
     const studentRow = page.getByRole("row", {
-      name: new RegExp(studentFullName)
+      name: new RegExp(`^\\s*${studentFullName}`),
+      exact: true
     });
     await expect(studentRow).toBeVisible();
     await expect(
-      studentRow.getByRole("cell", { name: studentFullName })
+      studentRow.getByRole("cell", { name: studentFullName, exact: true })
     ).toBeVisible();
     await expect(
       studentRow.getByRole("cell", { name: studentInstitutionalID })
     ).toBeVisible();
     await expect(
-      studentRow.getByRole("button", { name: "Deactivate", exact: true })
+      studentRow.getByLabel(`Deactivate ${studentFullName}`, { exact: true })
     ).toBeVisible();
   });
 });
