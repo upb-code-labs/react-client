@@ -1,57 +1,31 @@
 import { getCourseLaboratoriesService } from "@/services/laboratories/get-course-laboratories.service";
-import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
-import { useEffect, useReducer, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
-import {
-  courseLaboratoriesActionType,
-  courseLaboratoriesReducer
-} from "./courseLaboratoriesReducer";
-
-export type courseLaboratoriesState = {
-  laboratories: LaboratoryBaseInfo[];
-};
-
 export const useCourseLaboratories = () => {
-  const [laboratoriesState, laboratoriesStateDispatcher] = useReducer(
-    courseLaboratoriesReducer,
-    {
-      laboratories: []
-    }
-  );
-
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const { courseUUID } = useParams<{ courseUUID: string }>();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const getLaboratories = async () => {
-      setLoading(true);
+  // Fetching state
+  const {
+    data: laboratories,
+    isLoading,
+    isError: isCourseLaboratoriesError,
+    error: courseLaboratoriesError
+  } = useQuery({
+    queryKey: ["course-laboratories", courseUUID],
+    queryFn: () => getCourseLaboratoriesService(courseUUID!)
+  });
 
-      const { success, message, laboratories } =
-        await getCourseLaboratoriesService(courseUUID as string);
-      if (!success) {
-        toast.error(message);
-        navigate(`/courses/${courseUUID}`);
-        return;
-      }
-
-      laboratoriesStateDispatcher({
-        type: courseLaboratoriesActionType.SET_LABORATORIES,
-        payload: {
-          laboratories
-        }
-      });
-      setLoading(false);
-    };
-
-    getLaboratories();
-  }, []);
+  // Handle errors
+  if (isCourseLaboratoriesError) {
+    toast.error(courseLaboratoriesError?.message);
+    navigate(`/courses/${courseUUID}`);
+  }
 
   return {
-    loading,
-    laboratoriesState,
-    laboratoriesStateDispatcher
+    loading: isLoading,
+    laboratories
   };
 };

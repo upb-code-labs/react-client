@@ -7,19 +7,12 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { CreatedRubric } from "@/types/entities/rubric-entities";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 
 import { CreateRubricForm } from "./CreateRubricForm";
 
-interface CreateRubricDialogProps {
-  addRubricCallback: (rubric: CreatedRubric) => void;
-}
-
-export const CreateRubricDialog = ({
-  addRubricCallback
-}: CreateRubricDialogProps) => {
+export const CreateRubricDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
   const closeDialog = () => setIsOpen(false);
 
@@ -38,10 +31,7 @@ export const CreateRubricDialog = ({
             Enter a name for the new rubric. Click create when you're done.
           </DialogDescription>
         </DialogHeader>
-        <CreateRubricForm
-          closeDialogCallback={closeDialog}
-          addRubricCallback={addRubricCallback}
-        />
+        <CreateRubricForm closeDialogCallback={closeDialog} />
       </DialogContent>
     </Dialog>
   );

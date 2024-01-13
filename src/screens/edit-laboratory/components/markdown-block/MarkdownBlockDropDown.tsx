@@ -2,7 +2,11 @@ import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryCont
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
 import { deleteMarkdownBlockService } from "@/services/blocks/delete-markdown-block.service";
 import { updateMarkdownBlockContentService } from "@/services/blocks/update-markdown-block-content.service";
-import { MarkdownBlock } from "@/types/entities/laboratory-entities";
+import {
+  Laboratory,
+  MarkdownBlock
+} from "@/types/entities/laboratory-entities";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowDown, ArrowUp, MoreVertical, Save, Trash2 } from "lucide-react";
 import { useContext } from "react";
 import { toast } from "sonner";
@@ -25,6 +29,7 @@ export const MarkdownBlockDropDown = ({
   blockUUID,
   blockIndex
 }: MarkdownBlockDropDown) => {
+  // Global laboratory state
   const { laboratoryState, laboratoryStateDispatcher } = useContext(
     EditLaboratoryContext
   );
@@ -34,33 +39,67 @@ export const MarkdownBlockDropDown = ({
     (b) => b.uuid === blockUUID
   ) as MarkdownBlock;
 
-  const handleSaveMarkdownBlock = async () => {
-    const { success, message } = await updateMarkdownBlockContentService({
-      markdownBlockUUID: blockUUID,
-      content: block.content
-    });
+  // Update markdown block mutation
+  const queryClient = useQueryClient();
+  const { mutate: updateMarkdownBlockMutation } = useMutation({
+    mutationFn: updateMarkdownBlockContentService,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: () => {
+      // Update the laboratory query
+      queryClient.setQueryData(
+        ["laboratory", laboratory!.uuid],
+        (oldData: Laboratory) => {
+          return {
+            ...oldData,
+            blocks: oldData.blocks.map((b) => {
+              if (b.uuid !== blockUUID) return b;
 
-    if (!success) {
-      toast.error(message);
-    } else {
-      toast.success(message);
+              return {
+                ...block,
+                content: block.content
+              };
+            })
+          };
+        }
+      );
+
+      // Show a success message
+      toast.success("The markdown block has been updated successfully");
     }
-  };
+  });
 
-  const handleDeleteMarkdownBlock = async () => {
-    const { success, message } = await deleteMarkdownBlockService(blockUUID);
-    if (!success) {
-      toast.error(message);
+  // Delete markdown block mutation
+  const { mutate: deleteMarkdownBlockMutation } = useMutation({
+    mutationFn: deleteMarkdownBlockService,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: () => {
+      // Update global state
+      laboratoryStateDispatcher({
+        type: EditLaboratoryActionType.DELETE_BLOCK,
+        payload: {
+          uuid: blockUUID
+        }
+      });
+
+      // Show a success message
+      toast.success("The markdown block has been deleted successfully");
+
+      // Update the laboratory query
+      queryClient.setQueryData(
+        ["laboratory", laboratory!.uuid],
+        (oldData: Laboratory) => {
+          return {
+            ...oldData,
+            blocks: oldData.blocks.filter((b) => b.uuid !== blockUUID)
+          };
+        }
+      );
     }
-
-    laboratoryStateDispatcher({
-      type: EditLaboratoryActionType.DELETE_BLOCK,
-      payload: {
-        uuid: blockUUID
-      }
-    });
-    toast.success(message);
-  };
+  });
 
   return (
     <DropdownMenu>
@@ -83,11 +122,20 @@ export const MarkdownBlockDropDown = ({
           <ArrowDown className="mr-2 aspect-square h-5" />
           Move down
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleSaveMarkdownBlock}>
+        <DropdownMenuItem
+          onClick={() =>
+            updateMarkdownBlockMutation({
+              markdownBlockUUID: blockUUID,
+              content: block.content
+            })
+          }
+        >
           <Save className="mr-2 aspect-square h-5" />
           Save changes
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleDeleteMarkdownBlock}>
+        <DropdownMenuItem
+          onClick={() => deleteMarkdownBlockMutation(blockUUID)}
+        >
           <Trash2 className="mr-2 aspect-square h-5" />
           Delete block
         </DropdownMenuItem>

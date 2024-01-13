@@ -5,28 +5,42 @@ import { CriteriaCard } from "./CriteriaCard/CriteriaCard";
 import { ObjectiveCard } from "./ObjectiveCard/ObjectiveCard";
 
 interface ObjectiveRowProps {
+  rubricUUID: string;
   objective: Objective;
-  index: number;
+  objectiveIndex: number;
 }
 
-export const ObjectiveRow = ({ objective, index }: ObjectiveRowProps) => {
+export const ObjectiveRow = ({
+  rubricUUID,
+  objective,
+  objectiveIndex
+}: ObjectiveRowProps) => {
   return (
     <article
       key={`objective-row-${objective.uuid}`}
       className="flex gap-4 overflow-x-auto"
     >
-      <ObjectiveCard objective={objective} index={index} />
+      <ObjectiveCard
+        rubricUUID={rubricUUID}
+        objective={objective}
+        objectiveIndex={objectiveIndex}
+      />
 
       {objective.criteria.map((criteria, ci) => (
         <CriteriaCard
+          rubricUUID={rubricUUID}
           key={criteria.uuid}
           criteria={criteria}
           criteriaIndex={ci}
-          objectiveIndex={index}
+          objectiveIndex={objectiveIndex}
         />
       ))}
 
-      <AddCriteriaDialog index={index} objectiveUUID={objective.uuid} />
+      <AddCriteriaDialog
+        rubricUUID={rubricUUID}
+        objectiveUUID={objective.uuid}
+        objectiveIndex={objectiveIndex}
+      />
     </article>
   );
 };

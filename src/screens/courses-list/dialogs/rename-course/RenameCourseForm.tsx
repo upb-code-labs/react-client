@@ -9,10 +9,11 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
-import { CoursesActionType } from "@/hooks/courses/coursesReducer";
+import { UserCoursesDialogsContext } from "@/context/courses/UserCoursesDialogsContext";
+import { CoursesState } from "@/hooks/courses/useCourses";
 import { renameCourseService } from "@/services/courses/rename-course.service";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -27,18 +28,57 @@ const RenameCourseSchema = z.object({
 });
 
 export const RenameCourseForm = () => {
-  const {
-    userCoursesDispatcher,
-    renameCourseDialogState,
-    closeRenameCourseDialog
-  } = useContext(UserCoursesContext);
+  const { renameCourseDialogState, closeRenameCourseDialog } = useContext(
+    UserCoursesDialogsContext
+  );
   const course = renameCourseDialogState.selectedCourse;
 
-  const [state, setState] = useState<"idle" | "loading">("idle");
+  const [isUpdating, setIsUpdating] = useState(false);
   const form = useForm<z.infer<typeof RenameCourseSchema>>({
     resolver: zodResolver(RenameCourseSchema),
     defaultValues: {
       name: course?.name
+    }
+  });
+
+  // Rename course mutation
+  const queryClient = useQueryClient();
+  const { mutate: renameMutation } = useMutation({
+    mutationFn: (name: string) => renameCourseService(course!.uuid, name),
+    onMutate: () => setIsUpdating(true),
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (_, name: string) => {
+      // Show a success toast
+      toast.success("Course renamed successfully");
+
+      // Update courses query
+      queryClient.setQueryData<CoursesState>(
+        ["courses"],
+        (oldData: CoursesState | undefined) => {
+          if (!oldData) return oldData;
+
+          return {
+            ...oldData,
+            courses: oldData.courses.map((course) => {
+              if (course.uuid != renameCourseDialogState.selectedCourse?.uuid)
+                return course;
+
+              return {
+                ...course,
+                name
+              };
+            })
+          };
+        }
+      );
+
+      // Close dialog
+      closeRenameCourseDialog();
+    },
+    onSettled: () => {
+      setIsUpdating(false);
     }
   });
 
@@ -48,29 +88,7 @@ export const RenameCourseForm = () => {
   const formSubmitCallback = async (
     values: z.infer<typeof RenameCourseSchema>
   ) => {
-    RenameCourse(values.name);
-  };
-
-  const RenameCourse = async (name: string) => {
-    setState("loading");
-
-    const { success, message } = await renameCourseService(course.uuid, name);
-    if (!success) {
-      toast.error(message);
-      setState("idle");
-      return;
-    }
-
-    userCoursesDispatcher({
-      type: CoursesActionType.RENAME_COURSE,
-      payload: {
-        uuid: course.uuid,
-        name
-      }
-    });
-    toast.success("Course renamed successfully");
-    setState("idle");
-    closeRenameCourseDialog();
+    renameMutation(values.name);
   };
 
   return (
@@ -98,7 +116,7 @@ export const RenameCourseForm = () => {
           )}
         ></FormField>
         <DialogFooter>
-          <Button type="submit" isLoading={state === "loading"}>
+          <Button type="submit" isLoading={isUpdating}>
             Rename
           </Button>
         </DialogFooter>

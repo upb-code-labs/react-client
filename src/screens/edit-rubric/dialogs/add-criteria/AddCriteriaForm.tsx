@@ -11,14 +11,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { addCriteriaToObjectiveService } from "@/services/rubrics/add-criteria-to-objective.service";
-import { useEditRubricStore } from "@/stores/edit-rubric-store";
+import { Rubric } from "@/types/entities/rubric-entities";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
 interface addCriteriaFormProps {
+  rubricUUID: string;
   objectiveUUID: string;
   closeDialogCallback: () => void;
 }
@@ -35,12 +37,10 @@ const criteriaSchema = z.object({
 });
 
 export const AddCriteriaForm = ({
+  rubricUUID,
   objectiveUUID,
   closeDialogCallback
 }: addCriteriaFormProps) => {
-  // Rubric global state
-  const { addCriteria } = useEditRubricStore();
-
   // Form state
   const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof criteriaSchema>>({
@@ -51,28 +51,70 @@ export const AddCriteriaForm = ({
     }
   });
 
-  const onSubmit = async (data: z.infer<typeof criteriaSchema>) => {
-    setLoading(true);
-    await handleAddCriteria(data.description, data.weight);
-    setLoading(false);
+  // Add criteria mutation
+  const queryClient = useQueryClient();
+
+  type AddCriteriaMutationFnArgs = {
+    description: string;
+    weight: number;
   };
 
-  const handleAddCriteria = async (description: string, weight: number) => {
-    const { success, message, uuid } = await addCriteriaToObjectiveService(
-      objectiveUUID,
-      description,
-      weight
-    );
+  const { mutate: addCriteriaMutation } = useMutation({
+    mutationFn: ({ description, weight }: AddCriteriaMutationFnArgs) =>
+      addCriteriaToObjectiveService({
+        objectiveUUID,
+        description,
+        weight
+      }),
+    onMutate: ({ description, weight }: AddCriteriaMutationFnArgs) => {
+      setLoading(true);
 
-    if (!success) {
-      toast.error(message);
-      return;
+      // Forwards the description to the following callbacks
+      return { description, weight };
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (
+      newCriteriaUUID: string,
+      { description, weight }: AddCriteriaMutationFnArgs
+    ) => {
+      // Show a success toast
+      toast.success("Criteria added successfully");
+
+      // Update rubric query
+      queryClient.setQueryData(["rubric", rubricUUID], (oldData: Rubric) => {
+        const newCriteria = {
+          uuid: newCriteriaUUID,
+          description,
+          weight
+        };
+
+        return {
+          ...oldData,
+          objectives: oldData.objectives.map((objective) => {
+            if (objective.uuid !== objectiveUUID) {
+              return objective;
+            }
+
+            return {
+              ...objective,
+              criteria: [...objective.criteria, newCriteria]
+            };
+          })
+        };
+      });
+
+      // Update modals state
+      closeDialogCallback();
+    },
+    onSettled: () => {
+      setLoading(false);
     }
+  });
 
-    const newCriteria = { uuid, description, weight };
-    addCriteria(objectiveUUID, newCriteria);
-    toast.success("The criteria has been added!");
-    closeDialogCallback();
+  const onSubmit = async (data: z.infer<typeof criteriaSchema>) => {
+    addCriteriaMutation(data);
   };
 
   return (

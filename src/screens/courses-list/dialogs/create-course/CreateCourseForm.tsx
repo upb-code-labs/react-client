@@ -9,11 +9,11 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
-import { CoursesActionType } from "@/hooks/courses/coursesReducer";
+import { CoursesState } from "@/hooks/courses/useCourses";
 import { createCourseService } from "@/services/courses/create-course.service";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -33,8 +33,8 @@ interface CreateCourseFormProps {
 export const CreateCourseForm = ({
   closeDialogCallback
 }: CreateCourseFormProps) => {
-  const { userCoursesDispatcher } = useContext(UserCoursesContext);
-  const [state, setState] = useState<"idle" | "loading">("idle");
+  // Form state
+  const [isCreatingCourse, setIsCreatingCourse] = useState(false);
   const form = useForm<z.infer<typeof CreateCourseSchema>>({
     resolver: zodResolver(CreateCourseSchema),
     defaultValues: {
@@ -42,33 +42,45 @@ export const CreateCourseForm = ({
     }
   });
 
+  // Create course mutation
+  const queryClient = useQueryClient();
+  const { mutate: createCourseMutation } = useMutation({
+    mutationFn: createCourseService,
+    onMutate: () => {
+      setIsCreatingCourse(true);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (creationResponse, name: string) => {
+      const newCourse = {
+        ...creationResponse,
+        name
+      };
+
+      // Show a success toast
+      toast.success("The course was created successfully");
+
+      // Update courses query
+      queryClient.setQueryData(["courses"], (oldCourses: CoursesState) => {
+        return {
+          ...oldCourses,
+          courses: [...oldCourses.courses, newCourse]
+        };
+      });
+
+      // Close dialog
+      closeDialogCallback();
+    },
+    onSettled: () => {
+      setIsCreatingCourse(false);
+    }
+  });
+
   const formSubmitCallback = async (
     values: z.infer<typeof CreateCourseSchema>
   ) => {
-    createCourse(values.name);
-  };
-
-  const createCourse = async (name: string) => {
-    setState("loading");
-
-    const { success, ...response } = await createCourseService(name);
-    if (!success) {
-      toast.error(response.message);
-      setState("idle");
-      return;
-    }
-
-    const { message, course } = response;
-    toast.success(message);
-    setState("idle");
-
-    userCoursesDispatcher({
-      type: CoursesActionType.ADD_COURSE,
-      payload: {
-        course
-      }
-    });
-    closeDialogCallback();
+    await createCourseMutation(values.name);
   };
 
   return (
@@ -96,7 +108,7 @@ export const CreateCourseForm = ({
           )}
         ></FormField>
         <DialogFooter>
-          <Button type="submit" isLoading={state === "loading"}>
+          <Button type="submit" isLoading={isCreatingCourse}>
             Create
           </Button>
         </DialogFooter>

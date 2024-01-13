@@ -8,25 +8,26 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { useSession } from "@/hooks/useSession";
+import { AuthContext } from "@/context/AuthContext";
 import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { BarChartBigIcon, BookOpenCheck, Edit } from "lucide-react";
+import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 
 dayjs.extend(relativeTime);
 
 interface courseLaboratoriesTableProps {
   loading: boolean;
-  laboratories: LaboratoryBaseInfo[];
+  laboratories: LaboratoryBaseInfo[] | undefined;
 }
 
 export const CourseLaboratoriesTable = ({
   loading,
   laboratories
 }: courseLaboratoriesTableProps) => {
-  const { user } = useSession();
+  const { user } = useContext(AuthContext);
   const { courseUUID } = useParams<{ courseUUID: string }>();
 
   const getLaboratoryActionsByRole = ({
@@ -92,7 +93,7 @@ export const CourseLaboratoriesTable = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {laboratories.length ? (
+          {laboratories?.length ? (
             laboratories.map((lab) => (
               <TableRow key={lab.uuid}>
                 <TableCell>{lab.name}</TableCell>

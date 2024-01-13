@@ -1,29 +1,24 @@
 import { AxiosError } from "axios";
 
-import { GenericResponse, HttpRequester } from "../axios";
+import { HttpRequester } from "../axios";
 
-export const deleteCriteriaService = async (
+export async function deleteCriteriaService(
   criteriaUUID: string
-): Promise<GenericResponse> => {
+): Promise<void> {
   const { axios } = HttpRequester.getInstance();
 
   try {
     await axios.delete(`rubrics/criteria/${criteriaUUID}`);
-    return {
-      success: true,
-      message: "The criteria has been deleted successfully"
-    };
   } catch (error) {
-    let errorMessage = "There was an error";
+    const DEFAULT_ERROR_MESSAGE = "We had an error deleting the criteria";
 
+    // Try to get the error from the response
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
-      if (message) errorMessage = message;
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
 
-    return {
-      success: false,
-      message: errorMessage
-    };
+    throw new Error(errorMessage);
   }
-};
+}

@@ -1,36 +1,24 @@
 import { Rubric } from "@/types/entities/rubric-entities";
 import { AxiosError } from "axios";
 
-import { GenericResponse, HttpRequester } from "../axios";
+import { HttpRequester } from "../axios";
 
-type GetRubricByUuidResponse = GenericResponse & {
-  rubric: Rubric;
-};
-
-export const getRubricByUuidService = async (
-  uuid: string
-): Promise<GetRubricByUuidResponse> => {
+export async function getRubricByUUIDService(uuid: string): Promise<Rubric> {
   const { axios } = HttpRequester.getInstance();
 
   try {
     const { data } = await axios.get(`/rubrics/${uuid}`);
-    return {
-      success: true,
-      message: "Rubric retrieved successfully",
-      rubric: data.rubric
-    };
+    return data.rubric;
   } catch (error) {
-    let errorMessage = "There was an error";
+    const DEFAULT_ERROR_MESSAGE = "We had an error obtaining the rubric";
 
+    // Try to get the error from the response
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
-      if (message) errorMessage = message;
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
 
-    return {
-      success: false,
-      message: errorMessage,
-      rubric: {} as Rubric
-    };
+    throw new Error(errorMessage);
   }
-};
+}

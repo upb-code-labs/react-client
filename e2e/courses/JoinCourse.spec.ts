@@ -89,7 +89,7 @@ test.describe.serial("Join courses workflow", () => {
 
     // Assert an alert is shown
     await expect(
-      page.getByText("Course was created successfully")
+      page.getByText("The course was created successfully")
     ).toBeVisible();
 
     // Assert the modal is closed

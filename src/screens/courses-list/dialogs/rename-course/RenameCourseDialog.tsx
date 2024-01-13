@@ -5,14 +5,15 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/ui/dialog";
-import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
+import { UserCoursesDialogsContext } from "@/context/courses/UserCoursesDialogsContext";
 import { useContext } from "react";
 
 import { RenameCourseForm } from "./RenameCourseForm";
 
 export const RenameCourseDialog = () => {
-  const { renameCourseDialogState, closeRenameCourseDialog } =
-    useContext(UserCoursesContext);
+  const { renameCourseDialogState, closeRenameCourseDialog } = useContext(
+    UserCoursesDialogsContext
+  );
   const { isOpen, selectedCourse } = renameCourseDialogState;
   const isOpenWithCourseSelected = isOpen && selectedCourse !== null;
 

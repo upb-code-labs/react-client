@@ -1,10 +1,3 @@
-import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
-import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
-import { deleteTestBlockService } from "@/services/blocks/delete-test-block.service";
-import { ArrowDown, ArrowUp, MoreVertical, Save, Trash2 } from "lucide-react";
-import { RefObject, useContext } from "react";
-import { toast } from "sonner";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +5,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from "../../../../components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
+import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
+import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
+import { deleteTestBlockService } from "@/services/blocks/delete-test-block.service";
+import { Laboratory } from "@/types/entities/laboratory-entities";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ArrowDown, ArrowUp, MoreVertical, Save, Trash2 } from "lucide-react";
+import { RefObject, useContext } from "react";
+import { toast } from "sonner";
 
 interface TestBlockDropdown {
   blockUUID: string;
@@ -25,7 +26,10 @@ export const TestBlockDropDown = ({
   blockIndex,
   formRef
 }: TestBlockDropdown) => {
-  const { laboratoryStateDispatcher } = useContext(EditLaboratoryContext);
+  const { laboratoryStateDispatcher, laboratoryState } = useContext(
+    EditLaboratoryContext
+  );
+  const { laboratory } = laboratoryState;
 
   const handleSaveTestBlock = async () => {
     formRef.current?.dispatchEvent(
@@ -36,20 +40,37 @@ export const TestBlockDropDown = ({
     );
   };
 
-  const handleDeleteTestBlock = async () => {
-    const { success, message } = await deleteTestBlockService(blockUUID);
-    if (!success) {
-      toast.error(message);
-    }
+  // Delete test block mutation
+  const queryClient = useQueryClient();
+  const { mutate: deleteTestBlockMutation } = useMutation({
+    mutationFn: deleteTestBlockService,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: () => {
+      // Update the global laboratory state
+      laboratoryStateDispatcher({
+        type: EditLaboratoryActionType.DELETE_BLOCK,
+        payload: {
+          uuid: blockUUID
+        }
+      });
 
-    laboratoryStateDispatcher({
-      type: EditLaboratoryActionType.DELETE_BLOCK,
-      payload: {
-        uuid: blockUUID
-      }
-    });
-    toast.success(message);
-  };
+      // Show success message
+      toast.success("The test block has been deleted successfully");
+
+      // Update the laboratory query
+      queryClient.setQueryData(
+        ["laboratory", laboratory!.uuid],
+        (oldData: Laboratory) => {
+          return {
+            ...oldData,
+            blocks: oldData.blocks.filter((b) => b.uuid !== blockUUID)
+          };
+        }
+      );
+    }
+  });
 
   return (
     <DropdownMenu>
@@ -76,7 +97,7 @@ export const TestBlockDropDown = ({
           <Save className="mr-2 aspect-square h-5" />
           Save changes
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleDeleteTestBlock}>
+        <DropdownMenuItem onClick={() => deleteTestBlockMutation(blockUUID)}>
           <Trash2 className="mr-2 aspect-square h-5" />
           Delete block
         </DropdownMenuItem>

@@ -1,38 +1,27 @@
 import { AxiosError } from "axios";
 
-import { GenericResponse, HttpRequester } from "../axios";
+import { HttpRequester } from "../axios";
 
-type createMarkdownBlockResponse = GenericResponse & {
-  uuid: string;
-};
-
-export const createMarkdownBlockService = async (
+export async function createMarkdownBlockService(
   laboratoryUUID: string
-): Promise<createMarkdownBlockResponse> => {
+): Promise<string> {
   const { axios } = HttpRequester.getInstance();
 
   try {
     const { data } = await axios.post(
       `/laboratories/markdown_blocks/${laboratoryUUID}`
     );
-
-    return {
-      success: true,
-      message: "The new markdown block has been created successfully",
-      uuid: data.uuid
-    };
+    return data.uuid;
   } catch (error) {
-    let errorMessage = "There was an error creating the new markdown block";
+    const DEFAULT_ERROR_MESSAGE =
+      "We had an error creating the new markdown block";
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
 
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
-      if (message) errorMessage = message;
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
 
-    return {
-      success: false,
-      message: errorMessage,
-      uuid: ""
-    };
+    throw new Error(errorMessage);
   }
-};
+}

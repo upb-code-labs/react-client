@@ -1,21 +1,16 @@
-import { FoundStudentCard } from "@/components/FoundStudentCard/FoundStudentCard";
-import { FoundStudentsSkeleton } from "@/components/FoundStudentCard/FoundStudentsSkeleton";
 import { EmptyContentText } from "@/components/Texts/EmptyContentText";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useDebounce from "@/hooks/useDebounce";
+import { FoundStudentsSkeleton } from "@/screens/course-page/participants/components/FoundStudentsSkeleton";
 import { searchStudentByFullNameService } from "@/services/accounts/search-student-by-fullname.service";
-import { EnrolledStudent, Student } from "@/types/entities/general-entities";
+import { Student } from "@/types/entities/general-entities";
 import { Fragment, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-interface EnrollStudentFormProps {
-  addStudentCallback: (student: EnrolledStudent) => void;
-}
+import { FoundStudentCard } from "../../components/FoundStudentCard";
 
-export const EnrollStudentForm = ({
-  addStudentCallback
-}: EnrollStudentFormProps) => {
+export const EnrollStudentForm = () => {
   // Search state
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
@@ -61,10 +56,7 @@ export const EnrollStudentForm = ({
         <ScrollArea className="max-h-56">
           <div className="p-1">
             {students.map((student) => (
-              <FoundStudentCard
-                student={student}
-                addStudentCallback={addStudentCallback}
-              />
+              <FoundStudentCard student={student} />
             ))}
           </div>
         </ScrollArea>

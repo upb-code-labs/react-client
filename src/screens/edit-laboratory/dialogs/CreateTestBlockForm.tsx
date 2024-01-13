@@ -22,8 +22,10 @@ import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTyp
 import { createTestBlockService } from "@/services/laboratories/add-test-block.service";
 import { getSupportedLanguagesService } from "@/services/languages/get-supported-languages.service";
 import { useSupportedLanguagesStore } from "@/stores/supported-languages-store";
+import { Laboratory, TestBlock } from "@/types/entities/laboratory-entities";
 import { downloadLanguageTemplate } from "@/utils/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DownloadIcon } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -57,13 +59,18 @@ interface CreateTestBlockFormProps {
 export const CreateTestBlockForm = ({
   closeDialogCallback
 }: CreateTestBlockFormProps) => {
+  // Url state
   const { laboratoryUUID } = useParams<{
     laboratoryUUID: string;
     courseUUID: string;
   }>();
 
-  const { laboratoryStateDispatcher } = useContext(EditLaboratoryContext);
+  // Global laboratory state
+  const { laboratoryStateDispatcher, laboratoryState } = useContext(
+    EditLaboratoryContext
+  );
 
+  // Global language state
   const { supportedLanguages, setSupportedLanguages, getLanguageNameByUUID } =
     useSupportedLanguagesStore();
 
@@ -88,7 +95,6 @@ export const CreateTestBlockForm = ({
 
   // Form state
   const [isSending, setIsSending] = useState(false);
-
   const form = useForm<z.infer<typeof CreateTestBlockSchema>>({
     resolver: zodResolver(CreateTestBlockSchema),
     defaultValues: {
@@ -98,44 +104,71 @@ export const CreateTestBlockForm = ({
     }
   });
 
+  // Create test block mutation
+  const queryClient = useQueryClient();
+  const { mutate: createTestBlockMutation } = useMutation({
+    mutationFn: createTestBlockService,
+    onMutate: () => {
+      setIsSending(true);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (
+      createdTestBlockUUID,
+      { blockName, blockLanguageUUID, laboratoryUUID }
+    ) => {
+      // TODO: Receive the test archive UUID from the server
+      const newTestBlok: TestBlock = {
+        uuid: createdTestBlockUUID,
+        name: blockName,
+        languageUUID: blockLanguageUUID,
+        index: laboratoryState.laboratory!.blocks.length,
+        testArchiveUUID: "PLACEHOLDER",
+        blockType: "test"
+      };
+
+      // Update laboratory state
+      laboratoryStateDispatcher({
+        type: EditLaboratoryActionType.ADD_TEST_BLOCK,
+        payload: newTestBlok
+      });
+
+      // Show success message
+      toast.success("The new test block has been created successfully");
+
+      // Update laboratory query
+      queryClient.setQueryData(
+        ["laboratory", laboratoryUUID],
+        (oldData: Laboratory) => {
+          return {
+            // Keep the UUID
+            ...oldData,
+            // Append the new block
+            blocks: [...oldData.blocks, newTestBlok]
+          };
+        }
+      );
+
+      // Close the dialog
+      closeDialogCallback();
+    },
+    onSettled: () => {
+      setIsSending(false);
+    }
+  });
+
   const formSubmitCallback = async (
     data: z.infer<typeof CreateTestBlockSchema>
   ) => {
-    setIsSending(true);
-    await createTestBlock(data);
-    setIsSending(false);
-  };
+    const { name, languageUUID, testFile } = data;
 
-  // Actions
-  const createTestBlock = async (
-    data: z.infer<typeof CreateTestBlockSchema>
-  ) => {
-    const { success, message, uuid } = await createTestBlockService({
-      laboratoryUUID: laboratoryUUID as string,
-      blockLanguageUUID: data.languageUUID,
-      blockName: data.name,
-      blockTestArchive: data.testFile
+    createTestBlockMutation({
+      blockName: name,
+      blockLanguageUUID: languageUUID,
+      laboratoryUUID: laboratoryUUID!,
+      blockTestArchive: testFile
     });
-
-    if (!success) {
-      toast.error(message);
-      return;
-    }
-
-    // Add the block to the global state
-    laboratoryStateDispatcher({
-      type: EditLaboratoryActionType.ADD_TEST_BLOCK,
-      payload: {
-        uuid: uuid,
-        name: data.name,
-        languageUUID: data.languageUUID,
-        testArchiveUUID: "PLACEHOLDER"
-      }
-    });
-
-    // Close the dialog
-    toast.success(message);
-    closeDialogCallback();
   };
 
   const handleDownloadSelectedLanguageTemplate = async () => {

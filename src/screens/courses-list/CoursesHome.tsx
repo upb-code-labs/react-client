@@ -1,18 +1,18 @@
-import { CourseCard } from "@/components/CourseCard/CourseCard";
-import { CourseCardSkeleton } from "@/components/CourseCard/CourseCardSkeleton";
 import { GridContainer } from "@/components/GridContainer";
 import { EmptyContentText } from "@/components/Texts/EmptyContentText";
 import { AuthContext } from "@/context/AuthContext";
-import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
+import { useUserCourses } from "@/hooks/courses/useCourses";
 import { SessionRole } from "@/hooks/useSession";
 import { useContext } from "react";
 
+import { CourseCard } from "./components/CourseCard";
+import { CourseCardSkeleton } from "./components/CourseCardSkeleton";
 import { CreateCourseDialog } from "./dialogs/create-course/CreateCourseDialog";
 import { JoinCourseDialog } from "./dialogs/join-course/JoinCourseDialog";
 import { RenameCourseDialog } from "./dialogs/rename-course/RenameCourseDialog";
 
 export const CoursesHome = () => {
-  const { isLoading, userCourses } = useContext(UserCoursesContext);
+  const { isLoading, userCourses } = useUserCourses();
   const { user } = useContext(AuthContext);
   const role = user?.role || "student";
 
@@ -37,7 +37,7 @@ export const CoursesHome = () => {
             ? Array.from({ length: 3 }).map((_, i) => (
                 <CourseCardSkeleton key={`course-skeleton-${i}`} />
               ))
-            : userCourses.courses.map((course) => {
+            : userCourses?.courses.map((course) => {
                 return (
                   <CourseCard
                     key={course.uuid}
@@ -51,9 +51,9 @@ export const CoursesHome = () => {
       {/* "Accordion element" to show the hidden courses*/}
       <details className="mt-4">
         <summary className="py-4">Hidden courses</summary>
-        {userCourses.hiddenCourses.length > 0 ? (
+        {(userCourses?.hiddenCourses.length || 0) > 0 ? (
           <GridContainer>
-            {userCourses.hiddenCourses.map((course) => (
+            {userCourses?.hiddenCourses.map((course) => (
               <CourseCard key={course.uuid} course={course} isHidden />
             ))}
           </GridContainer>

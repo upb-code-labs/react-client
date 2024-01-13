@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import { GenericResponse, HttpRequester } from "../axios";
+import { HttpRequester } from "../axios";
 
 type updateTestBlockRequest = {
   blockUUID: string;
@@ -14,7 +14,7 @@ export async function updateTestBlockService({
   blockLanguageUUID,
   blockName,
   blockTestArchive
-}: updateTestBlockRequest): Promise<GenericResponse> {
+}: updateTestBlockRequest): Promise<void> {
   const { axios } = HttpRequester.getInstance();
 
   try {
@@ -26,23 +26,15 @@ export async function updateTestBlockService({
 
     // Send the request
     await axios.put(`/blocks/test_blocks/${blockUUID}`, formData);
-
-    // Parse the request
-    return {
-      success: true,
-      message: "The test block has been updated successfully"
-    };
   } catch (error) {
-    let errorMessage = "There was an error updating the test block";
+    const DEFAULT_ERROR_MESSAGE = "There was an error updating the test block";
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
 
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
       if (message) errorMessage = message;
     }
 
-    return {
-      success: false,
-      message: errorMessage
-    };
+    throw new Error(errorMessage);
   }
 }

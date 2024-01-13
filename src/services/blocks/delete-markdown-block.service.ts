@@ -1,30 +1,24 @@
 import { AxiosError } from "axios";
 
-import { GenericResponse, HttpRequester } from "../axios";
+import { HttpRequester } from "../axios";
 
-export const deleteMarkdownBlockService = async (
+export async function deleteMarkdownBlockService(
   markdownBlockUUID: string
-): Promise<GenericResponse> => {
+): Promise<void> {
   const { axios } = HttpRequester.getInstance();
 
   try {
     await axios.delete(`/blocks/markdown_blocks/${markdownBlockUUID}`);
-
-    return {
-      success: true,
-      message: "The markdown block has been deleted successfully"
-    };
   } catch (error) {
-    let errorMessage = "There was an error deleting the markdown block";
+    const DEFAULT_ERROR_MESSAGE =
+      "There was an error deleting the markdown block";
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
 
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
       if (message) errorMessage = message;
     }
 
-    return {
-      success: false,
-      message: errorMessage
-    };
+    throw new Error(errorMessage);
   }
-};
+}

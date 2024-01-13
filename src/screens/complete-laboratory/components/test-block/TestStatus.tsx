@@ -86,7 +86,7 @@ export const TestStatus = ({
   }, []);
 
   const handleEventSourceError = (
-    errorMessage: string = "We had an error while getting the current status of your submission"
+    errorMessage: string = "We had an error while obtaining the current status of your submission"
   ) => {
     toast.error(errorMessage);
     changeToFormTabCallback();

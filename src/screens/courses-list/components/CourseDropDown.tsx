@@ -7,13 +7,14 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { AuthContext } from "@/context/AuthContext";
-import { UserCoursesContext } from "@/context/courses/UserCoursesContext";
-import { CoursesActionType } from "@/hooks/courses/coursesReducer";
+import { UserCoursesDialogsContext } from "@/context/courses/UserCoursesDialogsContext";
+import { CoursesState } from "@/hooks/courses/useCourses";
 import { SessionRole } from "@/hooks/useSession";
 import { getInvitationCodeService } from "@/services/courses/get-invitation-code.service";
 import { toggleCourseVisibilityService } from "@/services/courses/toggle-course-visibility.service";
 import { Course } from "@/types/entities/general-entities";
 import { copyToClipboard } from "@/utils/utils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   ClipboardCopy,
   Eye,
@@ -30,10 +31,65 @@ interface CourseDropDownProps {
 }
 
 export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
-  const { userCoursesDispatcher, openRenameCourseDialog } =
-    useContext(UserCoursesContext);
+  const { openRenameCourseDialog } = useContext(UserCoursesDialogsContext);
+
   const { user } = useContext(AuthContext);
   const role = user?.role || "student";
+
+  // Courses mutations
+  const queryClient = useQueryClient();
+  const { mutate: toggleCourseVisibilityMutation } = useMutation({
+    mutationFn: toggleCourseVisibilityService,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      const { visible } = data;
+
+      // Show a success toast
+      toast.success(
+        visible ? "Course shown successfully" : "Course hidden successfully"
+      );
+
+      // Update courses query
+      queryClient.setQueryData<CoursesState>(
+        ["courses"],
+        (oldData: CoursesState | undefined) => {
+          if (!oldData) return oldData;
+
+          if (visible) {
+            // Remove the course from the hidden courses list
+            const hiddenCourses = oldData.hiddenCourses.filter(
+              (hiddenCourse) => hiddenCourse.uuid != course.uuid
+            );
+
+            // Add the course to the courses list
+            const courses = [...oldData.courses, course];
+
+            return {
+              ...oldData,
+              courses,
+              hiddenCourses
+            };
+          } else {
+            // Remove the course from the courses list
+            const courses = oldData.courses.filter(
+              (visibleCourse) => visibleCourse.uuid != course.uuid
+            );
+
+            // Add the course to the hidden courses list
+            const hiddenCourses = [...oldData.hiddenCourses, course];
+
+            return {
+              ...oldData,
+              courses,
+              hiddenCourses
+            };
+          }
+        }
+      );
+    }
+  });
 
   const getDropdownOptionsByRole = (role: SessionRole) => {
     if (role == "teacher") {
@@ -58,6 +114,7 @@ export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
     const { success, ...response } = await getInvitationCodeService(
       course.uuid
     );
+
     if (!success) {
       toast.error(response.message);
       return;
@@ -76,41 +133,9 @@ export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
     }
   };
 
-  const hideCourse = async () => {
-    const { success, message, visible } = await toggleCourseVisibilityService(
-      course.uuid
-    );
-    if (!success || visible) {
-      toast.error(message);
-      return;
-    }
+  const hideCourse = () => toggleCourseVisibilityMutation(course.uuid);
 
-    toast.success(message);
-    userCoursesDispatcher({
-      type: CoursesActionType.HIDE_COURSE,
-      payload: {
-        uuid: course.uuid
-      }
-    });
-  };
-
-  const showCourse = async () => {
-    const { success, message, visible } = await toggleCourseVisibilityService(
-      course.uuid
-    );
-    if (!success || !visible) {
-      toast.error(message);
-      return;
-    }
-
-    toast.success(message);
-    userCoursesDispatcher({
-      type: CoursesActionType.SHOW_COURSE,
-      payload: {
-        uuid: course.uuid
-      }
-    });
-  };
+  const showCourse = () => toggleCourseVisibilityMutation(course.uuid);
 
   return (
     <DropdownMenu>

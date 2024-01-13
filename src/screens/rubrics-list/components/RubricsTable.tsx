@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 interface rubricsTableProps {
   isLoading: boolean;
-  rubrics: CreatedRubric[];
+  rubrics: CreatedRubric[] | undefined;
 }
 
 export const RubricsTable = ({ isLoading, rubrics }: rubricsTableProps) => {
@@ -38,7 +38,7 @@ export const RubricsTable = ({ isLoading, rubrics }: rubricsTableProps) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {rubrics.length ? (
+          {rubrics?.length ? (
             rubrics.map((rubric) => (
               <TableRow key={rubric.uuid}>
                 <TableCell className="line-clamp-1">{rubric.name}</TableCell>

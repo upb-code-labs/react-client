@@ -1,31 +1,27 @@
 import { AxiosError } from "axios";
 
-import { GenericResponse, HttpRequester } from "../axios";
+import { HttpRequester } from "../axios";
 
-export const updateObjectiveService = async (
+export async function updateObjectiveService(
   objectiveUUID: string,
   description: string
-): Promise<GenericResponse> => {
+): Promise<void> {
+  const { axios } = HttpRequester.getInstance();
+
   try {
-    const { axios } = HttpRequester.getInstance();
     await axios.put(`/rubrics/objectives/${objectiveUUID}`, {
       description
     });
-    return {
-      success: true,
-      message: "The objective has been updated successfully"
-    };
   } catch (error) {
-    let errorMessage = "There was an error";
+    const DEFAULT_ERROR_MESSAGE = "There was an error updating the objective";
 
+    // Try to get the error from the response
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
-      if (message) errorMessage = message;
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
 
-    return {
-      success: false,
-      message: errorMessage
-    };
+    throw new Error(errorMessage);
   }
-};
+}

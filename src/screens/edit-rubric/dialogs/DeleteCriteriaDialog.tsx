@@ -10,10 +10,18 @@ import {
 } from "@/components/ui/alert-dialog";
 import { deleteCriteriaService } from "@/services/rubrics/delete-criteria.service";
 import { useEditRubricModalsStore } from "@/stores/edit-rubric-modals-store";
-import { useEditRubricStore } from "@/stores/edit-rubric-store";
+import { Rubric } from "@/types/entities/rubric-entities";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-export const DeleteCriteriaDialog = () => {
+interface DeleteCriteriaDialogProps {
+  rubricUUID: string;
+}
+
+export const DeleteCriteriaDialog = ({
+  rubricUUID
+}: DeleteCriteriaDialogProps) => {
+  // Dialog state
   const {
     isDeleteCriteriaModalOpen,
     setIsDeleteCriteriaModalOpen,
@@ -21,26 +29,42 @@ export const DeleteCriteriaDialog = () => {
     setSelectedCriteriaUUID
   } = useEditRubricModalsStore();
 
-  const { deleteCriteria } = useEditRubricStore();
+  // Delete criteria mutation
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteCriteriaMutation } = useMutation({
+    mutationFn: (criteriaUUID: string) => deleteCriteriaService(criteriaUUID),
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (_ctx, criteriaUUID: string) => {
+      // Show a success toast
+      toast.success("Criteria deleted successfully");
+
+      // Update rubric query
+      queryClient.setQueryData(["rubric", rubricUUID], (oldData: Rubric) => {
+        return {
+          ...oldData,
+          objectives: oldData.objectives?.map((objective) => {
+            return {
+              ...objective,
+              criteria: objective.criteria?.filter(
+                (criteria) => criteria.uuid !== criteriaUUID
+              )
+            };
+          })
+        };
+      });
+
+      // Update modals state
+      handleCloseDialog();
+    }
+  });
 
   if (!selectedCriteriaUUID) return null;
 
-  const handleCancel = () => {
-    setSelectedCriteriaUUID(undefined);
-  };
-
-  const handleProceed = async () => {
-    // Send request to delete criteria
-    const { success, message } =
-      await deleteCriteriaService(selectedCriteriaUUID);
-    if (!success) {
-      toast.error(message);
-      return;
-    }
-
-    // Update modal state and show confirmation alert
-    toast.success(message);
-    deleteCriteria(selectedCriteriaUUID);
+  const handleCloseDialog = () => {
+    setIsDeleteCriteriaModalOpen(false);
     setSelectedCriteriaUUID(undefined);
   };
 
@@ -60,8 +84,14 @@ export const DeleteCriteriaDialog = () => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleCancel}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleProceed}>Proceed</AlertDialogAction>
+          <AlertDialogCancel onClick={handleCloseDialog}>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={() => deleteCriteriaMutation(selectedCriteriaUUID)}
+          >
+            Proceed
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

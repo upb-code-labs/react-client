@@ -1,6 +1,6 @@
-import { getRubricByUuidService } from "@/services/rubrics/get-rubric-by-uuid.service";
-import { useEditRubricStore } from "@/stores/edit-rubric-store";
-import { Suspense, useEffect, useState } from "react";
+import { getRubricByUUIDService } from "@/services/rubrics/get-rubric-by-uuid.service";
+import { useQuery } from "@tanstack/react-query";
+import { Suspense } from "react";
 import { lazily } from "react-lazily";
 import { Navigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -17,52 +17,52 @@ const { ObjectiveRow } = lazily(() => import("./components/ObjectiveRow"));
 
 export const EditRubricView = () => {
   // Get rubric UUID from URL
-  const id = useParams<{ id: string }>().id as string;
+  const id = useParams<{ rubricUUID: string }>().rubricUUID as string;
 
-  // Rubric global state
-  const { rubric, setRubric, resetRubric } = useEditRubricStore();
-  const [loading, setLoading] = useState(false);
+  // Data fetching state
+  const {
+    data: rubric,
+    isLoading: isLoadingRubric,
+    isError: isRubricError,
+    error: rubricError
+  } = useQuery({
+    queryKey: ["rubric", id],
+    queryFn: () => getRubricByUUIDService(id)
+  });
 
-  useEffect(() => {
-    const fetchRubric = async () => {
-      resetRubric();
-      setLoading(true);
-
-      const { success, message, rubric } = await getRubricByUuidService(id);
-      if (!success) {
-        handleError(message);
-        return;
-      }
-
-      setRubric(rubric);
-      setLoading(false);
-    };
-
-    fetchRubric();
-  }, []);
-
-  const handleError = (message: string) => {
-    toast.error(message);
+  // Handle error state
+  if (isRubricError) {
+    toast.error(rubricError.message);
     return <Navigate to="/rubrics" />;
-  };
+  }
 
-  if (loading) return <RubricSkeleton />;
+  if (isLoadingRubric) {
+    return <RubricSkeleton />;
+  }
 
-  if (!rubric?.uuid) return null;
+  if (!rubric) {
+    // TODO: Show an error component if the rubric is not loading and is undefined
+    return null;
+  }
 
   return (
     <main className="mx-auto max-w-7xl space-y-4 p-4">
       <Suspense fallback={<RubricNameSkeleton />}>
-        <RubricName />
+        <RubricName rubric={rubric} />
       </Suspense>
       {rubric.objectives?.map((objective, oi) => (
         <Suspense key={`${objective.uuid}-skeleton`}>
-          <ObjectiveRow key={objective.uuid} objective={objective} index={oi} />
+          <ObjectiveRow
+            key={objective.uuid}
+            rubricUUID={id}
+            objective={objective}
+            objectiveIndex={oi}
+          />
         </Suspense>
       ))}
-      <AddObjectiveDialog />
-      <DeleteCriteriaDialog />
-      <DeleteObjectiveDialog />
+      <AddObjectiveDialog rubricUUID={id} />
+      <DeleteCriteriaDialog rubricUUID={id} />
+      <DeleteObjectiveDialog rubricUUID={id} />
     </main>
   );
 };

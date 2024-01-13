@@ -2,36 +2,22 @@ import { AxiosError } from "axios";
 
 import { HttpRequester } from "../axios";
 
-export type CreateRubricResponse = {
-  uuid: string;
-  success: boolean;
-  message: string;
-};
-
-export const createRubricService = async (
-  name: string
-): Promise<CreateRubricResponse> => {
+export async function createRubricService(name: string): Promise<string> {
   const { axios } = HttpRequester.getInstance();
 
   try {
     const { data } = await axios.post("/rubrics", { name });
-    return {
-      uuid: data.uuid,
-      success: true,
-      message: "Rubric was created successfully"
-    };
+    return data.uuid;
   } catch (error) {
-    let errorMessage = "There was an error";
+    const DEFAULT_ERROR_MESSAGE = "There was an error creating the rubric";
 
+    // Try to get the error from the response
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
-      if (message) errorMessage = message;
+      errorMessage = message || DEFAULT_ERROR_MESSAGE;
     }
 
-    return {
-      uuid: "",
-      success: false,
-      message: errorMessage
-    };
+    throw new Error(errorMessage);
   }
-};
+}

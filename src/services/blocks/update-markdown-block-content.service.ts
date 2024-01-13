@@ -1,38 +1,32 @@
 import { AxiosError } from "axios";
 
-import { GenericResponse, HttpRequester } from "../axios";
+import { HttpRequester } from "../axios";
 
 type updateMarkdownBlockContentParams = {
   markdownBlockUUID: string;
   content: string;
 };
 
-export const updateMarkdownBlockContentService = async ({
+export async function updateMarkdownBlockContentService({
   markdownBlockUUID,
   content
-}: updateMarkdownBlockContentParams): Promise<GenericResponse> => {
+}: updateMarkdownBlockContentParams): Promise<void> {
   const { axios } = HttpRequester.getInstance();
 
   try {
     await axios.patch(`/blocks/markdown_blocks/${markdownBlockUUID}/content`, {
       content
     });
-
-    return {
-      success: true,
-      message: "The markdown block has been updated successfully"
-    };
   } catch (error) {
-    let errorMessage = "There was an error updating the markdown block";
+    const DEFAULT_ERROR_MESSAGE =
+      "There was an error updating the markdown block";
+    let errorMessage = DEFAULT_ERROR_MESSAGE;
 
     if (error instanceof AxiosError) {
       const { message } = error.response?.data || "";
       if (message) errorMessage = message;
     }
 
-    return {
-      success: false,
-      message: errorMessage
-    };
+    throw new Error(errorMessage);
   }
-};
+}

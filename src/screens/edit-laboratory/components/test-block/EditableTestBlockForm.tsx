@@ -21,9 +21,10 @@ import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTyp
 import { updateTestBlockService } from "@/services/blocks/update-test-block.service";
 import { getSupportedLanguagesService } from "@/services/languages/get-supported-languages.service";
 import { useSupportedLanguagesStore } from "@/stores/supported-languages-store";
-import { TestBlock } from "@/types/entities/laboratory-entities";
+import { Laboratory, TestBlock } from "@/types/entities/laboratory-entities";
 import { downloadLanguageTemplate } from "@/utils/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DownloadIcon } from "lucide-react";
 import { useContext, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
@@ -62,8 +63,13 @@ export const EditableTestBlockForm = ({
   testBlock,
   blockIndex
 }: EditableTestBlockFormProps) => {
-  const { laboratoryStateDispatcher } = useContext(EditLaboratoryContext);
+  // Global laboratory state
+  const { laboratoryStateDispatcher, laboratoryState } = useContext(
+    EditLaboratoryContext
+  );
+  const { laboratory } = laboratoryState;
 
+  // Global languages sate
   const { supportedLanguages, setSupportedLanguages, getLanguageNameByUUID } =
     useSupportedLanguagesStore();
 
@@ -86,6 +92,7 @@ export const EditableTestBlockForm = ({
     }
   }, []);
 
+  // Form state
   const form = useForm<z.infer<typeof EditableTestBlockFormScheme>>({
     resolver: zodResolver(EditableTestBlockFormScheme),
     defaultValues: {
@@ -97,6 +104,7 @@ export const EditableTestBlockForm = ({
 
   const formRef = useRef<HTMLFormElement>(null);
 
+  // Save real-time changes to the global state
   const handleChange = (data: z.infer<typeof EditableTestBlockFormScheme>) => {
     const { name, languageUUID } = data;
 
@@ -110,30 +118,57 @@ export const EditableTestBlockForm = ({
     });
   };
 
+  // Update test block mutation
+  const queryClient = useQueryClient();
+  const { mutate: updateTestBlockMutation } = useMutation({
+    mutationFn: updateTestBlockService,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (_, { blockUUID, blockName, blockLanguageUUID }) => {
+      // Update the global laboratory state
+      laboratoryStateDispatcher({
+        type: EditLaboratoryActionType.UPDATE_TEST_BLOCK,
+        payload: {
+          ...testBlock,
+          name: blockName,
+          languageUUID: blockLanguageUUID
+        }
+      });
+
+      // Show success message
+      toast.success("The test block has been updated successfully");
+
+      // Update the laboratory query
+      queryClient.setQueryData(
+        ["laboratory", laboratory!.uuid],
+        (oldData: Laboratory) => {
+          return {
+            ...oldData,
+            blocks: oldData.blocks.map((b) => {
+              if (b.uuid !== blockUUID) return b;
+
+              return {
+                ...b,
+                name: blockName,
+                languageUUID: blockLanguageUUID
+              };
+            })
+          };
+        }
+      );
+    }
+  });
+
   const handleSubmit = async (
     data: z.infer<typeof EditableTestBlockFormScheme>
   ) => {
-    const { success, message } = await updateTestBlockService({
+    updateTestBlockMutation({
       blockUUID: testBlock.uuid,
-      blockLanguageUUID: data.languageUUID,
       blockName: data.name,
+      blockLanguageUUID: data.languageUUID,
       blockTestArchive: data.testFile
     });
-
-    if (!success) {
-      toast.error(message);
-      return;
-    }
-
-    laboratoryStateDispatcher({
-      type: EditLaboratoryActionType.UPDATE_TEST_BLOCK,
-      payload: {
-        ...testBlock,
-        name: data.name,
-        languageUUID: data.languageUUID
-      }
-    });
-    toast.success(message);
   };
 
   const handleDownloadLanguageTemplate = () => {

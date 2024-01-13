@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { addObjectiveService } from "@/services/rubrics/add-objective.service";
-import { useEditRubricStore } from "@/stores/edit-rubric-store";
+import { Rubric } from "@/types/entities/rubric-entities";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -33,11 +34,8 @@ export const AddObjectiveForm = ({
   rubricUUID,
   closeDialogCallback
 }: AddObjectiveFormProps) => {
-  // Rubric global state
-  const { addObjective } = useEditRubricStore();
-
   // Form state
-  const [loading, setLoading] = useState(false);
+  const [isAddingObjective, setIsAddingObjective] = useState(false);
   const form = useForm<z.infer<typeof ObjectiveSchema>>({
     resolver: zodResolver(ObjectiveSchema),
     defaultValues: {
@@ -45,26 +43,47 @@ export const AddObjectiveForm = ({
     }
   });
 
-  const onSubmit = async (data: z.infer<typeof ObjectiveSchema>) => {
-    setLoading(true);
-    await handleAddObjective(data.description);
-    setLoading(false);
-  };
+  // Add objective mutation
+  const queryClient = useQueryClient();
+  const { mutate: addObjectiveMutation } = useMutation({
+    mutationFn: (description: string) =>
+      addObjectiveService(rubricUUID, description),
+    onMutate: (description: string) => {
+      setIsAddingObjective(true);
+      // Forwards the description to the following callbacks
+      return description;
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (newObjectiveUUID: string, description: string) => {
+      // Show a success toast
+      toast.success("Objective added successfully");
 
-  const handleAddObjective = async (description: string) => {
-    const { success, message, uuid } = await addObjectiveService(
-      rubricUUID,
-      description
-    );
+      // Update rubric query
+      queryClient.setQueryData(["rubric", rubricUUID], (oldData: Rubric) => {
+        const newObjective = {
+          uuid: newObjectiveUUID,
+          description,
+          criteria: []
+        };
 
-    if (!success) {
-      toast.error(message);
-      return;
+        return {
+          ...oldData,
+          objectives: [...oldData.objectives, newObjective]
+        };
+      });
+
+      // Update modals state
+      closeDialogCallback();
+    },
+    onSettled: () => {
+      setIsAddingObjective(false);
     }
+  });
 
-    addObjective({ uuid, description, criteria: [] });
-    toast.success("The objective has been added!");
-    closeDialogCallback();
+  const onSubmit = (data: z.infer<typeof ObjectiveSchema>) => {
+    addObjectiveMutation(data.description);
   };
 
   return (
@@ -93,7 +112,7 @@ export const AddObjectiveForm = ({
           )}
         ></FormField>
         <DialogFooter>
-          <Button type="submit" isLoading={loading}>
+          <Button type="submit" isLoading={isAddingObjective}>
             Create
           </Button>
         </DialogFooter>

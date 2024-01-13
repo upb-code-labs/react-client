@@ -1,18 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { EnrolledStudent } from "@/types/entities/general-entities";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { PlusCircle } from "lucide-react";
 
 import { EnrollStudentForm } from "./EnrollStudentForm";
 
-interface EnrollStudentDialogProps {
-  addStudentCallback: (student: EnrolledStudent) => void;
-}
-
-export const EnrollStudentDialog = ({
-  addStudentCallback
-}: EnrollStudentDialogProps) => {
+export const EnrollStudentDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -27,7 +20,7 @@ export const EnrollStudentDialog = ({
           Search for a student by their full name and click on the result to
           enroll them in this course.
         </DialogDescription>
-        <EnrollStudentForm addStudentCallback={addStudentCallback} />
+        <EnrollStudentForm />
       </DialogContent>
     </Dialog>
   );
