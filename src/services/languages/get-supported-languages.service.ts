@@ -7,6 +7,7 @@ type createMarkdownBlockResponse = GenericResponse & {
   languages: Language[];
 };
 
+// TODO: Refactor to be compatible with TanStack Query
 export const getSupportedLanguagesService =
   async (): Promise<createMarkdownBlockResponse> => {
     const { axios } = HttpRequester.getInstance();
