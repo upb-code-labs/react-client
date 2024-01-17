@@ -110,4 +110,33 @@ test.describe.serial("Student registration", () => {
     await page.getByRole("link", { name: "Logout", exact: true }).click();
     await page.waitForURL(/\/login$/);
   });
+
+  test("Student can update their profile", async ({ page }) => {
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(newStudentEmail);
+    await page.getByLabel("Password").fill(getDefaultPassword());
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    await page.waitForURL(/\/courses$/);
+
+    // Navigate to the profile view
+    await page.getByRole("link", { name: "Profile", exact: true }).click();
+    await page.waitForURL(/\/profile$/);
+
+    // Update the profile
+    const newName = getRandomName();
+    const newEmail = getRandomEmail();
+    const newID = getRandomUniversityID();
+
+    await page.getByLabel("Full name").fill(newName);
+    await page.getByLabel("Email").fill(newEmail);
+    await page.getByLabel("Institutional ID").fill(newID);
+    await page.getByLabel("Password confirmation").fill(getDefaultPassword());
+    await page.getByRole("button", { name: "Update" }).click();
+
+    // Assert the alert is shown
+    await expect(
+      page.getByText("Your profile has been updated successfully")
+    ).toBeVisible();
+  });
 });
