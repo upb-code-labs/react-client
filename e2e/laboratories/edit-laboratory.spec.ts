@@ -200,15 +200,18 @@ test.describe.serial("Edit laboratory workflow", () => {
     await javaOption.click();
 
     // Assert the teacher can download the template
-    const downloadButton = addTestBlockModal.getByRole("button", {
-      name: "Download template"
-    });
-    await expect(downloadButton).toBeVisible();
+    const languageTemplateDownloadButton = addTestBlockModal.getByRole(
+      "button",
+      {
+        name: "Download template"
+      }
+    );
+    await expect(languageTemplateDownloadButton).toBeVisible();
 
     // Assert the template is downloaded
     const downloadPromise = page.waitForEvent("download");
 
-    await downloadButton.click();
+    await languageTemplateDownloadButton.click();
     const download = await downloadPromise;
     await download.saveAs(join(__dirname, "data", "java-downloaded.zip"));
 
@@ -247,6 +250,23 @@ test.describe.serial("Edit laboratory workflow", () => {
     const blockLanguageDownloadEvent = await blockLanguageDownloadPromise;
     await blockLanguageDownloadEvent.saveAs(
       join(__dirname, "data", "java-downloaded.zip")
+    );
+
+    // Assert teachers can download the tests archive from the test block
+    const blockTestsArchiveDownloadButton = page.getByLabel(
+      "Download tests archive for block number 1"
+    );
+    await expect(blockTestsArchiveDownloadButton).toBeVisible();
+
+    // Assert the tests archive is downloaded
+    const blockTestsArchiveDownloadPromise = page.waitForEvent("download");
+
+    await blockTestsArchiveDownloadButton.click();
+
+    const blockTestsArchiveDownloadEvent =
+      await blockTestsArchiveDownloadPromise;
+    await blockTestsArchiveDownloadEvent.saveAs(
+      join(__dirname, "data", `${testBlockName}.zip`)
     );
 
     // ## Edit the test block
