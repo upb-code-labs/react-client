@@ -83,7 +83,7 @@ test.describe.serial("Student registration", () => {
     await page.getByRole("button", { name: "Submit" }).click();
 
     // Assert the wrong credentials alert is shown
-    await expect(page.getByText("Invalid credentials")).toBeVisible();
+    await expect(page.getByText("Credentials are wrong")).toBeVisible();
 
     // Fill the form with the correct credentials
     await page.getByLabel("Password").fill(getDefaultPassword());
