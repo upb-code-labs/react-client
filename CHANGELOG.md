@@ -1,3 +1,12 @@
+# [0.43.0](https://github.com/upb-code-labs/react-client/compare/v0.42.0...v0.43.0) (2024-01-17)
+
+
+### Features
+
+* Update password ([#255](https://github.com/upb-code-labs/react-client/issues/255)) ([ad92b51](https://github.com/upb-code-labs/react-client/commit/ad92b515fc1d91cbd085bf6cc475b0d64e0b7900))
+
+
+
 # [0.42.0](https://github.com/upb-code-labs/react-client/compare/v0.41.0...v0.42.0) (2024-01-17)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Delete rubric ([#240](https://github.com/upb-code-labs/react-client/issues/240)) ([53a0984](https://github.com/upb-code-labs/react-client/commit/53a0984a8182ce747f956f270c88a7a5e7f7ff00))
-
-
-
-# [0.38.0](https://github.com/upb-code-labs/react-client/compare/v0.37.0...v0.38.0) (2024-01-13)
-
-
-### Features
-
-* Custom error component ([#237](https://github.com/upb-code-labs/react-client/issues/237)) ([56d5733](https://github.com/upb-code-labs/react-client/commit/56d57331c02e0798b06cce2912203065d4d8b589))
 
 
 
