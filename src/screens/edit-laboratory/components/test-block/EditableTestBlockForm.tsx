@@ -292,7 +292,9 @@ export const EditableTestBlockForm = ({
                     </FormControl>
                     <Button
                       type="button"
-                      aria-label={`Download current test archive for block ${blockIndex}`}
+                      aria-label={`Download tests archive for block number ${
+                        blockIndex + 1
+                      }`}
                       onClick={handleDownloadTestsArchive}
                     >
                       <DownloadIcon size={20} />
