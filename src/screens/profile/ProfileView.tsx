@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+import { UpdatePasswordForm } from "./components/UpdatePasswordForm";
 import { UpdateProfile } from "./components/UpdateProfile";
 
 export const ProfileView = () => {
@@ -19,7 +20,7 @@ export const ProfileView = () => {
             <UpdateProfile />
           </TabsContent>
           <TabsContent value="update-password">
-            <p>Password</p>
+            <UpdatePasswordForm />
           </TabsContent>
         </Tabs>
       </main>
