@@ -13,6 +13,7 @@ import { CourseParticipants } from "@/screens/course-page/participants/CoursePar
 import { CoursesHome } from "@/screens/courses-list/CoursesHome";
 import { EditLaboratory } from "@/screens/edit-laboratory/EditLaboratory";
 import { EditRubricView } from "@/screens/edit-rubric/EditRubricView";
+import { ProfileView } from "@/screens/profile/ProfileView";
 import { RubricsHome } from "@/screens/rubrics-list/RubricsHome";
 import { FormContainer } from "@/screens/session/FormContainer";
 import { Login } from "@/screens/session/login/Login";
@@ -85,6 +86,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             element={
               <AuthMiddleware mustBeLoggedIn roles={["admin"]}>
                 <FormContainer form={<RegisterTeacherForm />} />
+              </AuthMiddleware>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <AuthMiddleware mustBeLoggedIn>
+                <ProfileView />
               </AuthMiddleware>
             }
           />
