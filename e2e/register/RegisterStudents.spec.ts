@@ -28,7 +28,7 @@ test("The fields are validated", async ({ page }) => {
 });
 
 test.describe.serial("Student registration", () => {
-  const newStudentEmail = getRandomEmail();
+  let newStudentEmail = getRandomEmail();
   const newStudentID = getRandomUniversityID();
 
   test("An student can register", async ({ page, baseURL }) => {
@@ -138,5 +138,49 @@ test.describe.serial("Student registration", () => {
     await expect(
       page.getByText("Your profile has been updated successfully")
     ).toBeVisible();
+
+    newStudentEmail = newEmail;
+  });
+
+  test("Students can update their password", async ({ page }) => {
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(newStudentEmail);
+    await page.getByLabel("Password").fill(getDefaultPassword());
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    await page.waitForURL(/\/courses$/);
+
+    // Navigate to the profile view
+    await page.getByRole("link", { name: "Profile", exact: true }).click();
+    await page.waitForURL(/\/profile$/);
+
+    // Select the tab to change the password
+    await page.getByRole("tab", { name: "Change password" }).click();
+
+    // Change the password
+    await page.getByLabel("Current password").fill(getDefaultPassword());
+
+    const newPassword = getDefaultPassword() + "/*updated*/";
+    await page.getByLabel("New password", { exact: true }).fill(newPassword);
+    await page
+      .getByLabel("Confirm new password", { exact: true })
+      .fill(newPassword);
+
+    await page.getByRole("button", { name: "Update" }).click();
+
+    // Assert the alert is shown
+    await expect(
+      page.getByText("Your password has been updated")
+    ).toBeVisible();
+
+    // Logout
+    await page.getByRole("link", { name: "Logout", exact: true }).click();
+    await page.waitForURL(/\/login$/);
+
+    // Login with the new password
+    await page.getByLabel("Email").fill(newStudentEmail);
+    await page.getByLabel("Password").fill(newPassword);
+    await page.getByRole("button", { name: "Submit" }).click();
+    await page.waitForURL(/\/courses$/);
   });
 });
