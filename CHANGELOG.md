@@ -1,3 +1,12 @@
+# [0.44.0](https://github.com/upb-code-labs/react-client/compare/v0.43.0...v0.44.0) (2024-01-17)
+
+
+### Features
+
+* Swap the index of two blocks ([#256](https://github.com/upb-code-labs/react-client/issues/256)) ([842114e](https://github.com/upb-code-labs/react-client/commit/842114e4017978869c3a1a4b77e190332436f440))
+
+
+
 # [0.43.0](https://github.com/upb-code-labs/react-client/compare/v0.42.0...v0.43.0) (2024-01-17)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Toggle enrolled students status ([#241](https://github.com/upb-code-labs/react-client/issues/241)) ([cd5c754](https://github.com/upb-code-labs/react-client/commit/cd5c7541c254597852aadfe3f96a1a13c156f871))
-
-
-
-# [0.39.0](https://github.com/upb-code-labs/react-client/compare/v0.38.0...v0.39.0) (2024-01-13)
-
-
-### Features
-
-* Delete rubric ([#240](https://github.com/upb-code-labs/react-client/issues/240)) ([53a0984](https://github.com/upb-code-labs/react-client/commit/53a0984a8182ce747f956f270c88a7a5e7f7ff00))
 
 
 
