@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
-const updatePasswordSchema = z
+const changePasswordSchema = z
   .object({
     oldPassword: z.string().min(1, "Required"),
     newPassword: z
@@ -33,11 +33,11 @@ const updatePasswordSchema = z
     path: ["newPasswordConfirm"]
   });
 
-export const UpdatePasswordForm = () => {
+export const ChangePasswordForm = () => {
   // Form state
   const [isUpdating, setIsUpdating] = useState(false);
-  const form = useForm<z.infer<typeof updatePasswordSchema>>({
-    resolver: zodResolver(updatePasswordSchema),
+  const form = useForm<z.infer<typeof changePasswordSchema>>({
+    resolver: zodResolver(changePasswordSchema),
     defaultValues: {
       oldPassword: "",
       newPassword: "",
@@ -46,7 +46,7 @@ export const UpdatePasswordForm = () => {
   });
 
   // Form submit handler
-  const handleSubmit = async (data: z.infer<typeof updatePasswordSchema>) => {
+  const handleSubmit = async (data: z.infer<typeof changePasswordSchema>) => {
     setIsUpdating(true);
 
     await updatePassword(data);
@@ -55,7 +55,7 @@ export const UpdatePasswordForm = () => {
     setIsUpdating(false);
   };
 
-  const updatePassword = async (data: z.infer<typeof updatePasswordSchema>) => {
+  const updatePassword = async (data: z.infer<typeof changePasswordSchema>) => {
     const { success, message } = await updatePasswordService({
       old_password: data.oldPassword,
       new_password: data.newPassword

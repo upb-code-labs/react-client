@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { UpdatePasswordForm } from "./components/UpdatePasswordForm";
+import { ChangePasswordForm } from "./components/ChangePasswordForm";
 import { UpdateProfile } from "./components/UpdateProfile";
 
 export const ProfileView = () => {
@@ -12,15 +12,15 @@ export const ProfileView = () => {
             <TabsTrigger className="flex-grow" value="update-profile">
               Update profile
             </TabsTrigger>
-            <TabsTrigger className="flex-grow" value="update-password">
-              Update password
+            <TabsTrigger className="flex-grow" value="change-password">
+              Change password
             </TabsTrigger>
           </TabsList>
           <TabsContent value="update-profile">
             <UpdateProfile />
           </TabsContent>
-          <TabsContent value="update-password">
-            <UpdatePasswordForm />
+          <TabsContent value="change-password">
+            <ChangePasswordForm />
           </TabsContent>
         </Tabs>
       </main>

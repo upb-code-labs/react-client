@@ -49,8 +49,8 @@ export const UpdateProfile = () => {
       <span className="mx-auto my-4 grid aspect-square w-1/5 place-content-center rounded-md bg-purple-upb text-2xl font-bold text-white">
         {profile.full_name[0]}
       </span>
-      <UpdateProfileForm profile={profile} />
       {/* Form to update the information */}
+      <UpdateProfileForm profile={profile} />
     </div>
   );
 };
