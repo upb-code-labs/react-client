@@ -1,3 +1,12 @@
+# [0.42.0](https://github.com/upb-code-labs/react-client/compare/v0.41.0...v0.42.0) (2024-01-17)
+
+
+### Features
+
+* Update profile ([#254](https://github.com/upb-code-labs/react-client/issues/254)) ([1954d1d](https://github.com/upb-code-labs/react-client/commit/1954d1dfcd7f62d830829fa645bf3427734a3411))
+
+
+
 # [0.41.0](https://github.com/upb-code-labs/react-client/compare/v0.40.0...v0.41.0) (2024-01-17)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Custom error component ([#237](https://github.com/upb-code-labs/react-client/issues/237)) ([56d5733](https://github.com/upb-code-labs/react-client/commit/56d57331c02e0798b06cce2912203065d4d8b589))
-
-
-
-# [0.37.0](https://github.com/upb-code-labs/react-client/compare/v0.36.0...v0.37.0) (2024-01-12)
-
-
-### Features
-
-* Laboratory progress and statistics ([#232](https://github.com/upb-code-labs/react-client/issues/232)) ([52406a5](https://github.com/upb-code-labs/react-client/commit/52406a57c8474e8d9d2f5de10bb46ed3048fe8ab))
 
 
 
