@@ -1,3 +1,12 @@
+# [0.41.0](https://github.com/upb-code-labs/react-client/compare/v0.40.0...v0.41.0) (2024-01-17)
+
+
+### Features
+
+* Download tests archive ([#251](https://github.com/upb-code-labs/react-client/issues/251)) ([f99d4d1](https://github.com/upb-code-labs/react-client/commit/f99d4d10036be9224e5e2879377faca12e41068e))
+
+
+
 # [0.40.0](https://github.com/upb-code-labs/react-client/compare/v0.39.0...v0.40.0) (2024-01-13)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Laboratory progress and statistics ([#232](https://github.com/upb-code-labs/react-client/issues/232)) ([52406a5](https://github.com/upb-code-labs/react-client/commit/52406a57c8474e8d9d2f5de10bb46ed3048fe8ab))
-
-
-
-# [0.36.0](https://github.com/upb-code-labs/react-client/compare/v0.35.0...v0.36.0) (2024-01-09)
-
-
-### Features
-
-* Get submission status ([#227](https://github.com/upb-code-labs/react-client/issues/227)) ([feff79c](https://github.com/upb-code-labs/react-client/commit/feff79c31521fdeb2bb430fadc9671a10f048256))
 
 
 
