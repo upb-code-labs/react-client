@@ -9,6 +9,7 @@ import {
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
 import { deleteTestBlockService } from "@/services/blocks/delete-test-block.service";
+import { swapBlocksIndexService } from "@/services/blocks/swap-blocks-index.service";
 import { Laboratory } from "@/types/entities/laboratory-entities";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowDown, ArrowUp, MoreVertical, Save, Trash2 } from "lucide-react";
@@ -72,6 +73,84 @@ export const TestBlockDropDown = ({
     }
   });
 
+  // Move test block up mutation
+  const { mutate: moteTestBlockUpMutation } = useMutation({
+    mutationFn: swapBlocksIndexService,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess() {
+      const thisBlock = laboratory!.blocks[blockIndex];
+      const prevBlock = laboratory!.blocks[blockIndex - 1];
+
+      // Update the global laboratory state
+      laboratoryStateDispatcher({
+        type: EditLaboratoryActionType.SWAP_BLOCKS,
+        payload: {
+          uuid1: thisBlock.uuid,
+          uuid2: prevBlock.uuid
+        }
+      });
+
+      // Update the laboratory query
+      queryClient.setQueryData(
+        ["laboratory", laboratory!.uuid],
+        (oldData: Laboratory) => {
+          return {
+            ...oldData,
+            blocks: oldData.blocks.map((b) => {
+              if (b.uuid === thisBlock.uuid) return prevBlock;
+              if (b.uuid === prevBlock.uuid) return thisBlock;
+              return b;
+            })
+          };
+        }
+      );
+
+      // Show success message
+      toast.success("The test block has been moved up successfully");
+    }
+  });
+
+  // Move test block down mutation
+  const { mutate: moteTestBlockDownMutation } = useMutation({
+    mutationFn: swapBlocksIndexService,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess() {
+      const thisBlock = laboratory!.blocks[blockIndex];
+      const nextBlock = laboratory!.blocks[blockIndex + 1];
+
+      // Update the global laboratory state
+      laboratoryStateDispatcher({
+        type: EditLaboratoryActionType.SWAP_BLOCKS,
+        payload: {
+          uuid1: thisBlock.uuid,
+          uuid2: nextBlock.uuid
+        }
+      });
+
+      // Update the laboratory query
+      queryClient.setQueryData(
+        ["laboratory", laboratory!.uuid],
+        (oldData: Laboratory) => {
+          return {
+            ...oldData,
+            blocks: oldData.blocks.map((b) => {
+              if (b.uuid === thisBlock.uuid) return nextBlock;
+              if (b.uuid === nextBlock.uuid) return thisBlock;
+              return b;
+            })
+          };
+        }
+      );
+
+      // Show success message
+      toast.success("The test block has been moved down successfully");
+    }
+  });
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -85,11 +164,27 @@ export const TestBlockDropDown = ({
       <DropdownMenuContent>
         <DropdownMenuLabel>Block options</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          disabled={blockIndex === 0}
+          onClick={() =>
+            moteTestBlockUpMutation({
+              first_block_uuid: laboratory!.blocks[blockIndex - 1].uuid,
+              second_block_uuid: blockUUID
+            })
+          }
+        >
           <ArrowUp className="mr-2 aspect-square h-5" />
           Move up
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          disabled={blockIndex === laboratory!.blocks.length - 1}
+          onClick={() =>
+            moteTestBlockDownMutation({
+              first_block_uuid: blockUUID,
+              second_block_uuid: laboratory!.blocks[blockIndex + 1].uuid
+            })
+          }
+        >
           <ArrowDown className="mr-2 aspect-square h-5" />
           Move down
         </DropdownMenuItem>
