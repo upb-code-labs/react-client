@@ -32,6 +32,7 @@ import { Toaster } from "sonner";
 
 // Apply global styles
 import "./global.css";
+import { LaboratoryGrades } from "./screens/laboratory-grades/LaboratoryGrades";
 import { LaboratoryProgressView } from "./screens/laboratory-progress/LaboratoryProgressView";
 
 // Define query client
@@ -154,6 +155,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               element={
                 <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
                   <LaboratoryProgressView />
+                </AuthMiddleware>
+              }
+            />
+            <Route
+              path="laboratories/:laboratoryUUID/grades"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
+                  <LaboratoryGrades />
                 </AuthMiddleware>
               }
             />

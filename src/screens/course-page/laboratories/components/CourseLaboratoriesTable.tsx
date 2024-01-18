@@ -12,7 +12,12 @@ import { AuthContext } from "@/context/AuthContext";
 import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { BarChartBigIcon, BookOpenCheck, Edit } from "lucide-react";
+import {
+  BarChartBigIcon,
+  BookOpenCheck,
+  Edit,
+  GraduationCapIcon
+} from "lucide-react";
 import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -46,6 +51,13 @@ export const CourseLaboratoriesTable = ({
             to={`/courses/${courseUUID}/laboratories/${labInfo.uuid}/edit`}
           >
             <Edit className="mr-2" /> Edit
+          </Link>
+          <Link
+            className={buttonVariants({ variant: "default" })}
+            aria-label={`Go to ${labInfo.name} laboratory grades`}
+            to={`/courses/${courseUUID}/laboratories/${labInfo.uuid}/grades`}
+          >
+            <GraduationCapIcon className="mr-2" /> Grades
           </Link>
           <Link
             className={buttonVariants({ variant: "default" })}
