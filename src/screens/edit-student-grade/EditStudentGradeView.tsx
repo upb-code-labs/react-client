@@ -117,6 +117,12 @@ export const EditStudentGradeView = () => {
     );
   }
 
+  // Handle loading state
+  const isLoading =
+    isLoadingLabInfo || isLoadingRubric || isLoadingStudentGrade;
+
+  if (isLoading) return <p>Loading...</p>;
+
   // If the student grade is not loading but is undefined, return an error
   if (!studentGrade) {
     return handleViewError(
