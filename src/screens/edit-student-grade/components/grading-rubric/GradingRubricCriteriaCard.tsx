@@ -45,7 +45,8 @@ export const GradingRubricCriteriaCard = ({
     onMutate: async (args) => {
       // Cancel outgoing re-fetches
       await queryClient.cancelQueries({
-        queryKey: ["student-grade", laboratoryUUID, studentUUID]
+        queryKey: ["student-grade", laboratoryUUID, studentUUID],
+        exact: true
       });
 
       // Get the current value
@@ -145,7 +146,8 @@ export const GradingRubricCriteriaCard = ({
     onMutate: async (_) => {
       // Cancel outgoing re-fetches
       await queryClient.cancelQueries({
-        queryKey: ["student-grade", laboratoryUUID, studentUUID]
+        queryKey: ["student-grade", laboratoryUUID, studentUUID],
+        exact: true
       });
 
       // Get the current value
