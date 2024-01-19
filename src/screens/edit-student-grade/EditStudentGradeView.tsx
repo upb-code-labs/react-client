@@ -1,9 +1,4 @@
 import { CustomError } from "@/components/CustomError";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup
-} from "@/components/ui/resizable";
 import { getGradeOfStudentInLaboratoryService } from "@/services/grades/get-grade-of-student-in-laboratory.service";
 import { getLaboratoryInformationByUUIDService } from "@/services/laboratories/get-laboratory-information-by-uuid.service";
 import { getRubricByUUIDService } from "@/services/rubrics/get-rubric-by-uuid.service";
@@ -146,8 +141,8 @@ export const EditStudentGradeView = () => {
 
   return (
     <main className="col-span-3 flex gap-4">
-      <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel defaultSize={65} className="md:pr-4">
+      <div className="grid w-full gap-8 md:grid-cols-5">
+        <div className="md:col-span-3">
           <GradingRubric
             rubric={rubric}
             isLoading={isLoadingLabInfo || isLoadingRubric}
@@ -155,17 +150,16 @@ export const EditStudentGradeView = () => {
             laboratoryUUID={laboratoryUUID!}
             selectedCriteriaByObjective={selectedCriteriaByObjectiveMap}
           />
-        </ResizablePanel>
-        <ResizableHandle withHandle={true} />
-        <ResizablePanel defaultSize={35} maxSize={35}>
+        </div>
+        <div className="-order-1 md:order-1 md:col-span-2">
           <GradingSidebar
             laboratoryUUID={laboratoryUUID!}
             studentUUID={studentUUID!}
             studentGrade={studentGrade}
             isLoading={isLoadingLabInfo || isLoadingStudentGrade}
           />
-        </ResizablePanel>
-      </ResizablePanelGroup>
+        </div>
+      </div>
     </main>
   );
 };

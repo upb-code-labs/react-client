@@ -93,7 +93,10 @@ export const GradingForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="mx-auto max-w-xs space-y-4 md:max-w-full"
+      >
         <FormField
           control={form.control}
           name="grade"

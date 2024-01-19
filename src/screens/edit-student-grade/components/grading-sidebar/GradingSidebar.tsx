@@ -17,11 +17,11 @@ export const GradingSidebar = ({
   studentGrade
 }: gradingSidebarProps) => {
   // TODO: Use a proper loading component
-  if (isLoading) return <aside className="px-4">Loading...</aside>;
+  if (isLoading) return <aside>Loading...</aside>;
 
   return (
-    <aside className="px-4">
-      <Tabs defaultValue="grade">
+    <aside>
+      <Tabs defaultValue="grade" className="mx-auto max-w-xs md:max-w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="grade">Grade</TabsTrigger>
           <TabsTrigger value="submissions">Submissions</TabsTrigger>

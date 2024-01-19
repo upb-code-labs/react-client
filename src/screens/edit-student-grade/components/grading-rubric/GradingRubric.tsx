@@ -23,7 +23,7 @@ export const GradingRubric = ({
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex max-w-[calc(100vw-2rem)] flex-col gap-4">
       {rubric.objectives.map((objective, index) => (
         <GradingRubricRow
           key={`selectable-objective-row-${objective.uuid}`}
