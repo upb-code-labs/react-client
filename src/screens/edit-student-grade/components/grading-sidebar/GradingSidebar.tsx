@@ -28,6 +28,7 @@ export const GradingSidebar = ({
         </TabsList>
         <TabsContent value="grade">
           <GradingForm
+            key={studentGrade.grade}
             laboratoryUUID={laboratoryUUID}
             studentUUID={studentUUID}
             studentGrade={studentGrade}
