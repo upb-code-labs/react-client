@@ -8,6 +8,7 @@ interface SelectableRubricProps {
 }
 
 export const GradingRubric = ({ rubric, isLoading }: SelectableRubricProps) => {
+  // TODO: Use a proper loading component
   if (isLoading) {
     return <div>Loading rubric...</div>;
   }

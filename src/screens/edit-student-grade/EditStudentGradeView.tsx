@@ -109,12 +109,6 @@ export const EditStudentGradeView = () => {
     });
   }
 
-  // Handle loading state
-  if (isLoadingLabInfo || isLoadingStudentGrade || isLoadingRubric) {
-    // TODO: Replace with a loading component
-    return <div>Loading...</div>;
-  }
-
   // If the rubric is not loading but is undefined, return an error
   if (!rubric) {
     // TODO: Replace with a custom component
@@ -123,15 +117,34 @@ export const EditStudentGradeView = () => {
     );
   }
 
+  // If the student grade is not loading but is undefined, return an error
+  if (!studentGrade) {
+    return handleViewError(
+      new Error("We had an error loading the student grade"),
+      {
+        redirectURL: `/courses/${courseUUID}/laboratories/${laboratoryUUID}/grades`,
+        redirectText: "Go back to grades"
+      }
+    );
+  }
+
   return (
     <main className="col-span-3 flex gap-4">
       <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel defaultSize={60} className="md:pr-4">
-          <GradingRubric rubric={rubric} isLoading={isLoadingRubric} />
+        <ResizablePanel defaultSize={65} className="md:pr-4">
+          <GradingRubric
+            rubric={rubric}
+            isLoading={isLoadingLabInfo || isLoadingRubric}
+          />
         </ResizablePanel>
         <ResizableHandle withHandle={true} />
-        <ResizablePanel defaultSize={40}>
-          <GradingSidebar />
+        <ResizablePanel defaultSize={35} maxSize={35}>
+          <GradingSidebar
+            laboratoryUUID={laboratoryUUID!}
+            studentUUID={studentUUID!}
+            studentGrade={studentGrade}
+            isLoading={isLoadingLabInfo || isLoadingStudentGrade}
+          />
         </ResizablePanel>
       </ResizablePanelGroup>
     </main>
