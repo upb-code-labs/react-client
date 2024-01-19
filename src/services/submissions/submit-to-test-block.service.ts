@@ -24,7 +24,7 @@ export async function submitToTestBlockService({
 
     // Send the request
     const response = await axios.post(
-      `/submissions/${testBlockUUID}`,
+      `/submissions/test_blocks/${testBlockUUID}`,
       formData
     );
     return {
