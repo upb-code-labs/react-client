@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { NoRubricChosen } from "./components/NoRubricChosen";
 import { GradingRubric } from "./components/grading-rubric/GradingRubric";
 import { GradingSidebar } from "./components/grading-sidebar/GradingSidebar";
 
@@ -104,12 +105,9 @@ export const EditStudentGradeView = () => {
     });
   }
 
-  // If the rubric is not loading but is undefined, return an error
+  // If the rubric is not loading but is undefined, return the custom error component
   if (!rubric) {
-    // TODO: Replace with a custom component
-    return (
-      <p>Please create a rubric for this laboratory before grading students.</p>
-    );
+    return <NoRubricChosen />;
   }
 
   // Handle loading state
