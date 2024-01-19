@@ -1,4 +1,9 @@
 import { CustomError } from "@/components/CustomError";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup
+} from "@/components/ui/resizable";
 import { getGradeOfStudentInLaboratoryService } from "@/services/grades/get-grade-of-student-in-laboratory.service";
 import { getLaboratoryInformationByUUIDService } from "@/services/laboratories/get-laboratory-information-by-uuid.service";
 import { getRubricByUUIDService } from "@/services/rubrics/get-rubric-by-uuid.service";
@@ -120,10 +125,15 @@ export const EditStudentGradeView = () => {
 
   return (
     <main className="col-span-3 flex gap-4">
-      <section className="w-3/5 flex-grow pr-4">
-        <GradingRubric rubric={rubric} isLoading={isLoadingRubric} />
-      </section>
-      <GradingSidebar />
+      <ResizablePanelGroup direction="horizontal">
+        <ResizablePanel defaultSize={60} className="md:pr-4">
+          <GradingRubric rubric={rubric} isLoading={isLoadingRubric} />
+        </ResizablePanel>
+        <ResizableHandle withHandle={true} />
+        <ResizablePanel defaultSize={40}>
+          <GradingSidebar />
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </main>
   );
 };
