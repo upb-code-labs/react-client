@@ -21,7 +21,7 @@ export const GradingSidebar = ({
 
   return (
     <aside>
-      <Tabs defaultValue="grade" className="mx-auto max-w-xs md:max-w-full">
+      <Tabs defaultValue="grade" className="max-w-xs md:max-w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="grade">Grade</TabsTrigger>
           <TabsTrigger value="submissions">Submissions</TabsTrigger>
