@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -9,13 +9,16 @@ import {
 } from "@/components/ui/table";
 import { summarizedGradeDTO } from "@/services/grades/get-summarized-grades-in-laboratory.service";
 import { EditIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface LaboratoryGradesTableProps {
+  courseUUID: string;
   laboratoryUUID: string;
   grades: summarizedGradeDTO[];
 }
 
 export const LaboratoryGradesTable = ({
+  courseUUID,
   laboratoryUUID,
   grades
 }: LaboratoryGradesTableProps) => {
@@ -38,10 +41,14 @@ export const LaboratoryGradesTable = ({
                   {grade.grade ? grade.grade.toFixed(2) : "N/A"}
                 </TableCell>
                 <TableCell>
-                  <Button>
+                  <Link
+                    to={`/courses/${courseUUID}/laboratories/${laboratoryUUID}/students/${grade.student_uuid}/edit-grade`}
+                    aria-label={`Edit grade for student ${grade.student_full_name}`}
+                    className={buttonVariants({ variant: "default" })}
+                  >
                     <EditIcon className="mr-4" />
                     Edit
-                  </Button>
+                  </Link>
                 </TableCell>
               </TableRow>
             ))

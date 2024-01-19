@@ -45,7 +45,9 @@ export const LaboratoryGrades = () => {
   });
 
   // Join the two datasets
-  const studentsGradesMap = summarizedGrades?.grades.reduce(
+  // TODO: Check why the backend is returning null instead of an empty array
+  const summarizedGradesFallback = summarizedGrades?.grades || [];
+  const studentsGradesMap = summarizedGradesFallback.reduce(
     (acc, curr) => {
       acc[curr.student_uuid] = curr;
       return acc;
@@ -100,13 +102,14 @@ export const LaboratoryGrades = () => {
   }
 
   return (
-    <div className="col-span-3">
+    <main className="col-span-3">
       <Suspense fallback={loadingComponent}>
         <LaboratoryGradesTable
           grades={Object.values(studentsGradesMap!)}
+          courseUUID={courseUUID!}
           laboratoryUUID={laboratoryUUID!}
         />
       </Suspense>
-    </div>
+    </main>
   );
 };

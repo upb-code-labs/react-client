@@ -32,6 +32,7 @@ import { Toaster } from "sonner";
 
 // Apply global styles
 import "./global.css";
+import { EditStudentGradeView } from "./screens/edit-student-grade/EditStudentGradeView";
 import { LaboratoryGrades } from "./screens/laboratory-grades/LaboratoryGrades";
 import { LaboratoryProgressView } from "./screens/laboratory-progress/LaboratoryProgressView";
 
@@ -163,6 +164,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               element={
                 <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
                   <LaboratoryGrades />
+                </AuthMiddleware>
+              }
+            />
+            <Route
+              path="laboratories/:laboratoryUUID/students/:studentUUID/edit-grade"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
+                  <EditStudentGradeView />
                 </AuthMiddleware>
               }
             />
