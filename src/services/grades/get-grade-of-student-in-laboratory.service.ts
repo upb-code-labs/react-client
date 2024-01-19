@@ -2,9 +2,9 @@ import { AxiosError } from "axios";
 
 import { HttpRequester } from "../axios";
 
-type selectedCriteriaInGrade = {
+export type selectedCriteriaInGrade = {
   objective_uuid: string;
-  criteria_uuid: string;
+  criteria_uuid: string | null;
 };
 
 export type studentGradeResponse = {

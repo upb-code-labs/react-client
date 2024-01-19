@@ -128,6 +128,16 @@ export const EditStudentGradeView = () => {
     );
   }
 
+  // Map the selected criteria to their objectives
+  const selectedCriteriaByObjectiveMap: Record<string, string | null> =
+    studentGrade.selected_criteria.reduce(
+      (acc, criteria) => {
+        acc[criteria.objective_uuid] = criteria.criteria_uuid;
+        return acc;
+      },
+      {} as Record<string, string | null>
+    );
+
   return (
     <main className="col-span-3 flex gap-4">
       <ResizablePanelGroup direction="horizontal">
@@ -135,6 +145,9 @@ export const EditStudentGradeView = () => {
           <GradingRubric
             rubric={rubric}
             isLoading={isLoadingLabInfo || isLoadingRubric}
+            studentUUID={studentUUID!}
+            laboratoryUUID={laboratoryUUID!}
+            selectedCriteriaByObjective={selectedCriteriaByObjectiveMap}
           />
         </ResizablePanel>
         <ResizableHandle withHandle={true} />
