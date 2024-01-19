@@ -54,7 +54,7 @@ export const CourseLaboratoriesTable = ({
           </Link>
           <Link
             className={buttonVariants({ variant: "default" })}
-            aria-label={`Go to ${labInfo.name} laboratory grades`}
+            aria-label={`Go to the grades of ${labInfo.name}`}
             to={`/courses/${courseUUID}/laboratories/${labInfo.uuid}/grades`}
           >
             <GraduationCapIcon className="mr-2" /> Grades
