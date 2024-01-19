@@ -74,9 +74,10 @@ export const GradingRubricCriteriaCard = ({
             (c) => c.objective_uuid === objectiveUUID
           )!.criteria_uuid;
 
-          weightToSubtractFromStudentGrade = objectiveCriteriaList.find(
-            (c) => c.uuid === currentSelectedCriteriaUUID
-          )!.weight;
+          weightToSubtractFromStudentGrade =
+            objectiveCriteriaList.find(
+              (c) => c.uuid === currentSelectedCriteriaUUID
+            )?.weight || 0;
 
           // Update the UUID of the criteria that is currently selected for the objective
           updatedSelectedCriteriaList = currentSelectedCriteriaList.map((c) => {
