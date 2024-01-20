@@ -21,8 +21,6 @@ import { Logout } from "@/screens/session/logout/Logout";
 import { RegisterAdminForm } from "@/screens/session/register-admin/Form";
 import { RegisterStudentForm } from "@/screens/session/register-student/Form";
 import { RegisterTeacherForm } from "@/screens/session/register-teacher/Form";
-// Import fonts
-import "@fontsource/ibm-plex-mono/400.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Home } from "lucide-react";
@@ -32,6 +30,7 @@ import { Toaster } from "sonner";
 
 // Apply global styles
 import "./global.css";
+import { EditStudentGradeView } from "./screens/edit-student-grade/EditStudentGradeView";
 import { LaboratoryGrades } from "./screens/laboratory-grades/LaboratoryGrades";
 import { LaboratoryProgressView } from "./screens/laboratory-progress/LaboratoryProgressView";
 
@@ -163,6 +162,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               element={
                 <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
                   <LaboratoryGrades />
+                </AuthMiddleware>
+              }
+            />
+            <Route
+              path="laboratories/:laboratoryUUID/students/:studentUUID/edit-grade"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
+                  <EditStudentGradeView />
                 </AuthMiddleware>
               }
             />

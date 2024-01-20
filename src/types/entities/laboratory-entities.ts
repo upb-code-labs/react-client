@@ -44,3 +44,11 @@ export type StudentProgress = {
   failing_submissions: number;
   success_submissions: number;
 };
+
+export type laboratoryInformation = {
+  uuid: string;
+  rubric_uuid: string | null;
+  name: string;
+  opening_date: string;
+  due_date: string;
+};
