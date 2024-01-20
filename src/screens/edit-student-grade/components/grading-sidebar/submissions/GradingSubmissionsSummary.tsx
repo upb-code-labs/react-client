@@ -71,7 +71,7 @@ export const GradingSubmissionsSummary = ({
         {total_test_blocks} test blocks:
       </p>
       {submissions.length ? (
-        <ul>
+        <ul className="flex flex-col gap-4">
           {submissions.map((submission) => (
             <li key={submission.uuid}>
               <SubmissionSummaryCard summarizedSubmission={submission} />
