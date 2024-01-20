@@ -432,4 +432,65 @@ test.describe.serial("Grades workflow", () => {
     });
     await criteriaCard.click();
   });
+
+  test("Teacher can download student submissions", async ({ page }) => {
+    // Login as a teacher
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(teacherEmail);
+    await page.getByLabel("Password").fill(getDefaultPassword());
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Go to the course page
+    await page.getByRole("link", { name: courseName }).click();
+
+    // Go to the grades view of the laboratory
+    const laboratoryRow = page.getByRole("row", {
+      name: new RegExp(`^\\s*${laboratoryName}`),
+      exact: true
+    });
+
+    const laboratoryGradesButton = laboratoryRow.getByRole("link", {
+      name: `Go to the grades of ${laboratoryName}`,
+      exact: true
+    });
+    await laboratoryGradesButton.click();
+
+    // Go to the grade of the student
+    const studentRow = page.getByRole("row", {
+      name: new RegExp(`^\\s*${studentFullName}`),
+      exact: true
+    });
+
+    const editGradeButton = studentRow.getByRole("link", {
+      name: `Edit grade for student ${studentFullName}`,
+      exact: true
+    });
+
+    await editGradeButton.click();
+
+    // Click on the Submission tab
+    const submissionTab = page.getByRole("tab", {
+      name: "Submissions",
+      exact: true
+    });
+    await submissionTab.click();
+
+    // Assert the teacher can download the submission
+    const downloadButton = page.getByRole("button", {
+      name: `Download code sent by the student for the ${testBlockName} test block`,
+      exact: true
+    });
+    await expect(downloadButton).toBeVisible();
+
+    const downloadPromise = page.waitForEvent("download");
+
+    await downloadButton.click();
+    const download = await downloadPromise;
+    await download.saveAs(join(__dirname, "data", "downloaded-java-tests.zip"));
+
+    // Assert a toast is shown
+    await expect(
+      page.getByText("The submission archive has been downloaded successfully")
+    ).toBeVisible();
+  });
 });
