@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { summarizedStudentSubmission } from "@/services/laboratories/ger-progress-of-student.service";
-import { getSubmissionArchiveService } from "@/services/submissions/get-submission-archive.service";
-import { downloadBlob } from "@/utils/utils";
+import { downloadSubmissionArchive } from "@/utils/utils";
 import { DownloadIcon } from "lucide-react";
-import { toast } from "sonner";
 
 interface submissionSummaryCardProps {
   summarizedSubmission: summarizedStudentSubmission;
@@ -42,24 +40,11 @@ export const SubmissionSummaryCard = ({
 
   // Handlers
   const handleDownloadCode = async () => {
-    const { success, message, submissionArchive } =
-      await getSubmissionArchiveService(summarizedSubmission.uuid);
-
-    if (!success) {
-      toast.error(message);
-      return;
-    }
-
     const joinedBlockName = summarizedSubmission.test_block_name
       .replace(/\s/g, "_")
       .toLowerCase();
 
-    downloadBlob({
-      file: submissionArchive,
-      fileName: `${joinedBlockName}.zip`
-    });
-
-    toast.success("The code has been downloaded successfully");
+    downloadSubmissionArchive(summarizedSubmission.uuid, joinedBlockName);
   };
 
   return (

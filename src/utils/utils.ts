@@ -1,4 +1,5 @@
 import { downloadLanguageTemplateService } from "@/services/languages/download-language-template.service";
+import { getSubmissionArchiveService } from "@/services/submissions/get-submission-archive.service";
 import { submissionUpdate } from "@/types/entities/submission-entities";
 import { toast } from "sonner";
 
@@ -58,6 +59,26 @@ export async function downloadLanguageTemplate(
     file: template,
     fileName: `${languageName.toLowerCase()}-template.zip`
   });
+}
+
+export async function downloadSubmissionArchive(
+  submissionUUID: string,
+  fileName: string
+) {
+  const { success, message, submissionArchive } =
+    await getSubmissionArchiveService(submissionUUID);
+
+  if (!success) {
+    toast.error(message);
+    return;
+  }
+
+  downloadBlob({
+    file: submissionArchive,
+    fileName
+  });
+
+  toast.success("The submission archive has been downloaded successfully");
 }
 
 export function parseSubmissionSSEUpdate(data: string): submissionUpdate {
