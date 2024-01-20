@@ -34,24 +34,28 @@ export const LaboratoryGradesTable = ({
         </TableHeader>
         <TableBody>
           {grades.length ? (
-            grades.map((grade) => (
-              <TableRow key={`${laboratoryUUID}-${grade.student_uuid}-grade`}>
-                <TableCell>{grade.student_full_name}</TableCell>
-                <TableCell>
-                  {grade.grade ? grade.grade.toFixed(2) : "N/A"}
-                </TableCell>
-                <TableCell>
-                  <Link
-                    to={`/courses/${courseUUID}/laboratories/${laboratoryUUID}/students/${grade.student_uuid}/edit-grade`}
-                    aria-label={`Edit grade for student ${grade.student_full_name}`}
-                    className={buttonVariants({ variant: "default" })}
-                  >
-                    <EditIcon className="mr-4" />
-                    Edit
-                  </Link>
-                </TableCell>
-              </TableRow>
-            ))
+            grades.map((grade) => {
+              const hasGrade = grade.grade !== undefined;
+
+              return (
+                <TableRow key={`${laboratoryUUID}-${grade.student_uuid}-grade`}>
+                  <TableCell>{grade.student_full_name}</TableCell>
+                  <TableCell>
+                    {hasGrade ? grade.grade!.toFixed(2) : "N/A"}
+                  </TableCell>
+                  <TableCell>
+                    <Link
+                      to={`/courses/${courseUUID}/laboratories/${laboratoryUUID}/students/${grade.student_uuid}/edit-grade`}
+                      aria-label={`Edit grade for student ${grade.student_full_name}`}
+                      className={buttonVariants({ variant: "default" })}
+                    >
+                      <EditIcon className="mr-4" />
+                      Edit
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              );
+            })
           ) : (
             <TableRow>
               <TableCell colSpan={3} className="h-24 text-center">
