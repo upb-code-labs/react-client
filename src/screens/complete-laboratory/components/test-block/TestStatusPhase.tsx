@@ -76,8 +76,8 @@ export const TestStatusPhase = ({
       {/* Status header */}
       <div
         className="flex items-center gap-2"
-        data-status={phaseName}
-        data-was-reached={wasCurrentStatusReached}
+        data-testid={`${phaseName}-phase`}
+        data-reached={wasCurrentStatusReached}
       >
         <div
           className={`grid h-6 w-6 place-content-center rounded-full text-white ${getPhaseIconColorClasses()}`}

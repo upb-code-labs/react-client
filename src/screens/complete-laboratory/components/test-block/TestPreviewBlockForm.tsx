@@ -190,7 +190,7 @@ export const TestPreviewBlockForm = ({
                     <Button
                       type="button"
                       onClick={handleDownloadSubmissionFile}
-                      aria-label={`Download current submission file for block ${blockIndex}`}
+                      aria-label={`Download current submission file for block number ${blockIndex + 1}`}
                     >
                       <DownloadIcon size={20} />
                     </Button>
