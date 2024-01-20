@@ -1,3 +1,12 @@
+# [0.46.0](https://github.com/upb-code-labs/react-client/compare/v0.45.0...v0.46.0) (2024-01-20)
+
+
+### Features
+
+* Grade student ([#263](https://github.com/upb-code-labs/react-client/issues/263)) ([bba5534](https://github.com/upb-code-labs/react-client/commit/bba553440c9c24dbf1236019f124952efae58185))
+
+
+
 # [0.45.0](https://github.com/upb-code-labs/react-client/compare/v0.44.0...v0.45.0) (2024-01-19)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Update profile ([#254](https://github.com/upb-code-labs/react-client/issues/254)) ([1954d1d](https://github.com/upb-code-labs/react-client/commit/1954d1dfcd7f62d830829fa645bf3427734a3411))
-
-
-
-# [0.41.0](https://github.com/upb-code-labs/react-client/compare/v0.40.0...v0.41.0) (2024-01-17)
-
-
-### Features
-
-* Download tests archive ([#251](https://github.com/upb-code-labs/react-client/issues/251)) ([f99d4d1](https://github.com/upb-code-labs/react-client/commit/f99d4d10036be9224e5e2879377faca12e41068e))
 
 
 
