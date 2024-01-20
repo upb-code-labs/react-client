@@ -29,5 +29,4 @@ dist-ssr
 # Test data
 e2e/laboratories/data/java-downloaded.zip
 e2e/laboratories/data/Test block name.zip
-e2e/grades/data/java-tests.zip
 e2e/grades/data/downloaded-java-tests.zip
