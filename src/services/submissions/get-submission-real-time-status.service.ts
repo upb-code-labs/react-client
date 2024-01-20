@@ -12,7 +12,7 @@ export async function getSubmissionRealTimeStatusService(
   try {
     // Create the event source
     const eventSource = new EventSource(
-      `${CONSTANTS.API_BASE_URL}/submissions/${testBlockUUID}/status`,
+      `${CONSTANTS.API_BASE_URL}/submissions/test_blocks/${testBlockUUID}/status`,
       { withCredentials: true }
     );
 

@@ -13,6 +13,7 @@ import { CourseParticipants } from "@/screens/course-page/participants/CoursePar
 import { CoursesHome } from "@/screens/courses-list/CoursesHome";
 import { EditLaboratory } from "@/screens/edit-laboratory/EditLaboratory";
 import { EditRubricView } from "@/screens/edit-rubric/EditRubricView";
+import { ProfileView } from "@/screens/profile/ProfileView";
 import { RubricsHome } from "@/screens/rubrics-list/RubricsHome";
 import { FormContainer } from "@/screens/session/FormContainer";
 import { Login } from "@/screens/session/login/Login";
@@ -20,8 +21,6 @@ import { Logout } from "@/screens/session/logout/Logout";
 import { RegisterAdminForm } from "@/screens/session/register-admin/Form";
 import { RegisterStudentForm } from "@/screens/session/register-student/Form";
 import { RegisterTeacherForm } from "@/screens/session/register-teacher/Form";
-// Import fonts
-import "@fontsource/ibm-plex-mono/400.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Home } from "lucide-react";
@@ -31,6 +30,8 @@ import { Toaster } from "sonner";
 
 // Apply global styles
 import "./global.css";
+import { EditStudentGradeView } from "./screens/edit-student-grade/EditStudentGradeView";
+import { LaboratoryGrades } from "./screens/laboratory-grades/LaboratoryGrades";
 import { LaboratoryProgressView } from "./screens/laboratory-progress/LaboratoryProgressView";
 
 // Define query client
@@ -85,6 +86,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             element={
               <AuthMiddleware mustBeLoggedIn roles={["admin"]}>
                 <FormContainer form={<RegisterTeacherForm />} />
+              </AuthMiddleware>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <AuthMiddleware mustBeLoggedIn>
+                <ProfileView />
               </AuthMiddleware>
             }
           />
@@ -145,6 +154,22 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               element={
                 <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
                   <LaboratoryProgressView />
+                </AuthMiddleware>
+              }
+            />
+            <Route
+              path="laboratories/:laboratoryUUID/grades"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
+                  <LaboratoryGrades />
+                </AuthMiddleware>
+              }
+            />
+            <Route
+              path="laboratories/:laboratoryUUID/students/:studentUUID/edit-grade"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
+                  <EditStudentGradeView />
                 </AuthMiddleware>
               }
             />

@@ -94,16 +94,20 @@ export const TestStatus = ({
   };
 
   return (
-    <ol className="grid gap-4">
+    <ol className="grid gap-4" data-test-block-index={testBlock.index}>
       {status.map((phase, index) => {
         return (
-          <TestStatusPhase
+          <li
             key={`${testBlock.uuid}-status-${index}`}
-            phaseName={phase}
-            phaseIndex={index}
-            currentPhase={currentStatusUpdate}
-            currentPhaseIndex={currentStatusIndex}
-          />
+            className="rounded-md p-2 hover:bg-gray-100"
+          >
+            <TestStatusPhase
+              phaseName={phase}
+              phaseIndex={index}
+              currentPhase={currentStatusUpdate}
+              currentPhaseIndex={currentStatusIndex}
+            />
+          </li>
         );
       })}
     </ol>

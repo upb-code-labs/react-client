@@ -27,7 +27,7 @@ export const TestStatusPhase = ({
 
   const isRunningNow = currentPhase.submissionStatus === "running";
   const wasRan = currentPhase.submissionStatus === "ready";
-  const mayShowTestOutput = wasRan && phaseName === "ready";
+  const shouldShowTestOutput = wasRan && phaseName === "ready";
 
   const getPhaseIconColorClasses = (): string => {
     if (wasCurrentStatusPassed) {
@@ -72,9 +72,13 @@ export const TestStatusPhase = ({
   };
 
   return (
-    <li className="grid gap-4 rounded-md  p-2 hover:bg-gray-100">
+    <div className="grid gap-4">
       {/* Status header */}
-      <div className="flex items-center gap-2">
+      <div
+        className="flex items-center gap-2"
+        data-testid={`${phaseName}-phase`}
+        data-reached={wasCurrentStatusReached}
+      >
         <div
           className={`grid h-6 w-6 place-content-center rounded-full text-white ${getPhaseIconColorClasses()}`}
         >
@@ -82,20 +86,20 @@ export const TestStatusPhase = ({
         </div>
         <span
           className={`capitalize ${
-            !wasCurrentStatusReached && "text-gray-400"
+            !wasCurrentStatusReached && "text-black/75"
           }`}
         >
           {phaseName}
         </span>
       </div>
-      {/* Status content */}
-      {mayShowTestOutput && (
+      {/* Status output */}
+      {shouldShowTestOutput && (
         <div className="max-w-[calc(100vw-6rem)] md:max-w-full">
-          <pre className="max-h-72 overflow-y-auto whitespace-pre-wrap text-wrap break-words font-ibmPlexMono leading-relaxed">
+          <pre className="max-h-72 overflow-y-auto whitespace-pre-wrap text-wrap break-words leading-relaxed">
             {currentPhase.testsOutput}
           </pre>
         </div>
       )}
-    </li>
+    </div>
   );
 };

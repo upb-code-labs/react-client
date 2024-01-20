@@ -18,11 +18,12 @@ import {
 import { CONSTANTS } from "@/config/constants";
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
+import { downloadTestsArchiveService } from "@/services/blocks/download-tests-archive.service";
 import { updateTestBlockService } from "@/services/blocks/update-test-block.service";
 import { getSupportedLanguagesService } from "@/services/languages/get-supported-languages.service";
 import { useSupportedLanguagesStore } from "@/stores/supported-languages-store";
 import { Laboratory, TestBlock } from "@/types/entities/laboratory-entities";
-import { downloadLanguageTemplate } from "@/utils/utils";
+import { downloadBlob, downloadLanguageTemplate } from "@/utils/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DownloadIcon } from "lucide-react";
@@ -177,6 +178,26 @@ export const EditableTestBlockForm = ({
     downloadLanguageTemplate(selectedLanguageUUID, selectedLanguageName);
   };
 
+  const handleDownloadTestsArchive = async () => {
+    const { success, message, testsArchive } =
+      await downloadTestsArchiveService(testBlock.uuid);
+
+    if (!success) {
+      toast.error(message);
+      return;
+    }
+
+    const nameToDownload = `${testBlock.name.replace(
+      /\s/g,
+      "-"
+    )}-tests`.toLowerCase();
+
+    downloadBlob({
+      file: testsArchive,
+      fileName: `${nameToDownload}.zip`
+    });
+  };
+
   return (
     <div className="col-span-3 my-8 flex gap-1">
       <Form {...form}>
@@ -269,10 +290,12 @@ export const EditableTestBlockForm = ({
                         }}
                       />
                     </FormControl>
-                    {/* TODO: Download the current test archive from the server */}
                     <Button
                       type="button"
-                      aria-label={`Download current test archive for block ${blockIndex}`}
+                      aria-label={`Download tests archive for block number ${
+                        blockIndex + 1
+                      }`}
+                      onClick={handleDownloadTestsArchive}
                     >
                       <DownloadIcon size={20} />
                     </Button>

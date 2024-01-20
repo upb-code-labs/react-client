@@ -21,7 +21,8 @@ export const FoundStudentCard = ({ student }: FoundStudentCardProps) => {
     onMutate: async (data: EnrolledStudent) => {
       // Cancel any outgoing refetches
       await queryClient.cancelQueries({
-        queryKey: ["course-students", courseUUID]
+        queryKey: ["course-students", courseUUID],
+        exact: true
       });
 
       // Keep the current value

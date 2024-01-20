@@ -1,45 +1,45 @@
-# [0.40.0](https://github.com/upb-code-labs/react-client/compare/v0.39.0...v0.40.0) (2024-01-13)
+# [0.46.0](https://github.com/upb-code-labs/react-client/compare/v0.45.0...v0.46.0) (2024-01-20)
 
 
 ### Features
 
-* Toggle enrolled students status ([#241](https://github.com/upb-code-labs/react-client/issues/241)) ([cd5c754](https://github.com/upb-code-labs/react-client/commit/cd5c7541c254597852aadfe3f96a1a13c156f871))
+* Grade student ([#263](https://github.com/upb-code-labs/react-client/issues/263)) ([bba5534](https://github.com/upb-code-labs/react-client/commit/bba553440c9c24dbf1236019f124952efae58185))
 
 
 
-# [0.39.0](https://github.com/upb-code-labs/react-client/compare/v0.38.0...v0.39.0) (2024-01-13)
-
-
-### Features
-
-* Delete rubric ([#240](https://github.com/upb-code-labs/react-client/issues/240)) ([53a0984](https://github.com/upb-code-labs/react-client/commit/53a0984a8182ce747f956f270c88a7a5e7f7ff00))
-
-
-
-# [0.38.0](https://github.com/upb-code-labs/react-client/compare/v0.37.0...v0.38.0) (2024-01-13)
+# [0.45.0](https://github.com/upb-code-labs/react-client/compare/v0.44.0...v0.45.0) (2024-01-19)
 
 
 ### Features
 
-* Custom error component ([#237](https://github.com/upb-code-labs/react-client/issues/237)) ([56d5733](https://github.com/upb-code-labs/react-client/commit/56d57331c02e0798b06cce2912203065d4d8b589))
+* List students' grades ([#262](https://github.com/upb-code-labs/react-client/issues/262)) ([508a9c2](https://github.com/upb-code-labs/react-client/commit/508a9c2d263d21a6db458c0092aa048f6107b44c))
 
 
 
-# [0.37.0](https://github.com/upb-code-labs/react-client/compare/v0.36.0...v0.37.0) (2024-01-12)
-
-
-### Features
-
-* Laboratory progress and statistics ([#232](https://github.com/upb-code-labs/react-client/issues/232)) ([52406a5](https://github.com/upb-code-labs/react-client/commit/52406a57c8474e8d9d2f5de10bb46ed3048fe8ab))
-
-
-
-# [0.36.0](https://github.com/upb-code-labs/react-client/compare/v0.35.0...v0.36.0) (2024-01-09)
+# [0.44.0](https://github.com/upb-code-labs/react-client/compare/v0.43.0...v0.44.0) (2024-01-17)
 
 
 ### Features
 
-* Get submission status ([#227](https://github.com/upb-code-labs/react-client/issues/227)) ([feff79c](https://github.com/upb-code-labs/react-client/commit/feff79c31521fdeb2bb430fadc9671a10f048256))
+* Swap the index of two blocks ([#256](https://github.com/upb-code-labs/react-client/issues/256)) ([842114e](https://github.com/upb-code-labs/react-client/commit/842114e4017978869c3a1a4b77e190332436f440))
+
+
+
+# [0.43.0](https://github.com/upb-code-labs/react-client/compare/v0.42.0...v0.43.0) (2024-01-17)
+
+
+### Features
+
+* Update password ([#255](https://github.com/upb-code-labs/react-client/issues/255)) ([ad92b51](https://github.com/upb-code-labs/react-client/commit/ad92b515fc1d91cbd085bf6cc475b0d64e0b7900))
+
+
+
+# [0.42.0](https://github.com/upb-code-labs/react-client/compare/v0.41.0...v0.42.0) (2024-01-17)
+
+
+### Features
+
+* Update profile ([#254](https://github.com/upb-code-labs/react-client/issues/254)) ([1954d1d](https://github.com/upb-code-labs/react-client/commit/1954d1dfcd7f62d830829fa645bf3427734a3411))
 
 
 

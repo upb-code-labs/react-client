@@ -136,22 +136,6 @@ test.describe.serial("Edit laboratory workflow", () => {
     await expect(
       page.getByText("The markdown block has been updated successfully")
     ).toBeVisible();
-
-    // ### Delete the markdown block
-    await blockDropdownButton.click();
-    const deleteBlockButton = page.getByRole("menuitem", {
-      name: "Delete block"
-    });
-    await expect(deleteBlockButton).toBeVisible();
-    await deleteBlockButton.click();
-
-    // Assert an alert is shown
-    await expect(
-      page.getByText("The markdown block has been deleted successfully")
-    ).toBeVisible();
-
-    // Assert the block is not shown
-    await expect(page.getByLabel(markdownBlockContentLabel)).not.toBeVisible();
   });
 
   test("Add and edit test blocks", async ({ page }) => {
@@ -200,15 +184,18 @@ test.describe.serial("Edit laboratory workflow", () => {
     await javaOption.click();
 
     // Assert the teacher can download the template
-    const downloadButton = addTestBlockModal.getByRole("button", {
-      name: "Download template"
-    });
-    await expect(downloadButton).toBeVisible();
+    const languageTemplateDownloadButton = addTestBlockModal.getByRole(
+      "button",
+      {
+        name: "Download template"
+      }
+    );
+    await expect(languageTemplateDownloadButton).toBeVisible();
 
     // Assert the template is downloaded
     const downloadPromise = page.waitForEvent("download");
 
-    await downloadButton.click();
+    await languageTemplateDownloadButton.click();
     const download = await downloadPromise;
     await download.saveAs(join(__dirname, "data", "java-downloaded.zip"));
 
@@ -236,7 +223,7 @@ test.describe.serial("Edit laboratory workflow", () => {
 
     // Assert teachers can download the language template from the test block
     const blockLanguageDownloadButton = page.getByLabel(
-      "Download language template for block number 1"
+      "Download language template for block number 2"
     );
     await expect(blockLanguageDownloadButton).toBeVisible();
 
@@ -249,6 +236,23 @@ test.describe.serial("Edit laboratory workflow", () => {
       join(__dirname, "data", "java-downloaded.zip")
     );
 
+    // Assert teachers can download the tests archive from the test block
+    const blockTestsArchiveDownloadButton = page.getByLabel(
+      "Download tests archive for block number 2"
+    );
+    await expect(blockTestsArchiveDownloadButton).toBeVisible();
+
+    // Assert the tests archive is downloaded
+    const blockTestsArchiveDownloadPromise = page.waitForEvent("download");
+
+    await blockTestsArchiveDownloadButton.click();
+
+    const blockTestsArchiveDownloadEvent =
+      await blockTestsArchiveDownloadPromise;
+    await blockTestsArchiveDownloadEvent.saveAs(
+      join(__dirname, "data", `${testBlockName}.zip`)
+    );
+
     // ## Edit the test block
     // Update the block name
     const nameInput = page.getByLabel("Block name");
@@ -257,7 +261,7 @@ test.describe.serial("Edit laboratory workflow", () => {
 
     // Open block dropdown
     const blockDropdownButton = page.getByRole("button", {
-      name: "Toggle options for block number 1"
+      name: "Toggle options for block number 2"
     });
     await expect(blockDropdownButton).toBeVisible();
     await blockDropdownButton.click();
@@ -273,15 +277,169 @@ test.describe.serial("Edit laboratory workflow", () => {
     await expect(
       page.getByText("The test block has been updated successfully")
     ).toBeVisible();
+  });
 
-    // ## Delete the test block
-    await blockDropdownButton.click();
-    const deleteBlockButton = page.getByRole("menuitem", {
+  test("Swap index of blocks", async ({ page }) => {
+    // Login as a teacher
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(teacherEmail);
+    await page.getByLabel("Password").fill(teacherPassword);
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Go to the course page
+    await page.getByRole("link", { name: courseName }).click();
+
+    // Enter to the edit page
+    const editLaboratoryButton = page.getByRole("link", {
+      name: `Edit ${laboratoryName} laboratory`
+    });
+    await expect(editLaboratoryButton).toBeVisible();
+    await editLaboratoryButton.click();
+
+    // Move the first block (markdown) to the second position
+    let markdownBlockDropdownMenu = page.getByRole("button", {
+      name: "Toggle options for block number 1"
+    });
+    await expect(markdownBlockDropdownMenu).toBeVisible();
+    await markdownBlockDropdownMenu.click();
+
+    const moveDownMarkdownBlockButton = page.getByRole("menuitem", {
+      name: "Move down"
+    });
+    await expect(moveDownMarkdownBlockButton).toBeVisible();
+    await moveDownMarkdownBlockButton.click();
+
+    // Assert an alert is shown
+    await expect(
+      page.getByText("The markdown block has been moved down successfully")
+    ).toBeVisible();
+
+    // Now, the test block is in the first position and the markdown block is in the second position
+    // Assert the markdown block is in the second position
+    let markdownBlockContentLabel = "Laboratory block 2 markdown content";
+    await expect(page.getByLabel(markdownBlockContentLabel)).toBeVisible();
+
+    // Move the first block (test) to the second position
+    let testBlockDropdownButton = page.getByRole("button", {
+      name: "Toggle options for block number 1"
+    });
+    await expect(testBlockDropdownButton).toBeVisible();
+    await testBlockDropdownButton.click();
+
+    const moveDownTestBlockButton = page.getByRole("menuitem", {
+      name: "Move down"
+    });
+    await expect(moveDownTestBlockButton).toBeVisible();
+    await moveDownTestBlockButton.click();
+
+    // Assert an alert is shown
+    await expect(
+      page.getByText("The test block has been moved down successfully")
+    ).toBeVisible();
+
+    // Now, the test block is in the second position and the markdown block is in the first position
+    // Assert the markdown block is in the first position
+    markdownBlockContentLabel = "Laboratory block 1 markdown content";
+    await expect(page.getByLabel(markdownBlockContentLabel)).toBeVisible();
+
+    // Move the second block (test) to the first position
+    testBlockDropdownButton = page.getByRole("button", {
+      name: "Toggle options for block number 2"
+    });
+    await expect(testBlockDropdownButton).toBeVisible();
+    await testBlockDropdownButton.click();
+
+    const moveUpTestBlockButton = page.getByRole("menuitem", {
+      name: "Move up"
+    });
+    await expect(moveUpTestBlockButton).toBeVisible();
+    await moveUpTestBlockButton.click();
+
+    // Assert an alert is shown
+    await expect(
+      page.getByText("The test block has been moved up successfully")
+    ).toBeVisible();
+
+    // Now, the test block is in the first position and the markdown block is in the second position
+    // Assert the markdown block is in the second position
+    markdownBlockContentLabel = "Laboratory block 2 markdown content";
+    await expect(page.getByLabel(markdownBlockContentLabel)).toBeVisible();
+
+    // Move the second block (markdown) to the first position
+    markdownBlockDropdownMenu = page.getByRole("button", {
+      name: "Toggle options for block number 2"
+    });
+    await expect(markdownBlockDropdownMenu).toBeVisible();
+    await markdownBlockDropdownMenu.click();
+
+    const moveUpMarkdownBlockButton = page.getByRole("menuitem", {
+      name: "Move up"
+    });
+    await expect(moveUpMarkdownBlockButton).toBeVisible();
+    await moveUpMarkdownBlockButton.click();
+
+    // Assert an alert is shown
+    await expect(
+      page.getByText("The markdown block has been moved up successfully")
+    ).toBeVisible();
+
+    // Now, the test block is in the second position and the markdown block is in the first position
+    // Assert the markdown block is in the first position
+    markdownBlockContentLabel = "Laboratory block 1 markdown content";
+    await expect(page.getByLabel(markdownBlockContentLabel)).toBeVisible();
+  });
+
+  test("Delete blocks", async ({ page }) => {
+    // Login as a teacher
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(teacherEmail);
+    await page.getByLabel("Password").fill(teacherPassword);
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Go to the course page
+    await page.getByRole("link", { name: courseName }).click();
+
+    // Enter to the edit page
+    const editLaboratoryButton = page.getByRole("link", {
+      name: `Edit ${laboratoryName} laboratory`
+    });
+    await expect(editLaboratoryButton).toBeVisible();
+    await editLaboratoryButton.click();
+
+    // Delete the markdown block
+    const markdownBlockDropdownMenu = page.getByRole("button", {
+      name: "Toggle options for block number 1"
+    });
+    await expect(markdownBlockDropdownMenu).toBeVisible();
+    await markdownBlockDropdownMenu.click();
+
+    const deleteMarkdownBlockButton = page.getByRole("menuitem", {
       name: "Delete block"
     });
+    await expect(deleteMarkdownBlockButton).toBeVisible();
+    await deleteMarkdownBlockButton.click();
 
-    await expect(deleteBlockButton).toBeVisible();
-    await deleteBlockButton.click();
+    // Assert an alert is shown
+    await expect(
+      page.getByText("The markdown block has been deleted successfully")
+    ).toBeVisible();
+
+    // Assert the block is not shown
+    const markdownBlockContentLabel = "Laboratory block 1 markdown content";
+    await expect(page.getByLabel(markdownBlockContentLabel)).not.toBeVisible();
+
+    // Delete the test block
+    const testBlockDropdownMenu = page.getByRole("button", {
+      name: "Toggle options for block number 1"
+    });
+    await expect(testBlockDropdownMenu).toBeVisible();
+    await testBlockDropdownMenu.click();
+
+    const deleteTestBlockButton = page.getByRole("menuitem", {
+      name: "Delete block"
+    });
+    await expect(deleteTestBlockButton).toBeVisible();
+    await deleteTestBlockButton.click();
 
     // Assert an alert is shown
     await expect(
@@ -289,6 +447,7 @@ test.describe.serial("Edit laboratory workflow", () => {
     ).toBeVisible();
 
     // Assert the block is not shown
-    await expect(page.getByLabel("Block name")).not.toBeVisible();
+    const testBlockNameLabel = "Block name";
+    await expect(page.getByLabel(testBlockNameLabel)).not.toBeVisible();
   });
 });

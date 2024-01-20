@@ -13,7 +13,10 @@ import { getSupportedLanguagesService } from "@/services/languages/get-supported
 import { submitToTestBlockService } from "@/services/submissions/submit-to-test-block.service";
 import { useSupportedLanguagesStore } from "@/stores/supported-languages-store";
 import { TestBlock } from "@/types/entities/laboratory-entities";
-import { downloadLanguageTemplate } from "@/utils/utils";
+import {
+  downloadLanguageTemplate,
+  downloadSubmissionArchive
+} from "@/utils/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DownloadIcon, SendIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -87,6 +90,13 @@ export const TestPreviewBlockForm = ({
     const selectedLanguageUUID = testBlock.languageUUID;
     const selectedLanguageName = form.getValues("language");
     downloadLanguageTemplate(selectedLanguageUUID, selectedLanguageName);
+  };
+
+  const handleDownloadSubmissionFile = async () => {
+    const { submissionUUID } = testBlock;
+
+    const joinedBlockName = testBlock.name.replace(/\s/g, "_").toLowerCase();
+    downloadSubmissionArchive(submissionUUID!, joinedBlockName);
   };
 
   const handleSubmit = async (
@@ -179,7 +189,8 @@ export const TestPreviewBlockForm = ({
                   {testBlock.submissionUUID && (
                     <Button
                       type="button"
-                      aria-label={`Download current submission file for block ${blockIndex}`}
+                      onClick={handleDownloadSubmissionFile}
+                      aria-label={`Download current submission file for block number ${blockIndex + 1}`}
                     >
                       <DownloadIcon size={20} />
                     </Button>

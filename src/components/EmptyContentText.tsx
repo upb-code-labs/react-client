@@ -1,7 +1,13 @@
 interface EmptyContentTextProps {
   text: string;
+  className?: string;
 }
 
-export const EmptyContentText = ({ text }: EmptyContentTextProps) => {
-  return <p className="text-lg text-muted-foreground">{text} 🤷</p>;
+export const EmptyContentText = ({
+  text,
+  className
+}: EmptyContentTextProps) => {
+  return (
+    <p className={`text-lg text-muted-foreground ${className}`}>{text} 🤷</p>
+  );
 };
