@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { summarizedStudentSubmission } from "@/services/laboratories/ger-progress-of-student.service";
+import { getSubmissionArchiveService } from "@/services/submissions/get-submission-archive.service";
+import { downloadBlob } from "@/utils/utils";
 import { DownloadIcon } from "lucide-react";
+import { toast } from "sonner";
 
 interface submissionSummaryCardProps {
   summarizedSubmission: summarizedStudentSubmission;
@@ -18,6 +21,7 @@ const statusToColor: Record<summarizedSubmissionStatus, string> = {
 export const SubmissionSummaryCard = ({
   summarizedSubmission
 }: submissionSummaryCardProps) => {
+  // Helper function
   const getStatusColor = (): string => {
     const { status, is_passing } = summarizedSubmission;
     if (status === "ready") {
@@ -36,6 +40,28 @@ export const SubmissionSummaryCard = ({
     }
   };
 
+  // Handlers
+  const handleDownloadCode = async () => {
+    const { success, message, submissionArchive } =
+      await getSubmissionArchiveService(summarizedSubmission.uuid);
+
+    if (!success) {
+      toast.error(message);
+      return;
+    }
+
+    const joinedBlockName = summarizedSubmission.test_block_name
+      .replace(/\s/g, "_")
+      .toLowerCase();
+
+    downloadBlob({
+      file: submissionArchive,
+      fileName: `${joinedBlockName}.zip`
+    });
+
+    toast.success("The code has been downloaded successfully");
+  };
+
   return (
     <div className="flex flex-wrap justify-between gap-2 rounded-md border p-4 shadow-sm">
       {/* Submission header */}
@@ -52,6 +78,7 @@ export const SubmissionSummaryCard = ({
       <div className="flex items-center">
         <Button
           size={"icon"}
+          onClick={handleDownloadCode}
           aria-label={`Download code sent by the student for the ${summarizedSubmission.test_block_name} test block`}
         >
           <DownloadIcon size={20} />
