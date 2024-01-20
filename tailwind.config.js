@@ -17,9 +17,6 @@ export default  {
       },
     },
     extend: {
-      fontFamily: {
-        ibmPlexMono: ["IBM Plex Mono", "monospace", "sans-serif"],
-      },
       colors: {
         red: {
           upb: "hsl(var(--upb-red))",

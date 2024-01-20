@@ -21,8 +21,6 @@ import { Logout } from "@/screens/session/logout/Logout";
 import { RegisterAdminForm } from "@/screens/session/register-admin/Form";
 import { RegisterStudentForm } from "@/screens/session/register-student/Form";
 import { RegisterTeacherForm } from "@/screens/session/register-teacher/Form";
-// Import fonts
-import "@fontsource/ibm-plex-mono/400.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Home } from "lucide-react";
