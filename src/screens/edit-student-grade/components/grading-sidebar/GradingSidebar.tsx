@@ -1,7 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { studentGradeResponse } from "@/services/grades/get-grade-of-student-in-laboratory.service";
 
-import { GradingForm } from "./GradingForm";
+import { GradingForm } from "./grade-form/GradingForm";
+import { GradingSubmissionsSummary } from "./submissions/GradingSubmissionsSummary";
 
 type gradingSidebarProps = {
   laboratoryUUID: string;
@@ -34,7 +35,12 @@ export const GradingSidebar = ({
             studentGrade={studentGrade}
           />
         </TabsContent>
-        <TabsContent value="submissions">Pending :D</TabsContent>
+        <TabsContent value="submissions">
+          <GradingSubmissionsSummary
+            laboratoryUUID={laboratoryUUID}
+            studentUUID={studentUUID}
+          />
+        </TabsContent>
       </Tabs>
     </aside>
   );
