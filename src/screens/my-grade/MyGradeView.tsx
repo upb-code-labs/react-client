@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { MyGradeLayout } from "./components/MyGradeLayout";
 import { MyGradeLayoutSkeleton } from "./skeletons/MyGradeLayoutSkeleton";
 
 const handleViewError = (
@@ -116,17 +117,42 @@ export const MyGradeView = () => {
     return <MyGradeLayoutSkeleton />;
   }
 
+  // If the rubric is not loading but is undefined, return the custom error component
+  if (!rubric) {
+    return <>Ask your teacher to add a rubric to this laboratory</>;
+  }
+
+  // If the student grade is not loading but is undefined, return an error
+  if (!studentGrade) {
+    return handleViewError(
+      new Error("We had an error loading the student grade"),
+      {
+        redirectURL: `/courses/${courseUUID}/laboratories/${laboratoryUUID}/grades`,
+        redirectText: "Go back to grades"
+      }
+    );
+  }
+
+  // Map the selected criteria to their objectives
+  const selectedCriteriaByObjectiveMap: Record<string, string | null> =
+    studentGrade.selected_criteria.reduce(
+      (acc, criteria) => {
+        acc[criteria.objective_uuid] = criteria.criteria_uuid;
+        return acc;
+      },
+      {} as Record<string, string | null>
+    );
+
   return (
-    <div>
-      <div>
-        <pre>{JSON.stringify(laboratoryInformation, null, 2)}</pre>
-      </div>
-      <div>
-        <pre>{JSON.stringify(studentGrade, null, 2)}</pre>
-      </div>
-      <div>
-        <pre>{JSON.stringify(rubric, null, 2)}</pre>
-      </div>
-    </div>
+    <MyGradeLayout
+      ids={{
+        courseUUID: courseUUID!,
+        laboratoryUUID: laboratoryUUID!,
+        studentUUID
+      }}
+      rubric={rubric}
+      selectedCriteriaByObjectiveMap={selectedCriteriaByObjectiveMap}
+      studentGrade={studentGrade}
+    />
   );
 };
