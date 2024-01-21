@@ -226,9 +226,13 @@ export const HighlightableRubricCriteriaCard = ({
     <article
       className={`flex aspect-square w-full max-w-[18rem] flex-shrink-0 cursor-pointer flex-col gap-2 border p-4 shadow-md transition-colors hover:shadow-lg sm:w-72 ${isSelected && "border-2 border-purple-upb"}`}
       onClick={isInteractive ? handleCriteriaCardClick : undefined}
-      tabIndex={0}
+      tabIndex={isInteractive ? 0 : undefined}
       role="button"
-      aria-label={`${isSelected ? "De-select" : "Select"} criteria ${criteriaIndex + 1} of objective ${objectiveIndex + 1}`}
+      aria-label={
+        isInteractive
+          ? `${isSelected ? "De-select" : "Select"} criteria ${criteriaIndex + 1} of objective ${objectiveIndex + 1}`
+          : undefined
+      }
     >
       <h2 className="text-xl font-bold">Criteria {criteriaIndex + 1}</h2>
       <div className="flex flex-col gap-2">
