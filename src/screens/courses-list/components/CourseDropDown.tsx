@@ -170,7 +170,7 @@ export const CourseDropDown = ({ course, isHidden }: CourseDropDownProps) => {
         </DropdownMenuItem>
         {getDropdownOptionsByRole(role).map((option) => (
           <DropdownMenuItem
-            key={option.text}
+            key={`course-dropdown-opt-${option.text}`}
             onClick={(e) => {
               e.stopPropagation();
               option.callback();

@@ -29,7 +29,7 @@ export const ObjectiveRow = ({
       {objective.criteria.map((criteria, ci) => (
         <CriteriaCard
           rubricUUID={rubricUUID}
-          key={criteria.uuid}
+          key={`criteria-card-${criteria.uuid}`}
           criteria={criteria}
           criteriaIndex={ci}
           objectiveIndex={objectiveIndex}

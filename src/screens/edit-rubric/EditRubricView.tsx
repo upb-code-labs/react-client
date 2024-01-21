@@ -69,7 +69,7 @@ export const EditRubricView = () => {
       {rubric.objectives?.map((objective, oi) => (
         <Suspense key={`${objective.uuid}-skeleton`}>
           <ObjectiveRow
-            key={objective.uuid}
+            key={`${objective.uuid}-objective-row`}
             rubricUUID={id}
             objective={objective}
             objectiveIndex={oi}

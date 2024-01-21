@@ -114,7 +114,7 @@ export const CourseLaboratoriesTable = ({
         <TableBody>
           {laboratories?.length ? (
             laboratories.map((lab) => (
-              <TableRow key={lab.uuid}>
+              <TableRow key={`lab-row-${lab.uuid}`}>
                 <TableCell>{lab.name}</TableCell>
                 <TableCell className="first-letter:uppercase">
                   {dayjs(lab.opening_date).fromNow()}

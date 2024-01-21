@@ -28,6 +28,7 @@ export const HighlightableRubricRow = ({
       />
       {objective.criteria.map((criteria, index) => (
         <HighlightableRubricCriteriaCard
+          key={criteria.uuid}
           objectiveCriteriaList={objective.criteria}
           criteriaIndex={index}
           objectiveIndex={objectiveIndex}

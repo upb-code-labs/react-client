@@ -62,9 +62,6 @@ export const GradingSubmissionsSummary = ({
 
   return (
     <div className="flex flex-col gap-2">
-      {/* 
-        <pre>{JSON.stringify(studentSubmissionsSummary, null, 2)}</pre>
-      */}
       <h2 className="text-xl font-bold">Student submissions</h2>
       <p className="text-pretty">
         The student has submitted to {submissions.length} out of{" "}
@@ -73,7 +70,7 @@ export const GradingSubmissionsSummary = ({
       {submissions.length ? (
         <ul className="flex flex-col gap-4">
           {submissions.map((submission) => (
-            <li key={submission.uuid}>
+            <li key={`${submission.uuid}-submission-summary`}>
               <SubmissionSummaryCard summarizedSubmission={submission} />
             </li>
           ))}
