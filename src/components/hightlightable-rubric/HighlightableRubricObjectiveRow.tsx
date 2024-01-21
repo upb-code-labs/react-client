@@ -21,7 +21,7 @@ export const HighlightableRubricRow = ({
   isInteractive = true
 }: highlightableRubricRowProps) => {
   return (
-    <article className="flex gap-4 overflow-x-auto">
+    <div className="flex gap-4 overflow-x-auto pb-4">
       <HighlightableRubricObjectiveCard
         objective={objective}
         objectiveIndex={objectiveIndex}
@@ -36,6 +36,6 @@ export const HighlightableRubricRow = ({
           isInteractive={isInteractive}
         />
       ))}
-    </article>
+    </div>
   );
 };
