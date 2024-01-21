@@ -13,6 +13,7 @@ import { CourseParticipants } from "@/screens/course-page/participants/CoursePar
 import { CoursesHome } from "@/screens/courses-list/CoursesHome";
 import { EditLaboratory } from "@/screens/edit-laboratory/EditLaboratory";
 import { EditRubricView } from "@/screens/edit-rubric/EditRubricView";
+import { Home } from "@/screens/home/Home";
 import { ProfileView } from "@/screens/profile/ProfileView";
 import { RubricsHome } from "@/screens/rubrics-list/RubricsHome";
 import { FormContainer } from "@/screens/session/FormContainer";
@@ -23,7 +24,6 @@ import { RegisterStudentForm } from "@/screens/session/register-student/Form";
 import { RegisterTeacherForm } from "@/screens/session/register-teacher/Form";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Home } from "lucide-react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
@@ -33,6 +33,7 @@ import "./global.css";
 import { EditStudentGradeView } from "./screens/edit-student-grade/EditStudentGradeView";
 import { LaboratoryGrades } from "./screens/laboratory-grades/LaboratoryGrades";
 import { LaboratoryProgressView } from "./screens/laboratory-progress/LaboratoryProgressView";
+import { MyGradeView } from "./screens/my-grade/MyGradeView";
 
 // Define query client
 const queryClient = new QueryClient({
@@ -170,6 +171,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               element={
                 <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
                   <EditStudentGradeView />
+                </AuthMiddleware>
+              }
+            />
+            <Route
+              path="laboratories/:laboratoryUUID/my-grade"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["student"]}>
+                  <MyGradeView />
                 </AuthMiddleware>
               }
             />

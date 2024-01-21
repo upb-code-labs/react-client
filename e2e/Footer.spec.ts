@@ -17,13 +17,4 @@ test("Footer should contain the correct links", async ({ page }) => {
   await expect(
     page.getByRole("link", { name: "Organization profile", exact: true })
   ).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "Frontend repository", exact: true })
-  ).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "Main API repository", exact: true })
-  ).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "Tests runner repository", exact: true })
-  ).toBeVisible();
 });

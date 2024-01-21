@@ -55,9 +55,11 @@ export async function downloadLanguageTemplate(
     return;
   }
 
+  const joinedLanguageName = languageName.split(" ").join("-");
+
   downloadBlob({
     file: template,
-    fileName: `${languageName.toLowerCase()}-template.zip`
+    fileName: `${joinedLanguageName.toLowerCase()}-template.zip`
   });
 }
 

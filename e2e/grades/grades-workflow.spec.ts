@@ -20,6 +20,8 @@ test.describe.serial("Grades workflow", () => {
   const laboratoryName = "Test laboratory";
   const testBlockName = "Test block name";
 
+  const gradeComment = "This is a comment left by the teacher";
+
   const studentFullName = getRandomName();
   const studentEmail = getRandomEmail();
 
@@ -215,6 +217,10 @@ test.describe.serial("Grades workflow", () => {
   });
 
   test("Student submits a solution", async ({ page }) => {
+    // update the timeout
+    const ONE_MINUTE_IN_MS = 60000;
+    page.setDefaultTimeout(ONE_MINUTE_IN_MS);
+
     // Login as a student
     await page.goto("/login");
     await page.getByLabel("Email").fill(studentEmail);
@@ -247,10 +253,6 @@ test.describe.serial("Grades workflow", () => {
     const submitButton = page.getByRole("button", { name: "Submit" });
     await expect(submitButton).toBeVisible();
     await submitButton.click();
-
-    // update the timeout
-    const ONE_MINUTE_IN_MS = 60000;
-    page.setDefaultTimeout(ONE_MINUTE_IN_MS);
 
     // Assert the status phases are shown
     // Pending phase
@@ -412,7 +414,7 @@ test.describe.serial("Grades workflow", () => {
     // ## Add a comment
     const commentInput = page.getByLabel("Comment");
     await expect(commentInput).toBeVisible();
-    await commentInput.fill("This is a comment left by the teacher");
+    await commentInput.fill(gradeComment);
 
     const updateCommentButton = page.getByRole("button", {
       name: "Update comment",
@@ -492,5 +494,52 @@ test.describe.serial("Grades workflow", () => {
     await expect(
       page.getByText("The submission archive has been downloaded successfully")
     ).toBeVisible();
+  });
+
+  test("Student can see the grade", async ({ page }) => {
+    // Login as a student
+    await page.goto("/login");
+    await page.getByLabel("Email").fill(studentEmail);
+    await page.getByLabel("Password").fill(getDefaultPassword());
+    await page.getByRole("button", { name: "Submit" }).click();
+
+    // Go to the course page
+    await page.getByRole("link", { name: courseName }).click();
+
+    // Go to the grade page
+    await page
+      .getByRole("link", {
+        name: `See grade obtained in ${laboratoryName} laboratory`
+      })
+      .click();
+
+    // Assert the criteria is highlighted
+    const highlightedCriteria = page.getByTestId("Criteria 1 of objective 1");
+    await expect(highlightedCriteria).toBeVisible();
+    await expect(highlightedCriteria).toHaveAttribute(
+      "data-is-highlighted",
+      "true"
+    );
+
+    const highlightedCriteriaWeightElm = page.getByLabel(
+      "Criteria 1 of objective 1 weight",
+      { exact: true }
+    );
+    await expect(highlightedCriteriaWeightElm).toBeVisible();
+
+    const highlightedCriteriaWeight =
+      await highlightedCriteriaWeightElm.getAttribute("value");
+    expect(highlightedCriteriaWeight).not.toBeNull();
+
+    // Assert the grade and comment are shown
+    const studentGradeInput = page.getByLabel("Grade", { exact: true });
+    await expect(studentGradeInput).toBeVisible();
+    await expect(studentGradeInput).toHaveValue(highlightedCriteriaWeight!);
+
+    const commentInput = page.getByLabel("Comment", { exact: true });
+    await expect(commentInput).toBeVisible();
+    await expect(commentInput).toHaveValue(
+      "This is a comment left by the teacher"
+    );
   });
 });

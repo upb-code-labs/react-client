@@ -1,38 +1,42 @@
 import { Objective } from "@/types/entities/rubric-entities";
 
-import { GradingRubricCriteriaCard } from "./GradingRubricCriteriaCard";
-import { GradingRubricObjectiveCard } from "./GradingRubricObjectiveCard";
+import { HighlightableRubricCriteriaCard } from "./HighlightableRubricCriteriaCard";
+import { HighlightableRubricObjectiveCard } from "./HighlightableRubricObjectiveCard";
 
-interface gradingRubricRowProps {
+interface highlightableRubricRowProps {
   laboratoryUUID: string;
   studentUUID: string;
   objective: Objective;
   objectiveIndex: number;
   selectedCriteriaForObjective: string | null;
+  isInteractive?: boolean;
 }
 
-export const GradingRubricRow = ({
+export const HighlightableRubricRow = ({
   laboratoryUUID,
   studentUUID,
   objective,
   objectiveIndex,
-  selectedCriteriaForObjective
-}: gradingRubricRowProps) => {
+  selectedCriteriaForObjective,
+  isInteractive = true
+}: highlightableRubricRowProps) => {
   return (
-    <article className="flex gap-4 overflow-x-auto">
-      <GradingRubricObjectiveCard
+    <div className="flex gap-4 overflow-x-auto pb-4">
+      <HighlightableRubricObjectiveCard
         objective={objective}
         objectiveIndex={objectiveIndex}
       />
       {objective.criteria.map((criteria, index) => (
-        <GradingRubricCriteriaCard
+        <HighlightableRubricCriteriaCard
+          key={criteria.uuid}
           objectiveCriteriaList={objective.criteria}
           criteriaIndex={index}
           objectiveIndex={objectiveIndex}
           uuids={{ laboratoryUUID, objectiveUUID: objective.uuid, studentUUID }}
           isSelected={criteria.uuid === selectedCriteriaForObjective}
+          isInteractive={isInteractive}
         />
       ))}
-    </article>
+    </div>
   );
 };

@@ -7,19 +7,14 @@ import { GradingSubmissionsSummary } from "./submissions/GradingSubmissionsSumma
 type gradingSidebarProps = {
   laboratoryUUID: string;
   studentUUID: string;
-  isLoading: boolean;
   studentGrade: studentGradeResponse;
 };
 
 export const GradingSidebar = ({
   laboratoryUUID,
   studentUUID,
-  isLoading,
   studentGrade
 }: gradingSidebarProps) => {
-  // TODO: Use a proper loading component
-  if (isLoading) return <aside>Loading...</aside>;
-
   return (
     <aside>
       <Tabs defaultValue="grade" className="max-w-xs md:max-w-full">

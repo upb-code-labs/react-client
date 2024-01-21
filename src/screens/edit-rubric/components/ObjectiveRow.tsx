@@ -16,9 +16,9 @@ export const ObjectiveRow = ({
   objectiveIndex
 }: ObjectiveRowProps) => {
   return (
-    <article
+    <div
       key={`objective-row-${objective.uuid}`}
-      className="flex gap-4 overflow-x-auto"
+      className="flex gap-4 overflow-x-auto pb-4"
     >
       <ObjectiveCard
         rubricUUID={rubricUUID}
@@ -29,7 +29,7 @@ export const ObjectiveRow = ({
       {objective.criteria.map((criteria, ci) => (
         <CriteriaCard
           rubricUUID={rubricUUID}
-          key={criteria.uuid}
+          key={`criteria-card-${criteria.uuid}`}
           criteria={criteria}
           criteriaIndex={ci}
           objectiveIndex={objectiveIndex}
@@ -41,6 +41,6 @@ export const ObjectiveRow = ({
         objectiveUUID={objective.uuid}
         objectiveIndex={objectiveIndex}
       />
-    </article>
+    </div>
   );
 };

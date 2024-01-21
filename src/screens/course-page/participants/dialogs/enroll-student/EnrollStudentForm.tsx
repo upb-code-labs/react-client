@@ -56,7 +56,10 @@ export const EnrollStudentForm = () => {
         <ScrollArea className="max-h-56">
           <div className="p-1">
             {students.map((student) => (
-              <FoundStudentCard student={student} />
+              <FoundStudentCard
+                key={`found-student-card-${student.uuid}`}
+                student={student}
+              />
             ))}
           </div>
         </ScrollArea>

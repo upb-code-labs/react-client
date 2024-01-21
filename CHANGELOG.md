@@ -1,3 +1,21 @@
+# [0.48.0](https://github.com/upb-code-labs/react-client/compare/v0.47.0...v0.48.0) (2024-01-21)
+
+
+### Features
+
+* **ui:** Landing page ([#267](https://github.com/upb-code-labs/react-client/issues/267)) ([254b541](https://github.com/upb-code-labs/react-client/commit/254b541ab5cd2675f03c5510604f6fd4bf5461d0))
+
+
+
+# [0.47.0](https://github.com/upb-code-labs/react-client/compare/v0.46.0...v0.47.0) (2024-01-21)
+
+
+### Features
+
+* Show grades to students ([#266](https://github.com/upb-code-labs/react-client/issues/266)) ([3923fd5](https://github.com/upb-code-labs/react-client/commit/3923fd5fea8fa4e73022e6fbe701eca8a0d87ead))
+
+
+
 # [0.46.0](https://github.com/upb-code-labs/react-client/compare/v0.45.0...v0.46.0) (2024-01-20)
 
 
@@ -22,24 +40,6 @@
 ### Features
 
 * Swap the index of two blocks ([#256](https://github.com/upb-code-labs/react-client/issues/256)) ([842114e](https://github.com/upb-code-labs/react-client/commit/842114e4017978869c3a1a4b77e190332436f440))
-
-
-
-# [0.43.0](https://github.com/upb-code-labs/react-client/compare/v0.42.0...v0.43.0) (2024-01-17)
-
-
-### Features
-
-* Update password ([#255](https://github.com/upb-code-labs/react-client/issues/255)) ([ad92b51](https://github.com/upb-code-labs/react-client/commit/ad92b515fc1d91cbd085bf6cc475b0d64e0b7900))
-
-
-
-# [0.42.0](https://github.com/upb-code-labs/react-client/compare/v0.41.0...v0.42.0) (2024-01-17)
-
-
-### Features
-
-* Update profile ([#254](https://github.com/upb-code-labs/react-client/issues/254)) ([1954d1d](https://github.com/upb-code-labs/react-client/commit/1954d1dfcd7f62d830829fa645bf3427734a3411))
 
 
 

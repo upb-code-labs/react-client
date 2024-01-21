@@ -40,7 +40,7 @@ export const CoursesHome = () => {
             : userCourses?.courses.map((course) => {
                 return (
                   <CourseCard
-                    key={course.uuid}
+                    key={`course-card-${course.uuid}`}
                     course={course}
                     isHidden={false}
                   />
@@ -54,7 +54,11 @@ export const CoursesHome = () => {
         {(userCourses?.hiddenCourses.length || 0) > 0 ? (
           <GridContainer>
             {userCourses?.hiddenCourses.map((course) => (
-              <CourseCard key={course.uuid} course={course} isHidden />
+              <CourseCard
+                key={`course-card-${course.uuid}`}
+                course={course}
+                isHidden
+              />
             ))}
           </GridContainer>
         ) : (

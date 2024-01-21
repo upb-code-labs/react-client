@@ -1,19 +1,18 @@
 import { CustomError } from "@/components/CustomError";
+import { AuthContext } from "@/context/AuthContext";
 import { getGradeOfStudentInLaboratoryService } from "@/services/grades/get-grade-of-student-in-laboratory.service";
 import { getLaboratoryInformationByUUIDService } from "@/services/laboratories/get-laboratory-information-by-uuid.service";
 import { getRubricByUUIDService } from "@/services/rubrics/get-rubric-by-uuid.service";
 import { useQuery } from "@tanstack/react-query";
-import { Suspense } from "react";
+import { Suspense, useContext } from "react";
 import { lazily } from "react-lazily";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 import { NoRubricChosen } from "./components/NoRubricChosen";
-import { EditStudentGradeLayoutSkeleton } from "./skeletons/EditStudentGradeLayoutSkeleton";
+import { MyGradeLayoutSkeleton } from "./skeletons/MyGradeLayoutSkeleton";
 
-const { EditStudentGradeLayout } = lazily(
-  () => import("./components/EditStudentGradeLayout")
-);
+const { MyGradeLayout } = lazily(() => import("./components/MyGradeLayout"));
 
 const handleViewError = (
   error: Error,
@@ -39,12 +38,15 @@ const handleViewError = (
   );
 };
 
-export const EditStudentGradeView = () => {
+export const MyGradeView = () => {
+  // Get the student UUID from the global session
+  const { user } = useContext(AuthContext);
+  const studentUUID = user!.uuid;
+
   // Get the UUIDs from the URL
-  const { courseUUID, laboratoryUUID, studentUUID } = useParams<{
+  const { courseUUID, laboratoryUUID } = useParams<{
     courseUUID: string;
     laboratoryUUID: string;
-    studentUUID: string;
   }>();
 
   const {
@@ -91,41 +93,36 @@ export const EditStudentGradeView = () => {
   // Handle error state
   if (isErrorLabInfo) {
     return handleViewError(errorLabInfo, {
-      redirectURL: `/courses/${courseUUID}/laboratories/${laboratoryUUID}/grades`,
-      redirectText: "Go back to grades"
+      redirectURL: `/courses/${courseUUID}/laboratories`,
+      redirectText: "Go back laboratories"
     });
   }
 
   if (isErrorStudentGrade) {
     return handleViewError(errorStudentGrade, {
-      redirectURL: `/courses/${courseUUID}/laboratories/${laboratoryUUID}/grades`,
-      redirectText: "Go back to grades"
+      redirectURL: `/courses/${courseUUID}/laboratories`,
+      redirectText: "Go back laboratories"
     });
   }
 
   if (isErrorRubric) {
     return handleViewError(errorRubric, {
-      redirectURL: `/courses/${courseUUID}/laboratories/${laboratoryUUID}/grades`,
-      redirectText: "Go back to grades"
+      redirectURL: `/courses/${courseUUID}/laboratories`,
+      redirectText: "Go back laboratories"
     });
   }
 
   // Handle loading state
   const isLoading =
-    isLoadingLabInfo || isLoadingRubric || isLoadingStudentGrade;
+    isLoadingLabInfo || isLoadingStudentGrade || isLoadingRubric;
 
   if (isLoading) {
-    return <EditStudentGradeLayoutSkeleton />;
+    return <MyGradeLayoutSkeleton />;
   }
 
   // If the rubric is not loading but is undefined, return the custom error component
   if (!rubric) {
-    return (
-      <NoRubricChosen
-        courseUUID={courseUUID!}
-        laboratoryUUID={laboratoryUUID!}
-      />
-    );
+    return <NoRubricChosen courseUUID={courseUUID!} />;
   }
 
   // If the student grade is not loading but is undefined, return an error
@@ -150,16 +147,16 @@ export const EditStudentGradeView = () => {
     );
 
   return (
-    <Suspense fallback={<EditStudentGradeLayoutSkeleton />}>
-      <EditStudentGradeLayout
+    <Suspense fallback={<MyGradeLayoutSkeleton />}>
+      <MyGradeLayout
         ids={{
           courseUUID: courseUUID!,
           laboratoryUUID: laboratoryUUID!,
-          studentUUID: studentUUID!
+          studentUUID
         }}
         rubric={rubric}
-        studentGrade={studentGrade}
         selectedCriteriaByObjectiveMap={selectedCriteriaByObjectiveMap}
+        studentGrade={studentGrade}
       />
     </Suspense>
   );
