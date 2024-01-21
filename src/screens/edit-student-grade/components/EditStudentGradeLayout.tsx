@@ -9,8 +9,8 @@ import { Link } from "react-router-dom";
 import { GradingRubricSkeleton } from "../skeletons/GradingRubricSkeleton";
 import { GradingSidebarSkeleton } from "../skeletons/GradingSidebarSkeleton";
 
-const { GradingRubric } = lazily(
-  () => import("./grading-rubric/GradingRubric")
+const { HighlightableRubric: GradingRubric } = lazily(
+  () => import("../../../components/hightlightable-rubric/HighlightableRubric")
 );
 const { GradingSidebar } = lazily(
   () => import("./grading-sidebar/GradingSidebar")

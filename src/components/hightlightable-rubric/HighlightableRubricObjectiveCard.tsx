@@ -3,15 +3,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { Objective } from "@/types/entities/rubric-entities";
 import { useId } from "react";
 
-interface gradingRubricObjectiveCardProps {
+interface highlightableRubricObjectiveCardProps {
   objective: Objective;
   objectiveIndex: number;
 }
 
-export const GradingRubricObjectiveCard = ({
+export const HighlightableRubricObjectiveCard = ({
   objective,
   objectiveIndex
-}: gradingRubricObjectiveCardProps) => {
+}: highlightableRubricObjectiveCardProps) => {
   const objectiveDescriptionId = useId();
 
   return (

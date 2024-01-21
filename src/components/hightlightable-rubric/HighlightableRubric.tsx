@@ -1,24 +1,24 @@
 import { Rubric } from "@/types/entities/rubric-entities";
 
-import { GradingRubricRow } from "./GradingRubricObjectiveRow";
+import { HighlightableRubricRow } from "./HighlightableRubricObjectiveRow";
 
-interface SelectableRubricProps {
+interface highlightableRubricProps {
   selectedCriteriaByObjective: Record<string, string | null>;
   laboratoryUUID: string;
   studentUUID: string;
   rubric: Rubric;
 }
 
-export const GradingRubric = ({
+export const HighlightableRubric = ({
   selectedCriteriaByObjective,
   laboratoryUUID,
   studentUUID,
   rubric
-}: SelectableRubricProps) => {
+}: highlightableRubricProps) => {
   return (
     <div className="flex max-w-[calc(100vw-2rem)] flex-col gap-4">
       {rubric.objectives.map((objective, index) => (
-        <GradingRubricRow
+        <HighlightableRubricRow
           key={`selectable-objective-row-${objective.uuid}`}
           laboratoryUUID={laboratoryUUID}
           studentUUID={studentUUID}

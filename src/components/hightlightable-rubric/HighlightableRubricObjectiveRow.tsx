@@ -1,9 +1,9 @@
 import { Objective } from "@/types/entities/rubric-entities";
 
-import { GradingRubricCriteriaCard } from "./GradingRubricCriteriaCard";
-import { GradingRubricObjectiveCard } from "./GradingRubricObjectiveCard";
+import { HighlightableRubricCriteriaCard } from "./HighlightableRubricCriteriaCard";
+import { HighlightableRubricObjectiveCard } from "./HighlightableRubricObjectiveCard";
 
-interface gradingRubricRowProps {
+interface highlightableRubricRowProps {
   laboratoryUUID: string;
   studentUUID: string;
   objective: Objective;
@@ -11,21 +11,21 @@ interface gradingRubricRowProps {
   selectedCriteriaForObjective: string | null;
 }
 
-export const GradingRubricRow = ({
+export const HighlightableRubricRow = ({
   laboratoryUUID,
   studentUUID,
   objective,
   objectiveIndex,
   selectedCriteriaForObjective
-}: gradingRubricRowProps) => {
+}: highlightableRubricRowProps) => {
   return (
     <article className="flex gap-4 overflow-x-auto">
-      <GradingRubricObjectiveCard
+      <HighlightableRubricObjectiveCard
         objective={objective}
         objectiveIndex={objectiveIndex}
       />
       {objective.criteria.map((criteria, index) => (
-        <GradingRubricCriteriaCard
+        <HighlightableRubricCriteriaCard
           objectiveCriteriaList={objective.criteria}
           criteriaIndex={index}
           objectiveIndex={objectiveIndex}

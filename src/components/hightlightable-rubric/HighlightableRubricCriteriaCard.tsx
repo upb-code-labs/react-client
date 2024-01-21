@@ -11,27 +11,27 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useId } from "react";
 import { toast } from "sonner";
 
-interface gradingRubricCriteriaRequiredUUID {
+interface highlightableRubricCriteriaRequiredUUID {
   laboratoryUUID: string;
   objectiveUUID: string;
   studentUUID: string;
 }
 
-interface gradingRubricCriteriaCardProps {
+interface highlightableRubricCriteriaCardProps {
   objectiveCriteriaList: Criteria[];
-  uuids: gradingRubricCriteriaRequiredUUID;
+  uuids: highlightableRubricCriteriaRequiredUUID;
   criteriaIndex: number;
   objectiveIndex: number;
   isSelected?: boolean;
 }
 
-export const GradingRubricCriteriaCard = ({
+export const HighlightableRubricCriteriaCard = ({
   objectiveCriteriaList,
   uuids: { laboratoryUUID, objectiveUUID, studentUUID },
   criteriaIndex,
   objectiveIndex,
   isSelected = false
-}: gradingRubricCriteriaCardProps) => {
+}: highlightableRubricCriteriaCardProps) => {
   const criteria = objectiveCriteriaList[criteriaIndex];
 
   const criteriaWeightId = useId();
