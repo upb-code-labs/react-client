@@ -1,16 +1,14 @@
 import { CustomError } from "@/components/CustomError";
-import { buttonVariants } from "@/components/ui/button";
 import { getGradeOfStudentInLaboratoryService } from "@/services/grades/get-grade-of-student-in-laboratory.service";
 import { getLaboratoryInformationByUUIDService } from "@/services/laboratories/get-laboratory-information-by-uuid.service";
 import { getRubricByUUIDService } from "@/services/rubrics/get-rubric-by-uuid.service";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeftIcon } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { EditStudentGradeLayout } from "./components/EditStudentGradeLayout";
 import { NoRubricChosen } from "./components/NoRubricChosen";
-import { GradingRubric } from "./components/grading-rubric/GradingRubric";
-import { GradingSidebar } from "./components/grading-sidebar/GradingSidebar";
+import { EditStudentGradeLayoutSkeleton } from "./skeletons/EditStudentGradeLayoutSkeleton";
 
 const handleViewError = (
   error: Error,
@@ -111,7 +109,9 @@ export const EditStudentGradeView = () => {
   const isLoading =
     isLoadingLabInfo || isLoadingRubric || isLoadingStudentGrade;
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return <EditStudentGradeLayoutSkeleton />;
+  }
 
   // If the rubric is not loading but is undefined, return the custom error component
   if (!rubric) {
@@ -145,34 +145,15 @@ export const EditStudentGradeView = () => {
     );
 
   return (
-    <main className="col-span-3 flex flex-col gap-4">
-      <div className="w-full">
-        <Link
-          to={`/courses/${courseUUID}/laboratories/${laboratoryUUID}/grades`}
-          className={buttonVariants({ variant: "default" })}
-        >
-          <ArrowLeftIcon size={24} className="mr-2" /> Go back
-        </Link>
-      </div>
-      <div className="grid w-full gap-8 md:grid-cols-5">
-        <div className="md:col-span-3">
-          <GradingRubric
-            rubric={rubric}
-            isLoading={isLoadingLabInfo || isLoadingRubric}
-            studentUUID={studentUUID!}
-            laboratoryUUID={laboratoryUUID!}
-            selectedCriteriaByObjective={selectedCriteriaByObjectiveMap}
-          />
-        </div>
-        <div className="-order-1 md:order-1 md:col-span-2">
-          <GradingSidebar
-            laboratoryUUID={laboratoryUUID!}
-            studentUUID={studentUUID!}
-            studentGrade={studentGrade}
-            isLoading={isLoadingLabInfo || isLoadingStudentGrade}
-          />
-        </div>
-      </div>
-    </main>
+    <EditStudentGradeLayout
+      ids={{
+        courseUUID: courseUUID!,
+        laboratoryUUID: laboratoryUUID!,
+        studentUUID: studentUUID!
+      }}
+      rubric={rubric}
+      studentGrade={studentGrade}
+      selectedCriteriaByObjectiveMap={selectedCriteriaByObjectiveMap}
+    />
   );
 };
