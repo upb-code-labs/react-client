@@ -30,7 +30,6 @@ const gradingFormSchema = z.object({
     .string()
     .min(8, "Comment must be at least 8 character long")
     .max(510, "Comment must be at most 510 characters long")
-    .readonly()
 });
 
 export const GradingForm = ({
