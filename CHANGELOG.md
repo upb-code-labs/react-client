@@ -1,3 +1,12 @@
+# [0.48.0](https://github.com/upb-code-labs/react-client/compare/v0.47.0...v0.48.0) (2024-01-21)
+
+
+### Features
+
+* **ui:** Landing page ([#267](https://github.com/upb-code-labs/react-client/issues/267)) ([254b541](https://github.com/upb-code-labs/react-client/commit/254b541ab5cd2675f03c5510604f6fd4bf5461d0))
+
+
+
 # [0.47.0](https://github.com/upb-code-labs/react-client/compare/v0.46.0...v0.47.0) (2024-01-21)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Swap the index of two blocks ([#256](https://github.com/upb-code-labs/react-client/issues/256)) ([842114e](https://github.com/upb-code-labs/react-client/commit/842114e4017978869c3a1a4b77e190332436f440))
-
-
-
-# [0.43.0](https://github.com/upb-code-labs/react-client/compare/v0.42.0...v0.43.0) (2024-01-17)
-
-
-### Features
-
-* Update password ([#255](https://github.com/upb-code-labs/react-client/issues/255)) ([ad92b51](https://github.com/upb-code-labs/react-client/commit/ad92b515fc1d91cbd085bf6cc475b0d64e0b7900))
 
 
 
