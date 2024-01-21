@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { GradingRubricSkeleton } from "./GradingRubricSkeleton";
+import { HighlightableRubricSkeleton } from "../../../components/Skeletons/HighlightableRubricSkeleton";
 import { GradingSidebarSkeleton } from "./GradingSidebarSkeleton";
 
 export const EditStudentGradeLayoutSkeleton = () => {
@@ -11,7 +11,7 @@ export const EditStudentGradeLayoutSkeleton = () => {
         <Skeleton className="h-10 w-28" />
       </div>
       <div className="grid w-full gap-8 md:grid-cols-5">
-        <GradingRubricSkeleton />
+        <HighlightableRubricSkeleton />
         <div className="-order-1 md:order-1 md:col-span-2">
           <GradingSidebarSkeleton />
           GradingRubricSkeleton
