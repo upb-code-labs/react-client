@@ -1,0 +1,21 @@
+.hero::after,
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  background-color: #ae3dff;
+  filter: blur(64px) opacity(0.15);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.hero::before {
+  left: 0;
+  bottom: 0;
+}
+
+.hero::after {
+  right: 0;
+  top: 0;
+}
