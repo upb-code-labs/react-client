@@ -1,20 +1,11 @@
+import { HighlightableRubric } from "@/components/hightlightable-rubric/HighlightableRubric";
 import { buttonVariants } from "@/components/ui/button";
 import { studentGradeResponse } from "@/services/grades/get-grade-of-student-in-laboratory.service";
 import { Rubric } from "@/types/entities/rubric-entities";
 import { ArrowLeftIcon } from "lucide-react";
-import { Suspense } from "react";
-import { lazily } from "react-lazily";
 import { Link } from "react-router-dom";
 
-import { HighlightableRubricSkeleton } from "../../../components/Skeletons/HighlightableRubricSkeleton";
-import { GradingSidebarSkeleton } from "../skeletons/GradingSidebarSkeleton";
-
-const { HighlightableRubric } = lazily(
-  () => import("../../../components/hightlightable-rubric/HighlightableRubric")
-);
-const { GradingSidebar } = lazily(
-  () => import("./grading-sidebar/GradingSidebar")
-);
+import { GradingSidebar } from "./grading-sidebar/GradingSidebar";
 
 type editStudentGradeLayoutRequiredIds = {
   courseUUID: string;
@@ -47,23 +38,19 @@ export const EditStudentGradeLayout = ({
       </div>
       <div className="grid w-full gap-8 md:grid-cols-5">
         <div className="md:col-span-3">
-          <Suspense fallback={<HighlightableRubricSkeleton />}>
-            <HighlightableRubric
-              rubric={rubric}
-              studentUUID={studentUUID!}
-              laboratoryUUID={laboratoryUUID!}
-              selectedCriteriaByObjective={selectedCriteriaByObjectiveMap}
-            />
-          </Suspense>
+          <HighlightableRubric
+            rubric={rubric}
+            studentUUID={studentUUID!}
+            laboratoryUUID={laboratoryUUID!}
+            selectedCriteriaByObjective={selectedCriteriaByObjectiveMap}
+          />
         </div>
         <div className="-order-1 md:order-1 md:col-span-2">
-          <Suspense fallback={<GradingSidebarSkeleton />}>
-            <GradingSidebar
-              laboratoryUUID={laboratoryUUID!}
-              studentUUID={studentUUID!}
-              studentGrade={studentGrade}
-            />
-          </Suspense>
+          <GradingSidebar
+            laboratoryUUID={laboratoryUUID!}
+            studentUUID={studentUUID!}
+            studentGrade={studentGrade}
+          />
         </div>
       </div>
     </main>

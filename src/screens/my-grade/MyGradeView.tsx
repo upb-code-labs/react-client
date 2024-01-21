@@ -4,12 +4,14 @@ import { getGradeOfStudentInLaboratoryService } from "@/services/grades/get-grad
 import { getLaboratoryInformationByUUIDService } from "@/services/laboratories/get-laboratory-information-by-uuid.service";
 import { getRubricByUUIDService } from "@/services/rubrics/get-rubric-by-uuid.service";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
+import { Suspense, useContext } from "react";
+import { lazily } from "react-lazily";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
-import { MyGradeLayout } from "./components/MyGradeLayout";
 import { MyGradeLayoutSkeleton } from "./skeletons/MyGradeLayoutSkeleton";
+
+const { MyGradeLayout } = lazily(() => import("./components/MyGradeLayout"));
 
 const handleViewError = (
   error: Error,
@@ -144,15 +146,17 @@ export const MyGradeView = () => {
     );
 
   return (
-    <MyGradeLayout
-      ids={{
-        courseUUID: courseUUID!,
-        laboratoryUUID: laboratoryUUID!,
-        studentUUID
-      }}
-      rubric={rubric}
-      selectedCriteriaByObjectiveMap={selectedCriteriaByObjectiveMap}
-      studentGrade={studentGrade}
-    />
+    <Suspense fallback={<MyGradeLayoutSkeleton />}>
+      <MyGradeLayout
+        ids={{
+          courseUUID: courseUUID!,
+          laboratoryUUID: laboratoryUUID!,
+          studentUUID
+        }}
+        rubric={rubric}
+        selectedCriteriaByObjectiveMap={selectedCriteriaByObjectiveMap}
+        studentGrade={studentGrade}
+      />
+    </Suspense>
   );
 };

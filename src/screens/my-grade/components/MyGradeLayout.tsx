@@ -1,18 +1,11 @@
-import { HighlightableRubricSkeleton } from "@/components/Skeletons/HighlightableRubricSkeleton";
+import { HighlightableRubric } from "@/components/hightlightable-rubric/HighlightableRubric";
 import { buttonVariants } from "@/components/ui/button";
 import { studentGradeResponse } from "@/services/grades/get-grade-of-student-in-laboratory.service";
 import { Rubric } from "@/types/entities/rubric-entities";
 import { ArrowLeftIcon } from "lucide-react";
-import { Suspense } from "react";
-import { lazily } from "react-lazily";
 import { Link } from "react-router-dom";
 
-import { MyGradeFormSkeleton } from "../skeletons/MyGradeFormSkeleton";
 import { MyGradeForm } from "./MyGradeForm";
-
-const { HighlightableRubric } = lazily(
-  () => import("../../../components/hightlightable-rubric/HighlightableRubric")
-);
 
 type myGradeLayoutRequiredIds = {
   courseUUID: string;
@@ -45,20 +38,16 @@ export const MyGradeLayout = ({
       </div>
       <div className="grid w-full gap-8 md:grid-cols-5">
         <div className="md:col-span-3">
-          <Suspense fallback={<HighlightableRubricSkeleton />}>
-            <HighlightableRubric
-              rubric={rubric}
-              isInteractive={false}
-              studentUUID={studentUUID!}
-              laboratoryUUID={laboratoryUUID!}
-              selectedCriteriaByObjective={selectedCriteriaByObjectiveMap}
-            />
-          </Suspense>
+          <HighlightableRubric
+            rubric={rubric}
+            isInteractive={false}
+            studentUUID={studentUUID!}
+            laboratoryUUID={laboratoryUUID!}
+            selectedCriteriaByObjective={selectedCriteriaByObjectiveMap}
+          />
         </div>
         <div className="-order-1 md:order-1 md:col-span-2">
-          <Suspense fallback={<MyGradeFormSkeleton />}>
-            <MyGradeForm studentGrade={studentGrade} />
-          </Suspense>
+          <MyGradeForm studentGrade={studentGrade} />
         </div>
       </div>
     </main>
