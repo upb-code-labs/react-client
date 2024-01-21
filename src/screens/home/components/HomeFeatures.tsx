@@ -4,9 +4,7 @@ export const HomeFeatures = () => {
   return (
     <section className="bg-neutral-50">
       <div className="mx-auto max-w-7xl px-4 py-8">
-        <h2 className="mb-8 text-center text-3xl font-semibold">
-          Main features
-        </h2>
+        <h2 className="mb-8 text-3xl font-semibold">Main features</h2>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-8">
           {features.map((feature, index) => (
             <article
