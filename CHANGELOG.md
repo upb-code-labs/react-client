@@ -1,3 +1,12 @@
+# [0.47.0](https://github.com/upb-code-labs/react-client/compare/v0.46.0...v0.47.0) (2024-01-21)
+
+
+### Features
+
+* Show grades to students ([#266](https://github.com/upb-code-labs/react-client/issues/266)) ([3923fd5](https://github.com/upb-code-labs/react-client/commit/3923fd5fea8fa4e73022e6fbe701eca8a0d87ead))
+
+
+
 # [0.46.0](https://github.com/upb-code-labs/react-client/compare/v0.45.0...v0.46.0) (2024-01-20)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Update password ([#255](https://github.com/upb-code-labs/react-client/issues/255)) ([ad92b51](https://github.com/upb-code-labs/react-client/commit/ad92b515fc1d91cbd085bf6cc475b0d64e0b7900))
-
-
-
-# [0.42.0](https://github.com/upb-code-labs/react-client/compare/v0.41.0...v0.42.0) (2024-01-17)
-
-
-### Features
-
-* Update profile ([#254](https://github.com/upb-code-labs/react-client/issues/254)) ([1954d1d](https://github.com/upb-code-labs/react-client/commit/1954d1dfcd7f62d830829fa645bf3427734a3411))
 
 
 
