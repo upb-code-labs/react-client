@@ -15,18 +15,6 @@ const source = [
   {
     name: "Organization profile",
     url: "https://github.com/upb-code-labs"
-  },
-  {
-    name: "Frontend repository",
-    url: "https://github.com/UPB-Code-Labs/react-client"
-  },
-  {
-    name: "Main API repository",
-    url: "https://github.com/UPB-Code-Labs/main-api"
-  },
-  {
-    name: "Tests runner repository",
-    url: "https://github.com/UPB-Code-Labs/tests-microservice"
   }
 ];
 
