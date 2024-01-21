@@ -38,7 +38,7 @@ export const TeacherLaboratoryBlocks = ({
           const mdBlock: MarkdownBlock = block as MarkdownBlock;
           return (
             <EditableMarkdownBlock
-              key={mdBlock.uuid}
+              key={`editable-markdown-block-${mdBlock.uuid}`}
               blockIndex={index}
               blockUUID={mdBlock.uuid}
               blockContent={mdBlock.content}
@@ -49,7 +49,7 @@ export const TeacherLaboratoryBlocks = ({
           const testBlock: TestBlock = block as TestBlock;
           return (
             <EditableTestBlock
-              key={testBlock.uuid}
+              key={`editable-test-block-${testBlock.uuid}`}
               blockIndex={index}
               testBlock={testBlock}
             />

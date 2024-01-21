@@ -33,6 +33,7 @@ import "./global.css";
 import { EditStudentGradeView } from "./screens/edit-student-grade/EditStudentGradeView";
 import { LaboratoryGrades } from "./screens/laboratory-grades/LaboratoryGrades";
 import { LaboratoryProgressView } from "./screens/laboratory-progress/LaboratoryProgressView";
+import { MyGradeView } from "./screens/my-grade/MyGradeView";
 
 // Define query client
 const queryClient = new QueryClient({
@@ -170,6 +171,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               element={
                 <AuthMiddleware mustBeLoggedIn roles={["teacher"]}>
                   <EditStudentGradeView />
+                </AuthMiddleware>
+              }
+            />
+            <Route
+              path="laboratories/:laboratoryUUID/my-grade"
+              element={
+                <AuthMiddleware mustBeLoggedIn roles={["student"]}>
+                  <MyGradeView />
                 </AuthMiddleware>
               }
             />

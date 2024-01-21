@@ -1,31 +1,26 @@
 import { Rubric } from "@/types/entities/rubric-entities";
 
-import { GradingRubricRow } from "./GradingRubricObjectiveRow";
+import { HighlightableRubricRow } from "./HighlightableRubricObjectiveRow";
 
-interface SelectableRubricProps {
+interface highlightableRubricProps {
   selectedCriteriaByObjective: Record<string, string | null>;
   laboratoryUUID: string;
   studentUUID: string;
-  isLoading: boolean;
   rubric: Rubric;
+  isInteractive?: boolean;
 }
 
-export const GradingRubric = ({
+export const HighlightableRubric = ({
   selectedCriteriaByObjective,
   laboratoryUUID,
   studentUUID,
-  isLoading,
-  rubric
-}: SelectableRubricProps) => {
-  // TODO: Use a proper loading component
-  if (isLoading) {
-    return <div>Loading rubric...</div>;
-  }
-
+  rubric,
+  isInteractive = true
+}: highlightableRubricProps) => {
   return (
     <div className="flex max-w-[calc(100vw-2rem)] flex-col gap-4">
       {rubric.objectives.map((objective, index) => (
-        <GradingRubricRow
+        <HighlightableRubricRow
           key={`selectable-objective-row-${objective.uuid}`}
           laboratoryUUID={laboratoryUUID}
           studentUUID={studentUUID}
@@ -34,6 +29,7 @@ export const GradingRubric = ({
           selectedCriteriaForObjective={
             selectedCriteriaByObjective[objective.uuid]
           }
+          isInteractive={isInteractive}
         />
       ))}
     </div>

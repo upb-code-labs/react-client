@@ -67,7 +67,7 @@ export const RubricsTable = ({ isLoading, rubrics }: rubricsTableProps) => {
           <TableBody>
             {rubrics?.length ? (
               rubrics.map((rubric) => (
-                <TableRow key={rubric.uuid}>
+                <TableRow key={`rubric-${rubric.uuid}`}>
                   <TableCell className="line-clamp-1">{rubric.name}</TableCell>
                   <TableCell className="w-min">
                     <div className="flex max-w-sm flex-wrap gap-4">

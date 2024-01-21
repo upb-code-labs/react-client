@@ -11,27 +11,29 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useId } from "react";
 import { toast } from "sonner";
 
-interface gradingRubricCriteriaRequiredUUID {
+interface highlightableRubricCriteriaRequiredUUID {
   laboratoryUUID: string;
   objectiveUUID: string;
   studentUUID: string;
 }
 
-interface gradingRubricCriteriaCardProps {
+interface highlightableRubricCriteriaCardProps {
   objectiveCriteriaList: Criteria[];
-  uuids: gradingRubricCriteriaRequiredUUID;
+  uuids: highlightableRubricCriteriaRequiredUUID;
   criteriaIndex: number;
   objectiveIndex: number;
   isSelected?: boolean;
+  isInteractive?: boolean;
 }
 
-export const GradingRubricCriteriaCard = ({
+export const HighlightableRubricCriteriaCard = ({
   objectiveCriteriaList,
   uuids: { laboratoryUUID, objectiveUUID, studentUUID },
   criteriaIndex,
   objectiveIndex,
-  isSelected = false
-}: gradingRubricCriteriaCardProps) => {
+  isSelected = false,
+  isInteractive = true
+}: highlightableRubricCriteriaCardProps) => {
   const criteria = objectiveCriteriaList[criteriaIndex];
 
   const criteriaWeightId = useId();
@@ -223,10 +225,18 @@ export const GradingRubricCriteriaCard = ({
   return (
     <article
       className={`flex aspect-square w-full max-w-[18rem] flex-shrink-0 cursor-pointer flex-col gap-2 border p-4 shadow-md transition-colors hover:shadow-lg sm:w-72 ${isSelected && "border-2 border-purple-upb"}`}
-      onClick={handleCriteriaCardClick}
-      tabIndex={0}
+      onClick={isInteractive ? handleCriteriaCardClick : undefined}
+      tabIndex={isInteractive ? 0 : undefined}
       role="button"
-      aria-label={`${isSelected ? "De-select" : "Select"} criteria ${criteriaIndex + 1} of objective ${objectiveIndex + 1}`}
+      aria-label={
+        isInteractive
+          ? `${isSelected ? "De-select" : "Select"} criteria ${criteriaIndex + 1} of objective ${objectiveIndex + 1}`
+          : undefined
+      }
+      data-is-highlighted={isSelected}
+      data-testid={`Criteria ${criteriaIndex + 1} of objective ${
+        objectiveIndex + 1
+      }`}
     >
       <h2 className="text-xl font-bold">Criteria {criteriaIndex + 1}</h2>
       <div className="flex flex-col gap-2">

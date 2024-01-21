@@ -2,32 +2,22 @@ import { buttonVariants } from "@/components/ui/button";
 import { ArrowLeftIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
-interface noRubricChosenProps {
+interface NoRubricChosenProps {
   courseUUID: string;
-  laboratoryUUID: string;
 }
 
-export const NoRubricChosen = ({
-  courseUUID,
-  laboratoryUUID
-}: noRubricChosenProps) => {
+export const NoRubricChosen = ({ courseUUID }: NoRubricChosenProps) => {
   return (
     <main className="col-span-3 mx-auto grid h-min max-w-2xl gap-8 md:grid-cols-2">
       <div className="flex max-w-md flex-col items-center justify-center gap-4 md:items-start">
         <h1 className="text-3xl font-bold">No rubric chosen</h1>
         <p className="text-lg text-gray-500">
-          In order to provide feedback to your students, you must create and /
-          or choose a rubric for this laboratory.
+          Your teacher has not chosen a rubric for this laboratory yet. Please
+          ask them to do so.
         </p>
         <div className="flex flex-wrap gap-4">
           <Link
-            to={`/rubrics`}
-            className={buttonVariants({ variant: "destructive" })}
-          >
-            Create a rubric
-          </Link>
-          <Link
-            to={`/courses/${courseUUID}/laboratories/${laboratoryUUID}/grades`}
+            to={`/courses/${courseUUID}/laboratories`}
             className={buttonVariants({ variant: "outline" })}
           >
             <ArrowLeftIcon size={24} className="mr-2" /> Go back

@@ -78,6 +78,13 @@ export const CourseLaboratoriesTable = ({
           >
             <BookOpenCheck className="mr-2" /> Complete
           </Link>
+          <Link
+            aria-label={`See grade obtained in ${labInfo.name} laboratory`}
+            className={buttonVariants({ variant: "default" })}
+            to={`/courses/${courseUUID}/laboratories/${labInfo.uuid}/my-grade`}
+          >
+            <GraduationCapIcon className="mr-2" /> See grade
+          </Link>
         </>
       );
     }
@@ -107,7 +114,7 @@ export const CourseLaboratoriesTable = ({
         <TableBody>
           {laboratories?.length ? (
             laboratories.map((lab) => (
-              <TableRow key={lab.uuid}>
+              <TableRow key={`lab-row-${lab.uuid}`}>
                 <TableCell>{lab.name}</TableCell>
                 <TableCell className="first-letter:uppercase">
                   {dayjs(lab.opening_date).fromNow()}

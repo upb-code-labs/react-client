@@ -69,7 +69,7 @@ export const AdminsView = () => {
           <TableBody>
             {admins?.length ? (
               admins?.map((admin) => (
-                <TableRow key={admin.uuid}>
+                <TableRow key={`admin-row-${admin.uuid}`}>
                   <TableCell>{admin.full_name}</TableCell>
                   <TableCell>{dayjs(admin.created_at).fromNow()}</TableCell>
                   <TableCell>{admin.created_by}</TableCell>

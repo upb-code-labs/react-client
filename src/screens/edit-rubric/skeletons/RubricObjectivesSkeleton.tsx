@@ -1,7 +1,13 @@
 import { RubricObjectiveRowSkeleton } from "./RubricObjectiveRowSkeleton";
 
-export const RubricObjectivesSkeleton = () => {
-  const rows = Array.from({ length: 2 }, (_, i) => i);
+interface rubricObjectivesSkeletonProps {
+  rowsCount?: number;
+}
+
+export const RubricObjectivesSkeleton = ({
+  rowsCount = 2
+}: rubricObjectivesSkeletonProps) => {
+  const rows = Array.from({ length: rowsCount }, (_, i) => i);
 
   return (
     <>
@@ -9,7 +15,7 @@ export const RubricObjectivesSkeleton = () => {
         return (
           <RubricObjectiveRowSkeleton
             rowNumber={i + 1}
-            key={`skeleton-${i + 1}`}
+            key={`rubric-objective-row-skeleton-${i + 1}`}
           />
         );
       })}
