@@ -49,7 +49,7 @@ export const OpenSourceSection = () => {
         {/* Image container*/}
         <div className="grid place-items-center">
           <img
-            src="/images/coders-image.svg"
+            src="/images/programmers-image.svg"
             alt="Two programmers working on a project"
             className="w-full max-w-sm md:max-w-[75%]"
             loading="lazy"
