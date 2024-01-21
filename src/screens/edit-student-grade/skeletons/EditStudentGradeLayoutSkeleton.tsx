@@ -14,7 +14,6 @@ export const EditStudentGradeLayoutSkeleton = () => {
         <HighlightableRubricSkeleton />
         <div className="-order-1 md:order-1 md:col-span-2">
           <GradingSidebarSkeleton />
-          GradingRubricSkeleton
         </div>
       </div>
     </div>
