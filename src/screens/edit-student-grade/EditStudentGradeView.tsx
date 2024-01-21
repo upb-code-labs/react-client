@@ -107,16 +107,21 @@ export const EditStudentGradeView = () => {
     });
   }
 
-  // If the rubric is not loading but is undefined, return the custom error component
-  if (!rubric) {
-    return <NoRubricChosen />;
-  }
-
   // Handle loading state
   const isLoading =
     isLoadingLabInfo || isLoadingRubric || isLoadingStudentGrade;
 
   if (isLoading) return <p>Loading...</p>;
+
+  // If the rubric is not loading but is undefined, return the custom error component
+  if (!rubric) {
+    return (
+      <NoRubricChosen
+        courseUUID={courseUUID!}
+        laboratoryUUID={laboratoryUUID!}
+      />
+    );
+  }
 
   // If the student grade is not loading but is undefined, return an error
   if (!studentGrade) {
