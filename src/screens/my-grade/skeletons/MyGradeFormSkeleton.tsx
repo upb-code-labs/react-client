@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export const GradeSidebarSkeleton = () => {
+export const MyGradeFormSkeleton = () => {
   return (
     <div className="max-w-xs md:max-w-full">
       {/* Tabs content */}

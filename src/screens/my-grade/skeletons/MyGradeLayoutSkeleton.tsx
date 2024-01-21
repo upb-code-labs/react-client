@@ -1,7 +1,7 @@
 import { HighlightableRubricSkeleton } from "@/components/Skeletons/HighlightableRubricSkeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { GradeSidebarSkeleton } from "./GradeSidebarSkeleton";
+import { MyGradeFormSkeleton } from "./MyGradeFormSkeleton";
 
 export const MyGradeLayoutSkeleton = () => {
   return (
@@ -13,7 +13,7 @@ export const MyGradeLayoutSkeleton = () => {
       <div className="grid w-full gap-8 md:grid-cols-5">
         <HighlightableRubricSkeleton />
         <div className="-order-1 md:order-1 md:col-span-2">
-          <GradeSidebarSkeleton />
+          <MyGradeFormSkeleton />
         </div>
       </div>
     </div>
