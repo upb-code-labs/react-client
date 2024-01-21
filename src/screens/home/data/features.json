@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Simple design inspired by well-know platforms",
+    "description": "Our design is inspired by widely-used platforms in the university community, ensuring a user-friendly experience without a steep learning curve.",
+    "image": "/images/screenshots/courses-list.webp"
+  },
+  {
+    "name": "Create labs with Markdown instructions and unit tests",
+    "description": "Write lab instructions with the widely-used Markdown language, and integrate unit tests—all within the same platform.",
+    "image": "/images/screenshots/laboratory-view.webp"
+  },
+  {
+    "name": "\"Real time\" feedback for students",
+    "description": "Using Server Sent Events (SSE), students can receive feedback on their code in \"real time\".",
+    "image": "/images/screenshots/laboratory-feedback.webp"
+  },
+  {
+    "name": "Transparent grading system with rubrics",
+    "description": "Professors must create rubrics for objective assessment, ensuring a systematic and transparent grading process and empowering students with detailed feedback.",
+    "image": "/images/screenshots/rubric-view.webp"
+  },
+  {
+    "name": "Insightful student performance metrics",
+    "description": "Professors can visualize student progress with detailed charts, including the number of completed, pending and failed tests per student and group averages.",
+    "image": "/images/screenshots/statistics-view.webp"
+  },
+  {
+    "name": "Simplified grading process",
+    "description": "Professors can grade students' labs by using their rubrics, provide feedback and download the students' code for further review.",
+    "image": "/images/screenshots/grading-view.webp"
+  }
+]
