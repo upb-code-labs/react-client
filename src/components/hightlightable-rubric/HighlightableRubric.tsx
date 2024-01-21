@@ -7,13 +7,15 @@ interface highlightableRubricProps {
   laboratoryUUID: string;
   studentUUID: string;
   rubric: Rubric;
+  isInteractive?: boolean;
 }
 
 export const HighlightableRubric = ({
   selectedCriteriaByObjective,
   laboratoryUUID,
   studentUUID,
-  rubric
+  rubric,
+  isInteractive = true
 }: highlightableRubricProps) => {
   return (
     <div className="flex max-w-[calc(100vw-2rem)] flex-col gap-4">
@@ -27,6 +29,7 @@ export const HighlightableRubric = ({
           selectedCriteriaForObjective={
             selectedCriteriaByObjective[objective.uuid]
           }
+          isInteractive={isInteractive}
         />
       ))}
     </div>

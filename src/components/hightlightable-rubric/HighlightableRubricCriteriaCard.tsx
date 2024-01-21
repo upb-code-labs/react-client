@@ -23,6 +23,7 @@ interface highlightableRubricCriteriaCardProps {
   criteriaIndex: number;
   objectiveIndex: number;
   isSelected?: boolean;
+  isInteractive?: boolean;
 }
 
 export const HighlightableRubricCriteriaCard = ({
@@ -30,7 +31,8 @@ export const HighlightableRubricCriteriaCard = ({
   uuids: { laboratoryUUID, objectiveUUID, studentUUID },
   criteriaIndex,
   objectiveIndex,
-  isSelected = false
+  isSelected = false,
+  isInteractive = true
 }: highlightableRubricCriteriaCardProps) => {
   const criteria = objectiveCriteriaList[criteriaIndex];
 
@@ -223,7 +225,7 @@ export const HighlightableRubricCriteriaCard = ({
   return (
     <article
       className={`flex aspect-square w-full max-w-[18rem] flex-shrink-0 cursor-pointer flex-col gap-2 border p-4 shadow-md transition-colors hover:shadow-lg sm:w-72 ${isSelected && "border-2 border-purple-upb"}`}
-      onClick={handleCriteriaCardClick}
+      onClick={isInteractive ? handleCriteriaCardClick : undefined}
       tabIndex={0}
       role="button"
       aria-label={`${isSelected ? "De-select" : "Select"} criteria ${criteriaIndex + 1} of objective ${objectiveIndex + 1}`}

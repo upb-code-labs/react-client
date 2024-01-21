@@ -9,6 +9,7 @@ interface highlightableRubricRowProps {
   objective: Objective;
   objectiveIndex: number;
   selectedCriteriaForObjective: string | null;
+  isInteractive?: boolean;
 }
 
 export const HighlightableRubricRow = ({
@@ -16,7 +17,8 @@ export const HighlightableRubricRow = ({
   studentUUID,
   objective,
   objectiveIndex,
-  selectedCriteriaForObjective
+  selectedCriteriaForObjective,
+  isInteractive = true
 }: highlightableRubricRowProps) => {
   return (
     <article className="flex gap-4 overflow-x-auto">
@@ -31,6 +33,7 @@ export const HighlightableRubricRow = ({
           objectiveIndex={objectiveIndex}
           uuids={{ laboratoryUUID, objectiveUUID: objective.uuid, studentUUID }}
           isSelected={criteria.uuid === selectedCriteriaForObjective}
+          isInteractive={isInteractive}
         />
       ))}
     </article>

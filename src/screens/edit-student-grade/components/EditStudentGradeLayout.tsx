@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { HighlightableRubricSkeleton } from "../../../components/Skeletons/HighlightableRubricSkeleton";
 import { GradingSidebarSkeleton } from "../skeletons/GradingSidebarSkeleton";
 
-const { HighlightableRubric: GradingRubric } = lazily(
+const { HighlightableRubric } = lazily(
   () => import("../../../components/hightlightable-rubric/HighlightableRubric")
 );
 const { GradingSidebar } = lazily(
@@ -48,7 +48,7 @@ export const EditStudentGradeLayout = ({
       <div className="grid w-full gap-8 md:grid-cols-5">
         <div className="md:col-span-3">
           <Suspense fallback={<HighlightableRubricSkeleton />}>
-            <GradingRubric
+            <HighlightableRubric
               rubric={rubric}
               studentUUID={studentUUID!}
               laboratoryUUID={laboratoryUUID!}
