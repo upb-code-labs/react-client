@@ -233,6 +233,10 @@ export const HighlightableRubricCriteriaCard = ({
           ? `${isSelected ? "De-select" : "Select"} criteria ${criteriaIndex + 1} of objective ${objectiveIndex + 1}`
           : undefined
       }
+      data-is-highlighted={isSelected}
+      data-testid={`Criteria ${criteriaIndex + 1} of objective ${
+        objectiveIndex + 1
+      }`}
     >
       <h2 className="text-xl font-bold">Criteria {criteriaIndex + 1}</h2>
       <div className="flex flex-col gap-2">
