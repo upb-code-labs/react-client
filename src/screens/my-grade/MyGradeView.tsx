@@ -9,6 +9,7 @@ import { lazily } from "react-lazily";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { NoRubricChosen } from "./components/NoRubricChosen";
 import { MyGradeLayoutSkeleton } from "./skeletons/MyGradeLayoutSkeleton";
 
 const { MyGradeLayout } = lazily(() => import("./components/MyGradeLayout"));
@@ -121,7 +122,7 @@ export const MyGradeView = () => {
 
   // If the rubric is not loading but is undefined, return the custom error component
   if (!rubric) {
-    return <>Ask your teacher to add a rubric to this laboratory</>;
+    return <NoRubricChosen courseUUID={courseUUID!} />;
   }
 
   // If the student grade is not loading but is undefined, return an error
