@@ -36,6 +36,7 @@ const laboratoryStackedProgressChartOptions: ChartOptions<"bar"> = {
     }
   },
   responsive: true,
+  maintainAspectRatio: false,
   // Show the data stacked
   scales: {
     x: {
@@ -105,7 +106,13 @@ export const StackedStudentsProgressChart = ({
     ]
   };
 
+  const chartHeight = Math.max(studentsProgress.length * 40, 450);
+
   return (
-    <Bar options={laboratoryStackedProgressChartOptions} data={chartData} />
+    <Bar
+      options={laboratoryStackedProgressChartOptions}
+      data={chartData}
+      height={chartHeight}
+    />
   );
 };
