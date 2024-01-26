@@ -1,3 +1,12 @@
+## [0.48.1](https://github.com/upb-code-labs/react-client/compare/v0.48.0...v0.48.1) (2024-01-26)
+
+
+### Bug Fixes
+
+* **ui:** Increase bar chart height according to the number of students ([#270](https://github.com/upb-code-labs/react-client/issues/270)) ([5c3dec5](https://github.com/upb-code-labs/react-client/commit/5c3dec5a232ff6ec3f44a509ba0c03f114c0bf84))
+
+
+
 # [0.48.0](https://github.com/upb-code-labs/react-client/compare/v0.47.0...v0.48.0) (2024-01-21)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * List students' grades ([#262](https://github.com/upb-code-labs/react-client/issues/262)) ([508a9c2](https://github.com/upb-code-labs/react-client/commit/508a9c2d263d21a6db458c0092aa048f6107b44c))
-
-
-
-# [0.44.0](https://github.com/upb-code-labs/react-client/compare/v0.43.0...v0.44.0) (2024-01-17)
-
-
-### Features
-
-* Swap the index of two blocks ([#256](https://github.com/upb-code-labs/react-client/issues/256)) ([842114e](https://github.com/upb-code-labs/react-client/commit/842114e4017978869c3a1a4b77e190332436f440))
 
 
 
