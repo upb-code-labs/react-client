@@ -1,6 +1,7 @@
 import { downloadLanguageTemplateService } from "@/services/languages/download-language-template.service";
 import { getSubmissionArchiveService } from "@/services/submissions/get-submission-archive.service";
 import { submissionUpdate } from "@/types/entities/submission-entities";
+import { DateTime } from "luxon";
 import { toast } from "sonner";
 
 export const copyToClipboard = async (text: string): Promise<boolean> => {
@@ -92,4 +93,9 @@ export function parseSubmissionSSEUpdate(data: string): submissionUpdate {
     testsPassed: parsedData.tests_passed,
     testsOutput: parsedData.tests_output
   };
+}
+
+// This function removes the timezone and seconds from an ISO date
+export function removeTimeZoneFromIsoDate(date: string) {
+  return DateTime.fromISO(date).toFormat("yyyy-MM-dd'T'HH:mm");
 }

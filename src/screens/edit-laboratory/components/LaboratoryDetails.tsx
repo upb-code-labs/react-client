@@ -6,9 +6,11 @@ import {
   Laboratory,
   LaboratoryBaseInfo
 } from "@/types/entities/laboratory-entities";
+import { removeTimeZoneFromIsoDate } from "@/utils/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Save } from "lucide-react";
+import { DateTime } from "luxon";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -75,9 +77,17 @@ interface CreateLaboratoryFormProps {
 export const LaboratoryDetails = ({
   laboratoryDetails
 }: CreateLaboratoryFormProps) => {
-  // Remove empty timezone from dates
-  const openingDate = laboratoryDetails.opening_date.slice(0, -4);
-  const dueDate = laboratoryDetails.due_date.slice(0, -4);
+  // Parse the dates to the timezone of Colombia
+  const openingDate = DateTime.fromISO(laboratoryDetails.opening_date)
+    .setZone("America/Bogota")
+    .toISO();
+
+  const dueDate = DateTime.fromISO(laboratoryDetails.due_date)
+    .setZone("America/Bogota")
+    .toISO();
+
+  const openingDateWithNoTimeZone = removeTimeZoneFromIsoDate(openingDate!);
+  const dueDateWithNoTimeZone = removeTimeZoneFromIsoDate(dueDate!);
 
   // Global laboratory state
   const { laboratoryStateDispatcher } = useContext(EditLaboratoryContext);
@@ -89,8 +99,8 @@ export const LaboratoryDetails = ({
     defaultValues: {
       ...laboratoryDetails,
       rubricUUID: laboratoryDetails.rubricUUID,
-      openingDate,
-      dueDate
+      openingDate: openingDateWithNoTimeZone,
+      dueDate: dueDateWithNoTimeZone
     }
   });
 
@@ -105,16 +115,24 @@ export const LaboratoryDetails = ({
       toast.error(error.message);
     },
     onSuccess: (_, { name, opening_date, due_date, rubric_uuid }) => {
-      const openingDateWithDefaultTimeZone = `${opening_date}:00Z`;
-      const dueDateWithDefaultTimeZone = `${due_date}:00Z`;
+      // Set the dates to the default timezone (UTC 0). This is done because
+      // the dates are stored in the database as UTC 0, so we need to convert
+      // them to the default timezone to sync the cache with the database
+      const openingDateWithDefaultTZ = DateTime.fromISO(opening_date)
+        .setZone("UTC")
+        .toISO();
+
+      const dueDateWithDefaultTZ = DateTime.fromISO(due_date)
+        .setZone("UTC")
+        .toISO();
 
       // Update laboratory state
       laboratoryStateDispatcher({
         type: EditLaboratoryActionType.UPDATE_LABORATORY_DATA,
         payload: {
           name,
-          opening_date: openingDateWithDefaultTimeZone,
-          due_date: dueDateWithDefaultTimeZone,
+          opening_date: openingDateWithDefaultTZ!,
+          due_date: dueDateWithDefaultTZ!,
           rubricUUID: rubric_uuid
         }
       });
@@ -130,8 +148,8 @@ export const LaboratoryDetails = ({
             // Keep the UUID and blocks
             ...oldData,
             name,
-            opening_date: openingDateWithDefaultTimeZone,
-            due_date: dueDateWithDefaultTimeZone,
+            opening_date: openingDateWithDefaultTZ,
+            due_date: dueDateWithDefaultTZ,
             rubric_uuid
           };
         }
@@ -145,11 +163,23 @@ export const LaboratoryDetails = ({
   const handleSubmit = async (data: z.infer<typeof editLaboratoryScheme>) => {
     const { name, rubricUUID, openingDate, dueDate } = data;
 
+    // Add the timezone of Colombia to the dates. This is done because
+    // the database expects the dates to have a timezone, otherwise it
+    // will default to UTC 0 making the times different form the ones
+    // selected by the teacher
+    const formattedOpeningDate = DateTime.fromISO(openingDate)
+      .setZone("America/Bogota")
+      .toFormat("yyyy-MM-dd'T'HH:mm:ssZZ");
+
+    const formattedDueDate = DateTime.fromISO(dueDate)
+      .setZone("America/Bogota")
+      .toFormat("yyyy-MM-dd'T'HH:mm:ssZZ");
+
     updateLaboratoryMutation({
       laboratoryUUID: laboratoryDetails.uuid,
       name,
-      due_date: dueDate,
-      opening_date: openingDate,
+      due_date: formattedDueDate,
+      opening_date: formattedOpeningDate,
       rubric_uuid: rubricUUID
     });
   };
@@ -242,7 +272,7 @@ export const LaboratoryDetails = ({
                 <FormLabel>Rubric</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value || undefined}
+                  defaultValue={field.value ?? undefined}
                 >
                   <FormControl>
                     <SelectTrigger>
