@@ -1,3 +1,12 @@
+## [0.48.2](https://github.com/upb-code-labs/react-client/compare/v0.48.1...v0.48.2) (2024-01-27)
+
+
+### Bug Fixes
+
+* Add timezone to laboratories dates ([#271](https://github.com/upb-code-labs/react-client/issues/271)) ([d8c3206](https://github.com/upb-code-labs/react-client/commit/d8c32061d8980228e8fc6ab6914e3de4a583a2b1))
+
+
+
 ## [0.48.1](https://github.com/upb-code-labs/react-client/compare/v0.48.0...v0.48.1) (2024-01-26)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Grade student ([#263](https://github.com/upb-code-labs/react-client/issues/263)) ([bba5534](https://github.com/upb-code-labs/react-client/commit/bba553440c9c24dbf1236019f124952efae58185))
-
-
-
-# [0.45.0](https://github.com/upb-code-labs/react-client/compare/v0.44.0...v0.45.0) (2024-01-19)
-
-
-### Features
-
-* List students' grades ([#262](https://github.com/upb-code-labs/react-client/issues/262)) ([508a9c2](https://github.com/upb-code-labs/react-client/commit/508a9c2d263d21a6db458c0092aa048f6107b44c))
 
 
 
