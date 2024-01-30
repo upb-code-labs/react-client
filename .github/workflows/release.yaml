@@ -64,3 +64,21 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/${{ github.repository }}:latest,ghcr.io/${{ github.repository }}:${{ needs.version.outputs.version }}
+
+  update-infrastructure:
+    runs-on: ubuntu-22.04
+    needs:
+      - docker
+      - version
+    steps:
+      - uses: convictional/trigger-workflow-and-wait@v1.6.5
+        with:
+          owner: ${{ github.repository_owner }}
+          repo: infrastructure
+          github_token: ${{ secrets.INFRASTRUCTURE_WORKFLOW_TRIGGER_PAT }}
+          workflow_file_name: bump-service.yaml
+          client_payload: |
+            {
+              "service": "web",
+              "version": "${{ needs.version.outputs.version }}"
+            }
