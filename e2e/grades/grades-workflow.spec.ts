@@ -270,8 +270,6 @@ test.describe.serial("Grades workflow", () => {
     await expect(readyPhaseElm).toBeVisible();
     await expect(readyPhaseElm).toHaveAttribute("data-reached", "true");
 
-    // TODO: Assert the student can download the submitted file
-    /*
     const formTab = page.getByRole("tab", {
       name: "Test block 1 submission form",
       exact: true
@@ -288,7 +286,6 @@ test.describe.serial("Grades workflow", () => {
     await downloadButton.click();
     const download = await downloadPromise;
     await download.saveAs(join(__dirname, "data", "downloaded-java-tests.zip"));
-    */
   });
 
   test("Student appears in the grades list", async ({ page }) => {

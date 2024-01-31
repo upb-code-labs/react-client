@@ -68,7 +68,6 @@ export function editLaboratoryReducer(
         index: state.laboratory!.blocks.length,
         blockType: "test",
         languageUUID: action.payload.languageUUID,
-        testArchiveUUID: action.payload.testArchiveUUID,
         name: action.payload.name
       };
 

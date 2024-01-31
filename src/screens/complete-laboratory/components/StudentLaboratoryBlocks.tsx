@@ -8,10 +8,12 @@ import { MarkdownPreviewBlock } from "./markdown-block/MarkdownPreviewBlock";
 import { TestPreviewBlock } from "./test-block/TestPreviewBlock";
 
 interface StudentLaboratoryBlocksProps {
+  laboratoryUUID: string;
   blocks: LaboratoryBlock[];
 }
 
 export const StudentLaboratoryBlocks = ({
+  laboratoryUUID,
   blocks
 }: StudentLaboratoryBlocksProps) => {
   return (
@@ -29,6 +31,7 @@ export const StudentLaboratoryBlocks = ({
           const testBlock: TestBlock = block as TestBlock;
           return (
             <TestPreviewBlock
+              laboratoryUUID={laboratoryUUID}
               block={testBlock}
               blockIndex={index}
               key={`block-${testBlock.uuid}`}

@@ -82,7 +82,10 @@ export const StudentsLaboratoryView = () => {
           </>
         }
       >
-        <StudentLaboratoryBlocks blocks={laboratory.blocks} />
+        <StudentLaboratoryBlocks
+          laboratoryUUID={laboratoryUUID!}
+          blocks={laboratory.blocks}
+        />
       </Suspense>
     </main>
   );

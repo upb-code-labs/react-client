@@ -16,7 +16,6 @@ type markdownBlockBackendResponse = {
 type testBlockBackendResponse = {
   uuid: string;
   language_uuid: string;
-  test_archive_uuid: string;
   submission_uuid: string;
   name: string;
   index: number;
@@ -55,7 +54,6 @@ export async function getLaboratoryByUUIDService(
       (block: testBlockBackendResponse) => ({
         uuid: block.uuid,
         languageUUID: block.language_uuid,
-        testArchiveUUID: block.test_archive_uuid,
         submissionUUID: block.submission_uuid,
         name: block.name,
         index: block.index,

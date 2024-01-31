@@ -48,7 +48,6 @@ export type EditLaboratoryAction =
       payload: {
         uuid: string;
         languageUUID: string;
-        testArchiveUUID: string;
         name: string;
       };
     }
@@ -57,7 +56,6 @@ export type EditLaboratoryAction =
       payload: {
         uuid: string;
         languageUUID: string;
-        testArchiveUUID: string;
         name: string;
       };
     }
