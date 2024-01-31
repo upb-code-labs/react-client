@@ -1,3 +1,12 @@
+# [0.49.0](https://github.com/upb-code-labs/react-client/compare/v0.48.2...v0.49.0) (2024-01-31)
+
+
+### Features
+
+* Allow students to download the archive of their submissions ([#276](https://github.com/upb-code-labs/react-client/issues/276)) ([71ba7d0](https://github.com/upb-code-labs/react-client/commit/71ba7d0a6fb93021fcc41b85e1ed8ed4528ab0c8))
+
+
+
 ## [0.48.2](https://github.com/upb-code-labs/react-client/compare/v0.48.1...v0.48.2) (2024-01-27)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Show grades to students ([#266](https://github.com/upb-code-labs/react-client/issues/266)) ([3923fd5](https://github.com/upb-code-labs/react-client/commit/3923fd5fea8fa4e73022e6fbe701eca8a0d87ead))
-
-
-
-# [0.46.0](https://github.com/upb-code-labs/react-client/compare/v0.45.0...v0.46.0) (2024-01-20)
-
-
-### Features
-
-* Grade student ([#263](https://github.com/upb-code-labs/react-client/issues/263)) ([bba5534](https://github.com/upb-code-labs/react-client/commit/bba553440c9c24dbf1236019f124952efae58185))
 
 
 
