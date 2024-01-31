@@ -10,7 +10,6 @@ export type MarkdownBlock = {
 export type TestBlock = {
   uuid: string;
   languageUUID: string;
-  testArchiveUUID: string;
   name: string;
   index: number;
   blockType: BlockType;
