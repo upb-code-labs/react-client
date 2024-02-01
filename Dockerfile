@@ -1,5 +1,5 @@
 # --- Build stage ---
-FROM docker.io/node:20.5.1-alpine3.18 AS builder
+FROM docker.io/node:lts-alpine3.19 AS builder
 WORKDIR /app
 
 # Install pnpm 
@@ -20,7 +20,7 @@ COPY . .
 RUN pnpm build
 
 # --- Run stage ---
-FROM docker.io/nginx:1-alpine3.18-slim AS runner
+FROM docker.io/nginx:1.25.3-alpine3.18-slim AS runner
 
 # Remove default nginx config
 RUN rm /etc/nginx/conf.d/default.conf
