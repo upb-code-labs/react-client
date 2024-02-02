@@ -13,7 +13,7 @@ type myGradeLayoutRequiredIds = {
   studentUUID: string;
 };
 
-interface myGradeLayoutProps {
+interface MyGradeLayoutProps {
   ids: myGradeLayoutRequiredIds;
   rubric: Rubric;
   studentGrade: studentGradeResponse;
@@ -25,7 +25,7 @@ export const MyGradeLayout = ({
   rubric,
   studentGrade,
   selectedCriteriaByObjectiveMap
-}: myGradeLayoutProps) => {
+}: MyGradeLayoutProps) => {
   return (
     <main className="col-span-3 flex flex-col gap-4">
       <div className="w-full">
@@ -36,20 +36,16 @@ export const MyGradeLayout = ({
           <ArrowLeftIcon size={24} className="mr-2" /> Go back
         </Link>
       </div>
-      <div className="grid w-full gap-8 md:grid-cols-5">
-        <div className="md:col-span-3">
-          <HighlightableRubric
-            rubric={rubric}
-            isInteractive={false}
-            studentUUID={studentUUID!}
-            laboratoryUUID={laboratoryUUID!}
-            selectedCriteriaByObjective={selectedCriteriaByObjectiveMap}
-          />
-        </div>
-        <div className="-order-1 md:order-1 md:col-span-2">
-          <MyGradeForm studentGrade={studentGrade} />
-        </div>
+      <div className="max-w-[18rem]">
+        <MyGradeForm studentGrade={studentGrade} />
       </div>
+      <HighlightableRubric
+        rubric={rubric}
+        isInteractive={false}
+        studentUUID={studentUUID}
+        laboratoryUUID={laboratoryUUID}
+        selectedCriteriaByObjective={selectedCriteriaByObjectiveMap}
+      />
     </main>
   );
 };
