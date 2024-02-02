@@ -13,7 +13,7 @@ type editStudentGradeLayoutRequiredIds = {
   studentUUID: string;
 };
 
-interface editStudentGradeLayoutProps {
+interface EditStudentGradeLayoutProps {
   ids: editStudentGradeLayoutRequiredIds;
   rubric: Rubric;
   studentGrade: studentGradeResponse;
@@ -25,7 +25,7 @@ export const EditStudentGradeLayout = ({
   rubric,
   studentGrade,
   selectedCriteriaByObjectiveMap
-}: editStudentGradeLayoutProps) => {
+}: EditStudentGradeLayoutProps) => {
   return (
     <main className="col-span-3 flex flex-col gap-4">
       <div className="w-full">
@@ -36,23 +36,19 @@ export const EditStudentGradeLayout = ({
           <ArrowLeftIcon size={24} className="mr-2" /> Go back
         </Link>
       </div>
-      <div className="grid w-full gap-8 md:grid-cols-5">
-        <div className="md:col-span-3">
-          <HighlightableRubric
-            rubric={rubric}
-            studentUUID={studentUUID!}
-            laboratoryUUID={laboratoryUUID!}
-            selectedCriteriaByObjective={selectedCriteriaByObjectiveMap}
-          />
-        </div>
-        <div className="-order-1 md:order-1 md:col-span-2">
-          <GradingSidebar
-            laboratoryUUID={laboratoryUUID!}
-            studentUUID={studentUUID!}
-            studentGrade={studentGrade}
-          />
-        </div>
+      <div className="max-w-[18rem]">
+        <GradingSidebar
+          laboratoryUUID={laboratoryUUID}
+          studentUUID={studentUUID}
+          studentGrade={studentGrade}
+        />
       </div>
+      <HighlightableRubric
+        rubric={rubric}
+        studentUUID={studentUUID}
+        laboratoryUUID={laboratoryUUID}
+        selectedCriteriaByObjective={selectedCriteriaByObjectiveMap}
+      />
     </main>
   );
 };
