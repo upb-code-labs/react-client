@@ -118,13 +118,11 @@ export const CreateTestBlockForm = ({
       createdTestBlockUUID,
       { blockName, blockLanguageUUID, laboratoryUUID }
     ) => {
-      // TODO: Receive the test archive UUID from the server
       const newTestBlok: TestBlock = {
         uuid: createdTestBlockUUID,
         name: blockName,
         languageUUID: blockLanguageUUID,
         index: laboratoryState.laboratory!.blocks.length,
-        testArchiveUUID: "PLACEHOLDER",
         blockType: "test"
       };
 

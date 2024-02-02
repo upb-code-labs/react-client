@@ -1,5 +1,6 @@
 import { CustomError } from "@/components/CustomError";
 import { EmptyContentText } from "@/components/EmptyContentText";
+import { StudentSubmissionsSkeleton } from "@/screens/edit-student-grade/skeletons/StudentSubmissionsSkeleton";
 import { getProgressOfStudentService } from "@/services/laboratories/ger-progress-of-student.service";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -42,8 +43,7 @@ export const GradingSubmissionsSummary = ({
 
   // Handle loading state
   if (isLoadingSubmissionsSummary) {
-    // TODO: Replace this with a proper loading component
-    return <div>Loading...</div>;
+    return <StudentSubmissionsSkeleton />;
   }
 
   // Handle error state

@@ -6,11 +6,13 @@ import { TestPreviewBlockForm } from "./TestPreviewBlockForm";
 import { TestStatus } from "./TestStatus";
 
 interface TestPreviewBlockProps {
+  laboratoryUUID: string;
   block: TestBlock;
   blockIndex: number;
 }
 
 export const TestPreviewBlock = ({
+  laboratoryUUID,
   block,
   blockIndex
 }: TestPreviewBlockProps) => {
@@ -37,6 +39,7 @@ export const TestPreviewBlock = ({
       </TabsList>
       <TabsContent value={`${block.uuid}-form`}>
         <TestPreviewBlockForm
+          laboratoryUUID={laboratoryUUID}
           testBlock={block}
           blockIndex={blockIndex}
           changeToStatusTabCallback={() => setActiveTab(`${block.uuid}-status`)}

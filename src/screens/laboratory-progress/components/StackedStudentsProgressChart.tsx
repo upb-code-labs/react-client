@@ -1,4 +1,6 @@
+import { Button } from "@/components/ui/button";
 import { StudentProgress } from "@/types/entities/laboratory-entities";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   BarElement,
   CategoryScale,
@@ -10,7 +12,9 @@ import {
   Title,
   Tooltip
 } from "chart.js";
+import { RefreshCcwIcon } from "lucide-react";
 import { Bar } from "react-chartjs-2";
+import { useParams } from "react-router-dom";
 
 import { submissionsChartsStatus } from "./LaboratoryProgressDashboard";
 
@@ -36,6 +40,7 @@ const laboratoryStackedProgressChartOptions: ChartOptions<"bar"> = {
     }
   },
   responsive: true,
+  maintainAspectRatio: false,
   // Show the data stacked
   scales: {
     x: {
@@ -68,6 +73,10 @@ export const StackedStudentsProgressChart = ({
   studentsProgress,
   submissionsGroupedByStatus
 }: StackedStudentsProgressChartProps) => {
+  const { laboratoryUUID } = useParams<{
+    laboratoryUUID: string;
+  }>();
+
   // Parse the data to generate the chart dataset
   const chartData: ChartData<"bar", number[], string> = {
     labels: studentsProgress.map(
@@ -105,7 +114,31 @@ export const StackedStudentsProgressChart = ({
     ]
   };
 
+  const chartHeight = Math.max(studentsProgress.length * 40, 450);
+
+  const queryClient = useQueryClient();
+  const handleUpdateCharts = () => {
+    queryClient.invalidateQueries({
+      exact: true,
+      queryKey: ["laboratory-progress", laboratoryUUID]
+    });
+  };
+
   return (
-    <Bar options={laboratoryStackedProgressChartOptions} data={chartData} />
+    <div className="relative">
+      <Bar
+        options={laboratoryStackedProgressChartOptions}
+        data={chartData}
+        height={chartHeight}
+      />
+      <Button
+        onClick={handleUpdateCharts}
+        size={"icon"}
+        variant={"outline"}
+        className="absolute right-1 top-1"
+      >
+        <RefreshCcwIcon />
+      </Button>
+    </div>
   );
 };

@@ -13,6 +13,7 @@ import { createLaboratoryService } from "@/services/laboratories/create-laborato
 import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { DateTime } from "luxon";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
@@ -114,6 +115,21 @@ export const CreateLaboratoryForm = ({
   });
 
   const onSubmit = async (values: z.infer<typeof createLaboratorySchema>) => {
+    // Add the timezone of Colombia to the dates. This is done because
+    // the database expects the dates to have a timezone, otherwise it
+    // will default to UTC 0 making the times different form the ones
+    // selected by the teacher
+    const formattedOpeningDate = DateTime.fromISO(values.openingDate)
+      .setZone("America/Bogota")
+      .toFormat("yyyy-MM-dd'T'HH:mm:ssZZ");
+
+    const formattedDueDate = DateTime.fromISO(values.dueDate)
+      .setZone("America/Bogota")
+      .toFormat("yyyy-MM-dd'T'HH:mm:ssZZ");
+
+    values.openingDate = formattedOpeningDate;
+    values.dueDate = formattedDueDate;
+
     createLaboratoryMutation({
       courseUUID,
       ...values

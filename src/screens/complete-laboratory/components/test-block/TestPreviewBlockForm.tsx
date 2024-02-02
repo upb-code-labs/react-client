@@ -12,12 +12,13 @@ import { CONSTANTS } from "@/config/constants";
 import { getSupportedLanguagesService } from "@/services/languages/get-supported-languages.service";
 import { submitToTestBlockService } from "@/services/submissions/submit-to-test-block.service";
 import { useSupportedLanguagesStore } from "@/stores/supported-languages-store";
-import { TestBlock } from "@/types/entities/laboratory-entities";
+import { Laboratory, TestBlock } from "@/types/entities/laboratory-entities";
 import {
   downloadLanguageTemplate,
   downloadSubmissionArchive
 } from "@/utils/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { DownloadIcon, SendIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -43,12 +44,14 @@ const testPreviewBlockFormScheme = z.object({
 });
 
 interface TestPreviewBlockFormProps {
+  laboratoryUUID: string;
   testBlock: TestBlock;
   blockIndex: number;
   changeToStatusTabCallback: () => void;
 }
 
 export const TestPreviewBlockForm = ({
+  laboratoryUUID,
   testBlock,
   blockIndex,
   changeToStatusTabCallback
@@ -96,7 +99,7 @@ export const TestPreviewBlockForm = ({
     const { submissionUUID } = testBlock;
 
     const joinedBlockName = testBlock.name.replace(/\s/g, "_").toLowerCase();
-    downloadSubmissionArchive(submissionUUID!, joinedBlockName);
+    downloadSubmissionArchive(submissionUUID!, `${joinedBlockName}_submission`);
   };
 
   const handleSubmit = async (
@@ -107,10 +110,16 @@ export const TestPreviewBlockForm = ({
     setIsSending(false);
   };
 
+  const queryClient = useQueryClient();
+
   const submitArchive = async (
     data: z.infer<typeof testPreviewBlockFormScheme>
   ) => {
-    const { success, message } = await submitToTestBlockService({
+    const {
+      success,
+      message,
+      uuid: submissionUUID
+    } = await submitToTestBlockService({
       testBlockUUID: testBlock.uuid,
       submissionArchive: data.submissionFile
     });
@@ -121,6 +130,26 @@ export const TestPreviewBlockForm = ({
     }
 
     toast.success(message);
+
+    // Update data in the cache
+    queryClient.setQueryData(
+      ["laboratory", laboratoryUUID],
+      (oldData: Laboratory) => {
+        const updatedTestBlock = oldData.blocks[blockIndex] as TestBlock;
+        updatedTestBlock.submissionUUID = submissionUUID;
+
+        return {
+          ...oldData,
+          blocks: [
+            ...oldData.blocks.slice(0, blockIndex),
+            updatedTestBlock,
+            ...oldData.blocks.slice(blockIndex + 1)
+          ]
+        };
+      }
+    );
+
+    // Change to the real-time updates tab
     changeToStatusTabCallback();
   };
 

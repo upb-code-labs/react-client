@@ -1,45 +1,45 @@
-# [0.48.0](https://github.com/upb-code-labs/react-client/compare/v0.47.0...v0.48.0) (2024-01-21)
+# [0.50.0](https://github.com/upb-code-labs/react-client/compare/v0.49.1...v0.50.0) (2024-02-02)
 
 
 ### Features
 
-* **ui:** Landing page ([#267](https://github.com/upb-code-labs/react-client/issues/267)) ([254b541](https://github.com/upb-code-labs/react-client/commit/254b541ab5cd2675f03c5510604f6fd4bf5461d0))
+* Add update button to the students' progress bar chart ([be78362](https://github.com/upb-code-labs/react-client/commit/be7836290c19cffc562bf324614d8022711d5571))
 
 
 
-# [0.47.0](https://github.com/upb-code-labs/react-client/compare/v0.46.0...v0.47.0) (2024-01-21)
+## [0.49.1](https://github.com/upb-code-labs/react-client/compare/v0.49.0...v0.49.1) (2024-02-02)
 
 
-### Features
+### Bug Fixes
 
-* Show grades to students ([#266](https://github.com/upb-code-labs/react-client/issues/266)) ([3923fd5](https://github.com/upb-code-labs/react-client/commit/3923fd5fea8fa4e73022e6fbe701eca8a0d87ead))
-
-
-
-# [0.46.0](https://github.com/upb-code-labs/react-client/compare/v0.45.0...v0.46.0) (2024-01-20)
-
-
-### Features
-
-* Grade student ([#263](https://github.com/upb-code-labs/react-client/issues/263)) ([bba5534](https://github.com/upb-code-labs/react-client/commit/bba553440c9c24dbf1236019f124952efae58185))
+* **ui:** Change grading view to a one column layout ([#279](https://github.com/upb-code-labs/react-client/issues/279)) ([32bd57d](https://github.com/upb-code-labs/react-client/commit/32bd57db260a16b738b78341b2710f3306554fa4))
 
 
 
-# [0.45.0](https://github.com/upb-code-labs/react-client/compare/v0.44.0...v0.45.0) (2024-01-19)
+# [0.49.0](https://github.com/upb-code-labs/react-client/compare/v0.48.2...v0.49.0) (2024-01-31)
 
 
 ### Features
 
-* List students' grades ([#262](https://github.com/upb-code-labs/react-client/issues/262)) ([508a9c2](https://github.com/upb-code-labs/react-client/commit/508a9c2d263d21a6db458c0092aa048f6107b44c))
+* Allow students to download the archive of their submissions ([#276](https://github.com/upb-code-labs/react-client/issues/276)) ([71ba7d0](https://github.com/upb-code-labs/react-client/commit/71ba7d0a6fb93021fcc41b85e1ed8ed4528ab0c8))
 
 
 
-# [0.44.0](https://github.com/upb-code-labs/react-client/compare/v0.43.0...v0.44.0) (2024-01-17)
+## [0.48.2](https://github.com/upb-code-labs/react-client/compare/v0.48.1...v0.48.2) (2024-01-27)
 
 
-### Features
+### Bug Fixes
 
-* Swap the index of two blocks ([#256](https://github.com/upb-code-labs/react-client/issues/256)) ([842114e](https://github.com/upb-code-labs/react-client/commit/842114e4017978869c3a1a4b77e190332436f440))
+* Add timezone to laboratories dates ([#271](https://github.com/upb-code-labs/react-client/issues/271)) ([d8c3206](https://github.com/upb-code-labs/react-client/commit/d8c32061d8980228e8fc6ab6914e3de4a583a2b1))
+
+
+
+## [0.48.1](https://github.com/upb-code-labs/react-client/compare/v0.48.0...v0.48.1) (2024-01-26)
+
+
+### Bug Fixes
+
+* **ui:** Increase bar chart height according to the number of students ([#270](https://github.com/upb-code-labs/react-client/issues/270)) ([5c3dec5](https://github.com/upb-code-labs/react-client/commit/5c3dec5a232ff6ec3f44a509ba0c03f114c0bf84))
 
 
 
