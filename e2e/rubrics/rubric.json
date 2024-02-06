@@ -5,6 +5,10 @@
       "description": "Definición de la situación problema",
       "criteria": [
         {
+          "description": "No plantea la situación, necesidad, u oportunidad, que da origen al proyecto que intenta llevar a cabo.",
+          "weight": 0
+        },
+        {
           "description": "Plantea en forma poco clara y no concisa la situación, necesidad, u oportunidad, que da origen al proyecto que intenta llevar a cabo; carece de la formulación de la pregunta de investigación.",
           "weight": 0.05625
         },
@@ -25,6 +29,10 @@
     {
       "description": "Marco tecnológico y conceptual",
       "criteria": [
+        {
+          "description": "No se evidencia indagación de fundamentos conceptuales de las temáticas o áreas asociadas a la situación problema planteada.",
+          "weight": 0
+        },
         {
           "description": "Se demuestra indagación de muy pocos fundamentos conceptuales de las temáticas o áreas asociadas a la situación problema planteada. Las aseveraciones y conceptos presentados carecen de validación por referentes referentes apropiados.",
           "weight": 0.05625
@@ -47,6 +55,10 @@
       "description": "Objetivos",
       "criteria": [
         {
+          "description": "No plantea los objetivos general y específicos.",
+          "weight": 0
+        },
+        {
           "description": "Plantea los objetivos general y específicos; aunque los objetivos específicos no permiten evidenciar la consecución del objetivo general.",
           "weight": 0.1125
         },
@@ -68,6 +80,10 @@
       "description": "Justificación",
       "criteria": [
         {
+          "description": "No sustenta la importancia de realizar el proyecto.",
+          "weight": 0
+        },
+        {
           "description": "La justificación carece de un sustento claro de la importancia de realizar el proyecto.",
           "weight": 0.01875
         },
@@ -88,6 +104,10 @@
     {
       "description": "Metodología",
       "criteria": [
+        {
+          "description": "No se presenta una metodología.",
+          "weight": 0
+        },
         {
           "description": "Aunque se presenta una metodología, la misma no refleja orden en las actividades o tareas que permitan el cumplimiento de los objetivos general y específicos.",
           "weight": 0.075
@@ -111,7 +131,7 @@
       "criteria": [
         {
           "description": "No presenta una lista de requisitos funcionales.",
-          "weight": 0.1125
+          "weight": 0
         },
         {
           "description": "Presenta requisitos funcionales que no describen las características del sistema.",
@@ -132,7 +152,7 @@
       "criteria": [
         {
           "description": "No se evidencian referentes pertinentes en el documento.",
-          "weight": 0.0375
+          "weight": 0
         },
         {
           "description": "Se incluyen menos 8 referentes pertinentes en el documento. 100% de referentes en español.",
