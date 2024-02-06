@@ -128,7 +128,7 @@ export const CriteriaCard = memo(
     };
 
     return (
-      <article className="relative">
+      <article className="relative aspect-square w-full max-w-[18rem] flex-shrink-0 border p-4 shadow-md transition-colors hover:shadow-lg sm:w-72">
         <CriteriaCardDropdown
           criteriaIndex={criteriaIndex}
           criteriaUUID={criteria.uuid}
@@ -138,7 +138,7 @@ export const CriteriaCard = memo(
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex aspect-square w-full max-w-[18rem] flex-shrink-0 flex-col gap-2 border p-4 shadow-md transition-colors hover:shadow-lg sm:w-72"
+            className="flex h-full flex-col gap-2"
           >
             <h2 className="text-xl font-bold">Criteria {criteriaIndex + 1}</h2>
             <FormField

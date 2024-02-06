@@ -10,12 +10,10 @@ export const MyGradeLayoutSkeleton = () => {
         {/* Go back button */}
         <Skeleton className="h-10 w-28" />
       </div>
-      <div className="grid w-full gap-8 md:grid-cols-5">
-        <HighlightableRubricSkeleton />
-        <div className="-order-1 md:order-1 md:col-span-2">
-          <MyGradeFormSkeleton />
-        </div>
+      <div className="max-w-[18rem]">
+        <MyGradeFormSkeleton />
       </div>
+      <HighlightableRubricSkeleton />
     </div>
   );
 };

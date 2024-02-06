@@ -1,15 +1,11 @@
 import { CustomError } from "@/components/CustomError";
-import { LaboratoryBlockSkeleton } from "@/components/Skeletons/LaboratoryBlockSkeleton";
 import { getLaboratoryByUUIDService } from "@/services/laboratories/get-laboratory-by-uuid.service";
 import { useQuery } from "@tanstack/react-query";
-import { Suspense } from "react";
-import { lazily } from "react-lazily";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
-const { StudentLaboratoryBlocks } = lazily(
-  () => import("./components/StudentLaboratoryBlocks")
-);
+import { StudentLaboratoryBlocks } from "./components/StudentLaboratoryBlocks";
+import { CompleteLaboratoryViewSkeleton } from "./skeletons/CompleteLaboratoryViewSkeleton";
 
 export const StudentsLaboratoryView = () => {
   // Url params
@@ -30,15 +26,7 @@ export const StudentsLaboratoryView = () => {
   });
 
   // Handle loading state
-  if (isLoading) {
-    return (
-      <div className="col-span-3">
-        {Array.from({ length: 3 }).map((_, index) => {
-          return <LaboratoryBlockSkeleton key={`laboratory-block-${index}`} />;
-        })}
-      </div>
-    );
-  }
+  if (isLoading) return <CompleteLaboratoryViewSkeleton />;
 
   // Handle error state
   if (isLaboratoryError) {
@@ -69,24 +57,10 @@ export const StudentsLaboratoryView = () => {
 
   return (
     <main className="col-span-3">
-      <Suspense
-        fallback={
-          <>
-            {laboratory.blocks.map((block) => {
-              return (
-                <LaboratoryBlockSkeleton
-                  key={`laboratory-block-${block.uuid}`}
-                />
-              );
-            })}
-          </>
-        }
-      >
-        <StudentLaboratoryBlocks
-          laboratoryUUID={laboratoryUUID!}
-          blocks={laboratory.blocks}
-        />
-      </Suspense>
+      <StudentLaboratoryBlocks
+        laboratoryUUID={laboratoryUUID!}
+        blocks={laboratory.blocks}
+      />
     </main>
   );
 };

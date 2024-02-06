@@ -1,20 +1,15 @@
 import { CustomError } from "@/components/CustomError";
 import { getRubricByUUIDService } from "@/services/rubrics/get-rubric-by-uuid.service";
 import { useQuery } from "@tanstack/react-query";
-import { Suspense } from "react";
-import { lazily } from "react-lazily";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { ObjectiveRow } from "./components/ObjectiveRow";
+import { RubricName } from "./components/RubricName";
 import { DeleteCriteriaDialog } from "./dialogs/DeleteCriteriaDialog";
 import { DeleteObjectiveDialog } from "./dialogs/DeleteObjectiveDialog";
 import { AddObjectiveDialog } from "./dialogs/add-objective/AddObjectiveDialog";
-import { RubricNameSkeleton } from "./skeletons/RubricNameSkeleton";
-import { RubricSkeleton } from "./skeletons/RubricSkeleton";
-
-const { RubricName } = lazily(() => import("./components/RubricName"));
-
-const { ObjectiveRow } = lazily(() => import("./components/ObjectiveRow"));
+import { EditRubricViewSkeleton } from "./skeletons/EditRubricViewSkeleton";
 
 export const EditRubricView = () => {
   // Get rubric UUID from URL
@@ -46,7 +41,7 @@ export const EditRubricView = () => {
   }
 
   if (isLoadingRubric) {
-    return <RubricSkeleton />;
+    return <EditRubricViewSkeleton />;
   }
 
   if (!rubric) {
@@ -63,18 +58,14 @@ export const EditRubricView = () => {
 
   return (
     <main className="mx-auto max-w-7xl space-y-4 p-4">
-      <Suspense fallback={<RubricNameSkeleton />}>
-        <RubricName rubric={rubric} />
-      </Suspense>
+      <RubricName rubric={rubric} />
       {rubric.objectives?.map((objective, oi) => (
-        <Suspense key={`${objective.uuid}-skeleton`}>
-          <ObjectiveRow
-            key={`${objective.uuid}-objective-row`}
-            rubricUUID={id}
-            objective={objective}
-            objectiveIndex={oi}
-          />
-        </Suspense>
+        <ObjectiveRow
+          key={`${objective.uuid}-objective-row`}
+          rubricUUID={id}
+          objective={objective}
+          objectiveIndex={oi}
+        />
       ))}
       <AddObjectiveDialog rubricUUID={id} />
       <DeleteCriteriaDialog rubricUUID={id} />
