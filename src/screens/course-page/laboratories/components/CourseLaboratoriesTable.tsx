@@ -95,7 +95,7 @@ export const CourseLaboratoriesTable = ({
       <GenericTableSkeleton
         headers={["Name", "Opening date", "Due date", "Actions"]}
         columns={4}
-        rows={8}
+        rows={4}
       />
     );
   }

@@ -1,3 +1,12 @@
+## [0.50.1](https://github.com/upb-code-labs/react-client/compare/v0.50.0...v0.50.1) (2024-02-06)
+
+
+### Bug Fixes
+
+* **perf:** Improve code splitting ([#282](https://github.com/upb-code-labs/react-client/issues/282)) ([48f2d4d](https://github.com/upb-code-labs/react-client/commit/48f2d4d4cd93b3cc46d00835d72773b4581926ad))
+
+
+
 # [0.50.0](https://github.com/upb-code-labs/react-client/compare/v0.49.1...v0.50.0) (2024-02-02)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * Add timezone to laboratories dates ([#271](https://github.com/upb-code-labs/react-client/issues/271)) ([d8c3206](https://github.com/upb-code-labs/react-client/commit/d8c32061d8980228e8fc6ab6914e3de4a583a2b1))
-
-
-
-## [0.48.1](https://github.com/upb-code-labs/react-client/compare/v0.48.0...v0.48.1) (2024-01-26)
-
-
-### Bug Fixes
-
-* **ui:** Increase bar chart height according to the number of students ([#270](https://github.com/upb-code-labs/react-client/issues/270)) ([5c3dec5](https://github.com/upb-code-labs/react-client/commit/5c3dec5a232ff6ec3f44a509ba0c03f114c0bf84))
 
 
 

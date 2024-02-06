@@ -16,7 +16,7 @@ export const CoursePageLayout = () => {
 
   // Global user state
   const { user } = useContext(AuthContext);
-  const role = user?.role || "student";
+  const role = user?.role ?? "student";
   // Fetching state
   const {
     data: course,

@@ -1,3 +1,4 @@
+import { InputWithLabelSkeleton } from "@/components/Skeletons/InputWithLabelSkeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const UpdateProfileSkeleton = () => {
@@ -10,15 +11,7 @@ export const UpdateProfileSkeleton = () => {
       {/* Form to update the information */}
       <div className="w-full space-y-4">
         {inputs.map((_, i) => (
-          <div
-            className="flex flex-col gap-2"
-            key={`update-profile-input-skeleton-${i}`}
-          >
-            {/* Label */}
-            <Skeleton className="h-5 w-1/3" />
-            {/* Input */}
-            <Skeleton className="h-10 w-full" />
-          </div>
+          <InputWithLabelSkeleton key={`update-profile-input-skeleton-${i}`} />
         ))}
       </div>
       {/* Submit button */}

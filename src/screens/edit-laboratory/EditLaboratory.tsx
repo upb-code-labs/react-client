@@ -11,21 +11,13 @@ import {
 } from "@/types/entities/laboratory-entities";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TextCursor } from "lucide-react";
-import { Suspense, useContext } from "react";
-import { lazily } from "react-lazily";
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
-import { LaboratoryBlockSkeleton } from "../../components/Skeletons/LaboratoryBlockSkeleton";
+import { LaboratoryDetails } from "./components/LaboratoryDetails";
+import { TeacherLaboratoryBlocks } from "./components/TeacherLaboratoryBlocks";
 import { CreateTestBlockDialog } from "./dialogs/CreateTestBlockDialog";
-import { LaboratoryDetailsSkeleton } from "./skeletons/LaboratoryDetailsSkeleton";
-
-const { LaboratoryDetails } = lazily(
-  () => import("./components/LaboratoryDetails")
-);
-const { TeacherLaboratoryBlocks } = lazily(
-  () => import("./components/TeacherLaboratoryBlocks")
-);
 
 export const EditLaboratory = () => {
   // Global laboratory state
@@ -120,29 +112,13 @@ export const EditLaboratory = () => {
 
   return (
     <main className="col-span-3">
-      {/* Header to update base laboratory details */}
-      <Suspense fallback={<LaboratoryDetailsSkeleton />}>
-        <LaboratoryDetails
-          laboratoryDetails={{
-            ...laboratory
-          }}
-        />
-      </Suspense>
-
-      {/* Horizontal line to separate the content */}
+      <LaboratoryDetails
+        laboratoryDetails={{
+          ...laboratory
+        }}
+      />
       <Separator className="my-8" />
-
-      {/* Laboratory blocks */}
-      <Suspense
-        fallback={
-          <>
-            <LaboratoryBlockSkeleton />
-            <LaboratoryBlockSkeleton />
-          </>
-        }
-      >
-        <TeacherLaboratoryBlocks blocks={laboratory.blocks} />
-      </Suspense>
+      <TeacherLaboratoryBlocks blocks={laboratory.blocks} />
 
       {/* Buttons to add blocks */}
       <Button onClick={handleAddTextBlock}>

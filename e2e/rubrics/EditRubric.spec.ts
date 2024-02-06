@@ -95,7 +95,7 @@ test.describe.serial("Rubrics edition workflow", () => {
     await page.getByLabel(`Edit ${rubricName}`).click();
 
     // Wait for the input with the rubric name to be visible
-    await expect(page.getByLabel("Name")).toBeVisible();
+    await expect(page.getByLabel("Rubric name", {exact: true})).toBeVisible();
 
     // Create objectives with their criteria
     const { objectives } = rubricData;
@@ -161,7 +161,7 @@ test.describe.serial("Rubrics edition workflow", () => {
     await page.getByLabel(`Edit ${rubricName}`).click();
 
     // Wait for the input with the rubric name to be visible
-    await expect(page.getByLabel("Name")).toBeVisible();
+    await expect(page.getByLabel("Rubric name", {exact: true})).toBeVisible();
 
     // Update the objective description
     const objectiveIndex = 1;
@@ -201,7 +201,7 @@ test.describe.serial("Rubrics edition workflow", () => {
     await page.getByLabel(`Edit ${rubricName}`).click();
 
     // Wait for the input with the rubric name to be visible
-    await expect(page.getByLabel("Name")).toBeVisible();
+    await expect(page.getByLabel("Rubric name", {exact: true})).toBeVisible();
 
     // Update the criteria
     const objectiveIndex = 1;
@@ -260,7 +260,7 @@ test.describe.serial("Rubrics edition workflow", () => {
     await page.getByLabel(`Edit ${rubricName}`).click();
 
     // Wait for the input with the rubric name to be visible
-    await expect(page.getByLabel("Name")).toBeVisible();
+    await expect(page.getByLabel("Rubric name", {exact: true})).toBeVisible();
 
     // Open the confirmation modal
     const objectiveIndex = 8;
@@ -303,7 +303,7 @@ test.describe.serial("Rubrics edition workflow", () => {
     await page.getByLabel(`Edit ${rubricName}`).click();
 
     // Wait for the input with the rubric name to be visible
-    await expect(page.getByLabel("Name")).toBeVisible();
+    await expect(page.getByLabel("Rubric name", {exact: true})).toBeVisible();
 
     // Open the confirmation modal
     const objectiveIndex = 8;
