@@ -4,15 +4,13 @@ import { getGradeOfStudentInLaboratoryService } from "@/services/grades/get-grad
 import { getLaboratoryInformationByUUIDService } from "@/services/laboratories/get-laboratory-information-by-uuid.service";
 import { getRubricByUUIDService } from "@/services/rubrics/get-rubric-by-uuid.service";
 import { useQuery } from "@tanstack/react-query";
-import { Suspense, useContext } from "react";
-import { lazily } from "react-lazily";
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { MyGradeLayout } from "./components/MyGradeLayout";
 import { NoRubricChosen } from "./components/NoRubricChosen";
 import { MyGradeLayoutSkeleton } from "./skeletons/MyGradeLayoutSkeleton";
-
-const { MyGradeLayout } = lazily(() => import("./components/MyGradeLayout"));
 
 const handleViewError = (
   error: Error,
@@ -72,7 +70,7 @@ export const MyGradeView = () => {
       getGradeOfStudentInLaboratoryService({
         laboratoryUUID: laboratoryUUID!,
         rubricUUID: laboratoryRubricUUID!,
-        studentUUID: studentUUID!
+        studentUUID: studentUUID
       }),
     // Fetch the grade after the laboratory information is fetched and only if the laboratory has a rubric
     enabled: !!laboratoryRubricUUID
@@ -147,17 +145,15 @@ export const MyGradeView = () => {
     );
 
   return (
-    <Suspense fallback={<MyGradeLayoutSkeleton />}>
-      <MyGradeLayout
-        ids={{
-          courseUUID: courseUUID!,
-          laboratoryUUID: laboratoryUUID!,
-          studentUUID
-        }}
-        rubric={rubric}
-        selectedCriteriaByObjectiveMap={selectedCriteriaByObjectiveMap}
-        studentGrade={studentGrade}
-      />
-    </Suspense>
+    <MyGradeLayout
+      ids={{
+        courseUUID: courseUUID!,
+        laboratoryUUID: laboratoryUUID!,
+        studentUUID
+      }}
+      rubric={rubric}
+      selectedCriteriaByObjectiveMap={selectedCriteriaByObjectiveMap}
+      studentGrade={studentGrade}
+    />
   );
 };

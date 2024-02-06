@@ -3,16 +3,11 @@ import { getEnrolledStudentsService } from "@/services/courses/get-enrolled-stud
 import { getStudentsProgressInLaboratory } from "@/services/laboratories/get-students-progress.service";
 import { StudentProgress } from "@/types/entities/laboratory-entities";
 import { useQuery } from "@tanstack/react-query";
-import { Suspense } from "react";
-import { lazily } from "react-lazily";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { LaboratoryProgressDashboard } from "./components/LaboratoryProgressDashboard";
 import { LaboratoryProgressDashboardSkeleton } from "./skeletons/LaboratoryProgressDashboardSkeleton";
-
-const { LaboratoryProgressDashboard } = lazily(
-  () => import("./components/LaboratoryProgressDashboard")
-);
 
 const defaultSubmissionProgress = {
   pending_submissions: 0,
@@ -113,12 +108,10 @@ export const LaboratoryProgressView = () => {
 
   return (
     <main className="col-span-3">
-      <Suspense fallback={<LaboratoryProgressDashboardSkeleton />}>
-        <LaboratoryProgressDashboard
-          totalTestBlocks={progressData!.total_test_blocks}
-          studentsProgress={Object.values(studentsProgressMap!)}
-        />
-      </Suspense>
+      <LaboratoryProgressDashboard
+        totalTestBlocks={progressData.total_test_blocks}
+        studentsProgress={Object.values(studentsProgressMap)}
+      />
     </main>
   );
 };

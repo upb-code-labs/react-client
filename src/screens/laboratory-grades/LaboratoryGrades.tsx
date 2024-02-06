@@ -1,19 +1,15 @@
 import { CustomError } from "@/components/CustomError";
-import { GenericTableSkeleton } from "@/components/Skeletons/GenericTableSkeleton";
 import { getEnrolledStudentsService } from "@/services/courses/get-enrolled-students.service";
 import {
   getSummarizedGradesInLaboratoryService,
   summarizedGradeDTO
 } from "@/services/grades/get-summarized-grades-in-laboratory.service";
 import { useQuery } from "@tanstack/react-query";
-import { Suspense } from "react";
-import { lazily } from "react-lazily";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
-const { LaboratoryGradesTable } = lazily(
-  () => import("./components/LaboratoryGradesTable")
-);
+import { LaboratoryGradesTable } from "./components/LaboratoryGradesTable";
+import { LaboratoryGradesViewSkeleton } from "./skeletons/LaboratoryGradesViewSkeleton";
 
 export const LaboratoryGrades = () => {
   // Get the course UUID and laboratory UUID from the URL
@@ -46,7 +42,7 @@ export const LaboratoryGrades = () => {
 
   // Join the two datasets
   // TODO: Check why the backend is returning null instead of an empty array
-  const summarizedGradesFallback = summarizedGrades?.grades || [];
+  const summarizedGradesFallback = summarizedGrades?.grades ?? [];
   const studentsGradesMap = summarizedGradesFallback.reduce(
     (acc, curr) => {
       acc[curr.student_uuid] = curr;
@@ -68,17 +64,9 @@ export const LaboratoryGrades = () => {
     });
   }
 
-  const loadingComponent = (
-    <GenericTableSkeleton
-      headers={["Student name", "Grade", "Actions"]}
-      columns={3}
-      rows={4}
-    />
-  );
-
   // Handle loading state
   if (isLoadingStudents || isLoadingSummarizedGrades) {
-    return <div className="col-span-3">{loadingComponent}</div>;
+    return <LaboratoryGradesViewSkeleton />;
   }
 
   // Handle error state
@@ -103,13 +91,11 @@ export const LaboratoryGrades = () => {
 
   return (
     <main className="col-span-3">
-      <Suspense fallback={loadingComponent}>
-        <LaboratoryGradesTable
-          grades={Object.values(studentsGradesMap!)}
-          courseUUID={courseUUID!}
-          laboratoryUUID={laboratoryUUID!}
-        />
-      </Suspense>
+      <LaboratoryGradesTable
+        grades={Object.values(studentsGradesMap)}
+        courseUUID={courseUUID!}
+        laboratoryUUID={laboratoryUUID!}
+      />
     </main>
   );
 };

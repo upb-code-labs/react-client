@@ -34,7 +34,7 @@ export const CourseLaboratories = () => {
 
   return (
     <main className="col-span-3">
-      <div className="flex flex-col items-start justify-between md:flex-row md:items-center">
+      <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <h1 className="my-4 text-3xl font-bold">Course laboratories</h1>
         {user!.role == "teacher" && <CreateLaboratoryDialog />}
       </div>
