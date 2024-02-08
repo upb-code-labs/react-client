@@ -71,7 +71,7 @@ export const DeleteBlockDialog = ({
       });
 
       // Show success message
-      toast.success("The block has been deleted successfully");
+      toast.success(`The ${blockType} block has been deleted successfully`);
 
       // Update the laboratory query
       queryClient.setQueryData(

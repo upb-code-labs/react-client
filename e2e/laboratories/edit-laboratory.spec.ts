@@ -426,7 +426,7 @@ test.describe.serial("Edit laboratory workflow", () => {
 
     // Assert an alert is shown
     await expect(
-      page.getByText("The block has been deleted successfully")
+      page.getByText("The markdown block has been deleted successfully")
     ).toBeVisible();
 
     // Assert the block is not shown
@@ -453,7 +453,7 @@ test.describe.serial("Edit laboratory workflow", () => {
 
     // Assert an alert is shown
     await expect(
-      page.getByText("The block has been deleted successfully")
+      page.getByText("The test block has been deleted successfully")
     ).toBeVisible();
 
     // Assert the block is not shown
