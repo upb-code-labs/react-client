@@ -1,6 +1,5 @@
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
-import { deleteMarkdownBlockService } from "@/services/blocks/delete-markdown-block.service";
 import { swapBlocksIndexService } from "@/services/blocks/swap-blocks-index.service";
 import { updateMarkdownBlockContentService } from "@/services/blocks/update-markdown-block-content.service";
 import {
@@ -9,7 +8,7 @@ import {
 } from "@/types/entities/laboratory-entities";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowDown, ArrowUp, MoreVertical, Save, Trash2 } from "lucide-react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { toast } from "sonner";
 
 import {
@@ -20,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "../../../../components/ui/dropdown-menu";
+import { DeleteBlockDialog } from "../../dialogs/DeleteBlockDialog";
 
 interface MarkdownBlockDropDown {
   blockUUID: string;
@@ -39,6 +39,9 @@ export const MarkdownBlockDropDown = ({
   const block = laboratory?.blocks.find(
     (b) => b.uuid === blockUUID
   ) as MarkdownBlock;
+
+  // Delete block dialog state
+  const [isDeleteBlockDialogOpen, setIsDeleteBlockDialogOpen] = useState(false);
 
   // Update markdown block mutation
   const queryClient = useQueryClient();
@@ -71,39 +74,8 @@ export const MarkdownBlockDropDown = ({
     }
   });
 
-  // Delete markdown block mutation
-  const { mutate: deleteMarkdownBlockMutation } = useMutation({
-    mutationFn: deleteMarkdownBlockService,
-    onError: (error) => {
-      toast.error(error.message);
-    },
-    onSuccess: () => {
-      // Update global state
-      laboratoryStateDispatcher({
-        type: EditLaboratoryActionType.DELETE_BLOCK,
-        payload: {
-          uuid: blockUUID
-        }
-      });
-
-      // Show a success message
-      toast.success("The markdown block has been deleted successfully");
-
-      // Update the laboratory query
-      queryClient.setQueryData(
-        ["laboratory", laboratory!.uuid],
-        (oldData: Laboratory) => {
-          return {
-            ...oldData,
-            blocks: oldData.blocks.filter((b) => b.uuid !== blockUUID)
-          };
-        }
-      );
-    }
-  });
-
   // Move markdown block up mutation
-  const { mutate: moteTestBlockUpMutation } = useMutation({
+  const { mutate: moveTestBlockUpMutation } = useMutation({
     mutationFn: swapBlocksIndexService,
     onError: (error) => {
       toast.error(error.message);
@@ -142,7 +114,7 @@ export const MarkdownBlockDropDown = ({
   });
 
   // Move markdown block down mutation
-  const { mutate: moteTestBlockDownMutation } = useMutation({
+  const { mutate: moveTestBlockDownMutation } = useMutation({
     mutationFn: swapBlocksIndexService,
     onError: (error) => {
       toast.error(error.message);
@@ -181,60 +153,66 @@ export const MarkdownBlockDropDown = ({
   });
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button
-          className="h-min px-2"
-          aria-label={`Toggle options for block number ${blockIndex + 1}`}
-        >
-          <MoreVertical />
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>Block options</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          disabled={blockIndex === 0}
-          onClick={() =>
-            moteTestBlockUpMutation({
-              first_block_uuid: laboratory!.blocks[blockIndex - 1].uuid,
-              second_block_uuid: blockUUID
-            })
-          }
-        >
-          <ArrowUp className="mr-2 aspect-square h-5" />
-          Move up
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          disabled={blockIndex === laboratory!.blocks.length - 1}
-          onClick={() =>
-            moteTestBlockDownMutation({
-              first_block_uuid: blockUUID,
-              second_block_uuid: laboratory!.blocks[blockIndex + 1].uuid
-            })
-          }
-        >
-          <ArrowDown className="mr-2 aspect-square h-5" />
-          Move down
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() =>
-            updateMarkdownBlockMutation({
-              markdownBlockUUID: blockUUID,
-              content: block.content
-            })
-          }
-        >
-          <Save className="mr-2 aspect-square h-5" />
-          Save changes
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => deleteMarkdownBlockMutation(blockUUID)}
-        >
-          <Trash2 className="mr-2 aspect-square h-5" />
-          Delete block
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button
+            className="h-min px-2"
+            aria-label={`Toggle options for block number ${blockIndex + 1}`}
+          >
+            <MoreVertical />
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Block options</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            disabled={blockIndex === 0}
+            onClick={() =>
+              moveTestBlockUpMutation({
+                first_block_uuid: laboratory!.blocks[blockIndex - 1].uuid,
+                second_block_uuid: blockUUID
+              })
+            }
+          >
+            <ArrowUp className="mr-2 aspect-square h-5" />
+            Move up
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            disabled={blockIndex === laboratory!.blocks.length - 1}
+            onClick={() =>
+              moveTestBlockDownMutation({
+                first_block_uuid: blockUUID,
+                second_block_uuid: laboratory!.blocks[blockIndex + 1].uuid
+              })
+            }
+          >
+            <ArrowDown className="mr-2 aspect-square h-5" />
+            Move down
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() =>
+              updateMarkdownBlockMutation({
+                markdownBlockUUID: blockUUID,
+                content: block.content
+              })
+            }
+          >
+            <Save className="mr-2 aspect-square h-5" />
+            Save changes
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setIsDeleteBlockDialogOpen(true)}>
+            <Trash2 className="mr-2 aspect-square h-5" />
+            Delete block
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DeleteBlockDialog
+        blockType="markdown"
+        blockUUID={blockUUID}
+        isDialogOpen={isDeleteBlockDialogOpen}
+        setIsDialogOpen={setIsDeleteBlockDialogOpen}
+      />
+    </>
   );
 };
