@@ -419,6 +419,11 @@ test.describe.serial("Edit laboratory workflow", () => {
     await expect(deleteMarkdownBlockButton).toBeVisible();
     await deleteMarkdownBlockButton.click();
 
+    // Click on the "proceed" button
+    let proceedButton = page.getByRole("button", { name: "Proceed" });
+    await expect(proceedButton).toBeVisible();
+    await proceedButton.click();
+
     // Assert an alert is shown
     await expect(
       page.getByText("The block has been deleted successfully")
@@ -440,6 +445,11 @@ test.describe.serial("Edit laboratory workflow", () => {
     });
     await expect(deleteTestBlockButton).toBeVisible();
     await deleteTestBlockButton.click();
+
+    // Click on the "proceed" button
+    proceedButton = page.getByRole("button", { name: "Proceed" });
+    await expect(proceedButton).toBeVisible();
+    await proceedButton.click();
 
     // Assert an alert is shown
     await expect(
