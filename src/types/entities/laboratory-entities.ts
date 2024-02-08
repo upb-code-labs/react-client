@@ -1,4 +1,4 @@
-type BlockType = "markdown" | "test";
+export type BlockType = "markdown" | "test";
 
 export type MarkdownBlock = {
   uuid: string;
