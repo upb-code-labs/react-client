@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryContext";
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
+import { deleteMarkdownBlockService } from "@/services/blocks/delete-markdown-block.service";
 import { deleteTestBlockService } from "@/services/blocks/delete-test-block.service";
 import { BlockType, Laboratory } from "@/types/entities/laboratory-entities";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -42,6 +43,8 @@ export const DeleteBlockDialog = ({
   blockUUID,
   blockType
 }: DeleteBlockDialogProps) => {
+  console.log({ blockUUID });
+
   // Global laboratory state
   const { laboratoryStateDispatcher, laboratoryState } = useContext(
     EditLaboratoryContext
@@ -51,7 +54,10 @@ export const DeleteBlockDialog = ({
   // Delete block mutation
   const queryClient = useQueryClient();
   const { mutate: deleteTestBlockMutation } = useMutation({
-    mutationFn: deleteTestBlockService,
+    mutationFn:
+      blockType === "test"
+        ? deleteTestBlockService
+        : deleteMarkdownBlockService,
     onError: (error) => {
       toast.error(error.message);
     },
