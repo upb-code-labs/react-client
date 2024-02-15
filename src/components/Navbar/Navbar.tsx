@@ -44,9 +44,13 @@ export const Navbar = () => {
             className={`fixed left-0 top-0 z-10 h-full w-full bg-black/75 md:static md:block md:bg-transparent ${
               isMenuOpen ? "block" : "hidden"
             }`}
+            onClick={toggleMenu}
           >
             {/* Menu content */}
-            <div className="h-full w-3/4 bg-white p-4 md:w-auto md:bg-transparent md:p-0">
+            <div
+              className="h-full w-full max-w-[16rem] bg-white p-4 md:w-auto md:bg-transparent md:p-0"
+              onClick={(e) => e.stopPropagation()}
+            >
               {/* Close button */}
               <button
                 className="aspect-square md:hidden"
@@ -58,7 +62,11 @@ export const Navbar = () => {
               {/* Navigation options */}
               <ul className="mt-8 flex w-full flex-col gap-8 md:mt-0 md:h-full md:flex-row">
                 {navigationOptions.map((option) => (
-                  <NavbarOption key={option.path} {...option} />
+                  <NavbarOption
+                    key={option.path}
+                    closeMenuCallback={toggleMenu}
+                    {...option}
+                  />
                 ))}
               </ul>
             </div>
