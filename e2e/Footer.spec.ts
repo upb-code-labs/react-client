@@ -7,7 +7,7 @@ test("Footer should contain the correct links", async ({ page }) => {
   ).toBeVisible();
   await expect(
     page.getByRole("link", {
-      name: "Data Processing and Protection Policy",
+      name: "Information Processing and Personal Data Protection Policy",
       exact: true
     })
   ).toBeVisible();

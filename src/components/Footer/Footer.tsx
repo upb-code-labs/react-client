@@ -2,12 +2,12 @@ import { FooterLinksGroup } from "./FooterLinksGroup";
 
 const documents = [
   {
-    name: "Data Processing and Protection Policy",
-    url: "#"
+    name: "Information Processing and Personal Data Protection Policy",
+    url: "/POLITICA_TRATAMIENTO_INFORMACION_PROTECCION_DATOS_PERSONALES.pdf"
   },
   {
     name: "User Manual",
-    url: "#"
+    url: "https://upb-code-labs.github.io/manual/"
   }
 ];
 
