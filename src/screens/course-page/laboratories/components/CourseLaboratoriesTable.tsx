@@ -79,11 +79,11 @@ export const CourseLaboratoriesTable = ({
             <BookOpenCheck className="mr-2" /> Complete
           </Link>
           <Link
-            aria-label={`See grade obtained in ${labInfo.name} laboratory`}
+            aria-label={`View grade obtained in ${labInfo.name} laboratory`}
             className={buttonVariants({ variant: "default" })}
             to={`/courses/${courseUUID}/laboratories/${labInfo.uuid}/my-grade`}
           >
-            <GraduationCapIcon className="mr-2" /> See grade
+            <GraduationCapIcon className="mr-2" /> View grade
           </Link>
         </>
       );

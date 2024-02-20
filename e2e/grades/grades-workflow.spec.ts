@@ -506,7 +506,7 @@ test.describe.serial("Grades workflow", () => {
     // Go to the grade page
     await page
       .getByRole("link", {
-        name: `See grade obtained in ${laboratoryName} laboratory`
+        name: `View grade obtained in ${laboratoryName} laboratory`
       })
       .click();
 
