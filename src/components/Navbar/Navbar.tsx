@@ -48,7 +48,7 @@ export const Navbar = () => {
           >
             {/* Menu content */}
             <div
-              className="h-full w-full max-w-[16rem] bg-white p-4 md:w-auto md:bg-transparent md:p-0"
+              className="h-full w-full max-w-[16rem] bg-white p-4 md:w-auto md:max-w-max md:bg-transparent md:p-0"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close button */}
