@@ -1,3 +1,12 @@
+## [0.50.3](https://github.com/upb-code-labs/react-client/compare/v0.50.2...v0.50.3) (2024-02-15)
+
+
+### Bug Fixes
+
+* Close mobile navbar when clicking blur layer ([#289](https://github.com/upb-code-labs/react-client/issues/289)) ([bf34b03](https://github.com/upb-code-labs/react-client/commit/bf34b03d480d1e80c0160113a0718c5ad5da7154))
+
+
+
 ## [0.50.2](https://github.com/upb-code-labs/react-client/compare/v0.50.1...v0.50.2) (2024-02-08)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **ui:** Change grading view to a one column layout ([#279](https://github.com/upb-code-labs/react-client/issues/279)) ([32bd57d](https://github.com/upb-code-labs/react-client/commit/32bd57db260a16b738b78341b2710f3306554fa4))
-
-
-
-# [0.49.0](https://github.com/upb-code-labs/react-client/compare/v0.48.2...v0.49.0) (2024-01-31)
-
-
-### Features
-
-* Allow students to download the archive of their submissions ([#276](https://github.com/upb-code-labs/react-client/issues/276)) ([71ba7d0](https://github.com/upb-code-labs/react-client/commit/71ba7d0a6fb93021fcc41b85e1ed8ed4528ab0c8))
 
 
 
