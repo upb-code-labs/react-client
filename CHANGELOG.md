@@ -1,3 +1,12 @@
+## [0.50.4](https://github.com/upb-code-labs/react-client/compare/v0.50.3...v0.50.4) (2024-02-23)
+
+
+### Bug Fixes
+
+* Clear tanstack query cache after logging out ([#294](https://github.com/upb-code-labs/react-client/issues/294)) ([dbdd158](https://github.com/upb-code-labs/react-client/commit/dbdd15876ab08a5282b411db42dd4db5464b71cf))
+
+
+
 ## [0.50.3](https://github.com/upb-code-labs/react-client/compare/v0.50.2...v0.50.3) (2024-02-15)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Add update button to the students' progress bar chart ([be78362](https://github.com/upb-code-labs/react-client/commit/be7836290c19cffc562bf324614d8022711d5571))
-
-
-
-## [0.49.1](https://github.com/upb-code-labs/react-client/compare/v0.49.0...v0.49.1) (2024-02-02)
-
-
-### Bug Fixes
-
-* **ui:** Change grading view to a one column layout ([#279](https://github.com/upb-code-labs/react-client/issues/279)) ([32bd57d](https://github.com/upb-code-labs/react-client/commit/32bd57db260a16b738b78341b2710f3306554fa4))
 
 
 
