@@ -100,8 +100,8 @@ const queryClient = new QueryClient({
 });
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <AuthContextProvider>
-    <QueryClientProvider client={queryClient}>
+  <QueryClientProvider client={queryClient}>
+    <AuthContextProvider>
       <BrowserRouter>
         <Toaster expand closeButton richColors />
         <Navbar />
@@ -300,6 +300,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Footer />
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-right" />
-    </QueryClientProvider>
-  </AuthContextProvider>
+    </AuthContextProvider>
+  </QueryClientProvider>
 );

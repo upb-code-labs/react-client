@@ -1,4 +1,5 @@
 import { whoamiService } from "@/services/session/whoami.service";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 export type SessionRole = "admin" | "student" | "teacher";
@@ -39,8 +40,13 @@ export const useSession = () => {
     setUser(user);
   };
 
+  const queryClient = useQueryClient();
   const logout = () => {
+    // Remove user from state
     setUser(null);
+
+    // Clear the cache to prevent showing other user's data
+    queryClient.clear();
   };
 
   return {

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -30,7 +31,10 @@ const RegisterStudentSchema = z.object({
     .regex(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[A-Za-z\d[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,}$/,
       "Must contain at least one letter, one number and one special character"
-    )
+    ),
+  accept_terms: z.boolean().refine((value) => !!value, {
+    message: "You can't register without accepting the terms and conditions"
+  })
 });
 
 export const RegisterStudentForm = () => {
@@ -43,7 +47,8 @@ export const RegisterStudentForm = () => {
       full_name: "",
       email: "",
       institutional_id: "",
-      password: ""
+      password: "",
+      accept_terms: false
     }
   });
 
@@ -139,6 +144,44 @@ export const RegisterStudentForm = () => {
               {form.formState.errors.password && (
                 <FormMessage>
                   {form.formState.errors.password.message}
+                </FormMessage>
+              )}
+            </FormItem>
+          )}
+        ></FormField>
+        <FormField
+          control={form.control}
+          name="accept_terms"
+          render={({ field }) => (
+            <FormItem>
+              <div className="items-top flex space-x-2">
+                <FormControl>
+                  <Checkbox
+                    id="terms1"
+                    checked={field.value}
+                    onCheckedChange={() => field.onChange(!field.value)}
+                  />
+                </FormControl>
+                <div className="grid space-y-1.5">
+                  <FormLabel htmlFor="terms1">
+                    Accept terms and conditions
+                  </FormLabel>
+                  <p className="text-sm text-muted-foreground">
+                    By checking this box, you agree to{" "}
+                    <a
+                      href="/POLITICA_TRATAMIENTO_INFORMACION_PROTECCION_DATOS_PERSONALES.pdf"
+                      target="_blank"
+                      rel="noreferrer,noopener"
+                      className="text-red-upb underline"
+                    >
+                      our terms and conditions.
+                    </a>
+                  </p>
+                </div>
+              </div>
+              {form.formState.errors.accept_terms && (
+                <FormMessage>
+                  {form.formState.errors.accept_terms.message}
                 </FormMessage>
               )}
             </FormItem>

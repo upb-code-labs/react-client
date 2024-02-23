@@ -1,3 +1,21 @@
+## [0.50.5](https://github.com/upb-code-labs/react-client/compare/v0.50.4...v0.50.5) (2024-02-23)
+
+
+### Bug Fixes
+
+* **ui:** Add checkbox to accept terms and conditions ([#295](https://github.com/upb-code-labs/react-client/issues/295)) ([f4908ff](https://github.com/upb-code-labs/react-client/commit/f4908ff9b867a084b943f8d526c3400cad391d3a))
+
+
+
+## [0.50.4](https://github.com/upb-code-labs/react-client/compare/v0.50.3...v0.50.4) (2024-02-23)
+
+
+### Bug Fixes
+
+* Clear tanstack query cache after logging out ([#294](https://github.com/upb-code-labs/react-client/issues/294)) ([dbdd158](https://github.com/upb-code-labs/react-client/commit/dbdd15876ab08a5282b411db42dd4db5464b71cf))
+
+
+
 ## [0.50.3](https://github.com/upb-code-labs/react-client/compare/v0.50.2...v0.50.3) (2024-02-15)
 
 
@@ -22,24 +40,6 @@
 ### Bug Fixes
 
 * **perf:** Improve code splitting ([#282](https://github.com/upb-code-labs/react-client/issues/282)) ([48f2d4d](https://github.com/upb-code-labs/react-client/commit/48f2d4d4cd93b3cc46d00835d72773b4581926ad))
-
-
-
-# [0.50.0](https://github.com/upb-code-labs/react-client/compare/v0.49.1...v0.50.0) (2024-02-02)
-
-
-### Features
-
-* Add update button to the students' progress bar chart ([be78362](https://github.com/upb-code-labs/react-client/commit/be7836290c19cffc562bf324614d8022711d5571))
-
-
-
-## [0.49.1](https://github.com/upb-code-labs/react-client/compare/v0.49.0...v0.49.1) (2024-02-02)
-
-
-### Bug Fixes
-
-* **ui:** Change grading view to a one column layout ([#279](https://github.com/upb-code-labs/react-client/issues/279)) ([32bd57d](https://github.com/upb-code-labs/react-client/commit/32bd57db260a16b738b78341b2710f3306554fa4))
 
 
 

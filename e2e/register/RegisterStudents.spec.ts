@@ -25,6 +25,11 @@ test("The fields are validated", async ({ page }) => {
       "Must contain at least one letter, one number and one special character"
     )
   ).toBeVisible();
+  await expect(
+    page.getByText(
+      "You can't register without accepting the terms and conditions"
+    )
+  ).toBeVisible();
 });
 
 test.describe.serial("Student registration", () => {
@@ -38,6 +43,7 @@ test.describe.serial("Student registration", () => {
     await page.getByLabel("Email").fill(newStudentEmail);
     await page.getByLabel("Institutional ID").fill(newStudentID);
     await page.getByLabel("Password").fill(getDefaultPassword());
+    await page.getByLabel("Accept terms and conditions").check();
     await page.getByRole("button", { name: "Submit" }).click();
 
     await expect(
@@ -53,6 +59,7 @@ test.describe.serial("Student registration", () => {
     await page.getByLabel("Email").fill(newStudentEmail);
     await page.getByLabel("Institutional ID").fill(getRandomUniversityID());
     await page.getByLabel("Password").fill(getDefaultPassword());
+    await page.getByLabel("Accept terms and conditions").check();
     await page.getByRole("button", { name: "Submit" }).click();
 
     await expect(
@@ -69,6 +76,7 @@ test.describe.serial("Student registration", () => {
     await page.getByLabel("Email").fill(getRandomEmail());
     await page.getByLabel("Institutional ID").fill(newStudentID);
     await page.getByLabel("Password").fill(getDefaultPassword());
+    await page.getByLabel("Accept terms and conditions").check();
     await page.getByRole("button", { name: "Submit" }).click();
 
     await expect(
