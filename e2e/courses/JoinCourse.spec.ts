@@ -142,7 +142,7 @@ test.describe.serial("Join courses workflow", () => {
     await page.getByLabel("Institutional ID").fill(studentInstitutionalID);
     await page.getByLabel("Email").fill(studentEmail);
     await page.getByLabel("Password").fill(studentPassword);
-
+    await page.getByLabel("Accept terms and conditions").check();
     await page.getByRole("button", { name: "Submit" }).click();
     await page.waitForURL(/\/login$/);
   });

@@ -49,6 +49,7 @@ test.describe.serial("Grades workflow", () => {
     await page.getByLabel("Institutional ID").fill(getRandomUniversityID());
     await page.getByLabel("Email").fill(studentEmail);
     await page.getByLabel("Password").fill(getDefaultPassword());
+    await page.getByLabel("Accept terms and conditions").check();
     await page.getByRole("button", { name: "Submit" }).click();
   });
 
