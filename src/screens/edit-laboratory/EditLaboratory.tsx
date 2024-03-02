@@ -5,10 +5,7 @@ import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryCont
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
 import { EditLaboratoryPageSkeleton } from "@/screens/edit-laboratory/skeletons/EditLaboratoryPageSkeleton";
 import { createMarkdownBlockService } from "@/services/laboratories/add-markdown-block.service";
-import {
-  Laboratory,
-  MarkdownBlock
-} from "@/types/entities/laboratory-entities";
+import { MarkdownBlock } from "@/types/entities/laboratory-entities";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TextCursor } from "lucide-react";
 import { useContext } from "react";
@@ -60,15 +57,15 @@ export const EditLaboratory = () => {
         blockType: "markdown"
       };
 
-      queryClient.setQueryData(
-        ["laboratory", laboratoryUUID],
-        (oldData: Laboratory) => {
-          return {
-            ...oldData,
-            blocks: [...oldData.blocks, newMarkdownBlock]
-          };
-        }
-      );
+      queryClient.setQueryData(["laboratory", laboratoryUUID], () => {
+        return {
+          ...laboratory!,
+          /** Here we add the new markdown block to the blocks array from the global
+           * laboratory state instead of the old data from the query to avoid
+           * loosing unsaved changes in the global state */
+          blocks: laboratory!.blocks.concat(newMarkdownBlock)
+        };
+      });
 
       // Show success message
       toast.success("The new markdown block has been created successfully");
