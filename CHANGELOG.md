@@ -1,3 +1,12 @@
+## [0.50.6](https://github.com/upb-code-labs/react-client/compare/v0.50.5...v0.50.6) (2024-03-02)
+
+
+### Bug Fixes
+
+* Laboratory view de-sync ([#298](https://github.com/upb-code-labs/react-client/issues/298)) ([73d9089](https://github.com/upb-code-labs/react-client/commit/73d90891879eda45d65d0ac4ff3fec6e0fd23c2b))
+
+
+
 ## [0.50.5](https://github.com/upb-code-labs/react-client/compare/v0.50.4...v0.50.5) (2024-02-23)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * Show confirmation dialog when deleting laboratory blocks ([#285](https://github.com/upb-code-labs/react-client/issues/285)) ([82bd210](https://github.com/upb-code-labs/react-client/commit/82bd210f5eeaec4c96a6bb476f1d0f95e8504e76))
-
-
-
-## [0.50.1](https://github.com/upb-code-labs/react-client/compare/v0.50.0...v0.50.1) (2024-02-06)
-
-
-### Bug Fixes
-
-* **perf:** Improve code splitting ([#282](https://github.com/upb-code-labs/react-client/issues/282)) ([48f2d4d](https://github.com/upb-code-labs/react-client/commit/48f2d4d4cd93b3cc46d00835d72773b4581926ad))
 
 
 

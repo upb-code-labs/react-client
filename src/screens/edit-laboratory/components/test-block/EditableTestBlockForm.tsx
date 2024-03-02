@@ -22,7 +22,7 @@ import { downloadTestsArchiveService } from "@/services/blocks/download-tests-ar
 import { updateTestBlockService } from "@/services/blocks/update-test-block.service";
 import { getSupportedLanguagesService } from "@/services/languages/get-supported-languages.service";
 import { useSupportedLanguagesStore } from "@/stores/supported-languages-store";
-import { Laboratory, TestBlock } from "@/types/entities/laboratory-entities";
+import { TestBlock } from "@/types/entities/laboratory-entities";
 import { downloadBlob, downloadLanguageTemplate } from "@/utils/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -52,7 +52,7 @@ const EditableTestBlockFormScheme = z.object({
         "You must select a file"
       )
       .refine((files) => files.length === 1, "You must select a file")
-      .transform((files) => files[0] as File)
+      .transform((files) => files[0])
       .refine(
         (file) => file.size <= CONSTANTS.MAX_ARCHIVE_SIZE,
         "The file should be less than 150KB"
@@ -126,7 +126,7 @@ export const EditableTestBlockForm = ({
     onError: (error) => {
       toast.error(error.message);
     },
-    onSuccess: (_, { blockUUID, blockName, blockLanguageUUID }) => {
+    onSuccess: (_, { blockName, blockLanguageUUID }) => {
       // Update the global laboratory state
       laboratoryStateDispatcher({
         type: EditLaboratoryActionType.UPDATE_TEST_BLOCK,
@@ -141,23 +141,22 @@ export const EditableTestBlockForm = ({
       toast.success("The test block has been updated successfully");
 
       // Update the laboratory query
-      queryClient.setQueryData(
-        ["laboratory", laboratory!.uuid],
-        (oldData: Laboratory) => {
-          return {
-            ...oldData,
-            blocks: oldData.blocks.map((b) => {
-              if (b.uuid !== blockUUID) return b;
+      queryClient.setQueryData(["laboratory", laboratory!.uuid], () => {
+        const updatedBlock = {
+          ...laboratory!.blocks[blockIndex],
+          name: blockName,
+          languageUUID: blockLanguageUUID
+        };
 
-              return {
-                ...b,
-                name: blockName,
-                languageUUID: blockLanguageUUID
-              };
-            })
-          };
-        }
-      );
+        return {
+          ...laboratory!,
+          blocks: [
+            ...laboratory!.blocks.slice(0, blockIndex),
+            updatedBlock,
+            ...laboratory!.blocks.slice(blockIndex + 1)
+          ]
+        };
+      });
     }
   });
 

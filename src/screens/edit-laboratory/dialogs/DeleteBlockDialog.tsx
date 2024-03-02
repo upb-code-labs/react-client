@@ -12,7 +12,7 @@ import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryCont
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
 import { deleteMarkdownBlockService } from "@/services/blocks/delete-markdown-block.service";
 import { deleteTestBlockService } from "@/services/blocks/delete-test-block.service";
-import { BlockType, Laboratory } from "@/types/entities/laboratory-entities";
+import { BlockType } from "@/types/entities/laboratory-entities";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
 import { toast } from "sonner";
@@ -46,10 +46,10 @@ export const DeleteBlockDialog = ({
   console.log({ blockUUID });
 
   // Global laboratory state
-  const { laboratoryStateDispatcher, laboratoryState } = useContext(
-    EditLaboratoryContext
-  );
-  const { laboratory } = laboratoryState;
+  const {
+    laboratoryStateDispatcher,
+    laboratoryState: { laboratory }
+  } = useContext(EditLaboratoryContext);
 
   // Delete block mutation
   const queryClient = useQueryClient();
@@ -74,15 +74,12 @@ export const DeleteBlockDialog = ({
       toast.success(`The ${blockType} block has been deleted successfully`);
 
       // Update the laboratory query
-      queryClient.setQueryData(
-        ["laboratory", laboratory!.uuid],
-        (oldData: Laboratory) => {
-          return {
-            ...oldData,
-            blocks: oldData.blocks.filter((b) => b.uuid !== blockUUID)
-          };
-        }
-      );
+      queryClient.setQueryData(["laboratory", laboratory!.uuid], () => {
+        return {
+          ...laboratory,
+          blocks: laboratory!.blocks.filter((b) => b.uuid !== blockUUID)
+        };
+      });
     }
   });
 
