@@ -22,7 +22,7 @@ import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTyp
 import { createTestBlockService } from "@/services/laboratories/add-test-block.service";
 import { getSupportedLanguagesService } from "@/services/languages/get-supported-languages.service";
 import { useSupportedLanguagesStore } from "@/stores/supported-languages-store";
-import { Laboratory, TestBlock } from "@/types/entities/laboratory-entities";
+import { TestBlock } from "@/types/entities/laboratory-entities";
 import { downloadLanguageTemplate } from "@/utils/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -45,7 +45,7 @@ const CreateTestBlockSchema = z.object({
       "You must select a file"
     )
     .refine((files) => files.length === 1, "You must select a file")
-    .transform((files) => files[0] as File)
+    .transform((files) => files[0])
     .refine(
       (file) => file.size <= CONSTANTS.MAX_ARCHIVE_SIZE,
       "The file should be less than 150KB"
@@ -66,9 +66,10 @@ export const CreateTestBlockForm = ({
   }>();
 
   // Global laboratory state
-  const { laboratoryStateDispatcher, laboratoryState } = useContext(
-    EditLaboratoryContext
-  );
+  const {
+    laboratoryStateDispatcher,
+    laboratoryState: { laboratory }
+  } = useContext(EditLaboratoryContext);
 
   // Global language state
   const { supportedLanguages, setSupportedLanguages, getLanguageNameByUUID } =
@@ -122,7 +123,7 @@ export const CreateTestBlockForm = ({
         uuid: createdTestBlockUUID,
         name: blockName,
         languageUUID: blockLanguageUUID,
-        index: laboratoryState.laboratory!.blocks.length,
+        index: laboratory!.blocks.length,
         blockType: "test"
       };
 
@@ -136,17 +137,14 @@ export const CreateTestBlockForm = ({
       toast.success("The new test block has been created successfully");
 
       // Update laboratory query
-      queryClient.setQueryData(
-        ["laboratory", laboratoryUUID],
-        (oldData: Laboratory) => {
-          return {
-            // Keep the UUID
-            ...oldData,
-            // Append the new block
-            blocks: [...oldData.blocks, newTestBlok]
-          };
-        }
-      );
+      queryClient.setQueryData(["laboratory", laboratoryUUID], () => {
+        return {
+          // Keep the UUID
+          ...laboratory,
+          // Append the new block
+          blocks: [...laboratory!.blocks, newTestBlok]
+        };
+      });
 
       // Close the dialog
       closeDialogCallback();

@@ -2,10 +2,7 @@ import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryCont
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
 import { swapBlocksIndexService } from "@/services/blocks/swap-blocks-index.service";
 import { updateMarkdownBlockContentService } from "@/services/blocks/update-markdown-block-content.service";
-import {
-  Laboratory,
-  MarkdownBlock
-} from "@/types/entities/laboratory-entities";
+import { MarkdownBlock } from "@/types/entities/laboratory-entities";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowDown, ArrowUp, MoreVertical, Save, Trash2 } from "lucide-react";
 import { useContext, useState } from "react";
@@ -31,10 +28,10 @@ export const MarkdownBlockDropDown = ({
   blockIndex
 }: MarkdownBlockDropDown) => {
   // Global laboratory state
-  const { laboratoryState, laboratoryStateDispatcher } = useContext(
-    EditLaboratoryContext
-  );
-  const { laboratory } = laboratoryState;
+  const {
+    laboratoryState: { laboratory },
+    laboratoryStateDispatcher
+  } = useContext(EditLaboratoryContext);
 
   const block = laboratory?.blocks.find(
     (b) => b.uuid === blockUUID
@@ -52,22 +49,19 @@ export const MarkdownBlockDropDown = ({
     },
     onSuccess: () => {
       // Update the laboratory query
-      queryClient.setQueryData(
-        ["laboratory", laboratory!.uuid],
-        (oldData: Laboratory) => {
-          return {
-            ...oldData,
-            blocks: oldData.blocks.map((b) => {
-              if (b.uuid !== blockUUID) return b;
+      queryClient.setQueryData(["laboratory", laboratory!.uuid], () => {
+        return {
+          ...laboratory,
+          blocks: laboratory!.blocks.map((b) => {
+            if (b.uuid !== blockUUID) return b;
 
-              return {
-                ...block,
-                content: block.content
-              };
-            })
-          };
-        }
-      );
+            return {
+              ...block,
+              content: block.content
+            };
+          })
+        };
+      });
 
       // Show a success message
       toast.success("The markdown block has been updated successfully");
@@ -94,19 +88,16 @@ export const MarkdownBlockDropDown = ({
       });
 
       // Update the laboratory query
-      queryClient.setQueryData(
-        ["laboratory", laboratory!.uuid],
-        (oldData: Laboratory) => {
-          return {
-            ...oldData,
-            blocks: oldData.blocks.map((b) => {
-              if (b.uuid === thisBlock.uuid) return prevBlock;
-              if (b.uuid === prevBlock.uuid) return thisBlock;
-              return b;
-            })
-          };
-        }
-      );
+      queryClient.setQueryData(["laboratory", laboratory!.uuid], () => {
+        return {
+          ...laboratory,
+          blocks: laboratory!.blocks.map((b) => {
+            if (b.uuid === thisBlock.uuid) return prevBlock;
+            if (b.uuid === prevBlock.uuid) return thisBlock;
+            return b;
+          })
+        };
+      });
 
       // Show success message
       toast.success("The markdown block has been moved up successfully");
@@ -133,19 +124,16 @@ export const MarkdownBlockDropDown = ({
       });
 
       // Update the laboratory query
-      queryClient.setQueryData(
-        ["laboratory", laboratory!.uuid],
-        (oldData: Laboratory) => {
-          return {
-            ...oldData,
-            blocks: oldData.blocks.map((b) => {
-              if (b.uuid === thisBlock.uuid) return nextBlock;
-              if (b.uuid === nextBlock.uuid) return thisBlock;
-              return b;
-            })
-          };
-        }
-      );
+      queryClient.setQueryData(["laboratory", laboratory!.uuid], () => {
+        return {
+          ...laboratory,
+          blocks: laboratory!.blocks.map((b) => {
+            if (b.uuid === thisBlock.uuid) return nextBlock;
+            if (b.uuid === nextBlock.uuid) return thisBlock;
+            return b;
+          })
+        };
+      });
 
       // Show success message
       toast.success("The markdown block has been moved down successfully");

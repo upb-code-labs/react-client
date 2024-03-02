@@ -2,10 +2,7 @@ import { EditLaboratoryContext } from "@/context/laboratories/EditLaboratoryCont
 import { EditLaboratoryActionType } from "@/hooks/laboratories/editLaboratoryTypes";
 import { updateLaboratoryDetailsService } from "@/services/laboratories/update-laboratory-details.service";
 import { getTeacherRubricsService } from "@/services/rubrics/get-teacher-rubrics.service";
-import {
-  Laboratory,
-  LaboratoryBaseInfo
-} from "@/types/entities/laboratory-entities";
+import { LaboratoryBaseInfo } from "@/types/entities/laboratory-entities";
 import { removeTimeZoneFromIsoDate } from "@/utils/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -90,7 +87,10 @@ export const LaboratoryDetails = ({
   const dueDateWithNoTimeZone = removeTimeZoneFromIsoDate(dueDate!);
 
   // Global laboratory state
-  const { laboratoryStateDispatcher } = useContext(EditLaboratoryContext);
+  const {
+    laboratoryStateDispatcher,
+    laboratoryState: { laboratory }
+  } = useContext(EditLaboratoryContext);
 
   // Form state
   const [isUpdating, setIsUpdating] = useState(false);
@@ -141,19 +141,18 @@ export const LaboratoryDetails = ({
       toast.success("Laboratory details updated successfully");
 
       // Update laboratory query
-      queryClient.setQueryData(
-        ["laboratory", laboratoryDetails.uuid],
-        (oldData: Laboratory) => {
-          return {
-            // Keep the UUID and blocks
-            ...oldData,
-            name,
-            opening_date: openingDateWithDefaultTZ,
-            due_date: dueDateWithDefaultTZ,
-            rubric_uuid
-          };
-        }
-      );
+      queryClient.setQueryData(["laboratory", laboratoryDetails.uuid], () => {
+        return {
+          /** Here we update the laboratory data with the new data from the
+           * global state instead of the old data from the query to avoid
+           * loosing unsaved changes in the global state */
+          ...laboratory,
+          name,
+          opening_date: openingDateWithDefaultTZ,
+          due_date: dueDateWithDefaultTZ,
+          rubric_uuid
+        };
+      });
     },
     onSettled: () => {
       setIsUpdating(false);
